@@ -1,0 +1,41 @@
+.gradle/
+.kotlin/
+.idea/
+local.properties
+**/build/
+*.iml
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Local credentials and developer configuration
+.env
+.env.*
+!.env.example
+.dev.vars
+**/.dev.vars
+!.dev.vars.example
+
+# Local service/runtime state
+.wrangler/
+**/.wrangler/
+*.log
+*.cpuprofile
+temp/
+**/temp/
+
+# Generated desktop bundles and downloaded runtimes
+release/
+**/release/
+.electron-binaries/
+**/.electron-binaries/
+
+# Local Codex working files
+.codex_tmp/
+.codex-docx-qa/
+.codex-docx-review/
+
+# Separate project with its own Git history
+auto-sp-rule-engine-src/

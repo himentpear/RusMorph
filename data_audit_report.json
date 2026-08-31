@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "source_directory": "data-source",
+  "xlsx_file_count": 0,
+  "docx_file_count": 0,
+  "xlsx_files": [],
+  "docx_files": [],
+  "suspected_duplicate_sheets": [],
+  "issue_summary": {},
+  "errors": [],
+  "notices": [
+    "No XLSX or DOCX files were found in data-source."
+  ]
+}

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f1e8">
+  <meta name="description" content="RusMorph 俄语朗读人工复核与评分校准台">
+  <title>RusMorph · 朗读复核台</title>
+  <link rel="stylesheet" href="/review/styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="/review/" aria-label="RusMorph 朗读复核台首页">
+      <span class="brand-mark" aria-hidden="true">Р</span>
+      <span><strong>RusMorph</strong><small>朗读复核台</small></span>
+    </a>
+    <div class="session-area">
+      <span id="sessionName" class="session-name"></span>
+      <button id="logoutButton" class="text-button hidden" type="button">退出</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="loginView" class="login-shell">
+      <div class="login-copy">
+        <p class="eyebrow">HUMAN CALIBRATION CHANNEL</p>
+        <h1>让机器分数<br><em>听从人的判断。</em></h1>
+        <p>老师提供真实朗读、故意错读与逐词评分，用于校准“内容是否一致”和“发音是否可信”两个判断阶段。</p>
+        <ul class="trust-list">
+          <li><span>01</span> 机器分数在人工提交后显示，避免锚定偏差</li>
+          <li><span>02</span> 录音仅用于校准，私有保存并按策略删除</li>
+          <li><span>03</span> 普通用户语音仍保持不落盘</li>
+        </ul>
+      </div>
+      <form id="loginForm" class="login-card">
+        <div class="card-number">校准员入口 / 01</div>
+        <h2>进入复核任务</h2>
+        <label>复核者姓名
+          <input id="displayName" name="displayName" maxlength="40" autocomplete="name" placeholder="例如：王老师" required>
+        </label>
+        <label>邀请码
+          <input id="inviteCode" name="inviteCode" type="password" inputmode="numeric" maxlength="64" autocomplete="one-time-code" placeholder="输入邀请码" required>
+        </label>
+        <button class="primary-button" type="submit"><span>进入复核台</span><span aria-hidden="true">→</span></button>
+        <p id="loginError" class="form-error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="appView" class="app-shell hidden">
+      <div class="intro-row">
+        <div>
+          <p class="eyebrow">CALIBRATION WORKBENCH</p>
+          <h1>朗读样本工作台</h1>
+          <p class="muted">生成题目、录制样本、逐词标注，然后比较人工与机器评分。</p>
+        </div>
+        <div class="progress-ring" id="progressRing" aria-label="样本收集进度">
+          <span id="progressValue">0</span><small>/ 500</small>
+        </div>
+      </div>
+
+      <section class="stats-grid" aria-label="校准统计">
+        <article><span>已采集样本</span><strong id="sampleCount">0</strong><small>首期目标 500</small></article>
+        <article><span>参与复核者</span><strong id="reviewerCount">0</strong><small>建议至少 10 人</small></article>
+        <article><span>完全偏离样本</span><strong id="offTargetCount">0</strong><small>建议占 20%</small></article>
+        <article><span>人工平均分</span><strong id="averageScore">—</strong><small>仅作分布检查</small></article>
+      </section>
+
+      <nav class="stepper" aria-label="复核流程">
+        <span class="active"><b>1</b>生成任务</span><i></i><span><b>2</b>录制样本</span><i></i><span><b>3</b>人工标注</span><i></i><span><b>4</b>对照结果</span>
+      </nav>
+
+      <section class="workspace-grid">
+        <article class="panel task-builder">
+          <header class="panel-header">
+            <div><span class="panel-index">01</span><h2>生成朗读任务</h2></div>
+            <span class="status-chip">教材对话题库</span>
+          </header>
+          <form id="generateForm" class="control-grid">
+            <label>样本类型
+              <select id="sampleMode" name="sampleMode">
+                <option value="correct">正确朗读</option>
+                <option value="minor_error">轻微发音错误</option>
+                <option value="omission">故意漏读</option>
+                <option value="substitution">故意换词</option>
+                <option value="off_target">完全偏离目标</option>
+                <option value="noise">低音量 / 噪声</option>
+              </select>
+            </label>
+            <label>难度
+              <select id="difficulty" name="difficulty">
+                <option value="beginner">初级 · A1–A2</option>
+                <option value="intermediate">中级 · B1</option>
+                <option value="advanced">高级 · B2–C1</option>
+              </select>
+            </label>
+            <label class="wide">课号
+              <select id="lessonNumber" name="lessonNumber">
+                <option value="">全部课程随机</option>
+                <option value="1">第 1 课</option><option value="2">第 2 课</option><option value="3">第 3 课</option>
+                <option value="4">第 4 课</option><option value="5">第 5 课</option><option value="6">第 6 课</option>
+                <option value="7">第 7 课</option><option value="9">第 9 课</option><option value="10">第 10 课</option>
+                <option value="11">第 11 课</option><option value="12">第 12 课</option><option value="13">第 13 课</option>
+                <option value="14">第 14 课</option><option value="15">第 15 课</option><option value="16">第 16 课</option>
+                <option value="17">第 17 课</option><option value="18">第 18 课</option>
+              </select>
+              <small>第 8 课为复习课，原文件中没有对话。</small>
+            </label>
+            <button id="generateButton" class="primary-button wide" type="submit"><span>从教材对话生成任务</span><span aria-hidden="true">↗</span></button>
+          </form>
+          <p id="generateError" class="form-error" role="alert"></p>
+        </article>
+
+        <article id="taskPanel" class="panel task-card disabled-panel" aria-live="polite">
+          <header class="panel-header">
+            <div><span class="panel-index">02</span><h2>确认内容并录音</h2></div>
+            <span id="taskModeBadge" class="status-chip neutral">等待任务</span>
+          </header>
+
+          <div id="emptyTask" class="empty-state">
+            <span class="empty-glyph" aria-hidden="true">Я</span>
+            <p>先选择课号并生成任务，教材对话句子会出现在这里。</p>
+          </div>
+
+          <div id="activeTask" class="hidden">
+            <div class="instruction-box"><span>任务要求</span><p id="taskInstruction"></p></div>
+            <label class="editor-label">目标句（可由老师修正）
+              <textarea id="targetText" rows="2" maxlength="300" lang="ru"></textarea>
+            </label>
+            <label class="editor-label">教材来源 / 课号
+              <input id="targetTranslation" maxlength="300">
+            </label>
+            <div id="readPromptGroup">
+              <label class="editor-label">实际应朗读内容
+                <textarea id="readPromptText" rows="2" maxlength="300" lang="ru"></textarea>
+              </label>
+              <label class="editor-label">朗读内容中文
+                <input id="readPromptTranslation" maxlength="300">
+              </label>
+            </div>
+            <div class="recorder">
+              <button id="recordButton" class="record-button" type="button" aria-label="开始录音"><span></span></button>
+              <div class="record-copy"><strong id="recordStatus">准备录音</strong><small id="recordTimer">最长 30 秒 · 建议距离麦克风 20 厘米</small></div>
+              <button id="stopButton" class="secondary-button hidden" type="button">停止</button>
+            </div>
+            <audio id="audioPreview" class="audio-preview hidden" controls preload="metadata"></audio>
+            <p id="recordError" class="form-error" role="alert"></p>
+          </div>
+        </article>
+
+        <article id="ratingPanel" class="panel rating-panel disabled-panel">
+          <header class="panel-header">
+            <div><span class="panel-index">03</span><h2>人工标注</h2></div>
+            <span class="status-chip neutral">先录音</span>
+          </header>
+          <div id="ratingEmpty" class="empty-state compact"><p>完成录音后填写人工判断。</p></div>
+          <form id="ratingForm" class="hidden">
+            <div class="rating-two-col">
+              <label>内容一致程度
+                <select id="contentMatch">
+                  <option value="exact">完全一致</option>
+                  <option value="mostly">基本一致</option>
+                  <option value="partial">部分一致</option>
+                  <option value="off_target">完全偏离</option>
+                  <option value="unintelligible">无法听清</option>
+                </select>
+              </label>
+              <label>实际读出的内容（可选）
+                <input id="actualReadText" maxlength="300" lang="ru" placeholder="错读或换词时填写">
+              </label>
+            </div>
+            <fieldset>
+              <legend>逐词判断</legend>
+              <p class="field-help">每个目标词都必须标注。完全偏离时可统一标为“读成其他词”。</p>
+              <div id="wordRatings" class="word-ratings"></div>
+            </fieldset>
+            <div class="score-box">
+              <div><span>人工整体评分</span><strong id="scoreOutput">85</strong></div>
+              <input id="overallScore" type="range" min="0" max="100" value="85" aria-label="人工整体评分">
+              <div class="scale"><span>0 · 完全错误</span><span>100 · 准确自然</span></div>
+            </div>
+            <label>复核备注
+              <textarea id="notes" rows="3" maxlength="1000" placeholder="记录口音、噪声、具体错误或评分理由"></textarea>
+            </label>
+            <label class="consent"><input id="consent" type="checkbox" required><span>我确认录音仅用于 RusMorph 评分校准，并同意在私有存储中最多保留 90 天。</span></label>
+            <button id="submitButton" class="primary-button" type="submit"><span>提交样本并运行机器复评</span><span aria-hidden="true">→</span></button>
+            <p id="submitError" class="form-error" role="alert"></p>
+          </form>
+        </article>
+
+        <article id="resultPanel" class="panel result-panel disabled-panel">
+          <header class="panel-header">
+            <div><span class="panel-index">04</span><h2>人工 / 机器对照</h2></div>
+            <span class="status-chip neutral">等待提交</span>
+          </header>
+          <div id="resultEmpty" class="empty-state compact"><p>提交后显示差值，机器结果不会提前影响人工判断。</p></div>
+          <div id="resultContent" class="hidden">
+            <div class="comparison-score">
+              <div><span>人工评分</span><strong id="humanResult">—</strong></div>
+              <div class="comparison-divider">↔</div>
+              <div><span>机器评分</span><strong id="machineResult">—</strong></div>
+            </div>
+            <div id="deltaMessage" class="delta-message"></div>
+            <button id="nextTaskButton" class="secondary-button full" type="button">继续下一条任务</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="recent-section">
+        <div class="section-title"><div><p class="eyebrow">RECENT REVIEWS</p><h2>最近复核样本</h2></div><button id="refreshButton" class="text-button" type="button">刷新列表</button></div>
+        <div id="submissionList" class="submission-list"><p class="muted">暂无样本。</p></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/review/app.js" defer></script>
+</body>
+</html>

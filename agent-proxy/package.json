@@ -1,0 +1,22 @@
+{
+  "name": "rusmorph-agent-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts --name rusmorph-agent-proxy --compatibility-date 2025-05-25",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "test:deepseek": "tsx scripts/deepseek-smoke-test.ts",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "zod": "3.25.28"
+  },
+  "devDependencies": {
+    "tsx": "4.20.3",
+    "typescript": "5.8.3",
+    "vitest": "3.2.7",
+    "wrangler": "^4.120.0"
+  }
+}

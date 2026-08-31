@@ -1,0 +1,35 @@
+services:
+  speech-cpu:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - speech-models:/root/.cache
+      - ./models:/srv/app/models
+    environment:
+      SPEECH_ASR_DEVICE: cpu
+      SPEECH_ASR_COMPUTE_TYPE: int8
+
+  speech-gpu:
+    build: .
+    profiles: ["gpu"]
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - speech-models:/root/.cache
+      - ./models:/srv/app/models
+    environment:
+      SPEECH_ASR_DEVICE: cuda
+      SPEECH_ASR_COMPUTE_TYPE: float16
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  speech-models:

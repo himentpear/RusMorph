@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_error_not_configured">AI 服务尚未配置，本地查词仍可使用。</string>
+    <string name="agent_error_authentication">AI 服务认证失败，请联系维护者。</string>
+    <string name="agent_error_balance">AI 服务额度不足，本地查词仍可正常使用。</string>
+    <string name="agent_error_busy">AI 服务当前繁忙，请稍后重试。</string>
+</resources>

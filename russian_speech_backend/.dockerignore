@@ -1,0 +1,9 @@
+.venv
+__pycache__
+.pytest_cache
+temp
+temp-test
+models
+tests
+sample_audio
+*.pyc

@@ -1,0 +1,55 @@
+{
+  "automaticThreshold": 200,
+  "maximumAutomaticAssociations": 3,
+  "fieldRules": [
+    {
+      "field": "phoneticAlternation",
+      "patterns": ["с-ш", "з-ж", "д-ж", "т-ч", "ст-щ", "б-бл", "п-пл", "м-мл", "в-вл", "ф-фл"],
+      "category": "IOTATION",
+      "score": 350,
+      "associationType": "PHONETIC_ALTERNATION"
+    },
+    {
+      "field": "phoneticAlternation",
+      "patterns": ["г-ж", "к-ч", "х-ш"],
+      "category": "FIRST_PALATALIZATION",
+      "score": 350,
+      "associationType": "PHONETIC_ALTERNATION"
+    },
+    {
+      "field": "conjugationClass",
+      "patterns": ["特殊变位", "不规则变位", "无主题变位"],
+      "category": "ATHEMATIC_CONJUGATION",
+      "score": 300,
+      "associationType": "CONJUGATION_CLASS"
+    },
+    {
+      "field": "conjugationClass",
+      "patterns": ["混合变位"],
+      "category": "MIXED_CONJUGATION",
+      "score": 300,
+      "associationType": "CONJUGATION_CLASS"
+    },
+    {
+      "field": "conjugationClass",
+      "patterns": ["-ва-脱落", "ва后缀脱落", "ва 脱落"],
+      "category": "VA_SUFFIX_LOSS",
+      "score": 300,
+      "associationType": "CONJUGATION_CLASS"
+    },
+    {
+      "field": "phoneticAlternation",
+      "patterns": ["鼻音", "н插入", "м插入", "н/м插入"],
+      "category": "NASAL_VOWEL_REMAINS",
+      "score": 350,
+      "associationType": "PHONETIC_ALTERNATION"
+    },
+    {
+      "field": "phoneticAlternation",
+      "patterns": ["词干变化", "词干交替", "交替"],
+      "category": "STEM_ALTERNATION",
+      "score": 350,
+      "associationType": "PHONETIC_ALTERNATION"
+    }
+  ]
+}

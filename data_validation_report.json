@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sourceFileCounts": {
+    "xlsx": 0,
+    "docx": 0
+  },
+  "totalLexiconEntries": 0,
+  "duplicateLexiconEntriesMerged": 0,
+  "discardedRecords": 0,
+  "unrecognizedFields": 0,
+  "unlinkedSpecialEntries": 0,
+  "declensionRuleCount": 0,
+  "uninterpretedDeclensionCellCount": 0,
+  "knowledgeChunkCountByCategory": {
+    "ATHEMATIC_CONJUGATION": 0,
+    "FIRST_PALATALIZATION": 0,
+    "IOTATION": 0,
+    "MIXED_CONJUGATION": 0,
+    "VA_SUFFIX_LOSS": 0,
+    "NASAL_VOWEL_REMAINS": 0,
+    "PAST_TENSE_HISTORY": 0,
+    "FUTURE_TENSE_HISTORY": 0,
+    "STEM_ALTERNATION": 0,
+    "GENERAL_PROJECT_BACKGROUND": 0
+  },
+  "warnings": [
+    "No XLSX or DOCX files were found in data-source."
+  ]
+}

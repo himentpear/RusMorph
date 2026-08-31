@@ -1,0 +1,43 @@
+name = "rusmorph-agent-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-07-17"
+workers_dev = false
+preview_urls = false
+# Optional dedicated production hostname:
+# routes = [{ pattern = "api.example.com", custom_domain = true }]
+
+[ai]
+binding = "AI"
+
+[[ratelimits]]
+name = "SPEECH_RATE_LIMITER"
+namespace_id = "20260810"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
+
+[[ratelimits]]
+name = "AI_RATE_LIMITER"
+namespace_id = "20260811"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60
+
+[vars]
+AGENT_PROVIDER = "cloudflare"
+ALLOWED_ORIGINS = ""
+MAX_REQUEST_BYTES = "262144"
+MAX_COMMAND_LENGTH = "1000"
+MAX_LOCAL_RESULTS = "200"
+MAX_KNOWLEDGE_CHUNKS = "4"
+DEEPSEEK_BASE_URL = "https://api.deepseek.com"
+DEEPSEEK_MODEL_FAST = "deepseek-v4-flash"
+DEEPSEEK_MODEL_REASONING = "deepseek-v4-pro"
+DEEPSEEK_TIMEOUT_MS = "25000"
+DEEPSEEK_ENABLE_REASONING = "false"
+CLOUDFLARE_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8-fast"
+SPEECH_ASR_MODEL = "@cf/openai/whisper-large-v3-turbo"
+SPEECH_TIMEOUT_MS = "19000"
+MAX_AUDIO_BYTES = "2097152"

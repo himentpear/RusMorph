@@ -1,0 +1,120 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c38692297ae50fc37421f374decc8e51",
+    "entities": [
+      {
+        "tableName": "lexemes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `lesson` TEXT, `ordinal` TEXT, `russian` TEXT NOT NULL, `chinese` TEXT, `partOfSpeech` TEXT, `partOfSpeech2` TEXT, `partOfSpeech3` TEXT, `partOfSpeech4` TEXT, `gender` TEXT, `declension` TEXT, `endingLetter` TEXT, `pluralStressShift` TEXT, `verbAspect` TEXT, `conjugation` TEXT, `phoneticAlternation` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lesson",
+            "columnName": "lesson",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "ordinal",
+            "columnName": "ordinal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "russian",
+            "columnName": "russian",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chinese",
+            "columnName": "chinese",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "partOfSpeech",
+            "columnName": "partOfSpeech",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "partOfSpeech2",
+            "columnName": "partOfSpeech2",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "partOfSpeech3",
+            "columnName": "partOfSpeech3",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "partOfSpeech4",
+            "columnName": "partOfSpeech4",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "declension",
+            "columnName": "declension",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "endingLetter",
+            "columnName": "endingLetter",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "pluralStressShift",
+            "columnName": "pluralStressShift",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "verbAspect",
+            "columnName": "verbAspect",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "conjugation",
+            "columnName": "conjugation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "phoneticAlternation",
+            "columnName": "phoneticAlternation",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lexemes_russian_lesson_ordinal",
+            "unique": true,
+            "columnNames": [
+              "russian",
+              "lesson",
+              "ordinal"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_lexemes_russian_lesson_ordinal` ON `${TABLE_NAME}` (`russian`, `lesson`, `ordinal`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c38692297ae50fc37421f374decc8e51')"
+    ]
+  }
+}
