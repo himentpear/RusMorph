@@ -19,6 +19,7 @@ import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
+import org.namchieh.rusmorph.domain.learning.ReviewItemType
 
 sealed interface Loadable<out T> {
     data object Loading : Loadable<Nothing>
@@ -40,14 +41,51 @@ class CourseDetailViewModel(private val repository: CourseRepository, private va
     } }
 }
 
-class LessonDetailViewModel(private val repository: CourseRepository, private val courseId: String, private val lessonId: String) : ViewModel() {
+class LessonDetailViewModel(
+    private val repository: CourseRepository,
+    private val learning: LearningRepository,
+    private val courseId: String,
+    private val lessonId: String,
+) : ViewModel() {
     val state = MutableStateFlow<Loadable<Lesson>>(Loadable.Loading)
-    init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.lesson(courseId, lessonId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("未找到该课") }) } }
+
+    init {
+        viewModelScope.launch { markLessonStarted() }
+        viewModelScope.launch {
+            state.value = runCatching { requireNotNull(repository.lesson(courseId, lessonId)) }
+                .fold({ Loadable.Content(it) }, { Loadable.Error("未找到该课") })
+        }
+    }
+
+    private suspend fun markLessonStarted() {
+        learning.saveProgress(
+            LearningProgress(
+                sourceId = lessonId, courseId = courseId, lessonId = lessonId, unitType = null,
+                progress = 0f, status = LearningStatus.IN_PROGRESS, updatedAt = System.currentTimeMillis(),
+            ),
+        )
+    }
 }
 
-class VocabularyViewModel(private val repository: CourseRepository, private val lessonId: String) : ViewModel() {
+class VocabularyViewModel(
+    private val repository: CourseRepository,
+    private val learning: LearningRepository,
+    private val lessonId: String,
+) : ViewModel() {
     val state = MutableStateFlow<Loadable<List<LexiconEntryWithDetails>>>(Loadable.Loading)
     init { viewModelScope.launch { state.value = runCatching { repository.vocabulary(lessonId) }.fold({ Loadable.Content(it) }, { Loadable.Error("词汇加载失败") }) } }
+
+    fun addReview(entryId: String) {
+        viewModelScope.launch {
+            learning.addToReview(
+                ReviewItem(
+                    id = "word-$entryId", type = ReviewItemType.WORD, sourceId = entryId, lessonId = lessonId,
+                    dueAt = System.currentTimeMillis(), interval = null, difficulty = null,
+                    mistakeCount = 0, lastResult = null,
+                ),
+            )
+        }
+    }
 }
 
 class DialogueViewModel(private val repository: CourseRepository, private val dialogueId: String) : ViewModel() {
