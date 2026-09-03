@@ -75,7 +75,7 @@ class RusSpeechTtsHelper(private val context: Context) {
         }
     }
 
-    fun speak(text: String) {
+    fun speak(text: String, speed: Float = 1.0f) {
         val clean = text.replace("́", "").replace("`", "").trim()
         if (clean.isBlank()) return
 
@@ -97,9 +97,9 @@ class RusSpeechTtsHelper(private val context: Context) {
                 }
 
                 if (audioFile != null && audioFile.exists() && audioFile.length() > 500) {
-                    playAudioFile(audioFile)
+                    playAudioFile(audioFile, speed)
                 } else if (systemTtsReady) {
-                    playWithSystemTts(clean)
+                    playWithSystemTts(clean, speed)
                 } else {
                     _isSpeaking.value = false
                     Toast.makeText(context, "发音获取失败，请连接网络后重试", Toast.LENGTH_SHORT).show()
@@ -107,16 +107,15 @@ class RusSpeechTtsHelper(private val context: Context) {
             } catch (e: Exception) {
                 Log.e("RusSpeechTtsHelper", "Error speaking $clean", e)
                 if (systemTtsReady) {
-                    playWithSystemTts(clean)
+                    playWithSystemTts(clean, speed)
                 } else {
                     _isSpeaking.value = false
-                    Toast.makeText(context, "未能获取俄语发音", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private fun playAudioFile(file: File) {
+    private fun playAudioFile(file: File, speed: Float = 1.0f) {
         try {
             mediaPlayer?.release()
             mediaPlayer = MediaPlayer().apply {
@@ -133,6 +132,9 @@ class RusSpeechTtsHelper(private val context: Context) {
                     true
                 }
                 prepare()
+                try {
+                    playbackParams = playbackParams.setSpeed(speed)
+                } catch (_: Exception) {}
                 start()
             }
         } catch (e: Exception) {
@@ -141,8 +143,9 @@ class RusSpeechTtsHelper(private val context: Context) {
         }
     }
 
-    private fun playWithSystemTts(cleanText: String) {
+    private fun playWithSystemTts(cleanText: String, speed: Float = 1.0f) {
         try {
+            systemTts?.setSpeechRate(speed)
             systemTts?.speak(cleanText, TextToSpeech.QUEUE_FLUSH, null, "rus_tts_${System.currentTimeMillis()}")
         } catch (e: Exception) {
             _isSpeaking.value = false

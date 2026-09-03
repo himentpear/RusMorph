@@ -24,7 +24,17 @@ interface AgentApi {
     suspend fun pronunciationExample(
         @Body request: PronunciationExampleRequestDto,
     ): Response<PronunciationExampleDto>
+
+    @POST("v1/wordcard")
+    suspend fun generateWordCard(
+        @Body request: WordCardRequestDto,
+    ): Response<com.google.gson.JsonObject>
 }
+
+data class WordCardRequestDto(
+    val word: String,
+    val context: String? = null,
+)
 
 data class HealthDto(val status: String, val provider: String, val configured: Boolean, val model: String)
 

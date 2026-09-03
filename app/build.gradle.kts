@@ -245,6 +245,7 @@ android {
             buildConfigField("String", "SPEECH_BACKEND_BASE_URL", safeSpeechUrl.asBuildConfigString())
             buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
             manifestPlaceholders["usesCleartextTraffic"] = "false"
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

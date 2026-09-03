@@ -39,6 +39,8 @@ object RusMorphColors {
     val Error = Color(0xFFE53935)
     val Warning = Color(0xFFFC6E20)
     val Success = Color(0xFF2E7D32)
+    val AccentGreen = Color(0xFF2E7D32)
+    val AccentBlue = Color(0xFF2563EB)
 
     // Outlines & Borders
     val OutlineStrong = Color(0xFF1B1B1B)

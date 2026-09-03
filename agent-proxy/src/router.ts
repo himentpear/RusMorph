@@ -12,6 +12,10 @@ import {
   generatePronunciationExample,
   pronunciationExampleRequestSchema,
 } from "./PronunciationExampleService";
+import {
+  generateWordCard,
+  wordCardRequestSchema,
+} from "./WordCardService";
 import { analyzePronunciation, transcribeSpeech } from "./SpeechService";
 import { handleReviewRequest } from "./ReviewService";
 
@@ -98,6 +102,13 @@ export async function route(
       pronunciationExampleRequestSchema.parse(raw);
       await enforceRates(request, raw, rates, env);
       return Response.json(await generatePronunciationExample(raw, providerFor(env), env));
+    }
+    if (url.pathname === "/v1/wordcard" || url.pathname === "/api/agent/wordcard") {
+      if (request.method !== "POST") throw new HttpError(405, "METHOD_NOT_ALLOWED", "Method not allowed");
+      const raw = await readJson(request, env);
+      wordCardRequestSchema.parse(raw);
+      await enforceRates(request, raw, rates, env);
+      return Response.json(await generateWordCard(raw, providerFor(env), env));
     }
     if (url.pathname !== "/v1/ask") throw new HttpError(404, "NOT_FOUND", "Not found");
     if (request.method !== "POST") throw new HttpError(405, "METHOD_NOT_ALLOWED", "Method not allowed");

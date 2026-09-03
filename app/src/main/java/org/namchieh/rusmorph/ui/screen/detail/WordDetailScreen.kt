@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import java.io.File
 import org.namchieh.rusmorph.R
 import org.namchieh.rusmorph.agent.AgentQuestionType
@@ -256,25 +257,88 @@ private fun DetailContent(
         .distinctBy { it.fieldName to it.value }
         .map { it.fieldName to it.value }
 
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val reviewRepo = remember { org.namchieh.rusmorph.wordcard.data.ReviewRepository(context) }
+    var reviewState by remember(detail.id) { mutableStateOf(org.namchieh.rusmorph.wordcard.model.ReviewState(lexemeId = detail.id)) }
+    var isFavorite by remember { mutableStateOf(false) }
+
+    LaunchedEffect(detail.id) {
+        reviewState = reviewRepo.getReviewState(detail.id)
+    }
+
+    val (cardLexeme, cardForm) = remember(detail) {
+        val meanings = detail.chineseMeaning?.split("；", ";", ",")?.map { it.trim() }?.filter { it.isNotBlank() } ?: emptyList()
+        val pos = detail.partsOfSpeech.filterVisible().firstOrNull() ?: "名词"
+        val gender = when (detail.gender?.lowercase()) {
+            "m", "阳", "阳性" -> org.namchieh.rusmorph.wordcard.model.Gender.MASCULINE
+            "f", "阴", "阴性" -> org.namchieh.rusmorph.wordcard.model.Gender.FEMININE
+            "n", "中", "中性" -> org.namchieh.rusmorph.wordcard.model.Gender.NEUTER
+            else -> null
+        }
+        val basic = org.namchieh.rusmorph.wordcard.model.Lexeme.BasicInfo(
+            partOfSpeech = pos,
+            gender = gender,
+            translationsZh = meanings,
+            shortDefinitionZh = detail.chineseMeaning.orEmpty(),
+        )
+        val morphology = when {
+            pos.contains("名") || detail.declensionClass != null -> {
+                org.namchieh.rusmorph.wordcard.model.Lexeme.MorphologyInfo.Noun(
+                    declensionType = detail.declensionClass.orEmpty(),
+                    stem = detail.endingType.orEmpty(),
+                    stressPattern = detail.pluralStressPattern.orEmpty(),
+                )
+            }
+            pos.contains("动") || detail.conjugationClass != null -> {
+                org.namchieh.rusmorph.wordcard.model.Lexeme.MorphologyInfo.Verb(
+                    aspect = if (detail.aspect?.contains("完") == true) org.namchieh.rusmorph.wordcard.model.Aspect.PERFECTIVE else org.namchieh.rusmorph.wordcard.model.Aspect.IMPERFECTIVE,
+                    conjugationType = detail.conjugationClass.orEmpty(),
+                )
+            }
+            else -> org.namchieh.rusmorph.wordcard.model.Lexeme.MorphologyInfo.Generic(summaryZh = listOfNotNull(detail.gender, detail.declensionClass, detail.aspect).joinToString(" · "))
+        }
+        val l = org.namchieh.rusmorph.wordcard.model.Lexeme(
+            id = detail.id,
+            lemma = detail.displayForm,
+            displayForm = detail.displayForm,
+            basic = basic,
+            morphology = morphology,
+        )
+        val f = org.namchieh.rusmorph.wordcard.model.WordForm(
+            inputForm = detail.displayForm,
+            displayForm = detail.displayForm,
+            isLemma = true,
+            analyses = listOf(org.namchieh.rusmorph.wordcard.model.FormAnalysis(noteZh = "词典原形")),
+        )
+        l to f
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        // 1. 顶部单词核心看板 (Word Hero Card)
+        // 1. 现代化 3D 翻转/拖拽单词卡牌 (WordCardContainer)
         item {
-            WordHeroCard(
-                detail = detail,
-                parts = parts,
-                isTtsSpeaking = isTtsSpeaking,
-                onSpeakTts = onSpeakTts,
-                onStartPronounce = onToggleRecording,
+            org.namchieh.rusmorph.wordcard.ui.WordCardContainer(
+                lexeme = cardLexeme,
+                form = cardForm,
+                cardMode = org.namchieh.rusmorph.wordcard.model.CardMode.RECOGNITION,
+                reviewState = reviewState,
+                isFavorite = isFavorite,
+                isSpeaking = isTtsSpeaking,
+                onToggleFavorite = { isFavorite = !isFavorite },
+                onPlayAudio = onSpeakTts,
+                onFollowAlong = onToggleRecording,
+                onReviewResult = { result ->
+                    scope.launch {
+                        reviewState = reviewRepo.recordReview(cardLexeme.id, result)
+                        android.widget.Toast.makeText(context, "已记录掌握度 · ${result.labelZh}", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onOpenAiWorkspace = { onAgentClick(detail.id, org.namchieh.rusmorph.agent.AgentQuestionType.MORPHOLOGY) },
             )
-        }
-
-        // 2. 中文释义高光卡片 (Meaning Card)
-        item {
-            ChineseMeaningCard(meaning = detail.chineseMeaning)
         }
 
         // 3. Whisper 发音评测与录音诊断专区 (Whisper Evaluation Section)
