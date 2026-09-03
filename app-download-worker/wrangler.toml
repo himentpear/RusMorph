@@ -7,5 +7,9 @@ binding = "DOWNLOADS"
 bucket_name = "namchieh-downloads"
 
 [[routes]]
+pattern = "namchieh.org/werus*"
+zone_name = "namchieh.org"
+
+[[routes]]
 pattern = "namchieh.org/rusmorph*"
 zone_name = "namchieh.org"

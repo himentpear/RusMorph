@@ -27,6 +27,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.ui.common.TerminalLabel
 import org.namchieh.rusmorph.ui.theme.*
 
@@ -34,18 +35,18 @@ import org.namchieh.rusmorph.ui.theme.*
 fun BrandHeader(onMore: () -> Unit, modifier: Modifier = Modifier) {
     Row(modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text("俄语词法助手", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
-            TerminalLabel("RM–01", color = RusMorphColors.Secondary)
+            Text("俄语词法助手", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.semantics { heading() })
+            TerminalLabel("RM–01", color = RusMorphColors.AccentOrange)
         }
         Surface(
             onClick = onMore,
-            modifier = Modifier.size(48.dp).semantics { contentDescription = "更多功能" },
-            shape = RoundedCornerShape(12.dp),
-            color = RusMorphColors.SurfaceElevated,
-            border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineStrong),
-        ) { Box(contentAlignment = Alignment.Center) { Text("•••", color = RusMorphColors.Primary, fontWeight = FontWeight.Bold) } }
+            modifier = Modifier.size(40.dp).semantics { contentDescription = "更多功能" },
+            shape = androidx.compose.foundation.shape.CircleShape,
+            color = RusMorphColors.Surface,
+            border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline),
+        ) { Box(contentAlignment = Alignment.Center) { Text("•••", color = RusMorphColors.CarbonBlack, fontWeight = FontWeight.Bold, fontSize = 11.sp) } }
     }
-    HorizontalDivider(color = RusMorphColors.Divider)
+    HorizontalDivider(color = RusMorphColors.Divider, thickness = 1.dp)
 }
 
 @Composable
@@ -60,48 +61,48 @@ fun AiSearchHero(
     microphoneActive: Boolean = false,
 ) {
     var focused by remember { mutableStateOf(false) }
-    val border by animateColorAsState(if (focused) RusMorphColors.Primary else RusMorphColors.Outline, tween(RusMorphMotion.FocusMillis), label = "searchBorder")
+    val border by animateColorAsState(if (focused) RusMorphColors.CarbonBlack else RusMorphColors.Outline, tween(RusMorphMotion.FocusMillis), label = "searchBorder")
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            TerminalLabel("AI 搜索", color = RusMorphColors.Primary)
-            TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 48.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡") }
+            TerminalLabel("AI 搜索", color = RusMorphColors.CarbonBlack)
+            TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 40.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡", color = RusMorphColors.TextSecondary) }
         }
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
             modifier = Modifier.fillMaxWidth().onFocusChanged { focused = it.isFocused }.semantics { contentDescription = "AI 检索终端输入框" },
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = RusMorphColors.TextPrimary),
-            cursorBrush = SolidColor(RusMorphColors.Primary),
+            cursorBrush = SolidColor(RusMorphColors.AccentOrange),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
             decorationBox = { inner ->
                 Row(
-                    Modifier.fillMaxWidth().heightIn(min = 72.dp).background(RusMorphColors.SurfaceElevated, HeroSearchShape).border(if (focused) 2.dp else 1.dp, border, HeroSearchShape).padding(10.dp),
+                    Modifier.fillMaxWidth().heightIn(min = 68.dp).background(RusMorphColors.Surface, HeroSearchShape).border(if (focused) 1.5.dp else 1.dp, border, HeroSearchShape).padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("⌕", style = MaterialTheme.typography.headlineMedium, color = RusMorphColors.Primary, modifier = Modifier.padding(horizontal = 8.dp))
+                    Text("⌕", style = MaterialTheme.typography.headlineSmall, color = RusMorphColors.TextTertiary, modifier = Modifier.padding(horizontal = 10.dp))
                     Box(Modifier.weight(1f).padding(vertical = 8.dp)) {
-                        if (query.isBlank()) Text("单词、释义或命令", style = MaterialTheme.typography.bodyLarge, color = RusMorphColors.TextTertiary)
+                        if (query.isBlank()) Text("单词、释义或命令", style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextTertiary)
                         inner()
                     }
                     Surface(
                         onClick = onMicrophone,
-                        modifier = Modifier.size(48.dp).semantics {
+                        modifier = Modifier.size(44.dp).semantics {
                             contentDescription = if (microphoneActive) "停止俄语录音" else "开始俄语语音输入"
                         },
-                        color = if (microphoneActive) MaterialTheme.colorScheme.error else RusMorphColors.Surface,
-                        contentColor = if (microphoneActive) MaterialTheme.colorScheme.onError else RusMorphColors.Primary,
-                        shape = RoundedCornerShape(14.dp),
-                    ) { Box(contentAlignment = Alignment.Center) { Text(if (microphoneActive) "■" else "●") } }
+                        color = if (microphoneActive) RusMorphColors.AccentOrange else RusMorphColors.PillBackground,
+                        contentColor = if (microphoneActive) RusMorphColors.TextOnDark else RusMorphColors.CarbonBlack,
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                    ) { Box(contentAlignment = Alignment.Center) { Text(if (microphoneActive) "■" else "●", fontSize = 14.sp) } }
                     Spacer(Modifier.width(6.dp))
                     Surface(
                         onClick = onSubmit,
                         enabled = query.isNotBlank() && !isLoading,
-                        modifier = Modifier.size(52.dp).semantics { contentDescription = if (isLoading) "正在检索" else "执行检索" },
-                        color = RusMorphColors.Primary,
+                        modifier = Modifier.size(44.dp).semantics { contentDescription = if (isLoading) "正在检索" else "执行检索" },
+                        color = RusMorphColors.CarbonBlack,
                         contentColor = RusMorphColors.TextOnDark,
-                        shape = RoundedCornerShape(16.dp),
-                    ) { Box(contentAlignment = Alignment.Center) { Text(if (isLoading) "···" else "→", style = MaterialTheme.typography.titleLarge) } }
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                    ) { Box(contentAlignment = Alignment.Center) { Text(if (isLoading) "···" else "→", style = MaterialTheme.typography.titleMedium) } }
                 }
             },
         )

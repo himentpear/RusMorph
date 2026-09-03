@@ -7,13 +7,14 @@ import java.io.File
 class SpeechRecorder(private val context: Context) {
     private var recorder: MediaRecorder? = null
     private var output: File? = null
+    private var startTimestampMs: Long = 0L
 
     fun start(): File {
         cancel()
         val file = File.createTempFile("speech-", ".m4a", context.cacheDir)
         @Suppress("DEPRECATION")
         val mediaRecorder = MediaRecorder().apply {
-            setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION)
+            setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
             setAudioSamplingRate(16_000)
@@ -22,6 +23,7 @@ class SpeechRecorder(private val context: Context) {
             prepare()
             start()
         }
+        startTimestampMs = System.currentTimeMillis()
         recorder = mediaRecorder
         output = file
         return file
@@ -30,6 +32,10 @@ class SpeechRecorder(private val context: Context) {
     fun stop(): File? {
         val file = output
         return try {
+            val elapsed = System.currentTimeMillis() - startTimestampMs
+            if (elapsed < 500) {
+                try { Thread.sleep(500 - elapsed) } catch (_: Exception) {}
+            }
             recorder?.stop()
             file
         } catch (_: RuntimeException) {

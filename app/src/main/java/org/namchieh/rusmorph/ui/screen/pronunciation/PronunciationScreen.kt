@@ -78,14 +78,15 @@ import kotlinx.coroutines.withTimeoutOrNull
 import org.namchieh.rusmorph.audio.SpeechRecorder
 import org.namchieh.rusmorph.data.remote.PronunciationWordDto
 import org.namchieh.rusmorph.ui.PronunciationViewModel
+import org.namchieh.rusmorph.ui.theme.RusMorphColors
 
-private val PageBackground = Color(0xFFFFFBF5)
-private val WarmSurface = Color(0xFFFFFEFB)
-private val WarmText = Color(0xFF2D190F)
-private val WarmMuted = Color(0xFF8D7768)
-private val WarmGold = Color(0xFFD59B51)
-private val WarmGoldSoft = Color(0xFFFFE8BC)
-private val WarmOutline = Color(0xFFEBDAC5)
+private val PageBackground = RusMorphColors.Canvas
+private val WarmSurface = RusMorphColors.Surface
+private val WarmText = RusMorphColors.CarbonBlack
+private val WarmMuted = RusMorphColors.TextSecondary
+private val WarmGold = RusMorphColors.AccentOrange
+private val WarmGoldSoft = RusMorphColors.WarmCream
+private val WarmOutline = RusMorphColors.Outline
 
 private data class WordClipRequest(
     val key: Int,
@@ -170,7 +171,7 @@ fun PronunciationScreen(viewModel: PronunciationViewModel, onBack: () -> Unit) {
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
-                            "语音学习 / Pronunciation Practice",
+                            "语音学习 · 智能评分与逐词跟读",
                             color = WarmMuted,
                             style = MaterialTheme.typography.labelMedium,
                         )
@@ -288,7 +289,7 @@ private fun TargetSentenceCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Surface(
-                    color = Color(0xFFF8F0E5),
+                    color = RusMorphColors.PillBackground,
                     shape = RoundedCornerShape(9.dp),
                 ) {
                     Text(
@@ -378,12 +379,12 @@ private fun RecordingCard(
                     .size(118.dp)
                     .clickable(enabled = !isAnalyzing, onClick = onClick),
                 shape = CircleShape,
-                color = if (isRecording) Color(0xFFFFD9D1) else WarmGoldSoft,
+                color = if (isRecording) RusMorphColors.WarmCream else RusMorphColors.PillBackground,
                 border = BorderStroke(
                     2.dp,
-                    if (isRecording) Color(0xFFE86957) else WarmGold,
+                    if (isRecording) RusMorphColors.AccentOrange else RusMorphColors.Outline,
                 ),
-                shadowElevation = 8.dp,
+                shadowElevation = 4.dp,
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     if (isAnalyzing) {
@@ -393,7 +394,7 @@ private fun RecordingCard(
                         )
                     } else {
                         MicrophoneMark(
-                            color = if (isRecording) Color(0xFFB63F31) else Color(0xFF6D3F13)
+                            color = if (isRecording) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack
                         )
                     }
                 }
@@ -552,7 +553,7 @@ private fun ScoreRing(score: Double) {
             progress = { (score / 100.0).toFloat().coerceIn(0f, 1f) },
             modifier = Modifier.fillMaxSize(),
             color = scorePalette(score).foreground,
-            trackColor = Color(0xFFF3E7D7),
+            trackColor = RusMorphColors.PillBackground,
             strokeWidth = 9.dp,
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -624,7 +625,7 @@ private fun ScoreLegend() {
         modifier = Modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState())
-            .background(Color(0xFFFBF4EA), RoundedCornerShape(12.dp))
+            .background(RusMorphColors.PillBackground, RoundedCornerShape(12.dp))
             .padding(horizontal = 10.dp, vertical = 9.dp),
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
@@ -814,7 +815,7 @@ private fun UserRecordingPlayer(recordingPath: String) {
 
     Surface(
         shape = RoundedCornerShape(16.dp),
-        color = Color(0xFFFBF4EA),
+        color = RusMorphColors.PillBackground,
         border = BorderStroke(1.dp, WarmOutline),
         modifier = Modifier.fillMaxWidth(),
     ) {

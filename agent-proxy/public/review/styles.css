@@ -1,15 +1,16 @@
 :root {
-  --paper: #f5f1e8;
-  --paper-deep: #ebe4d6;
-  --ink: #19201d;
-  --muted: #69706b;
-  --line: rgba(25, 32, 29, .16);
-  --red: #c24638;
-  --red-dark: #8e2e26;
-  --green: #2d6a53;
-  --amber: #ad6d20;
-  --white: #fffdf8;
-  --shadow: 0 22px 70px rgba(54, 47, 37, .10);
+  --paper: #f4f4f6;
+  --paper-deep: #ececef;
+  --ink: #1b1b1b;
+  --muted: #686870;
+  --line: #e4e4e8;
+  --red: #e53935;
+  --red-dark: #b71c1c;
+  --green: #2e7d32;
+  --amber: #fc6e20;
+  --cream: #ffe7d0;
+  --white: #ffffff;
+  --shadow: 0 10px 30px rgba(27, 27, 27, .06);
 }
 
 * { box-sizing: border-box; }

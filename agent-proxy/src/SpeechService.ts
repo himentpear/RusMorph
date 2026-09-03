@@ -81,7 +81,7 @@ export async function analyzePronunciation(request: Request, env: Env): Promise<
   const mappedCount = alignment.mapping.size;
   const substitutionCount = alignment.substitutions.length;
   const exactCoverage = alignment.exactCount / targetWords.length;
-  const completeness = round2(100 * mappedCount / targetWords.length);
+  let completeness = round2(100 * mappedCount / targetWords.length);
   const textMatch = round2(100 * (alignment.exactCount + substitutionCount * 0.55) / Math.max(targetWords.length, parsed.words.length, 1));
   const durationMs = secondsToMs(numberValue(result.transcription_info?.duration));
   const speechDurationMs = secondsToMs(numberValue(result.transcription_info?.duration_after_vad)) || durationMs;
@@ -116,25 +116,86 @@ export async function analyzePronunciation(request: Request, env: Env): Promise<
     };
   });
 
-  const scored = words.filter((word): word is typeof word & { score: number } => typeof word.score === "number");
-  const pronunciation = scored.length ? average(scored.map(word => word.score)) : 0;
+  const isSingleWord = targetWords.length === 1;
+  const singleTarget = targetWords[0];
+  const singleRecognized = parsed.words[0]?.text || parsed.text.trim();
+  const singleSim = isSingleWord && singleRecognized ? textSimilarity(singleTarget, singleRecognized) : 0;
+
+  let scoreAvailable = false;
+  let overall = 0;
+  let pronunciation = 0;
+  let fluency = 0;
+  let reasonCode: string | null = null;
+  let reason: string | null = null;
+
   const wpm = speechDurationMs > 0 ? targetWords.length * 60_000 / speechDurationMs : 0;
-  const fluency = fluencyScore(wpm, difficulty, parsed.words);
-  const analysisConfidence = round4(parsed.confidence * exactCoverage);
-  const minimumExactWords = Math.max(1, Math.ceil(targetWords.length * 0.55));
-  const hasContentEvidence = alignment.exactCount >= minimumExactWords && textMatch >= 55;
-  const scoreAvailable = !nonRussianSpeech && !nonRussianTranscript && hasContentEvidence && analysisConfidence >= 0.35;
-  const rawOverall = round2(pronunciation * 0.55 + fluency * 0.20 + completeness * 0.25);
-  // A partially matched sentence must not receive a score that looks like a
-  // pass merely because its few aligned words have high ASR confidence.
-  const overall = round2(Math.min(rawOverall, contentScoreCeiling(exactCoverage, textMatch)));
-  const reasonCode = scoreAvailable ? null
-    : nonRussianSpeech || nonRussianTranscript ? "NON_RUSSIAN_SPEECH"
-      : hasContentEvidence ? "LOW_ALIGNMENT_EVIDENCE" : "CONTENT_MISMATCH";
-  const reason = scoreAvailable ? null
-    : reasonCode === "NON_RUSSIAN_SPEECH" ? "检测到的内容不像俄语朗读，无法生成发音分数"
-      : reasonCode === "CONTENT_MISMATCH" ? "朗读内容与目标句不一致，无法生成可靠评分"
-        : "识别或时间戳证据不足，无法可靠评分";
+  const analysisConfidence = round4(parsed.confidence * (isSingleWord ? (singleSim || 0.8) : exactCoverage));
+
+  if (isSingleWord) {
+    completeness = 100;
+    if (nonRussianSpeech && languageConfidence >= 0.75) {
+      scoreAvailable = false;
+      reasonCode = "NON_RUSSIAN_SPEECH";
+      reason = "检测到的内容不像俄语朗读，请使用俄语清晰朗读。";
+    } else if (!singleRecognized || singleSim < 0.25) {
+      scoreAvailable = false;
+      reasonCode = "CONTENT_MISMATCH";
+      reason = "未能识别出与目标词相近的发音，请提高录音音量重新朗读。";
+    } else {
+      scoreAvailable = true;
+      if (singleSim >= 0.95) {
+        pronunciation = 95;
+        fluency = 92;
+        overall = 94;
+      } else if (singleSim >= 0.75) {
+        pronunciation = round2(75 + (singleSim - 0.75) * 80);
+        fluency = 80;
+        overall = round2(pronunciation * 0.7 + fluency * 0.3);
+      } else if (singleSim >= 0.5) {
+        pronunciation = round2(60 + (singleSim - 0.5) * 60);
+        fluency = 70;
+        overall = round2(pronunciation * 0.75 + fluency * 0.25);
+      } else {
+        pronunciation = round2(45 + (singleSim - 0.25) * 60);
+        fluency = 60;
+        overall = round2(pronunciation * 0.8 + fluency * 0.2);
+      }
+
+      const singleFeedback = singleSim >= 0.95
+        ? "发音清晰准确，元音与重音饱满。"
+        : singleSim >= 0.75
+          ? `识别为「${singleRecognized}」，发音较为接近，注意个别音素细节。`
+          : `识别为「${singleRecognized}」，与目标词存在发音差异，建议放慢跟读。`;
+
+      words[0] = {
+        text: singleTarget,
+        start_ms: parsed.words[0]?.startMs ?? 0,
+        end_ms: parsed.words[0]?.endMs ?? 800,
+        score: overall,
+        confidence: parsed.confidence,
+        status: statusFor(overall, parsed.confidence),
+        feedback_zh: singleFeedback,
+      };
+    }
+  } else {
+    const scored = words.filter((word): word is typeof word & { score: number } => typeof word.score === "number");
+    pronunciation = scored.length ? average(scored.map(word => word.score)) : 0;
+    fluency = fluencyScore(wpm, difficulty, parsed.words);
+    completeness = round2(100 * mappedCount / targetWords.length);
+    const minimumExactWords = Math.max(1, Math.ceil(targetWords.length * 0.55));
+    const hasContentEvidence = alignment.exactCount >= minimumExactWords && textMatch >= 55;
+    scoreAvailable = !nonRussianSpeech && !nonRussianTranscript && hasContentEvidence && analysisConfidence >= 0.35;
+    const rawOverall = round2(pronunciation * 0.55 + fluency * 0.20 + completeness * 0.25);
+    overall = round2(Math.min(rawOverall, contentScoreCeiling(exactCoverage, textMatch)));
+    reasonCode = scoreAvailable ? null
+      : nonRussianSpeech || nonRussianTranscript ? "NON_RUSSIAN_SPEECH"
+        : hasContentEvidence ? "LOW_ALIGNMENT_EVIDENCE" : "CONTENT_MISMATCH";
+    reason = scoreAvailable ? null
+      : reasonCode === "NON_RUSSIAN_SPEECH" ? "检测到的内容不像俄语朗读，无法生成发音分数"
+        : reasonCode === "CONTENT_MISMATCH" ? "朗读内容与目标句不一致，无法生成可靠评分"
+          : "识别或时间戳证据不足，无法可靠评分";
+  }
+
   const warnings = [
     "本结果是基于识别文本和单词时间戳的可懂度代理评分，不是 MFA/GOP 音素级评分。",
   ];
@@ -222,6 +283,32 @@ async function runWhisper(audio: File, env: Env): Promise<WhisperResult> {
   }
 }
 
+function textSimilarity(s1: string, s2: string): number {
+  const a = normalizeWord(s1);
+  const b = normalizeWord(s2);
+  if (!a && !b) return 1.0;
+  if (!a || !b) return 0.0;
+  if (a === b) return 1.0;
+  const matrix: number[][] = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+  const dist = matrix[b.length][a.length];
+  return Math.max(0, 1 - dist / Math.max(a.length, b.length));
+}
+
 function parseWhisper(result: WhisperResult): { text: string; confidence: number; words: TimedWord[] } {
   const segments = Array.isArray(result.segments) ? result.segments.filter(isObject) as WhisperSegment[] : [];
   const words: TimedWord[] = [];
@@ -242,7 +329,21 @@ function parseWhisper(result: WhisperResult): { text: string; confidence: number
     }
   }
   const text = stringValue(result.text).trim();
-  return { text, confidence: round4(confidences.length ? average(confidences) : (text ? 0.5 : 0)), words };
+  if (words.length === 0 && text.length > 0) {
+    const tokens = russianWords(text);
+    const duration = secondsToMs(numberValue(result.transcription_info?.duration)) || 1000;
+    const tokenDuration = Math.floor(duration / Math.max(tokens.length, 1));
+    tokens.forEach((t, idx) => {
+      words.push({
+        text: t,
+        normalized: normalizeWord(t),
+        startMs: idx * tokenDuration,
+        endMs: (idx + 1) * tokenDuration,
+        confidence: 0.85,
+      });
+    });
+  }
+  return { text, confidence: round4(confidences.length ? average(confidences) : (text ? 0.75 : 0)), words };
 }
 
 function alignWords(targetWords: string[], actualWords: TimedWord[]): Alignment {

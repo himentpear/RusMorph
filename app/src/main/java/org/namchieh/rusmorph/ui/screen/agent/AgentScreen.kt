@@ -40,9 +40,9 @@ fun AgentScreen(viewModel: AgentViewModel, onBack: () -> Unit) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     Scaffold(containerColor = RusMorphColors.Canvas, topBar = {
         TopAppBar(
-            title = { Text(stringResource(R.string.agent_title)) },
-            navigationIcon = { TextButton(onClick = onBack) { Text(stringResource(R.string.back)) } },
-            colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.SurfaceElevated),
+            title = { Text(stringResource(R.string.agent_title), fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) },
+            navigationIcon = { TextButton(onClick = onBack) { Text("←", color = RusMorphColors.CarbonBlack) } },
+            colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas),
         )
     }) { padding ->
         when (val current = state) {
@@ -76,10 +76,10 @@ internal fun AgentContent(
         item {
             Text(data.detail.displayForm, style = MaterialTheme.typography.headlineMedium)
             data.detail.chineseMeaning?.takeIf(String::isNotBlank)?.let { Text(it) }
-            Text(questionTypeLabel(data.questionType), color = MaterialTheme.colorScheme.primary)
+            Text(questionTypeLabel(data.questionType), color = RusMorphColors.AccentOrange)
         }
         if (data.defaultQuestion.isNotBlank()) item {
-            Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineSoft)) { Text(questionTemplate(data), Modifier.padding(16.dp)) }
+            Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) { Text(questionTemplate(data), Modifier.padding(16.dp)) }
         }
         item {
             OutlinedTextField(

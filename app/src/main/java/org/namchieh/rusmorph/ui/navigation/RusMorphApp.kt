@@ -147,7 +147,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                 LessonDetailScreen(state, { lesson, type ->
                     when (type) {
                         LearningUnitType.VOCABULARY -> navController.navigate(Routes.vocabulary(lesson.id))
-                        LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-${lesson.number}"))
+                        LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-${lesson.id}"))
                         LearningUnitType.REVIEW -> selectBottom(BottomDestination.Review)
                         else -> Unit
                     }
@@ -221,7 +221,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                 CommandScreen(vm, navController::navigateUp)
             }
             composable(Routes.WordPattern, listOf(navArgument("entryId") { type = NavType.StringType })) {
-                val vm: WordDetailViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { val handle = createSavedStateHandle(); WordDetailViewModel(application.searchRepository, checkNotNull(handle["entryId"])) } } })
+                val vm: WordDetailViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { val handle = createSavedStateHandle(); WordDetailViewModel(application.searchRepository, checkNotNull(handle["entryId"]), application.speechRepository, application.learningRepository) } } })
                 WordDetailScreen(vm, navController::navigateUp, { navController.navigate(Routes.explanation(it)) }, { id, type -> navController.navigate(Routes.agent(id, type)) })
             }
             composable(Routes.AgentPattern, listOf(navArgument("entryId") { type = NavType.StringType }, navArgument("questionType") { type = NavType.StringType; defaultValue = "CUSTOM" })) {

@@ -1,6 +1,7 @@
 package org.namchieh.rusmorph.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,65 +16,216 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.domain.learning.Course
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.LearningUnit
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
+import org.namchieh.rusmorph.ui.theme.TechCardShape
+import org.namchieh.rusmorph.ui.theme.PillShape
 
 @Composable
-fun RusButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
-    Button(onClick, modifier.heightIn(min = 48.dp), enabled, colors = ButtonDefaults.buttonColors(containerColor = RusMorphColors.Primary)) {
-        Text(text, fontWeight = FontWeight.SemiBold)
+fun RusButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    isSecondary: Boolean = false,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 48.dp),
+        enabled = enabled,
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSecondary) RusMorphColors.PillBackground else RusMorphColors.CarbonBlack,
+            contentColor = if (isSecondary) RusMorphColors.TextPrimary else RusMorphColors.TextOnDark,
+        ),
+    ) {
+        Text(text, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
     }
 }
 
 @Composable
-fun RusCard(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
+fun RusCircleActionButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    symbol: String = "+",
+    contentDescription: String = "Action",
+) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier.size(44.dp),
+        shape = CircleShape,
+        color = RusMorphColors.CarbonBlack,
+        contentColor = RusMorphColors.TextOnDark,
+        shadowElevation = 2.dp,
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                text = symbol,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Light,
+                color = RusMorphColors.TextOnDark,
+            )
+        }
+    }
+}
+
+@Composable
+fun RusCard(
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    backgroundColor: Color = RusMorphColors.Surface,
+    content: @Composable () -> Unit,
+) {
     Card(
         modifier = modifier.then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
-        colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
         border = BorderStroke(1.dp, RusMorphColors.Outline),
-        shape = RoundedCornerShape(18.dp),
-    ) { Box(Modifier.padding(18.dp)) { content() } }
+        shape = TechCardShape,
+    ) {
+        Box(Modifier.padding(18.dp)) { content() }
+    }
+}
+
+@Composable
+fun RusPillBadge(
+    text: String,
+    modifier: Modifier = Modifier,
+    containerColor: Color = RusMorphColors.PillBackground,
+    contentColor: Color = RusMorphColors.TextSecondary,
+) {
+    Surface(
+        modifier = modifier,
+        shape = PillShape,
+        color = containerColor,
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+            style = RusMorphTechTypography.MicroPill,
+            color = contentColor,
+        )
+    }
 }
 
 @Composable
 fun RusSectionTitle(title: String, subtitle: String? = null, modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(3.dp)) {
-        Text(title, style = androidx.compose.material3.MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = RusMorphColors.TextPrimary)
-        subtitle?.let { Text(it, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextSecondary) }
+        Text(
+            title,
+            style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = RusMorphColors.TextPrimary,
+        )
+        subtitle?.let {
+            Text(
+                it,
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                color = RusMorphColors.TextSecondary,
+            )
+        }
     }
 }
 
 @Composable
 fun RusProgressBar(progress: Float, modifier: Modifier = Modifier) {
     LinearProgressIndicator(
-        progress = { progress.coerceIn(0f, 1f) }, modifier = modifier.fillMaxWidth().height(5.dp),
-        color = RusMorphColors.Primary, trackColor = RusMorphColors.SurfaceMuted,
+        progress = { progress.coerceIn(0f, 1f) },
+        modifier = modifier.fillMaxWidth().height(4.dp),
+        color = RusMorphColors.AccentOrange,
+        trackColor = RusMorphColors.OutlineSoft,
     )
+}
+
+/**
+ * High-density vertical needle/curve chart inspired by the reference design.
+ */
+@Composable
+fun RusNeedleCurve(
+    progress: Float = 0.65f,
+    modifier: Modifier = Modifier,
+    lineCount: Int = 46,
+    color: Color = RusMorphColors.Outline.copy(alpha = 0.85f),
+    highlightColor: Color = RusMorphColors.AccentOrange,
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Canvas(modifier = Modifier.fillMaxWidth().height(110.dp)) {
+            val width = size.width
+            val height = size.height
+            val spacing = width / (lineCount - 1).coerceAtLeast(1)
+            val activeIndex = (lineCount * progress.coerceIn(0f, 1f)).toInt()
+
+            for (i in 0 until lineCount) {
+                val ratio = i.toFloat() / (lineCount - 1)
+                // Quadratic curve rising from left (15% height) to right (95% height)
+                val barHeightFraction = 0.12f + (0.88f * (ratio * ratio))
+                val barHeight = height * barHeightFraction
+                val x = i * spacing
+                val isHighlighted = i == activeIndex
+
+                drawLine(
+                    color = if (isHighlighted) highlightColor else color,
+                    start = Offset(x, height),
+                    end = Offset(x, height - barHeight),
+                    strokeWidth = if (isHighlighted) 2.dp.toPx() else 1.dp.toPx(),
+                    cap = StrokeCap.Round,
+                )
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            listOf("0", "25", "50", "75", "100%").forEach { step ->
+                Text(
+                    text = step,
+                    style = RusMorphTechTypography.MicroPill,
+                    color = RusMorphColors.TextTertiary,
+                )
+            }
+        }
+    }
 }
 
 @Composable
 fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modifier) {
     RusCard(modifier.fillMaxWidth(), onClick) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(course.subtitle.uppercase(), style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.Primary)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RusPillBadge(course.subtitle.lowercase(), containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                Text(
+                    "${(course.progress * 100).toInt()}%",
+                    style = RusMorphTechTypography.SmallDigit,
+                    color = RusMorphColors.AccentOrange,
+                )
+            }
             Text(course.title, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
-            Text(course.description, color = RusMorphColors.TextSecondary)
+            Text(course.description, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
             RusProgressBar(course.progress)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("${course.completedLessonCount} / ${course.lessonCount} 课", color = RusMorphColors.TextSecondary)
-                Text("继续 →", color = RusMorphColors.Primary, fontWeight = FontWeight.SemiBold)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("${course.completedLessonCount} / ${course.lessonCount} 课", color = RusMorphColors.TextTertiary, style = RusMorphTechTypography.MicroPill)
+                Text("继续 →", color = RusMorphColors.CarbonBlack, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
             }
         }
     }
@@ -81,18 +233,30 @@ fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modi
 
 @Composable
 fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val accent = if (lesson.isReviewLesson) RusMorphColors.Secondary else RusMorphColors.Primary
+    val accent = if (lesson.isReviewLesson) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack
     RusCard(modifier.fillMaxWidth(), onClick) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Box(Modifier.size(48.dp).background(accent.copy(alpha = .12f), CircleShape), contentAlignment = Alignment.Center) {
-                Text(lesson.number.toString().padStart(2, '0'), color = accent, fontWeight = FontWeight.Bold)
+            Box(
+                Modifier.size(46.dp).background(if (lesson.isReviewLesson) RusMorphColors.WarmCream else RusMorphColors.PillBackground, RoundedCornerShape(14.dp)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    lesson.number.toString().padStart(2, '0'),
+                    style = RusMorphTechTypography.SmallDigit,
+                    color = accent,
+                    fontWeight = FontWeight.Bold,
+                )
             }
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                Text(lesson.titleRu, fontWeight = FontWeight.SemiBold, color = accent)
-                Text(lesson.titleZh, color = RusMorphColors.TextSecondary)
-                Text("${lesson.units.size} 个学习单元", style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.TextTertiary)
+                Text(lesson.titleRu, fontWeight = FontWeight.SemiBold, color = RusMorphColors.TextPrimary)
+                Text(lesson.titleZh, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+                Text(
+                    "${lesson.units.size} 个学习单元",
+                    style = RusMorphTechTypography.MicroPill,
+                    color = RusMorphColors.TextTertiary,
+                )
             }
-            Text("›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = accent)
+            Text("›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = RusMorphColors.TextTertiary)
         }
     }
 }
@@ -101,11 +265,19 @@ fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modi
 fun RusLearningUnitCard(index: Int, unit: LearningUnit, onClick: () -> Unit, modifier: Modifier = Modifier) {
     RusCard(modifier.fillMaxWidth(), onClick) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-            Text(index.toString().padStart(2, '0'), style = androidx.compose.material3.MaterialTheme.typography.titleLarge, color = RusMorphColors.Secondary)
+            Text(
+                index.toString().padStart(2, '0'),
+                style = RusMorphTechTypography.SmallDigit,
+                color = RusMorphColors.AccentOrange,
+            )
             Column(Modifier.weight(1f)) {
-                Text(unit.titleRu, fontWeight = FontWeight.Bold, color = RusMorphColors.Primary)
-                Text(unit.titleZh, color = RusMorphColors.TextSecondary)
-                if (unit.itemCount > 0) Text("${unit.itemCount} 项内容", style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.TextTertiary)
+                Text(unit.titleRu, fontWeight = FontWeight.Bold, color = RusMorphColors.TextPrimary)
+                Text(unit.titleZh, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+                if (unit.itemCount > 0) Text(
+                    "${unit.itemCount} 项内容",
+                    style = RusMorphTechTypography.MicroPill,
+                    color = RusMorphColors.TextTertiary,
+                )
             }
             RusStatusDot(unit.status)
         }
@@ -116,18 +288,24 @@ fun RusLearningUnitCard(index: Int, unit: LearningUnit, onClick: () -> Unit, mod
 private fun RusStatusDot(status: LearningStatus) {
     val color = when (status) {
         LearningStatus.COMPLETED -> RusMorphColors.Success
-        LearningStatus.IN_PROGRESS -> RusMorphColors.Warning
+        LearningStatus.IN_PROGRESS -> RusMorphColors.AccentOrange
         LearningStatus.NOT_STARTED -> RusMorphColors.Outline
     }
-    Box(Modifier.size(10.dp).background(color, CircleShape))
+    Box(Modifier.size(8.dp).background(color, CircleShape))
 }
 
 @Composable
 fun RusWordChip(text: String, meaning: String?, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Surface(onClick = onClick, modifier = modifier, shape = RoundedCornerShape(14.dp), color = RusMorphColors.Surface, border = BorderStroke(1.dp, RusMorphColors.Outline)) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        color = RusMorphColors.Surface,
+        border = BorderStroke(1.dp, RusMorphColors.Outline),
+    ) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
             Text(text, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = RusMorphColors.TextSecondary) }
+            meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium) }
         }
     }
 }
@@ -137,39 +315,130 @@ fun RusWordChip(text: String, meaning: String?, onClick: () -> Unit, modifier: M
 
 @Composable
 fun RusContextChip(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Surface(onClick = onClick, modifier = modifier, shape = RoundedCornerShape(50), color = RusMorphColors.PrimaryContainer) {
-        Text(text, Modifier.padding(horizontal = 12.dp, vertical = 7.dp), color = RusMorphColors.PrimaryDark, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        shape = PillShape,
+        color = RusMorphColors.WarmCream,
+    ) {
+        Text(
+            text = text,
+            Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+            color = RusMorphColors.CarbonBlack,
+            style = RusMorphTechTypography.MicroPill,
+            fontWeight = FontWeight.SemiBold,
+        )
     }
 }
 
+/**
+ * Modern digital stat component inspired by the reference mockup.
+ * Shows large monospace numbers, an optional signature orange dot or arrow,
+ * and a minimalist lowercase label.
+ */
 @Composable
-fun RusStat(value: String, label: String, modifier: Modifier = Modifier) {
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold, color = RusMorphColors.Primary)
-        Text(label, style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.TextSecondary)
+fun RusStat(
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier,
+    hasDot: Boolean = true,
+    indicatorSymbol: String? = null,
+    isLarge: Boolean = false,
+) {
+    Column(modifier, horizontalAlignment = Alignment.Start) {
+        Row(verticalAlignment = Alignment.Top) {
+            Text(
+                text = value,
+                style = if (isLarge) RusMorphTechTypography.HeroDigit else RusMorphTechTypography.StatDigit,
+                color = RusMorphColors.TextPrimary,
+            )
+            if (hasDot) {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 4.dp, top = if (isLarge) 10.dp else 4.dp)
+                        .size(if (isLarge) 8.dp else 6.dp)
+                        .background(RusMorphColors.AccentOrange, CircleShape),
+                )
+            } else if (indicatorSymbol != null) {
+                Text(
+                    text = indicatorSymbol,
+                    fontSize = if (isLarge) 14.sp else 11.sp,
+                    color = RusMorphColors.AccentOrange,
+                    modifier = Modifier.padding(start = 3.dp, top = if (isLarge) 8.dp else 3.dp),
+                )
+            }
+        }
+        Spacer(Modifier.height(2.dp))
+        Text(
+            text = label.lowercase(),
+            style = RusMorphTechTypography.MicroPill,
+            color = RusMorphColors.TextSecondary,
+        )
     }
 }
 
 @Composable
 fun RusEmptyState(title: String, message: String, modifier: Modifier = Modifier) {
-    Column(modifier.fillMaxWidth().padding(vertical = 28.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("—", color = RusMorphColors.Secondary)
-        Text(title, fontWeight = FontWeight.SemiBold)
-        Text(message, color = RusMorphColors.TextSecondary)
+    Column(
+        modifier = modifier.fillMaxWidth().padding(vertical = 28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Box(
+            modifier = Modifier.size(6.dp).background(RusMorphColors.AccentOrange, CircleShape),
+        )
+        Text(title, fontWeight = FontWeight.SemiBold, color = RusMorphColors.TextPrimary)
+        Text(message, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
     }
 }
 
 @Composable
 fun RusSearchBar(value: String, onValueChange: (String) -> Unit, onSearch: () -> Unit, modifier: Modifier = Modifier) {
-    OutlinedTextField(value, onValueChange, modifier.fillMaxWidth(), placeholder = { Text("输入俄语词形或中文释义") }, singleLine = true, trailingIcon = { Text("搜索", Modifier.clickable(onClick = onSearch), color = RusMorphColors.Primary) })
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.fillMaxWidth(),
+        placeholder = { Text("输入俄语词形或中文释义", style = androidx.compose.material3.MaterialTheme.typography.bodyMedium) },
+        singleLine = true,
+        shape = PillShape,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = RusMorphColors.Surface,
+            unfocusedContainerColor = RusMorphColors.Surface,
+            focusedBorderColor = RusMorphColors.CarbonBlack,
+            unfocusedBorderColor = RusMorphColors.Outline,
+        ),
+        trailingIcon = {
+            Text(
+                "搜索",
+                Modifier.clickable(onClick = onSearch).padding(end = 8.dp),
+                color = RusMorphColors.CarbonBlack,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 13.sp,
+            )
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RusBottomSheet(onDismiss: () -> Unit, content: @Composable () -> Unit) {
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = RusMorphColors.Surface) { Box(Modifier.padding(20.dp)) { content() } }
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = RusMorphColors.Surface,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+    ) {
+        Box(Modifier.padding(20.dp)) { content() }
+    }
 }
 
 @Composable fun RusAudioPlayer(label: String, onPlay: () -> Unit, modifier: Modifier = Modifier) = RusButton("▶  $label", onPlay, modifier)
 @Composable fun RusRecorder(recording: Boolean, onToggle: () -> Unit, modifier: Modifier = Modifier) = RusButton(if (recording) "停止录音" else "开始跟读", onToggle, modifier)
-@Composable fun RusWaveform(active: Boolean, modifier: Modifier = Modifier) { Box(modifier.fillMaxWidth().height(28.dp).border(1.dp, if (active) RusMorphColors.Primary else RusMorphColors.Outline, RoundedCornerShape(8.dp))) }
+@Composable fun RusWaveform(active: Boolean, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(32.dp)
+            .background(RusMorphColors.Surface, RoundedCornerShape(10.dp))
+            .border(1.dp, if (active) RusMorphColors.AccentOrange else RusMorphColors.Outline, RoundedCornerShape(10.dp)),
+    )
+}

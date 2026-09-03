@@ -46,17 +46,17 @@ fun SettingsScreen(
     val deckLimit by appSettings.deckLimit.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
-    Scaffold(containerColor = RusMorphColors.Canvas, topBar = { TopAppBar(title = { Text("设置") }, navigationIcon = { TextButton(onClick = onBack) { Text("返回") } }, colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.SurfaceElevated)) }) { padding ->
+    Scaffold(containerColor = RusMorphColors.Canvas, topBar = { TopAppBar(title = { Text("设置", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) }, navigationIcon = { TextButton(onClick = onBack) { Text("←", color = RusMorphColors.CarbonBlack) } }, colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas)) }) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item {
-                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) {
+                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) {
                     Column(
                         Modifier.fillMaxWidth().padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        Text("朗读样本工作台")
+                        Text("朗读样本工作台", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
                         Text(
-                            "按《大学俄语1》课号生成对话任务，录音、回放并提交人工评分。",
+                            "按教材课号生成对话任务，录音、回放并提交人工评分。",
                             color = RusMorphColors.TextSecondary,
                         )
                         Text(
@@ -70,12 +70,12 @@ fun SettingsScreen(
                 }
             }
             item {
-                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) {
+                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) {
                     Column(
                         Modifier.fillMaxWidth().padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
-                        Text("牌组上限")
+                        Text("牌组上限", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
                         Row(
                             Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -91,8 +91,8 @@ fun SettingsScreen(
                     }
                 }
             }
-            item { Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) { Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Column(Modifier.weight(1f)) { Text("AI 请求诊断"); Text("记录接口阶段、状态码、耗时和安全错误码", color = RusMorphColors.TextSecondary) }; Switch(checked = enabled, onCheckedChange = diagnostics::setEnabled) }
+            item { Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) { Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Column(Modifier.weight(1f)) { Text("AI 请求诊断", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold); Text("记录接口阶段、状态码、耗时和安全错误码", color = RusMorphColors.TextSecondary) }; Switch(checked = enabled, onCheckedChange = diagnostics::setEnabled) }
                 Text("默认关闭；开启后仅保留本机当前会话数据，不含问题、回答或密钥。", color = RusMorphColors.TextTertiary)
                 if (enabled) OutlinedButton(onClick = { scope.launch { agentRepository.checkWorkerConnection() } }) { Text("测试 Worker 连接") }
             } } }

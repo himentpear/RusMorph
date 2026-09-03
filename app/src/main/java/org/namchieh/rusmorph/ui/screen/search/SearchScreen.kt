@@ -68,8 +68,8 @@ fun SearchScreen(
         modifier = modifier,
         containerColor = RusMorphColors.Canvas,
         topBar = { TopAppBar(title = { Text("词典", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) }, actions = {
-            TextButton(onClick = { showFilters = true }) { Text("筛选") }
-            TextButton(onClick = onSettingsClick) { Text("设置") }
+            TextButton(onClick = { showFilters = true }) { Text("筛选", color = RusMorphColors.CarbonBlack) }
+            TextButton(onClick = onSettingsClick) { Text("设置", color = RusMorphColors.TextSecondary) }
         }, colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas)) },
         bottomBar = { RusMorphBottomBar(selectedDestination, onBottomDestination) },
     ) { padding ->
@@ -77,15 +77,29 @@ fun SearchScreen(
             Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            RusSectionTitle("Dictionary", "本地词典 · 离线可用")
+            RusSectionTitle("本地词典", "离线可用 · 收录大学俄语一、二册")
             RusSearchBar(controls.query, viewModel::setQuery, { if (controls.query.isCommand()) onCommandClick(controls.query) })
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = {
-                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) toggleRecording()
-                    else permission.launch(Manifest.permission.RECORD_AUDIO)
-                }) { Text(if (voice.status == VoiceInputStatus.Recording) "停止录音" else "语音输入") }
-                OutlinedButton(onClick = onPronunciationClick) { Text("自由朗读") }
-                OutlinedButton(onClick = { onCommandClick(null) }) { Text("✦ AI") }
+                OutlinedButton(
+                    onClick = {
+                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) toggleRecording()
+                        else permission.launch(Manifest.permission.RECORD_AUDIO)
+                    },
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = if (voice.status == VoiceInputStatus.Recording) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack,
+                    ),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, if (voice.status == VoiceInputStatus.Recording) RusMorphColors.AccentOrange else RusMorphColors.Outline),
+                ) { Text(if (voice.status == VoiceInputStatus.Recording) "停止录音" else "语音输入") }
+                OutlinedButton(
+                    onClick = onPronunciationClick,
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = RusMorphColors.CarbonBlack),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline),
+                ) { Text("自由朗读") }
+                OutlinedButton(
+                    onClick = { onCommandClick(null) },
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = RusMorphColors.CarbonBlack),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline),
+                ) { Text("✦ AI 问答") }
             }
             VoiceStatus(voice.status, voice.candidate, voice.message, viewModel::confirmVoiceCandidate, viewModel::cancelVoiceRecording)
             SearchContent(state, onEntryClick, viewModel::retrySearch, Modifier.fillMaxWidth())
@@ -127,8 +141,8 @@ private fun SearchUiState.visibleEntries(): List<LexiconEntryWithDetails> = when
 internal fun SearchContent(state: SearchUiState, onEntryClick: (String) -> Unit, onRetry: () -> Unit, modifier: Modifier = Modifier) {
     val entries = state.visibleEntries()
     when {
-        state.isLoading -> Box(modifier.padding(36.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-        state.hasSearchError || state.browseInconsistent -> Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) { RusEmptyState("本地词典暂不可用", "数据仍保留在设备中，请重试"); TextButton(onClick = onRetry) { Text("重试") } }
+        state.isLoading -> Box(modifier.padding(36.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = RusMorphColors.CarbonBlack) }
+        state.hasSearchError || state.browseInconsistent -> Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) { RusEmptyState("本地词典暂不可用", "数据仍保留在设备中，请重试"); TextButton(onClick = onRetry) { Text("重试", color = RusMorphColors.CarbonBlack) } }
         state.controls.query.isNotBlank() && entries.isEmpty() -> RusEmptyState("未找到匹配词条", "可以更换拼写、词形或中文释义")
         entries.isEmpty() -> RusEmptyState("开始查词", "输入俄语词形或中文释义")
         else -> Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {

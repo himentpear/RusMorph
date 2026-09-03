@@ -120,4 +120,21 @@ describe("Workers AI speech routes", () => {
     const response = await route(new Request("https://worker.test/api/asr/transcribe", { method: "POST", body: form }), { MAX_AUDIO_BYTES: "1024", AI: { run: async () => whisperResult() } }, allow);
     expect(response.status).toBe(413);
   });
+
+  it("reliably scores single-word pronunciation and slight vowel variations", async () => {
+    const exactEnv: Env = { AI: { run: async () => transcriptionResult("студент", ["студент"]) } };
+    const exactResp = await route(multipart({ target_text: "студент", difficulty: "beginner" }), exactEnv, allow);
+    expect(exactResp.status).toBe(200);
+    const exactBody = await exactResp.json() as { score_available: boolean; overall_score: number; words: any[] };
+    expect(exactBody.score_available).toBe(true);
+    expect(exactBody.overall_score).toBeGreaterThanOrEqual(90);
+
+    const closeEnv: Env = { AI: { run: async () => transcriptionResult("стадент", ["стадент"]) } };
+    const closeResp = await route(multipart({ target_text: "студент", difficulty: "beginner" }), closeEnv, allow);
+    expect(closeResp.status).toBe(200);
+    const closeBody = await closeResp.json() as { score_available: boolean; overall_score: number; words: any[] };
+    expect(closeBody.score_available).toBe(true);
+    expect(closeBody.overall_score).toBeGreaterThanOrEqual(75);
+    expect(closeBody.words[0].score).toBeGreaterThanOrEqual(75);
+  });
 });

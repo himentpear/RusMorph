@@ -47,9 +47,9 @@ fun LocalExplanationScreen(
         containerColor = RusMorphColors.Canvas,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.local_explanation)) },
-                navigationIcon = { TextButton(onClick = onBack) { Text(stringResource(R.string.back)) } },
-                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.SurfaceElevated),
+                title = { Text(stringResource(R.string.local_explanation), fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) },
+                navigationIcon = { TextButton(onClick = onBack) { Text("←", color = RusMorphColors.CarbonBlack) } },
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas),
             )
         },
     ) { padding ->
@@ -78,7 +78,7 @@ private fun ExplanationContent(explanation: LocalExplanationUiState, modifier: M
         item {
             Text(stringResource(knowledgeCategoryLabel(explanation.category)),
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary)
+                color = RusMorphColors.AccentOrange)
         }
         explanation.content.split(Regex("\\n\\s*\\n")).filter(String::isNotBlank).forEachIndexed { index, paragraph ->
             item(key = "paragraph-$index") {
@@ -114,7 +114,7 @@ private fun SectionHeading(text: String) {
 @Composable
 private fun CenteredProgress(modifier: Modifier) {
     Column(modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) { CircularProgressIndicator() }
+        verticalArrangement = Arrangement.Center) { CircularProgressIndicator(color = RusMorphColors.CarbonBlack) }
 }
 
 @Composable

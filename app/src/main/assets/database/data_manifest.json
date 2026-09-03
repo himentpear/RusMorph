@@ -20,29 +20,29 @@
   "configurationFiles": [
     {
       "name": "part_of_speech_aliases.json",
-      "sha256": "e3f2dde2e9ce5a43692c9094f34a1aabb1be45c1f010765e8d9d2b91a2794411",
-      "size": 28
+      "sha256": "d61fa5b4ebd18339111784d6f42e0dd8d997a9600a50c43fcd51b8d29a3adfdf",
+      "size": 31
     },
     {
       "name": "knowledge_association_rules.json",
-      "sha256": "4bb1d0725c3fbdd697a853ea6dff338165ba483f33fd8bc4ea02533c6f7cfe24",
-      "size": 1656
+      "sha256": "ba3f1057bb3fcd8e46d22bc65f49c4ac510a226c4a136602c9151442de7d573a",
+      "size": 1711
     },
     {
       "name": "russian_prefixes.json",
-      "sha256": "fcfbee48f3b361705bc7c271367818f1b3a630ce30024f39af8e8b00b3706fff",
-      "size": 281
+      "sha256": "7c8758d73d9352aa1a3868d513c556587464d701180e7a2230b04cbae6073874",
+      "size": 288
     },
     {
       "name": "knowledge_overrides.json",
-      "sha256": "66761b1102cd41602bedf121feb6694395f89e7bb3e6ef29d819a8c724e0a577",
-      "size": 49
+      "sha256": "34da8f28b4fec1f258f5affdcf8cff35123b5e693056349c7ef97bdc4f7daf7a",
+      "size": 53
     }
   ],
-  "generatedAt": "2026-08-11T06:40:52.561155+00:00",
+  "generatedAt": "2026-09-03T07:28:59.778134+00:00",
   "generatorVersion": "1.0.0",
   "normalizationVersion": "1",
-  "dataVersion": "c481300d8f70a4ed1852fef46e43eaad2a0744996af4aac94ab04a6c660e194e",
+  "dataVersion": "570b090b71c249791e611ed10dd3e64b82b7a57a7febcc53de842b8eb205519e",
   "counts": {
     "entries": 1929,
     "searchForms": 2138,

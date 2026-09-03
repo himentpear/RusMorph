@@ -99,9 +99,9 @@ fun MorphologyTag(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun PhysicalCardSurface(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
-        modifier.shadow(10.dp, WordCardShape, ambientColor = RusMorphColors.ShadowWarm, spotColor = RusMorphColors.ShadowWarm)
-            .background(RusMorphColors.SurfaceElevated, WordCardShape)
-            .border(1.5.dp, RusMorphColors.Primary, WordCardShape)
+        modifier
+            .background(RusMorphColors.Surface, WordCardShape)
+            .border(1.dp, RusMorphColors.Outline, WordCardShape)
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
         content = content,
@@ -112,22 +112,22 @@ fun PhysicalCardSurface(modifier: Modifier = Modifier, content: @Composable Colu
 fun WordCardFront(data: TerminalCardData, onOpen: (() -> Unit)? = null, onSave: (() -> Unit)? = null, onFlip: (() -> Unit)? = null, modifier: Modifier = Modifier) {
     PhysicalCardSurface(modifier) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            TerminalLabel(data.partsOfSpeech.firstOrNull() ?: "词条", color = RusMorphColors.Primary)
-            TerminalLabel(data.lesson?.let { "L$it" } ?: data.id.takeLast(6), color = RusMorphColors.Secondary)
+            TerminalLabel(data.partsOfSpeech.firstOrNull() ?: "词条", color = RusMorphColors.CarbonBlack)
+            TerminalLabel(data.lesson?.let { "第 $it 课" } ?: data.id.takeLast(6), color = RusMorphColors.AccentOrange)
         }
-        Box(Modifier.fillMaxWidth().height(3.dp).background(RusMorphColors.SecondaryContainer))
+        Box(Modifier.fillMaxWidth().height(2.dp).background(RusMorphColors.AccentOrange))
         Text(data.word, style = MaterialTheme.typography.displayMedium.copy(fontFamily = FontFamily.Serif), color = RusMorphColors.TextPrimary, maxLines = 2, overflow = TextOverflow.Visible)
         data.meaning?.let { Text(it, style = MaterialTheme.typography.titleLarge, color = RusMorphColors.TextSecondary) }
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             (data.partsOfSpeech + data.morphology).distinct().take(6).forEach { MorphologyTag(it) }
         }
         if (data.analysis.isNotEmpty()) Text(data.analysis.take(2).joinToString(" · ") { "${it.first} ${it.second}" }, style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextSecondary)
-        HorizontalDivider(color = RusMorphColors.Divider)
+        HorizontalDivider(color = RusMorphColors.Divider, thickness = 1.dp)
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            if (onSave != null) TextButton(onClick = onSave, modifier = Modifier.heightIn(min = 48.dp)) { Text("收藏") }
-            if (onOpen != null) TextButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) { Text("详情") }
+            if (onSave != null) TextButton(onClick = onSave, modifier = Modifier.heightIn(min = 48.dp)) { Text("收藏", color = RusMorphColors.CarbonBlack) }
+            if (onOpen != null) TextButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) { Text("详情", color = RusMorphColors.CarbonBlack) }
             Spacer(Modifier.weight(1f))
-            if (onFlip != null) TextButton(onClick = onFlip, modifier = Modifier.heightIn(min = 48.dp).semantics { contentDescription = "查看卡片背面" }) { Text("翻面  ↻") }
+            if (onFlip != null) TextButton(onClick = onFlip, modifier = Modifier.heightIn(min = 48.dp).semantics { contentDescription = "查看卡片背面" }) { Text("翻面  ↻", color = RusMorphColors.CarbonBlack) }
         }
     }
 }
@@ -135,7 +135,7 @@ fun WordCardFront(data: TerminalCardData, onOpen: (() -> Unit)? = null, onSave: 
 @Composable
 fun WordCardBack(data: TerminalCardData, onFlip: () -> Unit, modifier: Modifier = Modifier) {
     PhysicalCardSurface(modifier) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { TerminalLabel("分析", color = RusMorphColors.Primary); TerminalLabel(data.word, color = RusMorphColors.Secondary) }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { TerminalLabel("形态分析", color = RusMorphColors.CarbonBlack); TerminalLabel(data.word, color = RusMorphColors.AccentOrange) }
         if (data.analysis.isEmpty()) Text("暂无扩展资料", style = MaterialTheme.typography.bodyLarge, color = RusMorphColors.TextSecondary)
         data.analysis.forEach { (label, value) ->
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) { TerminalLabel(label); Text(value, style = MaterialTheme.typography.bodyMedium) }
@@ -168,7 +168,7 @@ fun FlippableWordCard(data: TerminalCardData, modifier: Modifier = Modifier, onO
 @Composable
 fun CardPageIndicator(current: Int, total: Int, modifier: Modifier = Modifier) {
     Row(modifier.semantics { contentDescription = "第 ${current + 1} 张，共 $total 张" }, horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (total <= 10) repeat(total) { index -> Box(Modifier.size(width = if (index == current) 20.dp else 6.dp, height = 6.dp).background(if (index == current) RusMorphColors.Secondary else RusMorphColors.OutlineSoft, MaterialTheme.shapes.small)) }
+        if (total <= 10) repeat(total) { index -> Box(Modifier.size(width = if (index == current) 20.dp else 6.dp, height = 6.dp).background(if (index == current) RusMorphColors.AccentOrange else RusMorphColors.Outline, MaterialTheme.shapes.small)) }
         Text("${current + 1} / $total", style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextSecondary)
     }
 }

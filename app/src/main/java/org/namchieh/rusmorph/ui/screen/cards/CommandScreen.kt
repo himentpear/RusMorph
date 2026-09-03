@@ -43,7 +43,7 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                     CommandUiState.Sending -> TerminalLoadingState("正在理解命令、检索本地词库并整理卡片", Modifier.fillMaxWidth())
                     is CommandUiState.Error -> TerminalMessageState("AI 暂不可用", commandErrorMessage(current.error), Modifier.fillMaxWidth())
                     is CommandUiState.Content -> {
-                        current.localMessage?.let { TerminalPanel(Modifier.fillMaxWidth()) { TerminalLabel("LOCAL ACTION"); Text(it, color = RusMorphColors.Primary) } }
+                        current.localMessage?.let { TerminalPanel(Modifier.fillMaxWidth()) { TerminalLabel("本地操作", color = RusMorphColors.AccentOrange); Text(it, color = RusMorphColors.CarbonBlack) } }
                         AiThoughtAndReplyPanel(
                             thinking = current.response.thinkingSummary,
                             reply = current.response.plainAnswer ?: current.response.clarification,
@@ -52,7 +52,7 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                         current.response.card?.let { card -> WordCardView(card, { viewModel.saveCard(card) }, Modifier.align(Alignment.CenterHorizontally).widthIn(max = RusMorphComponentTokens.CardMaxWidth)) }
                         current.response.deck?.let { deck ->
                             TerminalPanel(Modifier.fillMaxWidth()) {
-                                TerminalLabel("${deck.cards.size} 张", color = RusMorphColors.Secondary)
+                                TerminalLabel("${deck.cards.size} 张", color = RusMorphColors.AccentOrange)
                                 Text(deck.title, style = MaterialTheme.typography.headlineMedium)
                                 RusMorphPrimaryButton("保存卡组", { viewModel.saveDeck(deck) })
                             }

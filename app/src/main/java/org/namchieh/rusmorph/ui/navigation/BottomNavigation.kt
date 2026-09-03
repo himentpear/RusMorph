@@ -1,5 +1,6 @@
 package org.namchieh.rusmorph.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -21,22 +22,25 @@ enum class BottomDestination(val label: String, val symbol: String, val route: S
 
 @Composable
 fun RusMorphBottomBar(selected: BottomDestination, onSelect: (BottomDestination) -> Unit, modifier: Modifier = Modifier) {
-    NavigationBar(modifier = modifier, containerColor = RusMorphColors.Surface, tonalElevation = 0.dp) {
-        BottomDestination.entries.forEach { destination ->
-            NavigationBarItem(
-                selected = destination == selected,
-                onClick = { onSelect(destination) },
-                icon = { Text(destination.symbol) },
-                label = { Text(destination.label) },
-                modifier = Modifier.semantics { contentDescription = destination.label },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = RusMorphColors.Primary,
-                    selectedTextColor = RusMorphColors.Primary,
-                    indicatorColor = RusMorphColors.PrimaryContainer,
-                    unselectedIconColor = RusMorphColors.TextTertiary,
-                    unselectedTextColor = RusMorphColors.TextTertiary,
-                ),
-            )
+    androidx.compose.foundation.layout.Column(modifier.fillMaxWidth()) {
+        androidx.compose.material3.HorizontalDivider(color = RusMorphColors.Outline, thickness = 1.dp)
+        NavigationBar(containerColor = RusMorphColors.Surface, tonalElevation = 0.dp) {
+            BottomDestination.entries.forEach { destination ->
+                NavigationBarItem(
+                    selected = destination == selected,
+                    onClick = { onSelect(destination) },
+                    icon = { Text(destination.symbol) },
+                    label = { Text(destination.label, style = org.namchieh.rusmorph.ui.theme.RusMorphTechTypography.MicroPill) },
+                    modifier = Modifier.semantics { contentDescription = destination.label },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = RusMorphColors.CarbonBlack,
+                        selectedTextColor = RusMorphColors.CarbonBlack,
+                        indicatorColor = RusMorphColors.WarmCream,
+                        unselectedIconColor = RusMorphColors.TextTertiary,
+                        unselectedTextColor = RusMorphColors.TextTertiary,
+                    ),
+                )
+            }
         }
     }
 }

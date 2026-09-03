@@ -14,3 +14,5 @@ val RusMorphShapes = Shapes(
 
 val HeroSearchShape = RoundedCornerShape(24.dp)
 val WordCardShape = RoundedCornerShape(20.dp)
+val TechCardShape = RoundedCornerShape(22.dp)
+val PillShape = RoundedCornerShape(50)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -37,17 +38,16 @@ fun TerminalBackground(modifier: Modifier = Modifier, content: @Composable BoxSc
 
 @Composable
 fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = RusMorphColors.TextTertiary) {
-    Text(text.uppercase(), modifier, style = MaterialTheme.typography.labelSmall, color = color)
+    Text(text.uppercase(), modifier, style = RusMorphTechTypography.MicroPill, color = color)
 }
 
 @Composable
 fun TerminalPanel(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = modifier
-            .shadow(5.dp, MaterialTheme.shapes.large, ambientColor = RusMorphColors.ShadowWarm, spotColor = RusMorphColors.ShadowWarm)
-            .background(RusMorphColors.SurfaceElevated, MaterialTheme.shapes.large)
-            .border(1.dp, RusMorphColors.OutlineSoft, MaterialTheme.shapes.large)
-            .padding(20.dp),
+            .background(RusMorphColors.Surface, TechCardShape)
+            .border(1.dp, RusMorphColors.Outline, TechCardShape)
+            .padding(18.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         content = content,
     )
@@ -59,8 +59,8 @@ fun RusMorphPrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier 
         onClick = onClick,
         modifier = modifier.heightIn(min = 48.dp),
         enabled = enabled,
-        shape = RoundedCornerShape(14.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = RusMorphColors.Primary, contentColor = RusMorphColors.TextOnDark),
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = RusMorphColors.CarbonBlack, contentColor = RusMorphColors.TextOnDark),
         contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp),
     ) { Text(text, style = MaterialTheme.typography.labelLarge) }
 }
@@ -69,9 +69,9 @@ fun RusMorphPrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier 
 fun TerminalLoadingState(label: String, modifier: Modifier = Modifier) {
     Column(modifier.padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            repeat(3) { index -> Box(Modifier.size(width = 22.dp, height = 4.dp).background(if (index == 0) RusMorphColors.Secondary else RusMorphColors.OutlineSoft)) }
+            repeat(3) { index -> Box(Modifier.size(width = 22.dp, height = 4.dp).background(if (index == 0) RusMorphColors.AccentOrange else RusMorphColors.OutlineSoft, CircleShape)) }
         }
-        TerminalLabel(label)
+        TerminalLabel(label, color = RusMorphColors.TextSecondary)
     }
 }
 
