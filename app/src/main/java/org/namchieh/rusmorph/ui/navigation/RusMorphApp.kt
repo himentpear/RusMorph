@@ -90,16 +90,35 @@ fun RusMorphApp(application: RusMorphApplication) {
                     onContinue = { course, lesson -> navController.navigate(Routes.lesson(course, lesson)) },
                     onDictionary = { selectBottom(BottomDestination.Dictionary) },
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
-                    onCourses = { selectBottom(BottomDestination.Courses) },
+                    onCourses = { selectBottom(BottomDestination.Tools) },
                     onReview = { selectBottom(BottomDestination.Review) },
                     onBottom = ::selectBottom,
                     onAI = { navController.navigate(Routes.Commands) },
                 )
             }
+            composable(Routes.Tools) {
+                val vm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
+                val state by vm.state.collectAsState()
+                org.namchieh.rusmorph.ui.screen.tools.ToolsScreen(
+                    coursesState = state,
+                    onCourse = { navController.navigate(Routes.course(it)) },
+                    onPronunciation = { navController.navigate(Routes.Pronunciation) },
+                    onAiCommands = { navController.navigate(Routes.Commands) },
+                    onSettings = { navController.navigate(Routes.Settings) },
+                    onBottom = ::selectBottom,
+                )
+            }
             composable(Routes.Courses) {
                 val vm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
                 val state by vm.state.collectAsState()
-                CoursesScreen(state, { navController.navigate(Routes.course(it)) }, ::selectBottom)
+                org.namchieh.rusmorph.ui.screen.tools.ToolsScreen(
+                    coursesState = state,
+                    onCourse = { navController.navigate(Routes.course(it)) },
+                    onPronunciation = { navController.navigate(Routes.Pronunciation) },
+                    onAiCommands = { navController.navigate(Routes.Commands) },
+                    onSettings = { navController.navigate(Routes.Settings) },
+                    onBottom = ::selectBottom,
+                )
             }
             composable(Routes.Dictionary) {
                 val factory = remember(application) { viewModelFactory { initializer { SearchViewModel(application.searchRepository, application.dataInitializer, createSavedStateHandle(), application.speechRepository) } } }

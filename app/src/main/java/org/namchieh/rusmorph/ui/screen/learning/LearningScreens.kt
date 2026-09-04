@@ -4,6 +4,8 @@ import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -180,6 +182,7 @@ fun HomeScreen(
     onPronunciation: () -> Unit, onCourses: () -> Unit, onReview: () -> Unit,
     onBottom: (BottomDestination) -> Unit, onAI: () -> Unit,
 ) {
+    var selectedCourseId by remember { mutableStateOf<String?>(null) }
     LearningScaffold("学习首页", BottomDestination.Home, onBottom, onAI = onAI) { root ->
         Column(
             root.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 14.dp),
@@ -284,37 +287,87 @@ fun HomeScreen(
                 }
             }
 
-            // Continue learning course card
+            // Continue learning course card with course selector
             when (coursesState) {
                 Loadable.Loading -> Box(Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = RusMorphColors.CarbonBlack) }
                 is Loadable.Error -> RusEmptyState("课程暂不可用", coursesState.message)
                 is Loadable.Content -> {
+                    val allCourses = coursesState.value
                     val latestActive = progress.firstOrNull { it.lessonId != null }
-                    val course = coursesState.value.firstOrNull { it.id == latestActive?.courseId } ?: coursesState.value.firstOrNull()
-                    if (course != null) {
-                        val latest = progress.firstOrNull { it.courseId == course.id && it.lessonId != null }
-                        RusCard(
-                            Modifier.fillMaxWidth(),
-                            onClick = { latest?.lessonId?.let { onContinue(course.id, it) } ?: onCourse(course.id) },
-                        ) {
-                            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    val currentCourse = allCourses.firstOrNull { it.id == selectedCourseId }
+                        ?: allCourses.firstOrNull { it.id == latestActive?.courseId }
+                        ?: allCourses.firstOrNull()
+
+                    if (currentCourse != null) {
+                        val latest = progress.firstOrNull { it.courseId == currentCourse.id && it.lessonId != null }
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            // 课程选择切换胶囊
+                            if (allCourses.size > 1) {
                                 Row(
-                                    Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .horizontalScroll(rememberScrollState()),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    RusPillBadge("当前课次", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-                                    Text(
-                                        latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
-                                        style = RusMorphTechTypography.SmallDigit,
-                                        color = RusMorphColors.AccentOrange,
-                                    )
+                                    allCourses.forEach { c ->
+                                        val isSelected = c.id == currentCourse.id
+                                        Surface(
+                                            shape = RoundedCornerShape(16.dp),
+                                            color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.Surface,
+                                            contentColor = if (isSelected) RusMorphColors.WarmCream else RusMorphColors.TextSecondary,
+                                            border = androidx.compose.foundation.BorderStroke(
+                                                1.dp,
+                                                if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
+                                            ),
+                                            modifier = Modifier.clickable { selectedCourseId = c.id },
+                                        ) {
+                                            Text(
+                                                text = c.title,
+                                                style = RusMorphTechTypography.MicroPill,
+                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                            )
+                                        }
+                                    }
                                 }
-                                Text(course.title, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                RusProgressBar(latest?.progress ?: 0f)
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                    Text("继续上次课次", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
-                                    Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
+                            }
+
+                            RusCard(
+                                Modifier.fillMaxWidth(),
+                                onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it) } ?: onCourse(currentCourse.id) },
+                            ) {
+                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    Row(
+                                        Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                            RusPillBadge("当前课次", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                                            Text(
+                                                latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
+                                                style = RusMorphTechTypography.SmallDigit,
+                                                color = RusMorphColors.AccentOrange,
+                                            )
+                                        }
+                                        Text(
+                                            "课次目录 ›",
+                                            style = RusMorphTechTypography.MicroPill,
+                                            color = RusMorphColors.TextTertiary,
+                                            modifier = Modifier.clickable { onCourse(currentCourse.id) },
+                                        )
+                                    }
+                                    Text(currentCourse.title, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                                    RusProgressBar(latest?.progress ?: 0f)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            text = if ((latest?.progress ?: 0f) > 0f) "已研习 ${((latest?.progress ?: 0f) * 100).toInt()}% · 继续课次" else "尚未开始 · 进入学习",
+                                            style = RusMorphTechTypography.MicroPill,
+                                            color = RusMorphColors.TextSecondary,
+                                        )
+                                        Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
+                                    }
                                 }
                             }
                         }
@@ -326,7 +379,7 @@ fun HomeScreen(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 RusButton("查词", onDictionary, Modifier.weight(1f), isSecondary = true)
                 RusButton("自由朗读", onPronunciation, Modifier.weight(1f), isSecondary = true)
-                RusButton("课程", onCourses, Modifier.weight(1f), isSecondary = false)
+                RusButton("工具箱", onCourses, Modifier.weight(1f), isSecondary = false)
             }
         }
     }
@@ -334,7 +387,7 @@ fun HomeScreen(
 
 @Composable
 fun CoursesScreen(state: Loadable<List<Course>>, onCourse: (String) -> Unit, onBottom: (BottomDestination) -> Unit) {
-    LearningScaffold("课程", BottomDestination.Courses, onBottom) { root ->
+    LearningScaffold("课程", BottomDestination.Tools, onBottom) { root ->
         ContentColumn(root) {
             RusSectionTitle("我的课程", "按课程与课次组织长期学习")
             when (state) {
