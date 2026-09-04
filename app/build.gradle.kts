@@ -208,7 +208,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 3
-        versionName = "0.3.0"
+        versionName = "0.003"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "AGENT_PROXY_BASE_URL", "".asBuildConfigString())
