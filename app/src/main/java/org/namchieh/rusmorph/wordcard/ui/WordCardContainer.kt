@@ -51,6 +51,7 @@ fun WordCardContainer(
     onFollowAlong: () -> Unit,
     onReviewResult: (ReviewResult) -> Unit,
     onOpenAiWorkspace: () -> Unit,
+    onNavigateToRule: ((category: String, ruleId: String) -> Unit)? = null,
     onSwipeUpExpand: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -195,6 +196,7 @@ fun WordCardContainer(
                         onReviewResult = onReviewResult,
                         onOpenAiWorkspace = onOpenAiWorkspace,
                         onPlayAudio = onPlayAudio,
+                        onNavigateToRule = onNavigateToRule,
                         onFlip = { isFlipped = false },
                     )
                 }

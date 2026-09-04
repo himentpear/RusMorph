@@ -32,6 +32,7 @@ fun WordCardBack(
     onOpenAiWorkspace: () -> Unit,
     onPlayAudio: () -> Unit,
     onFlip: () -> Unit,
+    onNavigateToRule: ((category: String, ruleId: String) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     var isMorphologyExpanded by remember { mutableStateOf(false) }
@@ -125,18 +126,65 @@ fun WordCardBack(
 
             // 3. 形态概览 (Morphology Summary)
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("形态特征", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                Text("形态特征与分类", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
                 when (val m = lexeme.morphology) {
                     is Lexeme.MorphologyInfo.Noun -> {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            if (m.declensionType.isNotBlank()) Text("变格法: ${m.declensionType}", style = MaterialTheme.typography.bodySmall)
-                            if (m.stem.isNotBlank()) Text("词干: ${m.stem}", style = MaterialTheme.typography.bodySmall)
+                        val (ruleId, ruleLabel) = determineNounRuleTarget(lexeme.lemma, lexeme.basic.gender)
+                        val animacyText = when (lexeme.basic.animacy) {
+                            true -> "👤 有生命"
+                            false -> "📦 无生命"
+                            null -> null
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Text("类型: $ruleLabel", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                                if (animacyText != null) {
+                                    Text("· $animacyText", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
+                                }
+                            }
+                            if (m.declensionType.isNotBlank()) {
+                                Text(m.declensionType, style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                            }
+                        }
+                        if (onNavigateToRule != null) {
+                            Text(
+                                text = "查看 $ruleLabel 变格规则 →",
+                                style = RusMorphTechTypography.MicroPill,
+                                color = RusMorphColors.AccentOrange,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.clickable { onNavigateToRule("NOUN", ruleId) }.padding(vertical = 2.dp),
+                            )
                         }
                     }
                     is Lexeme.MorphologyInfo.Verb -> {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            if (m.conjugationType.isNotBlank()) Text("变位法: ${m.conjugationType}", style = MaterialTheme.typography.bodySmall)
-                            if (m.aspectPair != null) Text("对应体: ${m.aspectPair}", style = MaterialTheme.typography.bodySmall)
+                        val isSecond = m.conjugationType.contains("2") || m.conjugationType.contains("二") || lexeme.lemma.trim().lowercase().replace("\u0301", "").endsWith("ить")
+                        val verbRuleId = if (isSecond) "verb_second" else "verb_first"
+                        val verbRuleLabel = if (isSecond) "第二变位" else "第一变位"
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("变位: $verbRuleLabel", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                            if (m.aspectPair != null) {
+                                Text("对应体: → ${m.aspectPair}", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentBlue)
+                            }
+                        }
+                        if (onNavigateToRule != null) {
+                            Text(
+                                text = "查看 $verbRuleLabel 规则 →",
+                                style = RusMorphTechTypography.MicroPill,
+                                color = RusMorphColors.AccentOrange,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.clickable { onNavigateToRule("VERB", verbRuleId) }.padding(vertical = 2.dp),
+                            )
+                        }
+                    }
+                    is Lexeme.MorphologyInfo.Adjective -> {
+                        if (onNavigateToRule != null) {
+                            Text(
+                                text = "查看形容词变格规则 →",
+                                style = RusMorphTechTypography.MicroPill,
+                                color = RusMorphColors.AccentOrange,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.clickable { onNavigateToRule("ADJECTIVE", "adj_hard") }.padding(vertical = 2.dp),
+                            )
                         }
                     }
                     else -> {}
@@ -263,5 +311,29 @@ fun ReviewActionBar(
         ) {
             Text("已掌握 →", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold)
         }
+    }
+}
+
+/**
+ * 根据词尾与性属匹配规则表中的名词分类 ID 与标签
+ */
+private fun determineNounRuleTarget(lemma: String, gender: Gender?): Pair<String, String> {
+    val clean = lemma.trim().lowercase().replace("\u0301", "")
+    return when {
+        clean.endsWith("ия") -> "noun_fem_iya" to "-ия 型阴性"
+        clean.endsWith("ие") -> "noun_neut_ie" to "-ие 型中性"
+        clean.endsWith("а") -> "noun_fem_a" to "-а 型阴性"
+        clean.endsWith("я") -> "noun_fem_ya" to "-я 型阴性"
+        clean.endsWith("о") -> "noun_neut_o" to "-о 型中性"
+        clean.endsWith("е") || clean.endsWith("ё") -> "noun_neut_e" to "-е 型中性"
+        clean.endsWith("й") -> "noun_masc_j" to "-й 型阳性"
+        clean.endsWith("ь") -> {
+            if (gender == Gender.MASCULINE) {
+                "noun_masc_soft" to "-ь 阳性"
+            } else {
+                "noun_fem_soft" to "-ь 阴性"
+            }
+        }
+        else -> "noun_masc_hard" to "辅音结尾阳性"
     }
 }

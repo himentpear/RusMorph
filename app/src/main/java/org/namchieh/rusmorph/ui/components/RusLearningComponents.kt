@@ -91,12 +91,13 @@ fun RusCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     backgroundColor: Color = RusMorphColors.Surface,
+    border: BorderStroke = BorderStroke(1.dp, RusMorphColors.Outline),
     content: @Composable () -> Unit,
 ) {
     Card(
         modifier = modifier.then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        border = BorderStroke(1.dp, RusMorphColors.Outline),
+        border = border,
         shape = TechCardShape,
     ) {
         Box(Modifier.padding(18.dp)) { content() }

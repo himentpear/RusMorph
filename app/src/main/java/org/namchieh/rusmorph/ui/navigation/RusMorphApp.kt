@@ -105,6 +105,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
                     onSettings = { navController.navigate(Routes.Settings) },
+                    onNavigateToRules = { navController.navigate(Routes.MorphologyRules) },
                     onBottom = ::selectBottom,
                 )
             }
@@ -117,6 +118,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
                     onSettings = { navController.navigate(Routes.Settings) },
+                    onNavigateToRules = { navController.navigate(Routes.MorphologyRules) },
                     onBottom = ::selectBottom,
                 )
             }
@@ -241,7 +243,43 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.WordPattern, listOf(navArgument("entryId") { type = NavType.StringType })) {
                 val vm: WordDetailViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { val handle = createSavedStateHandle(); WordDetailViewModel(application.searchRepository, checkNotNull(handle["entryId"]), application.speechRepository, application.learningRepository) } } })
-                WordDetailScreen(vm, navController::navigateUp, { navController.navigate(Routes.explanation(it)) }, { id, type -> navController.navigate(Routes.agent(id, type)) })
+                WordDetailScreen(
+                    viewModel = vm,
+                    onBack = navController::navigateUp,
+                    onExplanationClick = { navController.navigate(Routes.explanation(it)) },
+                    onAgentClick = { id, type -> navController.navigate(Routes.agent(id, type)) },
+                    onNavigateToRule = { category, ruleId -> navController.navigate(Routes.morphologyRules(category, ruleId)) },
+                )
+            }
+            composable(
+                route = Routes.MorphologyRulesPattern,
+                arguments = listOf(
+                    navArgument("category") { type = NavType.StringType; nullable = true; defaultValue = null },
+                    navArgument("ruleId") { type = NavType.StringType; nullable = true; defaultValue = null },
+                ),
+                enterTransition = { fadeIn(tween(240)) },
+                exitTransition = { fadeOut(tween(120)) },
+                popEnterTransition = { fadeIn(tween(180)) },
+                popExitTransition = { fadeOut(tween(180)) },
+            ) { backStackEntry ->
+                val category = backStackEntry.arguments?.getString("category")
+                val ruleId = backStackEntry.arguments?.getString("ruleId")
+                org.namchieh.rusmorph.ui.screen.tools.MorphologyRulesScreen(
+                    initialCategory = category,
+                    initialRuleId = ruleId,
+                    onBack = navController::navigateUp,
+                )
+            }
+            composable(
+                route = Routes.MorphologyRules,
+                enterTransition = { fadeIn(tween(240)) },
+                exitTransition = { fadeOut(tween(120)) },
+                popEnterTransition = { fadeIn(tween(180)) },
+                popExitTransition = { fadeOut(tween(180)) },
+            ) {
+                org.namchieh.rusmorph.ui.screen.tools.MorphologyRulesScreen(
+                    onBack = navController::navigateUp,
+                )
             }
             composable(Routes.AgentPattern, listOf(navArgument("entryId") { type = NavType.StringType }, navArgument("questionType") { type = NavType.StringType; defaultValue = "CUSTOM" })) {
                 val vm: AgentViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { AgentViewModel(createSavedStateHandle(), application.knowledgeRetriever, application.agentContextBuilder, application.agentRepository) } } })

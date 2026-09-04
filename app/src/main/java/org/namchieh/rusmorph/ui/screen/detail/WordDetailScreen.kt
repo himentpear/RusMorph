@@ -68,6 +68,7 @@ fun WordDetailScreen(
     onBack: () -> Unit,
     onExplanationClick: (String) -> Unit,
     onAgentClick: (String, AgentQuestionType) -> Unit,
+    onNavigateToRule: ((category: String, ruleId: String) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -214,6 +215,7 @@ fun WordDetailScreen(
                 },
                 onExplanationClick = onExplanationClick,
                 onAgentClick = onAgentClick,
+                onNavigateToRule = onNavigateToRule,
                 modifier = Modifier.padding(padding),
             )
         }
@@ -233,6 +235,7 @@ private fun DetailContent(
     onClearEvaluation: () -> Unit,
     onExplanationClick: (String) -> Unit,
     onAgentClick: (String, AgentQuestionType) -> Unit,
+    onNavigateToRule: ((category: String, ruleId: String) -> Unit)? = null,
     modifier: Modifier,
 ) {
     val parts = detail.partsOfSpeech.filterVisible()
@@ -338,6 +341,7 @@ private fun DetailContent(
                     }
                 },
                 onOpenAiWorkspace = { onAgentClick(detail.id, org.namchieh.rusmorph.agent.AgentQuestionType.MORPHOLOGY) },
+                onNavigateToRule = onNavigateToRule,
             )
         }
 

@@ -27,6 +27,8 @@ object Routes {
     const val Settings = "settings"
     const val Pronunciation = "pronunciation"
     const val PronunciationPattern = "pronunciation?target={target}&type={type}&sourceId={sourceId}&lessonId={lessonId}"
+    const val MorphologyRules = "morphology-rules"
+    const val MorphologyRulesPattern = "morphology-rules?category={category}&ruleId={ruleId}"
 
     @Deprecated("Use Dictionary") const val Search = Dictionary
     @Deprecated("Use Profile") const val Mine = Profile
@@ -43,4 +45,10 @@ object Routes {
     fun explanation(chunkId: String) = "local-explanation/${Uri.encode(chunkId)}"
     fun agent(entryId: String, questionType: org.namchieh.rusmorph.agent.AgentQuestionType) = "agent/${Uri.encode(entryId)}?questionType=${questionType.name}"
     fun commands(command: String? = null) = command?.takeIf { it.isNotBlank() }?.let { "agent-commands?command=${Uri.encode(it)}" } ?: Commands
+    fun morphologyRules(category: String? = null, ruleId: String? = null): String {
+        val params = mutableListOf<String>()
+        if (!category.isNullOrBlank()) params.add("category=${Uri.encode(category)}")
+        if (!ruleId.isNullOrBlank()) params.add("ruleId=${Uri.encode(ruleId)}")
+        return if (params.isEmpty()) MorphologyRules else "$MorphologyRules?${params.joinToString("&")}"
+    }
 }
