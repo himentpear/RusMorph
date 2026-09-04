@@ -12,9 +12,12 @@ import org.namchieh.rusmorph.data.local.MistakeItemV2Entity
 import org.namchieh.rusmorph.data.local.PronunciationSessionEntity
 import org.namchieh.rusmorph.domain.learning.LearningActivity
 import org.namchieh.rusmorph.domain.learning.LearningProgress
+import org.namchieh.rusmorph.data.settings.AppSettings
+import org.namchieh.rusmorph.domain.learning.EbbinghausRetention
 import org.namchieh.rusmorph.domain.learning.MistakeItem
 import org.namchieh.rusmorph.domain.learning.PronunciationSession
 import org.namchieh.rusmorph.domain.learning.ReviewItem
+import org.namchieh.rusmorph.domain.learning.WordRetentionRecord
 
 data class LearningStats(
     val dueReviewCount: Int = 0,
@@ -23,11 +26,24 @@ data class LearningStats(
     val pronunciationCount: Int = 0,
     val activityCount: Int = 0,
     val studySeconds: Int = 0,
+    val totalWordsInReview: Int = 0,
+    val averageRetention: Float = 0.85f,
+)
+
+private data class GeneralLearningStats(
+    val favorites: Int,
+    val mistakes: Int,
+    val pronunciations: Int,
+    val activities: List<org.namchieh.rusmorph.data.local.LearningActivityEntity>,
 )
 
 class LearningRepository(private val dao: LearningDao) {
+    fun coursePrefix(courseId: String): String =
+        if (courseId == AppSettings.COURSE_2_ID || courseId.contains("2")) "ur2-" else "ur1-"
+
     fun observeProgress(): Flow<List<LearningProgress>> = dao.observeProgress().map { rows -> rows.map { it.toDomain() } }
     fun observeRecentActivities(limit: Int = 20): Flow<List<LearningActivity>> = dao.observeRecentActivities(limit).map { rows -> rows.map { it.toDomain() } }
+
     fun observeDueReviews(now: Long = System.currentTimeMillis()): Flow<List<ReviewItem>> = combine(
         dao.observeDueReviewItems(now), dao.observeLegacyDueItems(now),
     ) { generic, legacy ->
@@ -36,16 +52,134 @@ class LearningRepository(private val dao: LearningDao) {
                 it.lessonNumber?.let { number -> CourseRepository.lessonId(number) }, it.dueAt, null, null, 0, null)
         }
     }
-    fun observeStats(now: Long = System.currentTimeMillis()): Flow<LearningStats> = combine(
-        combine(dao.observeLegacyDueCount(now), dao.observeDueReviewItems(now)) { legacy, generic -> legacy + generic.size },
-        dao.observeFavoriteCount(), dao.observeMistakeCount(), dao.observePronunciationCount(), dao.observeRecentActivities(500),
-    ) { due, favorites, mistakes, pronunciations, activities ->
-        LearningStats(due, favorites, mistakes, pronunciations, activities.size, activities.sumOf { it.durationSeconds })
+
+    /**
+     * 按指定教材（第一册 / 第二册）严格物理隔离的待复习队列
+     */
+    fun observeCourseDueReviews(courseId: String, now: Long = System.currentTimeMillis()): Flow<List<ReviewItem>> {
+        val prefix = coursePrefix(courseId)
+        val isBook1 = prefix == "ur1-"
+        return combine(
+            dao.observeDueReviewItemsByPrefix(prefix, now),
+            if (isBook1) dao.observeLegacyDueItems(now) else kotlinx.coroutines.flow.flowOf(emptyList()),
+        ) { generic, legacy ->
+            generic.map { it.toDomain() } + legacy.map {
+                ReviewItem(it.id, org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD, it.sourceId,
+                    it.lessonNumber?.let { number -> CourseRepository.lessonId(number) }, it.dueAt, null, null, 0, null)
+            }
+        }
     }
+
+    /**
+     * 按指定教材严格计算的艾宾浩斯平均记忆留存率 (0.0f ~ 1.0f)
+     */
+    fun observeCourseRetention(courseId: String, now: Long = System.currentTimeMillis()): Flow<Float> {
+        val prefix = coursePrefix(courseId)
+        return dao.observeAllReviewItemsByPrefix(prefix).map { items ->
+            if (items.isEmpty()) return@map 0.85f
+            val records = items.map { item ->
+                WordRetentionRecord(
+                    entryId = item.sourceId,
+                    lastReviewAt = item.updatedAt.takeIf { it > 0L },
+                    intervalDays = (item.interval ?: 1).toDouble(),
+                    easeFactor = item.difficulty ?: 2.5,
+                    lessonId = item.lessonId,
+                )
+            }
+            EbbinghausRetention.calculateAverageRetention(records, defaultWhenEmpty = 0.85f, nowMs = now)
+        }
+    }
+
+    /**
+     * 课本隔离的统计面板流，含真实艾宾浩斯留存率与总收纳词数
+     */
+    fun observeCourseStats(courseId: String, now: Long = System.currentTimeMillis()): Flow<LearningStats> {
+        val prefix = coursePrefix(courseId)
+        val isBook1 = prefix == "ur1-"
+
+        val dueCountFlow = combine(
+            dao.observeDueReviewItemsByPrefix(prefix, now),
+            if (isBook1) dao.observeLegacyDueCount(now) else kotlinx.coroutines.flow.flowOf(0),
+        ) { generic, legacy -> generic.size + legacy }
+
+        val totalWordsFlow = dao.observeAllReviewItemsByPrefix(prefix).map { it.size }
+        val retentionFlow = observeCourseRetention(courseId, now)
+
+        val courseMetricsFlow = combine(dueCountFlow, totalWordsFlow, retentionFlow) { due, total, retention ->
+            Triple(due, total, retention)
+        }
+        val generalStatsFlow = combine(
+            dao.observeFavoriteCount(),
+            dao.observeMistakeCount(),
+            dao.observePronunciationCount(),
+            dao.observeRecentActivities(500),
+        ) { favorites, mistakes, pronunciations, activities ->
+            GeneralLearningStats(favorites, mistakes, pronunciations, activities)
+        }
+
+        return combine(courseMetricsFlow, generalStatsFlow) { (due, totalWords, retention), general ->
+            LearningStats(
+                dueReviewCount = due,
+                favoriteWordCount = general.favorites,
+                mistakeCount = general.mistakes,
+                pronunciationCount = general.pronunciations,
+                activityCount = general.activities.size,
+                studySeconds = general.activities.sumOf { it.durationSeconds },
+                totalWordsInReview = totalWords,
+                averageRetention = retention,
+            )
+        }
+    }
+
+    fun observeStats(now: Long = System.currentTimeMillis()): Flow<LearningStats> =
+        observeCourseStats(AppSettings.DEFAULT_COURSE_ID, now)
+
+    /**
+     * 监听所有已收纳进复习队列的生词 sourceId 集合，供词汇列表即时打标
+     */
+    fun observeAllReviewSourceIds(): Flow<Set<String>> =
+        dao.observeAllReviewItems().map { list -> list.map { it.sourceId }.toSet() }
 
     suspend fun saveProgress(item: LearningProgress) = dao.upsertProgress(item.toEntity())
     suspend fun recordActivity(item: LearningActivity) = dao.upsertActivity(item.toEntity())
     suspend fun addToReview(item: ReviewItem) = dao.upsertReviewItem(item.toEntity())
+
+    /**
+     * 批量将多条生词收纳至复习计划
+     */
+    suspend fun batchAddToReview(entryIds: List<String>, lessonId: String, now: Long = System.currentTimeMillis()) {
+        val entities = entryIds.map { entryId ->
+            GenericReviewItemEntity(
+                id = "word-$entryId",
+                type = "WORD",
+                sourceId = entryId,
+                lessonId = lessonId,
+                dueAt = now,
+                interval = 1,
+                difficulty = 2.5,
+                mistakeCount = 0,
+                lastResult = null,
+                updatedAt = now,
+            )
+        }
+        dao.upsertReviewItems(entities)
+    }
+
+    /**
+     * 从复习计划中移出生词
+     */
+    suspend fun removeFromReview(entryId: String) {
+        dao.deleteReviewItem("word-$entryId")
+        dao.deleteReviewItem(entryId)
+    }
+
+    /**
+     * 检查词汇是否在复习计划中
+     */
+    suspend fun isWordInReview(entryId: String): Boolean {
+        return dao.getReviewItemById("word-$entryId") != null || dao.getReviewItemById(entryId) != null
+    }
+
     suspend fun recordMistake(item: MistakeItem) = dao.upsertMistake(item.toEntity())
 
     suspend fun recordPronunciation(session: PronunciationSession) {

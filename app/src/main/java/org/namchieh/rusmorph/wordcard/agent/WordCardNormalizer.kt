@@ -124,10 +124,13 @@ object WordCardNormalizer {
 
         val morphologyInfo = when {
             primaryPos.contains("名") || e.declensionClass != null -> {
+                val (sg, pl) = org.namchieh.rusmorph.wordcard.data.NounDeclensionEngine.generate(lemma, gender)
                 Lexeme.MorphologyInfo.Noun(
                     declensionType = e.declensionClass.orEmpty(),
                     stem = e.endingType.orEmpty(),
                     stressPattern = e.pluralStressPattern.orEmpty(),
+                    singular = sg,
+                    plural = pl,
                 )
             }
             primaryPos.contains("动") || e.conjugationClass != null -> {

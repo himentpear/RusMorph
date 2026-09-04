@@ -177,12 +177,20 @@ fun LearningScaffold(
 
 @Composable
 fun HomeScreen(
-    coursesState: Loadable<List<Course>>, stats: LearningStats, progress: List<LearningProgress>,
-    onCourse: (String) -> Unit, onContinue: (String, String) -> Unit, onDictionary: () -> Unit,
-    onPronunciation: () -> Unit, onCourses: () -> Unit, onReview: () -> Unit,
-    onBottom: (BottomDestination) -> Unit, onAI: () -> Unit,
+    coursesState: Loadable<List<Course>>,
+    stats: LearningStats,
+    progress: List<LearningProgress>,
+    selectedCourseId: String? = null,
+    onSelectCourse: (String) -> Unit = {},
+    onCourse: (String) -> Unit,
+    onContinue: (String, String) -> Unit,
+    onDictionary: () -> Unit,
+    onPronunciation: () -> Unit,
+    onCourses: () -> Unit = {},
+    onReview: () -> Unit,
+    onBottom: (BottomDestination) -> Unit,
+    onAI: () -> Unit,
 ) {
-    var selectedCourseId by remember { mutableStateOf<String?>(null) }
     LearningScaffold("学习首页", BottomDestination.Home, onBottom, onAI = onAI) { root ->
         Column(
             root.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 14.dp),
@@ -219,6 +227,14 @@ fun HomeScreen(
                                 hasDot = true,
                                 isLarge = true,
                             )
+                            val retentionPercent = (stats.averageRetention * 100).toInt()
+                            val badge = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.getRetentionBadge(stats.averageRetention)
+                            Text(
+                                text = "留存率 $retentionPercent% · ${badge.first}",
+                                style = RusMorphTechTypography.MicroPill,
+                                color = RusMorphColors.TextSecondary,
+                                modifier = Modifier.padding(top = 4.dp),
+                            )
                         }
                         Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
                             Text("快速复习", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
@@ -229,8 +245,13 @@ fun HomeScreen(
                         }
                     }
 
-                    // 记忆保留度曲线
-                    RusNeedleCurve(progress = if (stats.dueReviewCount > 0) 0.74f else 0.35f)
+                    // 艾宾浩斯科学记忆留存率曲线
+                    RusNeedleCurve(progress = stats.averageRetention)
+                    Text(
+                        text = "已收纳 ${stats.totalWordsInReview} 词 · 艾宾浩斯记忆模型生效中",
+                        style = RusMorphTechTypography.MicroPill,
+                        color = RusMorphColors.TextTertiary,
+                    )
                 }
             }
 
@@ -320,7 +341,7 @@ fun HomeScreen(
                                                 1.dp,
                                                 if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
                                             ),
-                                            modifier = Modifier.clickable { selectedCourseId = c.id },
+                                            modifier = Modifier.clickable { onSelectCourse(c.id) },
                                         ) {
                                             Text(
                                                 text = c.title,
@@ -375,12 +396,7 @@ fun HomeScreen(
                 }
             }
 
-            // Quick Actions
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                RusButton("查词", onDictionary, Modifier.weight(1f), isSecondary = true)
-                RusButton("自由朗读", onPronunciation, Modifier.weight(1f), isSecondary = true)
-                RusButton("工具箱", onCourses, Modifier.weight(1f), isSecondary = false)
-            }
+
         }
     }
 }
@@ -441,11 +457,20 @@ fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitTyp
 
 @Composable
 fun VocabularyScreen(
-    state: Loadable<List<LexiconEntryWithDetails>>, lessonId: String, onWord: (String) -> Unit,
-    onAddReview: (String) -> Unit, onWordAI: (String) -> Unit, onBack: () -> Unit, onAI: () -> Unit,
+    state: Loadable<List<LexiconEntryWithDetails>>,
+    lessonId: String,
+    enrolledSourceIds: Set<String> = emptySet(),
+    onWord: (String) -> Unit,
+    onAddReview: (String) -> Unit,
+    onRemoveReview: (String) -> Unit = {},
+    onBatchAddReview: (List<String>) -> Unit = {},
+    onWordAI: (String) -> Unit,
+    onBack: () -> Unit,
+    onAI: () -> Unit,
 ) {
     var selected by remember { mutableStateOf<LexiconEntryWithDetails?>(null) }
     selected?.let { item ->
+        val isEnrolled = item.entry.id in enrolledSourceIds
         RusBottomSheet(onDismiss = { selected = null }) {
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(item.entry.displayForm, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
@@ -453,7 +478,11 @@ fun VocabularyScreen(
                 Text(item.entry.chineseMeaning ?: "本地词典未记录中文释义", color = RusMorphColors.TextSecondary)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     RusButton("详情", { selected = null; onWord(item.entry.id) }, Modifier.weight(1f))
-                    RusButton("加入复习", { onAddReview(item.entry.id); selected = null }, Modifier.weight(1f))
+                    if (isEnrolled) {
+                        RusButton("移出复习", { onRemoveReview(item.entry.id); selected = null }, Modifier.weight(1f))
+                    } else {
+                        RusButton("加入复习", { onAddReview(item.entry.id); selected = null }, Modifier.weight(1f))
+                    }
                 }
                 RusButton("✦ Ask AI", { selected = null; onWordAI(item.entry.id) }, Modifier.fillMaxWidth())
             }
@@ -466,8 +495,53 @@ fun VocabularyScreen(
             when (state) {
                 Loadable.Loading -> CircularProgressIndicator()
                 is Loadable.Error -> RusEmptyState("词汇加载失败", state.message)
-                is Loadable.Content -> if (state.value.isEmpty()) RusEmptyState("本课没有词汇", "没有显示虚构内容") else state.value.forEach { item ->
-                    RusWordChip(item.entry.displayForm, item.entry.chineseMeaning, { selected = item }, Modifier.fillMaxWidth())
+                is Loadable.Content -> {
+                    val list = state.value
+                    if (list.isEmpty()) {
+                        RusEmptyState("本课没有词汇", "没有显示虚构内容")
+                    } else {
+                        val unenrolled = list.filter { it.entry.id !in enrolledSourceIds }
+                        val enrolledCount = list.size - unenrolled.size
+                        RusCard(Modifier.fillMaxWidth()) {
+                            Row(
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    Text(
+                                        "已收纳 $enrolledCount / ${list.size} 词",
+                                        style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = RusMorphColors.TextPrimary,
+                                    )
+                                    Text(
+                                        "艾宾浩斯复习计划",
+                                        style = RusMorphTechTypography.MicroPill,
+                                        color = RusMorphColors.TextTertiary,
+                                    )
+                                }
+                                if (unenrolled.isNotEmpty()) {
+                                    RusButton(
+                                        text = "📥 一键收纳 (${unenrolled.size})",
+                                        onClick = { onBatchAddReview(unenrolled.map { it.entry.id }) },
+                                    )
+                                }
+                            }
+                        }
+
+                        list.forEach { item ->
+                            val isEnrolled = item.entry.id in enrolledSourceIds
+                            RusWordChip(
+                                text = item.entry.displayForm,
+                                meaning = item.entry.chineseMeaning,
+                                onClick = { selected = item },
+                                modifier = Modifier.fillMaxWidth(),
+                                badgeText = if (isEnrolled) "✓ 复习中" else "待学习",
+                                isHighlighted = isEnrolled,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -513,7 +587,7 @@ fun DialogueScreen(state: Loadable<Dialogue>, onPractice: (String, String) -> Un
 fun ReviewScreen(stats: LearningStats, onStart: () -> Unit, onBottom: (BottomDestination) -> Unit) {
     LearningScaffold("复习", BottomDestination.Review, onBottom) { root ->
         ContentColumn(root) {
-            RusSectionTitle("今日待复习", "只统计本地真实记录")
+            RusSectionTitle("今日待复习", "艾宾浩斯记忆模型智能排程")
             RusCard(Modifier.fillMaxWidth()) {
                 Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                     Row(
@@ -521,9 +595,28 @@ fun ReviewScreen(stats: LearningStats, onStart: () -> Unit, onBottom: (BottomDes
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.Top,
                     ) {
-                        RusStat(stats.dueReviewCount.toString().padStart(2, '0'), "待复习", isLarge = true, hasDot = true)
+                        Column {
+                            RusStat(stats.dueReviewCount.toString().padStart(2, '0'), "待复习", isLarge = true, hasDot = true)
+                            val retentionPercent = (stats.averageRetention * 100).toInt()
+                            val badge = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.getRetentionBadge(stats.averageRetention)
+                            Text(
+                                text = "留存率 $retentionPercent% · ${badge.first}",
+                                style = RusMorphTechTypography.MicroPill,
+                                color = RusMorphColors.TextSecondary,
+                                modifier = Modifier.padding(top = 4.dp),
+                            )
+                        }
                         RusPillBadge("预计 ${maxOf(1, stats.dueReviewCount / 5)} 分钟", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
                     }
+
+                    // 艾宾浩斯科学记忆留存率曲线
+                    RusNeedleCurve(progress = stats.averageRetention)
+                    Text(
+                        text = "已收纳 ${stats.totalWordsInReview} 词 · 艾宾浩斯记忆模型生效中",
+                        style = RusMorphTechTypography.MicroPill,
+                        color = RusMorphColors.TextTertiary,
+                    )
+
                     RusButton("开始复习", onStart, Modifier.fillMaxWidth(), enabled = stats.dueReviewCount > 0)
                 }
             }

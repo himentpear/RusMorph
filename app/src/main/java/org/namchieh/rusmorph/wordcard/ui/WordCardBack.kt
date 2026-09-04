@@ -32,6 +32,7 @@ fun WordCardBack(
     onOpenAiWorkspace: () -> Unit,
     onPlayAudio: () -> Unit,
     onFlip: () -> Unit,
+    onToggleEnrollment: (() -> Unit)? = null,
     onNavigateToRule: ((category: String, ruleId: String) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
@@ -252,6 +253,56 @@ fun WordCardBack(
                 }
             }
 
+            // 6.5 艾宾浩斯复习计划与留存率状态
+            Surface(
+                color = if (reviewState.isEnrolled) RusMorphColors.WarmCream.copy(alpha = 0.5f) else RusMorphColors.SurfaceMuted,
+                shape = RoundedCornerShape(8.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, if (reviewState.isEnrolled) RusMorphColors.AccentOrange.copy(alpha = 0.4f) else RusMorphColors.OutlineSoft),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = if (reviewState.isEnrolled) "✓ 艾宾浩斯复习中" else "未收纳至复习计划",
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (reviewState.isEnrolled) RusMorphColors.CarbonBlack else RusMorphColors.TextSecondary,
+                            )
+                            if (reviewState.isEnrolled) {
+                                val (pct, badgeText) = reviewState.retentionBadge
+                                Text("留存率 $pct · $badgeText", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentOrange)
+                            }
+                        }
+                        if (reviewState.reviewCount > 0) {
+                            Text(
+                                text = "已复习 ${reviewState.reviewCount} 次 · 掌握度 ${reviewState.mastery}%",
+                                style = RusMorphTechTypography.MicroPill,
+                                color = RusMorphColors.TextTertiary,
+                            )
+                        }
+                    }
+
+                    if (onToggleEnrollment != null) {
+                        TextButton(
+                            onClick = onToggleEnrollment,
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                        ) {
+                            Text(
+                                text = if (reviewState.isEnrolled) "移出计划" else "+ 加入复习",
+                                style = RusMorphTechTypography.MicroPill,
+                                fontWeight = FontWeight.Bold,
+                                color = if (reviewState.isEnrolled) RusMorphColors.TextSecondary else RusMorphColors.AccentOrange,
+                            )
+                        }
+                    }
+                }
+            }
+
             HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.8.dp)
 
             // 7. 复习动作提交行 (Review Actions)
@@ -322,8 +373,20 @@ private fun determineNounRuleTarget(lemma: String, gender: Gender?): Pair<String
     return when {
         clean.endsWith("ия") -> "noun_fem_iya" to "-ия 型阴性"
         clean.endsWith("ие") -> "noun_neut_ie" to "-ие 型中性"
-        clean.endsWith("а") -> "noun_fem_a" to "-а 型阴性"
-        clean.endsWith("я") -> "noun_fem_ya" to "-я 型阴性"
+        clean.endsWith("а") -> {
+            if (gender == Gender.MASCULINE) {
+                "noun_fem_a" to "-а 型阳性"
+            } else {
+                "noun_fem_a" to "-а 型阴性"
+            }
+        }
+        clean.endsWith("я") -> {
+            if (gender == Gender.MASCULINE) {
+                "noun_fem_ya" to "-я 型阳性"
+            } else {
+                "noun_fem_ya" to "-я 型阴性"
+            }
+        }
         clean.endsWith("о") -> "noun_neut_o" to "-о 型中性"
         clean.endsWith("е") || clean.endsWith("ё") -> "noun_neut_e" to "-е 型中性"
         clean.endsWith("й") -> "noun_masc_j" to "-й 型阳性"

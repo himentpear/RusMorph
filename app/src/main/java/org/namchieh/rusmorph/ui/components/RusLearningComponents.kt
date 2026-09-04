@@ -296,17 +296,37 @@ private fun RusStatusDot(status: LearningStatus) {
 }
 
 @Composable
-fun RusWordChip(text: String, meaning: String?, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun RusWordChip(
+    text: String,
+    meaning: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    badgeText: String? = null,
+    isHighlighted: Boolean = false,
+) {
     Surface(
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        color = RusMorphColors.Surface,
-        border = BorderStroke(1.dp, RusMorphColors.Outline),
+        color = if (isHighlighted) RusMorphColors.WarmCream.copy(alpha = 0.4f) else RusMorphColors.Surface,
+        border = BorderStroke(1.dp, if (isHighlighted) RusMorphColors.AccentOrange.copy(alpha = 0.5f) else RusMorphColors.Outline),
     ) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Text(text, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium) }
+        Row(
+            modifier = Modifier.padding(14.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text(text, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium) }
+            }
+            if (badgeText != null) {
+                RusPillBadge(
+                    badgeText,
+                    containerColor = if (isHighlighted) RusMorphColors.AccentOrange.copy(alpha = 0.15f) else RusMorphColors.SurfaceMuted,
+                    contentColor = if (isHighlighted) RusMorphColors.AccentOrange else RusMorphColors.TextTertiary,
+                )
+            }
         }
     }
 }

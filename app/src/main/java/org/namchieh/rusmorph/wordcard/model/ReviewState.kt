@@ -16,6 +16,7 @@ data class ReviewState(
     val intervalDays: Double = 0.0,
     val easeFactor: Double = 2.5,
     val lastResult: ReviewResult? = null,
+    val isInReviewQueue: Boolean = false,
     val weakPoints: WeakPoints = WeakPoints(),
     val pronunciation: PronunciationRecord = PronunciationRecord(),
 ) {
@@ -37,4 +38,17 @@ data class ReviewState(
             val due = nextReviewAt ?: return true
             return System.currentTimeMillis() >= due
         }
+
+    val isEnrolled: Boolean
+        get() = isInReviewQueue || reviewCount > 0
+
+    val ebbinghausRetention: Float
+        get() = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.calculateWordRetention(
+            lastReviewAt = lastReviewAt,
+            intervalDays = if (intervalDays > 0.0) intervalDays else 1.0,
+            easeFactor = easeFactor,
+        )
+
+    val retentionBadge: Pair<String, String>
+        get() = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.getRetentionBadge(ebbinghausRetention)
 }

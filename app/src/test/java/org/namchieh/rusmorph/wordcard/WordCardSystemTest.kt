@@ -162,4 +162,43 @@ class WordCardSystemTest {
         assertEquals(75, easyState.mastery)
         assertTrue(easyState.easeFactor > 2.5)
     }
+
+    @Test
+    fun testNounDeclensionEngine_comprehensiveCases() {
+        // папа (1st declension animate masculine in -а)
+        val (papaSg, papaPl) = org.namchieh.rusmorph.wordcard.data.NounDeclensionEngine.generate("па́па", Gender.MASCULINE)
+        assertEquals("папа", papaSg.nominative)
+        assertEquals("папы", papaSg.genitive)
+        assertEquals("папе", papaSg.dative)
+        assertEquals("папу", papaSg.accusative)
+        assertEquals("папой", papaSg.instrumental)
+        assertEquals("папе", papaSg.prepositional)
+        assertEquals("папы", papaPl.nominative)
+        assertEquals("пап", papaPl.genitive)
+        assertEquals("папам", papaPl.dative)
+        assertEquals("пап", papaPl.accusative) // animate: Acc Pl = Gen Pl
+        assertEquals("папами", papaPl.instrumental)
+        assertEquals("папах", papaPl.prepositional)
+
+        // книга (feminine 7-letter rule in -а)
+        val (knigaSg, knigaPl) = org.namchieh.rusmorph.wordcard.data.NounDeclensionEngine.generate("книга", Gender.FEMININE, isAnimate = false)
+        assertEquals("книги", knigaSg.genitive)
+        assertEquals("книгу", knigaSg.accusative)
+        assertEquals("книг", knigaPl.genitive)
+        assertEquals("книги", knigaPl.accusative) // inanimate: Acc Pl = Nom Pl
+
+        // студент (animate masculine hard consonant)
+        val (studSg, studPl) = org.namchieh.rusmorph.wordcard.data.NounDeclensionEngine.generate("студент", Gender.MASCULINE, isAnimate = true)
+        assertEquals("студента", studSg.accusative) // animate: Acc Sg = Gen Sg
+        assertEquals("студентов", studPl.genitive)
+        assertEquals("студентов", studPl.accusative) // animate: Acc Pl = Gen Pl
+
+        // человек (irregular plural люди)
+        val (chelSg, chelPl) = org.namchieh.rusmorph.wordcard.data.NounDeclensionEngine.generate("человек", Gender.MASCULINE)
+        assertEquals("человек", chelSg.nominative)
+        assertEquals("люди", chelPl.nominative)
+        assertEquals("людей", chelPl.genitive)
+        assertEquals("людьми", chelPl.instrumental)
+    }
 }
+

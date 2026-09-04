@@ -287,10 +287,16 @@ private fun DetailContent(
         )
         val morphology = when {
             pos.contains("名") || detail.declensionClass != null -> {
+                val isAnimate = detail.chineseMeaning?.let { m ->
+                    listOf("人", "者", "爸", "妈", "生", "师", "友", "弟", "兄", "姐", "妹", "哥", "爷", "奶", "猫", "狗", "鸟", "鱼", "兽", "儿", "男", "女").any { m.contains(it) }
+                }
+                val (sg, pl) = org.namchieh.rusmorph.wordcard.data.NounDeclensionEngine.generate(detail.displayForm, gender, isAnimate)
                 org.namchieh.rusmorph.wordcard.model.Lexeme.MorphologyInfo.Noun(
                     declensionType = detail.declensionClass.orEmpty(),
                     stem = detail.endingType.orEmpty(),
                     stressPattern = detail.pluralStressPattern.orEmpty(),
+                    singular = sg,
+                    plural = pl,
                 )
             }
             pos.contains("动") || detail.conjugationClass != null -> {
@@ -336,8 +342,64 @@ private fun DetailContent(
                 onFollowAlong = onToggleRecording,
                 onReviewResult = { result ->
                     scope.launch {
-                        reviewState = reviewRepo.recordReview(cardLexeme.id, result)
+                        val next = reviewRepo.recordReview(cardLexeme.id, result)
+                        reviewState = next
+                        val app = context.applicationContext as? org.namchieh.rusmorph.RusMorphApplication
+                        val lessonNum = detail.lesson
+                        val isBook2 = detail.sources.any { it.workbook.contains("（二）") }
+                        val lessonId = lessonNum?.let { num ->
+                            if (isBook2) "ur2-lesson-$num" else "ur1-lesson-$num"
+                        }
+                        app?.learningRepository?.addToReview(
+                            org.namchieh.rusmorph.domain.learning.ReviewItem(
+                                id = "word-${cardLexeme.id}",
+                                type = org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD,
+                                sourceId = cardLexeme.id,
+                                lessonId = lessonId,
+                                dueAt = next.nextReviewAt ?: System.currentTimeMillis(),
+                                interval = next.intervalDays.toInt().coerceAtLeast(1),
+                                difficulty = next.easeFactor,
+                                mistakeCount = next.wrongCount,
+                                lastResult = when (result) {
+                                    org.namchieh.rusmorph.wordcard.model.ReviewResult.AGAIN -> 0.0
+                                    org.namchieh.rusmorph.wordcard.model.ReviewResult.HARD -> 60.0
+                                    org.namchieh.rusmorph.wordcard.model.ReviewResult.GOOD -> 85.0
+                                    org.namchieh.rusmorph.wordcard.model.ReviewResult.EASY -> 100.0
+                                },
+                            ),
+                        )
                         android.widget.Toast.makeText(context, "已记录掌握度 · ${result.labelZh}", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onToggleEnrollment = {
+                    scope.launch {
+                        val next = reviewRepo.toggleEnrollment(cardLexeme.id)
+                        reviewState = next
+                        val app = context.applicationContext as? org.namchieh.rusmorph.RusMorphApplication
+                        val lessonNum = detail.lesson
+                        val isBook2 = detail.sources.any { it.workbook.contains("（二）") }
+                        val lessonId = lessonNum?.let { num ->
+                            if (isBook2) "ur2-lesson-$num" else "ur1-lesson-$num"
+                        }
+                        if (next.isEnrolled) {
+                            app?.learningRepository?.addToReview(
+                                org.namchieh.rusmorph.domain.learning.ReviewItem(
+                                    id = "word-${cardLexeme.id}",
+                                    type = org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD,
+                                    sourceId = cardLexeme.id,
+                                    lessonId = lessonId,
+                                    dueAt = System.currentTimeMillis(),
+                                    interval = 1,
+                                    difficulty = 2.5,
+                                    mistakeCount = 0,
+                                    lastResult = null,
+                                ),
+                            )
+                            android.widget.Toast.makeText(context, "已收纳至艾宾浩斯复习计划", android.widget.Toast.LENGTH_SHORT).show()
+                        } else {
+                            app?.learningRepository?.removeFromReview(cardLexeme.id)
+                            android.widget.Toast.makeText(context, "已从复习计划移出", android.widget.Toast.LENGTH_SHORT).show()
+                        }
                     }
                 },
                 onOpenAiWorkspace = { onAgentClick(detail.id, org.namchieh.rusmorph.agent.AgentQuestionType.MORPHOLOGY) },

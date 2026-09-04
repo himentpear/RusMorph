@@ -380,8 +380,18 @@ interface LearningDao {
     @Upsert suspend fun upsertProgress(item: LearningProgressEntity)
     @Upsert suspend fun upsertActivity(item: LearningActivityEntity)
     @Upsert suspend fun upsertReviewItem(item: GenericReviewItemEntity)
+    @Upsert suspend fun upsertReviewItems(items: List<GenericReviewItemEntity>)
     @Upsert suspend fun upsertMistake(item: MistakeItemV2Entity)
     @Upsert suspend fun upsertPronunciationSession(item: PronunciationSessionEntity)
+
+    @Query("DELETE FROM generic_review_items WHERE id = :id OR sourceId = :id")
+    suspend fun deleteReviewItem(id: String)
+
+    @Query("SELECT * FROM generic_review_items WHERE id = :id OR sourceId = :id LIMIT 1")
+    suspend fun getReviewItemById(id: String): GenericReviewItemEntity?
+
+    @Query("SELECT * FROM generic_review_items WHERE lessonId = :lessonId")
+    suspend fun getReviewItemsByLesson(lessonId: String): List<GenericReviewItemEntity>
 
     @Query("SELECT * FROM learning_progress ORDER BY updatedAt DESC")
     fun observeProgress(): Flow<List<LearningProgressEntity>>
@@ -389,8 +399,17 @@ interface LearningDao {
     @Query("SELECT * FROM learning_activities ORDER BY occurredAt DESC LIMIT :limit")
     fun observeRecentActivities(limit: Int): Flow<List<LearningActivityEntity>>
 
+    @Query("SELECT * FROM generic_review_items")
+    fun observeAllReviewItems(): Flow<List<GenericReviewItemEntity>>
+
+    @Query("SELECT * FROM generic_review_items WHERE lessonId LIKE :prefix || '%'")
+    fun observeAllReviewItemsByPrefix(prefix: String): Flow<List<GenericReviewItemEntity>>
+
     @Query("SELECT * FROM generic_review_items WHERE dueAt IS NULL OR dueAt <= :now ORDER BY COALESCE(dueAt, 0), updatedAt")
     fun observeDueReviewItems(now: Long): Flow<List<GenericReviewItemEntity>>
+
+    @Query("SELECT * FROM generic_review_items WHERE (lessonId LIKE :prefix || '%') AND (dueAt IS NULL OR dueAt <= :now) ORDER BY COALESCE(dueAt, 0), updatedAt")
+    fun observeDueReviewItemsByPrefix(prefix: String, now: Long): Flow<List<GenericReviewItemEntity>>
 
     @Query("SELECT ri.id AS id, sc.entryId AS sourceId, le.lesson AS lessonNumber, ri.dueAt AS dueAt FROM review_items ri JOIN saved_cards sc ON sc.id = ri.savedCardId LEFT JOIN lexicon_entries le ON le.id = sc.entryId WHERE ri.dueAt IS NULL OR ri.dueAt <= :now ORDER BY COALESCE(ri.dueAt, 0)")
     fun observeLegacyDueItems(now: Long): Flow<List<LegacyReviewItemRow>>

@@ -80,12 +80,22 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.Home) {
                 val coursesVm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
-                val summaryVm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository) } } })
+                val summaryVm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val courses by coursesVm.state.collectAsState()
                 val stats by summaryVm.stats.collectAsState()
                 val progress by summaryVm.progress.collectAsState()
+                val activeCourseId by summaryVm.activeCourseId.collectAsState()
+
+                LaunchedEffect(activeCourseId) {
+                    summaryVm.checkAndAutoAdvanceDaily(activeCourseId)
+                }
+
                 HomeScreen(
-                    courses, stats, progress,
+                    coursesState = courses,
+                    stats = stats,
+                    progress = progress,
+                    selectedCourseId = activeCourseId,
+                    onSelectCourse = { summaryVm.selectCourse(it) },
                     onCourse = { navController.navigate(Routes.course(it)) },
                     onContinue = { course, lesson -> navController.navigate(Routes.lesson(course, lesson)) },
                     onDictionary = { selectBottom(BottomDestination.Dictionary) },
@@ -132,17 +142,17 @@ fun RusMorphApp(application: RusMorphApplication) {
                 )
             }
             composable(Routes.Review) {
-                val vm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository) } } })
+                val vm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val stats by vm.stats.collectAsState()
                 ReviewScreen(stats, { navController.navigate(Routes.ReviewSession) }, ::selectBottom)
             }
             composable(Routes.ReviewSession) {
-                val vm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository) } } })
+                val vm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val items by vm.dueReviews.collectAsState()
                 ReviewQueueScreen(items, { navController.navigate(Routes.word(it)) }, navController::navigateUp)
             }
             composable(Routes.Profile) {
-                val vm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository) } } })
+                val vm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val stats by vm.stats.collectAsState()
                 ProfileScreen(stats, { navController.navigate(Routes.Settings) }, ::selectBottom)
             }
@@ -176,20 +186,26 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.VocabularyPattern, listOf(navArgument("lessonId") { type = NavType.StringType })) { entry ->
                 val lessonId = checkNotNull(entry.arguments?.getString("lessonId"))
-                val vm: VocabularyViewModel = viewModel(key = "vocab-$lessonId", factory = remember(application, lessonId) { viewModelFactory { initializer { VocabularyViewModel(application.courseRepository, lessonId) } } })
+                val vm: VocabularyViewModel = viewModel(
+                    key = "vocab-$lessonId",
+                    factory = remember(application, lessonId) {
+                        viewModelFactory {
+                            initializer {
+                                VocabularyViewModel(application.courseRepository, lessonId, application.learningRepository)
+                            }
+                        }
+                    },
+                )
                 val state by vm.state.collectAsState()
+                val enrolledIds by vm.enrolledIds.collectAsState()
                 VocabularyScreen(
-                    state, lessonId,
+                    state = state,
+                    lessonId = lessonId,
+                    enrolledSourceIds = enrolledIds,
                     onWord = { navController.navigate(Routes.word(it)) },
-                    onAddReview = { entryId -> coroutineScope.launch {
-                        application.learningRepository.addToReview(
-                            org.namchieh.rusmorph.domain.learning.ReviewItem(
-                                id = "word-$entryId", type = org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD,
-                                sourceId = entryId, lessonId = lessonId, dueAt = System.currentTimeMillis(),
-                                interval = null, difficulty = null, mistakeCount = 0, lastResult = null,
-                            ),
-                        )
-                    } },
+                    onAddReview = { entryId -> vm.addWord(entryId) },
+                    onRemoveReview = { entryId -> vm.removeWord(entryId) },
+                    onBatchAddReview = { entryIds -> vm.batchAddWords(entryIds) },
                     onWordAI = { navController.navigate(Routes.agent(it, org.namchieh.rusmorph.agent.AgentQuestionType.CUSTOM)) },
                     onBack = navController::navigateUp,
                     onAI = { navController.navigate(Routes.commands("解释第 ${lessonId.substringAfterLast('-')} 课词汇")) },

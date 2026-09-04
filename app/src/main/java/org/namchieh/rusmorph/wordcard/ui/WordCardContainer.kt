@@ -5,7 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -51,6 +51,7 @@ fun WordCardContainer(
     onFollowAlong: () -> Unit,
     onReviewResult: (ReviewResult) -> Unit,
     onOpenAiWorkspace: () -> Unit,
+    onToggleEnrollment: (() -> Unit)? = null,
     onNavigateToRule: ((category: String, ruleId: String) -> Unit)? = null,
     onSwipeUpExpand: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -63,7 +64,6 @@ fun WordCardContainer(
     val dragThresholdPx = with(LocalDensity.current) { (screenWidth * 0.25f).toPx() }
 
     val offsetX = remember { Animatable(0f) }
-    val offsetY = remember { Animatable(0f) }
 
     // 3D Flip 动画 (260ms)
     val rotationY by animateFloatAsState(
@@ -96,47 +96,41 @@ fun WordCardContainer(
                 )
             }
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDrag = { change, dragAmount ->
+                detectHorizontalDragGestures(
+                    onHorizontalDrag = { change, dragAmount ->
                         change.consume()
                         scope.launch {
-                            offsetX.snapTo(offsetX.value + dragAmount.x)
-                            offsetY.snapTo(offsetY.value + dragAmount.y * 0.2f)
+                            offsetX.snapTo(offsetX.value + dragAmount)
                         }
                     },
                     onDragEnd = {
                         scope.launch {
                             val currentX = offsetX.value
-                            val currentY = offsetY.value
                             when {
-                                // 上滑手势检测
-                                currentY < -80f -> {
-                                    onSwipeUpExpand()
-                                    offsetY.animateTo(0f, spring(Spring.DampingRatioMediumBouncy))
-                                    offsetX.animateTo(0f, spring(Spring.DampingRatioMediumBouncy))
-                                }
                                 // 左滑超过阈值：提交 AGAIN
                                 currentX < -dragThresholdPx -> {
                                     offsetX.animateTo(-dragThresholdPx * 2.5f, tween(160))
                                     onReviewResult(ReviewResult.AGAIN)
                                     offsetX.snapTo(0f)
-                                    offsetY.snapTo(0f)
                                 }
                                 // 右滑超过阈值：提交 GOOD
                                 currentX > dragThresholdPx -> {
                                     offsetX.animateTo(dragThresholdPx * 2.5f, tween(160))
                                     onReviewResult(ReviewResult.GOOD)
                                     offsetX.snapTo(0f)
-                                    offsetY.snapTo(0f)
                                 }
                                 // 未达阈值：物理弹性回弹
                                 else -> {
                                     offsetX.animateTo(0f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium))
-                                    offsetY.animateTo(0f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium))
                                 }
                             }
                         }
-                    }
+                    },
+                    onDragCancel = {
+                        scope.launch {
+                            offsetX.animateTo(0f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium))
+                        }
+                    },
                 )
             },
         contentAlignment = Alignment.Center,
@@ -166,7 +160,6 @@ fun WordCardContainer(
             modifier = Modifier
                 .graphicsLayer {
                     translationX = offsetX.value
-                    translationY = offsetY.value
                     this.rotationZ = rotationZ
                     this.rotationY = rotationY
                     cameraDistance = 14f * density
@@ -196,6 +189,7 @@ fun WordCardContainer(
                         onReviewResult = onReviewResult,
                         onOpenAiWorkspace = onOpenAiWorkspace,
                         onPlayAudio = onPlayAudio,
+                        onToggleEnrollment = onToggleEnrollment,
                         onNavigateToRule = onNavigateToRule,
                         onFlip = { isFlipped = false },
                     )

@@ -43,7 +43,14 @@ class ReviewRepository(context: Context) {
 
     suspend fun recordReview(lexemeId: String, result: ReviewResult, userId: String = "local_user"): ReviewState = withContext(Dispatchers.IO) {
         val current = getReviewState(lexemeId, userId)
-        val next = ReviewScheduler.computeNextState(current, result)
+        val next = ReviewScheduler.computeNextState(current, result).copy(isInReviewQueue = true)
+        saveReviewState(next)
+        next
+    }
+
+    suspend fun toggleEnrollment(lexemeId: String, userId: String = "local_user"): ReviewState = withContext(Dispatchers.IO) {
+        val current = getReviewState(lexemeId, userId)
+        val next = current.copy(isInReviewQueue = !current.isEnrolled)
         saveReviewState(next)
         next
     }
