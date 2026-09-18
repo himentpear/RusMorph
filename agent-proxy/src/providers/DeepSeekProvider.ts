@@ -1,6 +1,6 @@
 import { z, type ZodSchema } from "zod";
 import type { AgentRequest, AgentResponse } from "../schema";
-import { parseProviderOutput } from "../prompt";
+import { parseProviderOutput, SYSTEM_PROMPT } from "../prompt";
 import { HttpError } from "../errors";
 import type { Env, MultiAgentProvider, ProviderAgentRequest } from "./AgentProvider";
 
@@ -76,9 +76,29 @@ export class DeepSeekProvider implements MultiAgentProvider {
   }
 
   async ask(request: AgentRequest, env: Env): Promise<AgentResponse> {
+    const systemPrompt = [
+      SYSTEM_PROMPT,
+      "你必须输出严格符合以下结构的单个合法 JSON 对象，不得输出 Markdown 代码块或其他多余文字：",
+      JSON.stringify({
+        answer: "清晰详细的俄语语言学与形态学解答",
+        answerSections: [{ title: "小节标题", content: "小节内容" }],
+        evidence: [{ type: "LEXICON_FIELD | LOCAL_KNOWLEDGE | MODEL_KNOWLEDGE", title: "依据名称", excerpt: "依据摘录（可选）" }],
+        warnings: [],
+        grounding: { hasLexiconEvidence: true, hasKnowledgeEvidence: false, usedGeneralModelKnowledge: true },
+      }),
+    ].join("\n\n");
+
     const value = await this.completeJson({
-      systemPrompt: "只输出 JSON。返回包含 answer、answerSections、evidence、warnings、grounding 的 JSON 对象，不得输出 Markdown。",
-      input: request,
+      systemPrompt,
+      input: {
+        word: request.word,
+        normalizedWord: request.normalizedWord,
+        question: request.question,
+        questionType: request.questionType,
+        entryContext: request.entryContext,
+        knowledgeContext: request.knowledgeContext,
+        learningContext: request.learningContext,
+      },
     }, passthroughSchema, env);
     return parseProviderOutput(JSON.stringify(value), request);
   }

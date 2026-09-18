@@ -7,6 +7,7 @@ import { MockProvider } from "./providers/MockProvider";
 import { DifyProvider } from "./providers/DifyProvider";
 import { OpenAICompatibleProvider } from "./providers/OpenAICompatibleProvider";
 import { DeepSeekProvider } from "./providers/DeepSeekProvider";
+import { createAgentFallbackResponse } from "./prompt";
 import { handleCompose, handleRoute } from "./AgentService";
 import {
   generatePronunciationExample,
@@ -102,10 +103,32 @@ export async function route(
     if (url.pathname !== "/v1/ask") throw new HttpError(404, "NOT_FOUND", "Not found");
     if (request.method !== "POST") throw new HttpError(405, "METHOD_NOT_ALLOWED", "Method not allowed");
     const raw = await readJson(request, env);
-    const parsed = agentRequestSchema.parse(raw);
-    await enforceRates(request, raw, rates, env);
-    const response = await providerFor(env).ask(parsed, env);
-    return Response.json(agentResponseSchema.parse(response));
+    const requestResult = agentRequestSchema.safeParse(raw);
+    if (!requestResult.success) {
+      return errorResponse(new HttpError(400, "INVALID_REQUEST", "请求格式无效。"), generatedRequestId);
+    }
+    try {
+      await enforceRates(request, raw, rates, env);
+      const providerResponse = await providerFor(env).ask(requestResult.data, env);
+      const responseResult = agentResponseSchema.safeParse(providerResponse);
+      if (!responseResult.success) {
+        console.error(JSON.stringify({
+          event: "agent_response_invalid",
+          requestId: requestResult.data.requestId,
+          issues: responseResult.error.issues,
+        }));
+        return Response.json(createAgentFallbackResponse(requestResult.data, "RESPONSE_SCHEMA_MISMATCH"), { status: 200 });
+      }
+      return Response.json(responseResult.data);
+    } catch (error) {
+      if (error instanceof HttpError) return errorResponse(error, generatedRequestId);
+      console.error(JSON.stringify({
+        event: "agent_service_failure",
+        requestId: requestResult.data.requestId,
+        error: error instanceof Error ? error.message : String(error),
+      }));
+      return errorResponse(new HttpError(502, "AGENT_PROVIDER_ERROR", "AI 服务暂时不可用。", true), generatedRequestId);
+    }
   } catch (error) {
     if (error instanceof HttpError) return errorResponse(error, generatedRequestId);
     if (error instanceof ZodError) return errorResponse(new HttpError(400, "INVALID_REQUEST", "请求格式无效。"), generatedRequestId);

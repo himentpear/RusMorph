@@ -24,6 +24,7 @@ if __package__ in {None, ""}:
     from tools.xlsx_builder.russian_normalizer import normalize_russian_for_search
     from tools.xlsx_builder.validation import ValidationError, verify_assets
     from tools.xlsx_builder.workbook_auditor import audit_sources, classify_sheet, discover_sources, source_sha256
+    from tools.xlsx_builder.openrussian_importer import build_openrussian_enhanced_lexicon
 else:
     from . import GENERATOR_VERSION, NORMALIZATION_VERSION, SCHEMA_VERSION
     from .declension_parser import parse_declension_sheets
@@ -33,6 +34,7 @@ else:
     from .russian_normalizer import normalize_russian_for_search
     from .validation import ValidationError, verify_assets
     from .workbook_auditor import audit_sources, classify_sheet, discover_sources, source_sha256
+    from .openrussian_importer import build_openrussian_enhanced_lexicon
 
 RUSSIAN_TOKEN = re.compile(r"[А-Яа-яЁё]+(?:\u0301[А-Яа-яЁё]*)*")
 EXAMPLE_SPLIT = re.compile(r"(?:\r?\n)+|[•●]")
@@ -356,6 +358,11 @@ def build_assets(input_dir: Path, output_dir: Path, agent_output: Path, report_d
     with (agent_output / "lexicon_agent.jsonl").open("w", encoding="utf-8", newline="\n") as handle:
         for entry in lexicon.entries:
             handle.write(json.dumps(_agent_record(entry), ensure_ascii=False, separators=(",", ":")) + "\n")
+    openrussian_dir = input_dir / "openrussian"
+    if openrussian_dir.is_dir() and any(openrussian_dir.glob("*.csv")):
+        build_openrussian_enhanced_lexicon(output_dir, openrussian_dir)
+        manifest = json.loads((output_dir / "data_manifest.json").read_text(encoding="utf-8"))
+        counts = manifest.get("counts", counts)
     verify_assets(output_dir)
     return {"counts": counts, "manifest": manifest, "audit": audit.report}
 

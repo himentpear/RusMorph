@@ -1,6 +1,7 @@
 package org.namchieh.rusmorph.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,10 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.namchieh.rusmorph.domain.learning.Course
+import org.namchieh.rusmorph.domain.learning.WordBook
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.LearningUnit
 import org.namchieh.rusmorph.domain.learning.Lesson
@@ -64,17 +68,36 @@ fun RusProgressBar(progress: Float, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun RusCourseCard(wordBook: WordBook, onClick: () -> Unit, modifier: Modifier = Modifier) {
     RusCard(modifier.fillMaxWidth(), onClick) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(course.subtitle.uppercase(), style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.Primary)
-            Text(course.title, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
-            Text(course.description, color = RusMorphColors.TextSecondary)
-            RusProgressBar(course.progress)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("${course.completedLessonCount} / ${course.lessonCount} 课", color = RusMorphColors.TextSecondary)
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.Top) {
+            WordBookCover(wordBook, Modifier.width(92.dp).height(136.dp))
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(wordBook.subtitle.uppercase(), style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.Primary)
+                Text(wordBook.title, style = androidx.compose.material3.MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold)
+                Text(wordBook.description.orEmpty(), color = RusMorphColors.TextSecondary, maxLines = 3, overflow = TextOverflow.Ellipsis)
+                RusProgressBar(wordBook.progress)
+                Text("${wordBook.completedLessonCount} / ${wordBook.lessonCount} 课", color = RusMorphColors.TextSecondary)
                 Text("继续 →", color = RusMorphColors.Primary, fontWeight = FontWeight.SemiBold)
             }
+        }
+    }
+}
+
+@Composable
+fun WordBookCover(wordBook: WordBook, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val resourceId = (wordBook.coverResourceName ?: wordBook.cover)?.let { context.resources.getIdentifier(it, "drawable", context.packageName) } ?: 0
+    if (resourceId != 0) {
+        Image(
+            painter = painterResource(resourceId),
+            contentDescription = "${wordBook.title}封面",
+            modifier = modifier,
+            contentScale = ContentScale.Fit,
+        )
+    } else {
+        Box(modifier.background(RusMorphColors.PrimaryContainer, RoundedCornerShape(8.dp)), contentAlignment = Alignment.Center) {
+            Text(wordBook.title.take(2), color = RusMorphColors.Primary, fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -88,8 +111,8 @@ fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modi
                 Text(lesson.number.toString().padStart(2, '0'), color = accent, fontWeight = FontWeight.Bold)
             }
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                Text(lesson.titleRu, fontWeight = FontWeight.SemiBold, color = accent)
-                Text(lesson.titleZh, color = RusMorphColors.TextSecondary)
+                Text(lesson.titleRu.orEmpty(), fontWeight = FontWeight.SemiBold, color = accent)
+                Text(lesson.titleZh.orEmpty(), color = RusMorphColors.TextSecondary)
                 Text("${lesson.units.size} 个学习单元", style = androidx.compose.material3.MaterialTheme.typography.labelMedium, color = RusMorphColors.TextTertiary)
             }
             Text("›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = accent)
@@ -123,10 +146,49 @@ private fun RusStatusDot(status: LearningStatus) {
 }
 
 @Composable
-fun RusWordChip(text: String, meaning: String?, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Surface(onClick = onClick, modifier = modifier, shape = RoundedCornerShape(14.dp), color = RusMorphColors.Surface, border = BorderStroke(1.dp, RusMorphColors.Outline)) {
+fun RusWordChip(
+    text: String,
+    meaning: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    lessonBadge: String? = null,
+) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(14.dp),
+        color = RusMorphColors.Surface,
+        border = BorderStroke(
+            1.dp,
+            if (lessonBadge != null) RusMorphColors.Primary.copy(alpha = 0.35f) else RusMorphColors.Outline,
+        ),
+    ) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Text(text, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text,
+                    style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                if (lessonBadge != null) {
+                    Surface(
+                        shape = RoundedCornerShape(50),
+                        color = RusMorphColors.PrimaryContainer,
+                    ) {
+                        Text(
+                            text = lessonBadge,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                            style = androidx.compose.material3.MaterialTheme.typography.labelSmall,
+                            color = RusMorphColors.PrimaryDark,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    }
+                }
+            }
             meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = RusMorphColors.TextSecondary) }
         }
     }

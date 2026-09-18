@@ -56,6 +56,9 @@ data class SearchUiState(
     val browseEntries: List<LexiconEntryWithDetails> = emptyList(),
     val databaseEntryCount: Int = 0,
     val browseInconsistent: Boolean = false,
+    val redirectedFrom: String? = null,
+    val redirectedTo: String? = null,
+    val isFuzzyMatch: Boolean = false,
 ) {
     val isEmptyQuery: Boolean get() = controls.query.isBlank()
     val hasActiveFilters: Boolean get() = controls.partOfSpeech != null || controls.lesson != null
@@ -81,6 +84,8 @@ data class WordDetailUiState(
     val relatedKnowledge: List<KnowledgeExplanation>,
     val sources: List<Source>,
 ) {
+    val inflection: InflectionData? get() = parseInflectionJson(annotations.firstOrNull { it.fieldName == "inflection_data" }?.value)
+
     data class KnowledgeExplanation(
         val id: String,
         val title: String,
@@ -92,6 +97,80 @@ data class WordDetailUiState(
 
     data class Source(val workbook: String, val sheet: String, val row: Int)
     data class Annotation(val fieldName: String, val value: String)
+}
+
+sealed interface InflectionData {
+    data class Noun(
+        val partner: String?,
+        val singular: Map<String, String>,
+        val plural: Map<String, String>,
+    ) : InflectionData
+
+    data class Verb(
+        val aspect: String?,
+        val partner: String?,
+        val presentOrFuture: Map<String, String>,
+        val past: Map<String, String>,
+        val imperative: Map<String, String>,
+    ) : InflectionData
+
+    data class Adjective(
+        val comparative: String?,
+        val superlative: String?,
+        val shortForms: Map<String, String>,
+        val cases: Map<String, Map<String, String>>,
+    ) : InflectionData
+}
+
+fun parseInflectionJson(raw: String?): InflectionData? {
+    if (raw.isNullOrBlank()) return null
+    return runCatching {
+        val obj = org.json.JSONObject(raw)
+        when (obj.optString("type")) {
+            "noun" -> {
+                val sgObj = obj.optJSONObject("sg")
+                val plObj = obj.optJSONObject("pl")
+                val sg = listOf("nom", "gen", "dat", "acc", "inst", "prep").associateWith { sgObj?.optString(it).orEmpty() }
+                val pl = listOf("nom", "gen", "dat", "acc", "inst", "prep").associateWith { plObj?.optString(it).orEmpty() }
+                InflectionData.Noun(
+                    partner = obj.optString("partner").takeIf { it.isNotBlank() },
+                    singular = sg,
+                    plural = pl,
+                )
+            }
+            "verb" -> {
+                val pfObj = obj.optJSONObject("presfut")
+                val pastObj = obj.optJSONObject("past")
+                val impObj = obj.optJSONObject("imperative")
+                val presfut = listOf("sg1", "sg2", "sg3", "pl1", "pl2", "pl3").associateWith { pfObj?.optString(it).orEmpty() }
+                val past = listOf("m", "f", "n", "pl").associateWith { pastObj?.optString(it).orEmpty() }
+                val imp = listOf("sg", "pl").associateWith { impObj?.optString(it).orEmpty() }
+                InflectionData.Verb(
+                    aspect = obj.optString("aspect").takeIf { it.isNotBlank() },
+                    partner = obj.optString("partner").takeIf { it.isNotBlank() },
+                    presentOrFuture = presfut,
+                    past = past,
+                    imperative = imp,
+                )
+            }
+            "adjective" -> {
+                val shortObj = obj.optJSONObject("short")
+                val casesObj = obj.optJSONObject("cases")
+                val shortForms = listOf("m", "f", "n", "pl").associateWith { shortObj?.optString(it).orEmpty() }
+                val cases = listOf("m", "f", "n", "pl").associateWith { genderKey ->
+                    val gObj = casesObj?.optJSONObject(genderKey)
+                    listOf("nom", "gen", "dat", "acc", "inst", "prep").associateWith { gObj?.optString(it).orEmpty() }
+                }
+                InflectionData.Adjective(
+                    comparative = obj.optString("comparative").takeIf { it.isNotBlank() },
+                    superlative = obj.optString("superlative").takeIf { it.isNotBlank() },
+                    shortForms = shortForms,
+                    cases = cases,
+                )
+            }
+            else -> null
+        }
+    }.getOrNull()
 }
 
 data class LocalExplanationUiState(
@@ -149,11 +228,17 @@ class SearchViewModel(
             try {
                 val count = repository.getEntryCount()
                 val result = when {
-                    request.query.isNotBlank() -> SearchResult(
-                        controls = request,
-                        results = repository.search(request.query, request.partOfSpeech, request.lesson, 50),
-                        databaseEntryCount = count,
-                    )
+                    request.query.isNotBlank() -> {
+                        val response = repository.searchWithFuzzy(request.query, request.partOfSpeech, request.lesson, 50)
+                        SearchResult(
+                            controls = request,
+                            results = response.entries,
+                            databaseEntryCount = count,
+                            redirectedFrom = response.redirectedFrom,
+                            redirectedTo = response.redirectedTo,
+                            isFuzzyMatch = response.isFuzzyMatch,
+                        )
+                    }
                     request.partOfSpeech != null || request.lesson != null -> SearchResult(
                         controls = request,
                         browseEntries = repository.browseEntries(request.partOfSpeech, request.lesson, 50),
@@ -195,6 +280,9 @@ class SearchViewModel(
             browseEntries = search.browseEntries,
             databaseEntryCount = search.databaseEntryCount,
             browseInconsistent = search.browseInconsistent,
+            redirectedFrom = search.redirectedFrom,
+            redirectedTo = search.redirectedTo,
+            isFuzzyMatch = search.isFuzzyMatch,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SearchUiState())
 
@@ -301,6 +389,9 @@ private data class SearchResult(
     val browseEntries: List<LexiconEntryWithDetails> = emptyList(),
     val databaseEntryCount: Int = 0,
     val browseInconsistent: Boolean = false,
+    val redirectedFrom: String? = null,
+    val redirectedTo: String? = null,
+    val isFuzzyMatch: Boolean = false,
 )
 
 private data class SearchTrigger(

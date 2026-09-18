@@ -167,6 +167,39 @@ class SearchDaoTest {
         limit = 50,
     )
 
+    @Test
+    fun courseEntriesPrioritizedOverUniversalEntriesWhenRankTies() = runBlocking {
+        val universal = LexiconEntryEntity(
+            id = "lex_or_friend_extended",
+            lesson = null,
+            sequence = null,
+            displayForm = "друг",
+            lemma = "друг",
+            normalizedLemma = "друг",
+            chineseMeaning = "[英] friend",
+            gender = "阳性",
+            declensionClass = null,
+            endingType = null,
+            pluralStressPattern = null,
+            aspect = null,
+            conjugationClass = null,
+            phoneticAlternation = null,
+            sourceWorkbook = "openrussian.org",
+            sourceSheet = "nouns",
+            sourceRow = 1,
+        )
+        dao.insertEntriesForTest(listOf(universal))
+        dao.insertSearchFormsForTest(listOf(EntrySearchFormEntity(universal.id, "друг")))
+        dao.insertPartsOfSpeechForTest(listOf(EntryPartOfSpeechEntity(universal.id, "名词")))
+
+        val result = search("друг")
+        assertTrue(result.size >= 2)
+        assertEquals("friend", result[0].entry.id)
+        assertEquals(2, result[0].entry.lesson)
+        assertEquals("lex_or_friend_extended", result[1].entry.id)
+        assertEquals(null, result[1].entry.lesson)
+    }
+
     private fun entry(
         id: String,
         display: String,

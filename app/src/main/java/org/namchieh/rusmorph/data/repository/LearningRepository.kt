@@ -1,6 +1,7 @@
 package org.namchieh.rusmorph.data.repository
 
 import java.util.UUID
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -33,7 +34,7 @@ class LearningRepository(private val dao: LearningDao) {
     ) { generic, legacy ->
         generic.map { it.toDomain() } + legacy.map {
             ReviewItem(it.id, org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD, it.sourceId,
-                it.lessonNumber?.let { number -> CourseRepository.lessonId(number) }, it.dueAt, null, null, 0, null)
+                it.lessonNumber?.let { number -> AssetWordBookRepository.lessonId(number) }, it.dueAt, null, null, 0, null)
         }
     }
     fun observeStats(now: Long = System.currentTimeMillis()): Flow<LearningStats> = combine(
@@ -44,6 +45,13 @@ class LearningRepository(private val dao: LearningDao) {
     }
 
     suspend fun saveProgress(item: LearningProgress) = dao.upsertProgress(item.toEntity())
+    suspend fun openLesson(wordBookId: String, lessonId: String) {
+        val rows = observeProgress().first()
+        val existing = rows.firstOrNull { it.wordBookId == wordBookId && it.lessonId == lessonId && it.unitType == null }
+        saveProgress(existing?.copy(updatedAt = System.currentTimeMillis()) ?: LearningProgress(
+            org.namchieh.rusmorph.domain.learning.scopedLearningId(wordBookId, lessonId), wordBookId, lessonId, null, 0f,
+            org.namchieh.rusmorph.domain.learning.LearningStatus.IN_PROGRESS, System.currentTimeMillis()))
+    }
     suspend fun recordActivity(item: LearningActivity) = dao.upsertActivity(item.toEntity())
     suspend fun addToReview(item: ReviewItem) = dao.upsertReviewItem(item.toEntity())
     suspend fun recordMistake(item: MistakeItem) = dao.upsertMistake(item.toEntity())
@@ -54,12 +62,12 @@ class LearningRepository(private val dao: LearningDao) {
         if (score < 70.0 && session.sourceId != null) {
             val now = System.currentTimeMillis()
             dao.upsertReviewItem(GenericReviewItemEntity(
-                id = "pronunciation-${session.sourceId}", type = "SENTENCE", sourceId = session.sourceId,
+                id = "pronunciation-${org.namchieh.rusmorph.domain.learning.scopedContentId(session.wordBookId.orEmpty(), session.lessonId.orEmpty(), session.sourceId)}", type = "SENTENCE", sourceId = session.sourceId,
                 lessonId = session.lessonId, dueAt = now, interval = null, difficulty = null,
-                mistakeCount = 1, lastResult = score, updatedAt = now,
+                mistakeCount = 1, lastResult = score, updatedAt = now, wordBookId = session.wordBookId,
             ))
             dao.upsertMistake(MistakeItemV2Entity(
-                id = "pronunciation-${session.sourceId}", type = "PRONUNCIATION", sourceId = session.sourceId,
+                id = "pronunciation-${org.namchieh.rusmorph.domain.learning.scopedContentId(session.wordBookId.orEmpty(), session.lessonId.orEmpty(), session.sourceId)}", type = "PRONUNCIATION", sourceId = session.sourceId,
                 lessonId = session.lessonId, count = 1, lastOccurredAt = now,
             ))
         }
@@ -74,7 +82,7 @@ private fun LearningProgressEntity.toDomain() = LearningProgress(sourceId, cours
 private fun LearningProgress.toEntity() = LearningProgressEntity(sourceId, courseId, lessonId, unitType?.name, progress, status.name, updatedAt)
 private fun LearningActivityEntity.toDomain() = LearningActivity(id, org.namchieh.rusmorph.domain.learning.LearningActivityType.valueOf(type), sourceId, courseId, lessonId, occurredAt, durationSeconds)
 private fun LearningActivity.toEntity() = LearningActivityEntity(id, type.name, sourceId, courseId, lessonId, occurredAt, durationSeconds)
-private fun GenericReviewItemEntity.toDomain() = ReviewItem(id, org.namchieh.rusmorph.domain.learning.ReviewItemType.valueOf(type), sourceId, lessonId, dueAt, interval, difficulty, mistakeCount, lastResult)
-private fun ReviewItem.toEntity() = GenericReviewItemEntity(id, type.name, sourceId, lessonId, dueAt, interval, difficulty, mistakeCount, lastResult, System.currentTimeMillis())
+private fun GenericReviewItemEntity.toDomain() = ReviewItem(id, org.namchieh.rusmorph.domain.learning.ReviewItemType.valueOf(type), sourceId, lessonId, dueAt, interval, difficulty, mistakeCount, lastResult, wordBookId)
+private fun ReviewItem.toEntity() = GenericReviewItemEntity(id, type.name, sourceId, lessonId, dueAt, interval, difficulty, mistakeCount, lastResult, System.currentTimeMillis(), wordBookId)
 private fun MistakeItem.toEntity() = MistakeItemV2Entity(id, type.name, sourceId, lessonId, count, lastOccurredAt)
 private fun PronunciationSession.toEntity() = PronunciationSessionEntity(id, type.name, sourceId, courseId, lessonId, targetText, startedAt, completedAt, intelligibilityScore)

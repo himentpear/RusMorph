@@ -8,7 +8,10 @@ import org.namchieh.rusmorph.agent.MultiAgentCoordinator
 import org.namchieh.rusmorph.data.diagnostics.ApiDiagnostics
 import org.namchieh.rusmorph.data.local.AssetDatabaseImporter
 import org.namchieh.rusmorph.data.local.RusMorphDatabase
-import org.namchieh.rusmorph.data.repository.CourseRepository
+import org.namchieh.rusmorph.data.repository.AssetWordBookRepository
+import org.namchieh.rusmorph.data.repository.CompositeWordBookRepository
+import org.namchieh.rusmorph.data.repository.RoomWordBookRepository
+import org.namchieh.rusmorph.data.repository.WordBookRepository
 import org.namchieh.rusmorph.data.repository.DefaultAgentRepository
 import org.namchieh.rusmorph.data.repository.KnowledgeRetriever
 import org.namchieh.rusmorph.data.repository.LearningRepository
@@ -34,7 +37,12 @@ class AppContainer(context: Context) {
     val appSettings: AppSettings by lazy { AppSettings(appContext) }
     val agentRepository by lazy { DefaultAgentRepository.create(BuildConfig.AGENT_PROXY_BASE_URL, apiDiagnostics) }
     val localLibraryRepository: LocalLibraryRepository by lazy { LocalLibraryRepository(database.localLibraryDao()) }
-    val courseRepository: CourseRepository by lazy { CourseRepository(appContext, searchRepository) }
+    val wordBookRepository: WordBookRepository by lazy {
+        CompositeWordBookRepository(
+            builtIn = AssetWordBookRepository(appContext, searchRepository),
+            imported = RoomWordBookRepository(database.wordBookDao(), searchRepository),
+        )
+    }
     val learningRepository: LearningRepository by lazy { LearningRepository(database.learningDao()) }
     val multiAgentCoordinator: MultiAgentCoordinator by lazy { MultiAgentCoordinator(agentRepository, searchRepository) }
     val speechRepository: SpeechRepository by lazy { SpeechRepository.create(BuildConfig.SPEECH_BACKEND_BASE_URL) }

@@ -108,6 +108,19 @@ interface SearchDao {
     )
     suspend fun fuzzyCandidateRows(partOfSpeech: String?, lesson: Int?, limit: Int): List<FuzzyCandidateRow>
 
+    @Query("SELECT id, normalizedLemma, displayForm, lesson FROM lexicon_entries")
+    suspend fun allLemmaEntries(): List<LemmaFuzzyEntry>
+
+    @Query(
+        """
+        SELECT entryId, normalizedSearchForm AS searchForm
+        FROM entry_search_forms
+        WHERE normalizedSearchForm LIKE :prefix || '%'
+        LIMIT :limit
+        """,
+    )
+    suspend fun searchFormsByPrefix(prefix: String, limit: Int = 2000): List<SearchFormFuzzyEntry>
+
     @Transaction
     @Query("SELECT * FROM lexicon_entries WHERE id IN (:entryIds)")
     suspend fun entriesByIds(entryIds: List<String>): List<LexiconEntryWithDetails>
@@ -256,7 +269,13 @@ interface SearchDao {
             WHERE pos.entryId = e.id AND pos.partOfSpeech = :partOfSpeech
         ))
         AND (:lesson IS NULL OR e.lesson = :lesson)
-        ORDER BY r.matchRank, e.lesson, e.sequence, e.normalizedLemma
+        ORDER BY
+            r.matchRank ASC,
+            CASE WHEN e.lesson IS NOT NULL THEN 0 ELSE 1 END,
+            e.lesson ASC,
+            CASE WHEN e.sequence IS NOT NULL THEN 0 ELSE 1 END,
+            e.sequence ASC,
+            e.normalizedLemma ASC
         LIMIT :limit
         """,
     )
@@ -315,6 +334,18 @@ data class FuzzyCandidateRow(
     val normalizedLemma: String,
     val normalizedSearchForm: String?,
     val chineseMeaning: String?,
+)
+
+data class LemmaFuzzyEntry(
+    val id: String,
+    val normalizedLemma: String,
+    val displayForm: String,
+    val lesson: Int?,
+)
+
+data class SearchFormFuzzyEntry(
+    val entryId: String,
+    val searchForm: String,
 )
 
 data class SavedCardWithArchives(
@@ -406,6 +437,60 @@ interface LearningDao {
 
     @Query("SELECT COUNT(*) FROM pronunciation_sessions WHERE completedAt IS NOT NULL")
     fun observePronunciationCount(): Flow<Int>
+}
+
+/** Persistence boundary for imported/custom word books. Built-in books may remain asset-backed. */
+@Dao
+interface WordBookDao {
+    @Query("DELETE FROM word_book_dialogue_lines WHERE wordBookId = :wordBookId")
+    suspend fun clear_word_book_dialogue_lines(wordBookId: String)
+    @Query("DELETE FROM word_book_text_paragraphs WHERE wordBookId = :wordBookId")
+    suspend fun clear_word_book_text_paragraphs(wordBookId: String)
+    @Query("DELETE FROM word_book_dialogues WHERE wordBookId = :wordBookId")
+    suspend fun clear_word_book_dialogues(wordBookId: String)
+    @Query("DELETE FROM word_book_texts WHERE wordBookId = :wordBookId")
+    suspend fun clear_word_book_texts(wordBookId: String)
+    @Query("DELETE FROM word_book_lesson_words WHERE wordBookId = :wordBookId")
+    suspend fun clear_word_book_lesson_words(wordBookId: String)
+    @Query("DELETE FROM word_book_lessons WHERE wordBookId = :wordBookId")
+    suspend fun clear_word_book_lessons(wordBookId: String)
+    @Upsert suspend fun upsertWordBook(item: WordBookEntity)
+    @Upsert suspend fun upsertLessons(items: List<WordBookLessonEntity>)
+    @Upsert suspend fun upsertLessonWords(items: List<WordBookLessonWordEntity>)
+    @Upsert suspend fun upsertDialogues(items: List<WordBookDialogueEntity>)
+    @Upsert suspend fun upsertDialogueLines(items: List<WordBookDialogueLineEntity>)
+    @Upsert suspend fun upsertTexts(items: List<WordBookTextEntity>)
+    @Upsert suspend fun upsertTextParagraphs(items: List<WordBookTextParagraphEntity>)
+
+    @Query("SELECT * FROM word_books ORDER BY updatedAt DESC")
+    suspend fun wordBooks(): List<WordBookEntity>
+
+    @Query("SELECT * FROM word_book_lessons WHERE wordBookId = :wordBookId ORDER BY number")
+    suspend fun lessons(wordBookId: String): List<WordBookLessonEntity>
+
+    @Query("SELECT * FROM word_book_lesson_words WHERE wordBookId = :wordBookId AND lessonId = :lessonId ORDER BY position")
+    suspend fun lessonWords(wordBookId: String, lessonId: String): List<WordBookLessonWordEntity>
+
+    @Query("SELECT entryId FROM word_book_lesson_words WHERE wordBookId = :wordBookId AND lessonId = :lessonId ORDER BY position")
+    suspend fun lessonWordIds(wordBookId: String, lessonId: String): List<String>
+
+    @Query("SELECT * FROM word_book_dialogues WHERE wordBookId = :wordBookId AND lessonId = :lessonId ORDER BY position")
+    suspend fun dialogues(wordBookId: String, lessonId: String): List<WordBookDialogueEntity>
+
+    @Query("SELECT * FROM word_book_dialogues WHERE wordBookId = :wordBookId AND lessonId = :lessonId AND id = :dialogueId LIMIT 1")
+    suspend fun dialogue(wordBookId: String, lessonId: String, dialogueId: String): WordBookDialogueEntity?
+
+    @Query("SELECT * FROM word_book_dialogue_lines WHERE wordBookId = :wordBookId AND lessonId = :lessonId AND dialogueId = :dialogueId ORDER BY position")
+    suspend fun dialogueLines(wordBookId: String, lessonId: String, dialogueId: String): List<WordBookDialogueLineEntity>
+
+    @Query("SELECT * FROM word_book_texts WHERE wordBookId = :wordBookId AND lessonId = :lessonId ORDER BY position")
+    suspend fun texts(wordBookId: String, lessonId: String): List<WordBookTextEntity>
+
+    @Query("SELECT * FROM word_book_texts WHERE wordBookId = :wordBookId AND lessonId = :lessonId AND id = :textId LIMIT 1")
+    suspend fun text(wordBookId: String, lessonId: String, textId: String): WordBookTextEntity?
+
+    @Query("SELECT * FROM word_book_text_paragraphs WHERE wordBookId = :wordBookId AND lessonId = :lessonId AND textId = :textId ORDER BY position")
+    suspend fun textParagraphs(wordBookId: String, lessonId: String, textId: String): List<WordBookTextParagraphEntity>
 }
 
 data class LegacyReviewItemRow(val id: String, val sourceId: String, val lessonNumber: Int?, val dueAt: Long?)

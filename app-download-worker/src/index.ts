@@ -2,12 +2,12 @@ export interface Env {
   DOWNLOADS: R2Bucket;
 }
 
-const APK_KEY = "rusmorph-0.3.0.apk";
-const VERSION = "0.3.0";
-const VERSION_CODE = 3;
+const APK_KEY = "rusmorph-0.4.0.apk";
+const VERSION = "0.4.0";
+const VERSION_CODE = 4;
 const DOWNLOAD_PATH = `/rusmorph-${VERSION}.apk`;
 const DOWNLOAD_NAME = `RusMorph-${VERSION}.apk`;
-const APK_SHA256 = "4ba891d7b92aebf7629e1e278418d67cdf969eb24be377b5065e5d1c7d223eba";
+const APK_SHA256 = "b0a27bcadb4866d4bf837d93acf1c171ec7ffa16969dd89be58403fd00c242ac";
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -71,7 +71,7 @@ ul{padding-left:20px}.hash{overflow-wrap:anywhere;font:12px/1.6 ui-monospace,mon
 @media(max-width:520px){main{padding:42px 0}.card{padding:20px}.download{align-items:flex-start;flex-direction:column}}
 </style></head><body><main><p class="eyebrow">RUSSIAN LEARNING · ANDROID</p><h1>RusMorph<br><span>${VERSION}</span></h1>
 <p class="lead">围绕课程、课次、学习单元与复习重构的俄语综合学习平台，保留完整词典、AI 与朗读纠音能力。</p>
-<section class="card"><div class="meta"><strong>版本 ${VERSION}（${VERSION_CODE}）</strong><span>Android 8.0 及以上</span><span>约 12 MB</span></div>
+<section class="card"><div class="meta"><strong>版本 ${VERSION}（${VERSION_CODE}）</strong><span>Android 8.0 及以上</span><span>约 11 MB</span></div>
 <a class="download" href="${DOWNLOAD_PATH}"><span>下载 Android 安装包</span><span>APK ↓</span></a>
 <ul><li>《大学俄语1》18 课与 1,929 条分课词汇</li><li>课程、对话、词汇与复习一体化学习路径</li><li>下拉显现带视差效果的 AI 负一层工作区</li><li>支持录音、回放、逐词标注与教师复核</li></ul>
 <p class="note">升级安装可保留现有应用数据。若浏览器提示风险，请确认下载域名为 namchieh.org。</p>

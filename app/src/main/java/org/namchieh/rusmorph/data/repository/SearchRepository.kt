@@ -20,6 +20,9 @@ private val EXTRA_WHITESPACE = Regex("\\s+")
 fun normalizeRussianForSearch(text: String): String =
     Normalizer.normalize(text, Normalizer.Form.NFC)
         .replace("\u0301", "")
+        .replace("'", "")
+        .replace("`", "")
+        .replace("’", "")
         .lowercase(Locale.ROOT)
         .replace(EXTRA_WHITESPACE, " ")
         .trim()
@@ -45,6 +48,8 @@ interface SearchDataSource {
     suspend fun recentEntries(limit: Int): List<LexiconEntryWithDetails> = recentOrRecommended(limit)
     suspend fun getEntryCount(): Int = 0
     suspend fun fuzzyCandidates(partOfSpeech: String?, lesson: Int?, limit: Int): List<FuzzyCandidateRow> = emptyList()
+    suspend fun allLemmaEntries(): List<org.namchieh.rusmorph.data.local.LemmaFuzzyEntry> = emptyList()
+    suspend fun searchFormsByPrefix(prefix: String, limit: Int = 2000): List<org.namchieh.rusmorph.data.local.SearchFormFuzzyEntry> = emptyList()
     suspend fun entriesByIds(entryIds: List<String>): List<LexiconEntryWithDetails> = emptyList()
     fun observeEntry(entryId: String): Flow<LexiconEntryWithDetails?>
     suspend fun markViewed(entryId: String, viewedAt: Long)
@@ -93,6 +98,8 @@ class RoomSearchDataSource(private val dao: SearchDao) : SearchDataSource {
     override suspend fun getEntryCount() = dao.entryCount()
     override suspend fun fuzzyCandidates(partOfSpeech: String?, lesson: Int?, limit: Int) =
         dao.fuzzyCandidateRows(partOfSpeech, lesson, limit)
+    override suspend fun allLemmaEntries() = dao.allLemmaEntries()
+    override suspend fun searchFormsByPrefix(prefix: String, limit: Int) = dao.searchFormsByPrefix(prefix, limit)
     override suspend fun entriesByIds(entryIds: List<String>) = dao.entriesByIds(entryIds)
     override fun observeEntry(entryId: String) = dao.observeEntry(entryId)
     override suspend fun markViewed(entryId: String, viewedAt: Long) =
@@ -101,6 +108,13 @@ class RoomSearchDataSource(private val dao: SearchDao) : SearchDataSource {
     override fun observeLessonOptions() = dao.observeLessonOptions()
     override fun observeKnowledgeChunk(chunkId: String) = dao.observeKnowledgeChunk(chunkId)
 }
+
+data class SearchResponse(
+    val entries: List<LexiconEntryWithDetails>,
+    val redirectedFrom: String? = null,
+    val redirectedTo: String? = null,
+    val isFuzzyMatch: Boolean = false,
+)
 
 class SearchRepository(
     private val dataSource: SearchDataSource,
@@ -120,6 +134,94 @@ class SearchRepository(
             partOfSpeech = partOfSpeech,
             lesson = lesson,
             limit = limit,
+        )
+    }
+
+    suspend fun searchWithFuzzy(
+        query: String,
+        partOfSpeech: String? = null,
+        lesson: Int? = null,
+        limit: Int = 50,
+    ): SearchResponse {
+        val raw = query.trim()
+        if (raw.isEmpty()) return SearchResponse(browseEntries(partOfSpeech, lesson, limit))
+
+        val directResults = search(raw, partOfSpeech, lesson, limit)
+        if (directResults.isNotEmpty()) {
+            return SearchResponse(entries = directResults)
+        }
+
+        val normalized = normalizeRussianForSearch(raw)
+        val endingCandidates = RussianMorphologyFuzzy.generateEndingCandidates(normalized)
+        for (candidate in endingCandidates) {
+            val candidateResults = search(candidate, partOfSpeech, lesson, limit)
+            if (candidateResults.isNotEmpty()) {
+                val target = candidateResults.first().entry.displayForm
+                return SearchResponse(
+                    entries = candidateResults,
+                    redirectedFrom = raw,
+                    redirectedTo = target,
+                    isFuzzyMatch = true,
+                )
+            }
+        }
+
+        val maxDist = when {
+            normalized.length <= 4 -> 1
+            normalized.length <= 7 -> 2
+            else -> 3
+        }
+
+        val prefix = if (normalized.length >= 3) normalized.take(3) else normalized.take(2)
+        val prefixForms = if (prefix.isNotBlank()) dataSource.searchFormsByPrefix(prefix, 1500) else emptyList()
+        val formDistanceMap = mutableMapOf<String, Int>()
+        for (sf in prefixForms) {
+            val d = RussianMorphologyFuzzy.editDistanceAtMost(normalized, sf.searchForm, maxDist)
+            if (d <= maxDist) {
+                val current = formDistanceMap[sf.entryId] ?: Int.MAX_VALUE
+                if (d < current) formDistanceMap[sf.entryId] = d
+            }
+        }
+
+        val lemmas = dataSource.allLemmaEntries()
+        val lemmaDistanceMap = mutableMapOf<String, Int>()
+        for (lemma in lemmas) {
+            if (lesson != null && lemma.lesson != lesson) continue
+            val normLemma = lemma.normalizedLemma
+            if (kotlin.math.abs(normalized.length - normLemma.length) > maxDist) continue
+            if (normalized.length >= 3 && normLemma.isNotEmpty() && normalized[0] != normLemma[0]) continue
+            val d = RussianMorphologyFuzzy.editDistanceAtMost(normalized, normLemma, maxDist)
+            if (d <= maxDist) {
+                lemmaDistanceMap[lemma.id] = d
+            }
+            for (ec in endingCandidates) {
+                val dEc = RussianMorphologyFuzzy.editDistanceAtMost(ec, normLemma, maxDist - 1)
+                if (dEc < maxDist) {
+                    val current = lemmaDistanceMap[lemma.id] ?: Int.MAX_VALUE
+                    if (dEc < current) lemmaDistanceMap[lemma.id] = dEc
+                }
+            }
+        }
+
+        val allCandidateIds = (formDistanceMap.keys + lemmaDistanceMap.keys).distinct().map { eid ->
+            val dForm = formDistanceMap[eid] ?: Int.MAX_VALUE
+            val dLemma = lemmaDistanceMap[eid] ?: Int.MAX_VALUE
+            eid to minOf(dForm, dLemma)
+        }.sortedWith(compareBy<Pair<String, Int>> { it.second }.thenBy { it.first })
+        .take(limit)
+
+        if (allCandidateIds.isEmpty()) return SearchResponse(emptyList())
+
+        val entries = dataSource.entriesByIds(allCandidateIds.map { it.first })
+        val entryMap = entries.associateBy { it.entry.id }
+        val sortedEntries = allCandidateIds.mapNotNull { entryMap[it.first] }
+
+        val topTarget = sortedEntries.firstOrNull()?.entry?.displayForm
+        return SearchResponse(
+            entries = sortedEntries,
+            redirectedFrom = raw,
+            redirectedTo = topTarget,
+            isFuzzyMatch = true,
         )
     }
 

@@ -36,6 +36,7 @@ import org.namchieh.rusmorph.agent.AgentQuestionType
 import org.namchieh.rusmorph.ui.LoadableState
 import org.namchieh.rusmorph.ui.WordDetailUiState
 import org.namchieh.rusmorph.ui.WordDetailViewModel
+import org.namchieh.rusmorph.ui.components.InflectionTableCard
 import org.namchieh.rusmorph.ui.components.knowledgeCategoryLabel
 import org.namchieh.rusmorph.ui.components.readableSummary
 import org.namchieh.rusmorph.ui.components.visibleValue
@@ -88,73 +89,89 @@ private fun DetailContent(
     modifier: Modifier,
 ) {
     val parts = detail.partsOfSpeech.filterVisible()
-    val basic = listOfNotNull(
-        detail.lesson?.let { stringResource(R.string.lesson_label) to stringResource(R.string.lesson_format, it) },
-        detail.sequence?.let { stringResource(R.string.sequence_label) to it.toString() },
-        parts.takeIf { it.isNotEmpty() }?.let {
-            stringResource(R.string.part_of_speech_label) to it.joinToString("、")
-        },
-    )
-    val noun = listOfNotNull(
-        detail.gender.visibleValue()?.let { stringResource(R.string.gender_label) to it },
-        detail.declensionClass.visibleValue()?.let { stringResource(R.string.declension_class_label) to it },
-        detail.endingType.visibleValue()?.let { stringResource(R.string.ending_type_label) to it },
-        detail.pluralStressPattern.visibleValue()?.let { stringResource(R.string.plural_stress_label) to it },
-    )
-    val verb = listOfNotNull(
-        detail.aspect.visibleValue()?.let { stringResource(R.string.aspect_label) to it },
-        detail.conjugationClass.visibleValue()?.let { stringResource(R.string.conjugation_class_label) to it },
-        detail.phoneticAlternation.visibleValue()?.let { stringResource(R.string.phonetic_alternation_label) to it },
-    )
     val additionalAnnotations = detail.annotations
-        .filterNot { it.fieldName in STANDARD_ANNOTATION_FIELDS }
+        .filterNot { it.fieldName in STANDARD_ANNOTATION_FIELDS || it.fieldName == "inflection_data" }
         .distinctBy { it.fieldName to it.value }
         .map { it.fieldName to it.value }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(detail.displayForm, style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.SemiBold)
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    detail.displayForm,
+                    style = MaterialTheme.typography.displayMedium,
+                    fontWeight = FontWeight.SemiBold,
+                )
                 detail.chineseMeaning.visibleValue()?.let {
                     Text(it, style = MaterialTheme.typography.titleLarge)
                 }
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    parts.forEach { AssistChip(onClick = {}, label = { Text(it) }) }
+
+                // 单词基础信息小 Tip 胶囊 (FlowRow)
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    detail.lesson?.let {
+                        MorphologyTip("大学俄语1 · 第 $it 课", isPrimary = true)
+                    }
+                    parts.forEach { MorphologyTip(it) }
+                    detail.gender.visibleValue()?.let { MorphologyTip(it) }
+                    detail.aspect.visibleValue()?.let { MorphologyTip(it) }
+                    detail.declensionClass.visibleValue()?.let {
+                        val label = if (it.endsWith("变格") || it.endsWith("变格法")) it else "${it} 变格"
+                        MorphologyTip(label)
+                    }
+                    detail.conjugationClass.visibleValue()?.let {
+                        val label = if (it.endsWith("变位") || it.endsWith("变位法")) it else "${it} 变位"
+                        MorphologyTip(label)
+                    }
+                    detail.endingType.visibleValue()?.let { MorphologyTip(it) }
+                    detail.pluralStressPattern.visibleValue()?.let { MorphologyTip(it) }
+                    detail.phoneticAlternation.visibleValue()?.let { MorphologyTip("音变: $it") }
+                    additionalAnnotations.forEach { (field, value) ->
+                        MorphologyTip("$field: $value")
+                    }
                 }
             }
         }
 
-        if (basic.isNotEmpty()) item { MorphologySection(stringResource(R.string.basic_information), basic) }
-        if (noun.isNotEmpty()) item { MorphologySection(stringResource(R.string.noun_information), noun) }
-        if (verb.isNotEmpty()) item { MorphologySection(stringResource(R.string.verb_information), verb) }
-        if (additionalAnnotations.isNotEmpty()) {
-            item { MorphologySection(stringResource(R.string.additional_annotations), additionalAnnotations) }
+        // 变格变位表
+        item {
+            InflectionTableCard(
+                inflection = detail.inflection,
+                onAskAi = { onAgentClick(detail.id, AgentQuestionType.MORPHOLOGY) },
+            )
         }
 
         item { AgentQuestionActions(detail.id, onAgentClick) }
 
-        item { SectionHeading(stringResource(R.string.local_knowledge)) }
-        if (detail.relatedKnowledge.isEmpty()) {
-            item { Text(stringResource(R.string.no_local_knowledge), color = MaterialTheme.colorScheme.onSurfaceVariant) }
-        } else {
+        if (detail.relatedKnowledge.isNotEmpty()) {
+            item { SectionHeading(stringResource(R.string.local_knowledge)) }
             items(detail.relatedKnowledge, key = { it.id }) { knowledge ->
                 KnowledgeCard(knowledge, onExplanationClick)
             }
         }
+    }
+}
 
-        if (detail.sources.isNotEmpty()) {
-            item { SectionHeading(stringResource(R.string.data_sources)) }
-            items(detail.sources, key = { "${it.workbook}:${it.sheet}:${it.row}" }) { source ->
-                Text(
-                    stringResource(R.string.workbook_source_format, source.workbook, source.sheet, source.row),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
-        }
+@Composable
+private fun MorphologyTip(text: String, isPrimary: Boolean = false) {
+    androidx.compose.material3.Surface(
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+        color = if (isPrimary) RusMorphColors.PrimaryContainer else RusMorphColors.SurfaceElevated,
+        contentColor = if (isPrimary) RusMorphColors.PrimaryDark else RusMorphColors.TextPrimary,
+        border = if (isPrimary) null else androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = if (isPrimary) FontWeight.SemiBold else FontWeight.Normal,
+            modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+        )
     }
 }
 

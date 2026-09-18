@@ -58,6 +58,7 @@ class AssetDatabaseImporter(
             mutableState.value = InitializationState.Initializing
             try {
                 val imported = importIfNeeded()
+                WordBookAssetImporter(context, database).importIfNeeded()
                 mutableState.value = InitializationState.Ready(imported)
             } catch (exception: Exception) {
                 if (BuildConfig.DEBUG) Log.e("RusMorphImporter", "Local data import failed", exception)

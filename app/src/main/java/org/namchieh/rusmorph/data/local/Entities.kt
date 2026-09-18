@@ -318,6 +318,7 @@ data class GenericReviewItemEntity(
     val mistakeCount: Int,
     val lastResult: Double?,
     val updatedAt: Long,
+    val wordBookId: String? = null,
 )
 
 @Entity(tableName = "mistake_items_v2", indices = [Index("type"), Index("sourceId"), Index("lessonId"), Index("lastOccurredAt")])
@@ -341,4 +342,83 @@ data class PronunciationSessionEntity(
     val startedAt: Long,
     val completedAt: Long?,
     val intelligibilityScore: Double?,
+)
+
+@Entity(tableName = "word_books", indices = [Index("sourceType"), Index("updatedAt")])
+data class WordBookEntity(
+    @androidx.room.PrimaryKey val id: String,
+    val title: String,
+    val subtitle: String,
+    val description: String,
+    val coverUri: String?,
+    val sourceType: String,
+    val version: Int,
+    val updatedAt: Long,
+)
+
+@Entity(tableName = "word_book_lessons", primaryKeys = ["wordBookId", "id"], indices = [Index("wordBookId"), Index(value = ["wordBookId", "number"], unique = true)])
+data class WordBookLessonEntity(
+    val id: String,
+    val wordBookId: String,
+    val number: Int,
+    val titleRu: String?,
+    val titleZh: String?,
+)
+
+@Entity(
+    tableName = "word_book_lesson_words",
+    primaryKeys = ["wordBookId", "lessonId", "entryId"],
+    indices = [Index("lessonId"), Index("entryId"), Index(value = ["wordBookId", "lessonId", "position"])],
+)
+data class WordBookLessonWordEntity(
+    val wordBookId: String,
+    val lessonId: String,
+    val entryId: String,
+    val position: Int,
+    val isKey: Boolean,
+)
+
+@Entity(tableName = "word_book_dialogues", primaryKeys = ["wordBookId", "lessonId", "id"], indices = [Index("wordBookId"), Index("lessonId")])
+data class WordBookDialogueEntity(
+    val id: String,
+    val wordBookId: String,
+    val lessonId: String,
+    val title: String,
+    val description: String?,
+    val position: Int,
+)
+
+@Entity(tableName = "word_book_dialogue_lines", primaryKeys = ["wordBookId", "lessonId", "dialogueId", "id"], indices = [Index("dialogueId")])
+data class WordBookDialogueLineEntity(
+    val id: String,
+    val dialogueId: String,
+    val speaker: String?,
+    val text: String,
+    val translation: String?,
+    val audio: String?,
+    val position: Int,
+    val wordBookId: String,
+    val lessonId: String,
+)
+
+@Entity(tableName = "word_book_texts", primaryKeys = ["wordBookId", "lessonId", "id"], indices = [Index("wordBookId"), Index("lessonId")])
+data class WordBookTextEntity(
+    val id: String,
+    val wordBookId: String,
+    val lessonId: String,
+    val title: String,
+    val translationTitle: String?,
+    val position: Int,
+)
+
+@Entity(tableName = "word_book_text_paragraphs", primaryKeys = ["wordBookId", "lessonId", "textId", "id"], indices = [Index("textId")])
+data class WordBookTextParagraphEntity(
+    val id: String,
+    val textId: String,
+    val text: String,
+    val translation: String?,
+    val audio: String?,
+    val position: Int,
+    val wordBookId: String,
+    val lessonId: String,
 )

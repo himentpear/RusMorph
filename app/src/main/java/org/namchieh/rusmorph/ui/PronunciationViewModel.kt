@@ -34,6 +34,7 @@ class PronunciationViewModel(
     private val sessionType: PronunciationSessionType = PronunciationSessionType.FREE,
     private val sourceId: String? = null,
     private val lessonId: String? = null,
+    private val wordBookId: String? = null,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(PronunciationUiState())
     val uiState: StateFlow<PronunciationUiState> = _uiState
@@ -125,7 +126,7 @@ class PronunciationViewModel(
                 learningRepository?.recordPronunciation(
                     PronunciationSession(
                         id = UUID.randomUUID().toString(), type = sessionType, sourceId = sourceId,
-                        courseId = null, lessonId = lessonId, targetText = snapshot.targetText,
+                        wordBookId = wordBookId, lessonId = lessonId, targetText = snapshot.targetText,
                         startedAt = startedAt, completedAt = System.currentTimeMillis(),
                         intelligibilityScore = result.overall_score,
                     ),

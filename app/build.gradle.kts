@@ -207,8 +207,8 @@ android {
         applicationId = "org.namchieh.rusmorph"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "AGENT_PROXY_BASE_URL", "".asBuildConfigString())
@@ -216,6 +216,20 @@ android {
         buildConfigField("String", "SPEECH_BACKEND_BASE_URL", "".asBuildConfigString())
         buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
         buildConfigField("String", "REVIEW_WORKBENCH_URL", "https://api.namchieh.org/review/".asBuildConfigString())
+    }
+
+    signingConfigs {
+        create("release") {
+            val keystoreFile = rootProject.file("rusmorph-release.jks")
+            if (keystoreFile.exists()) {
+                storeFile = keystoreFile
+                storePassword = providers.gradleProperty("RUSMORPH_RELEASE_STORE_PASSWORD").orNull ?: "rusmorphrelease"
+                keyAlias = providers.gradleProperty("RUSMORPH_RELEASE_KEY_ALIAS").orNull ?: "rusmorph"
+                keyPassword = providers.gradleProperty("RUSMORPH_RELEASE_KEY_PASSWORD").orNull ?: "rusmorphrelease"
+                enableV1Signing = true
+                enableV2Signing = true
+            }
+        }
     }
 
     buildTypes {
@@ -250,6 +264,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null) {
+                signingConfig = releaseSigning
+            }
         }
     }
 

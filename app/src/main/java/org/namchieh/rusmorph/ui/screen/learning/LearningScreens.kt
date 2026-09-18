@@ -38,17 +38,19 @@ import androidx.compose.ui.unit.Velocity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.namchieh.rusmorph.data.local.LexiconEntryWithDetails
 import org.namchieh.rusmorph.data.repository.LearningStats
-import org.namchieh.rusmorph.domain.learning.Course
+import org.namchieh.rusmorph.domain.learning.WordBook
 import org.namchieh.rusmorph.domain.learning.Dialogue
 import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.domain.learning.LearningUnitType
 import org.namchieh.rusmorph.domain.learning.Lesson
+import org.namchieh.rusmorph.domain.learning.TextContent
 import org.namchieh.rusmorph.domain.learning.ReviewItem
 import org.namchieh.rusmorph.ui.components.RusButton
 import org.namchieh.rusmorph.ui.components.RusBottomSheet
 import org.namchieh.rusmorph.ui.components.RusCard
 import org.namchieh.rusmorph.ui.components.RusContextChip
 import org.namchieh.rusmorph.ui.components.RusCourseCard
+import org.namchieh.rusmorph.ui.components.WordBookCover
 import org.namchieh.rusmorph.ui.components.RusEmptyState
 import org.namchieh.rusmorph.ui.components.RusLearningUnitCard
 import org.namchieh.rusmorph.ui.components.RusLessonCard
@@ -139,9 +141,7 @@ fun LearningScaffold(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(9.dp),
             ) {
-                Text("✦  NEGATIVE LAYER", style = MaterialTheme.typography.labelMedium, color = RusMorphColors.Secondary, fontWeight = FontWeight.Bold)
-                Text("AI 学习工作区", style = MaterialTheme.typography.headlineMedium, color = RusMorphColors.TextOnDark, fontWeight = FontWeight.SemiBold)
-                Text("Context · $title", color = RusMorphColors.TextOnDark.copy(alpha = .74f))
+                Text("AI 学习助手", style = MaterialTheme.typography.headlineMedium, color = RusMorphColors.TextOnDark, fontWeight = FontWeight.SemiBold)
                 Text(if (progress >= 1f) "松开进入 AI" else "继续向下滑动", color = if (progress >= 1f) RusMorphColors.Secondary else RusMorphColors.TextOnDark)
                 Box(Modifier.width(52.dp).height(3.dp).graphicsLayer { scaleX = progress.coerceAtLeast(.12f) }.background(RusMorphColors.Secondary))
             }
@@ -169,7 +169,7 @@ fun LearningScaffold(
 
 @Composable
 fun HomeScreen(
-    coursesState: Loadable<List<Course>>, stats: LearningStats, progress: List<LearningProgress>,
+    coursesState: Loadable<List<WordBook>>, stats: LearningStats, progress: List<LearningProgress>,
     onCourse: (String) -> Unit, onContinue: (String, String) -> Unit, onDictionary: () -> Unit,
     onPronunciation: () -> Unit, onCourses: () -> Unit, onReview: () -> Unit,
     onBottom: (BottomDestination) -> Unit, onAI: () -> Unit,
@@ -180,18 +180,19 @@ fun HomeScreen(
             Column { Text(greeting, style = androidx.compose.material3.MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.SemiBold); Text("继续学习俄语", color = RusMorphColors.TextSecondary) }
             when (coursesState) {
                 Loadable.Loading -> CircularProgressIndicator()
-                is Loadable.Error -> RusEmptyState("课程暂不可用", coursesState.message)
+                is Loadable.Error -> RusEmptyState("词书暂不可用", coursesState.message)
                 is Loadable.Content -> {
-                    val course = coursesState.value.firstOrNull()
-                    if (course == null) RusEmptyState("还没有课程", "导入课程后会显示在这里") else {
-                        val latest = progress.firstOrNull { it.courseId == course.id && it.lessonId != null }
+                    val recentBookId = progress.firstOrNull { row -> coursesState.value.any { it.id == row.wordBookId } }?.wordBookId
+                    val wordBook = coursesState.value.firstOrNull { it.id == recentBookId } ?: coursesState.value.firstOrNull()
+                    if (wordBook == null) RusEmptyState("还没有词书", "导入词书后会显示在这里") else {
+                        val latest = progress.firstOrNull { it.wordBookId == wordBook.id && it.lessonId != null }
                         RusSectionTitle("继续学习")
-                        RusCard(Modifier.fillMaxWidth(), onClick = { latest?.lessonId?.let { onContinue(course.id, it) } ?: onCourse(course.id) }) {
+                        RusCard(Modifier.fillMaxWidth(), onClick = { latest?.lessonId?.let { onContinue(wordBook.id, it) } ?: onCourse(wordBook.id) }) {
                             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                Text(course.title, color = RusMorphColors.Primary, fontWeight = FontWeight.SemiBold)
-                                Text(latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it · 第 $it 课" } ?: "从第一课开始", style = androidx.compose.material3.MaterialTheme.typography.titleLarge)
-                                RusProgressBar(latest?.progress ?: 0f)
-                                Text(if (latest == null) "查看课程" else "继续上次学习 →", color = RusMorphColors.Primary)
+                                Text(wordBook.title, color = RusMorphColors.Primary, fontWeight = FontWeight.SemiBold)
+                                Text(latest?.lessonId?.let { "继续上次课次" } ?: "从第一课开始", style = androidx.compose.material3.MaterialTheme.typography.titleLarge)
+                                RusProgressBar(wordBook.progress)
+                                Text(if (latest == null) "查看词书" else "继续上次学习 →", color = RusMorphColors.Primary)
                             }
                         }
                     }
@@ -210,56 +211,67 @@ fun HomeScreen(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 RusButton("查词", onDictionary, Modifier.weight(1f))
                 RusButton("自由朗读", onPronunciation, Modifier.weight(1f))
-                RusButton("课程", onCourses, Modifier.weight(1f))
+                RusButton("词书", onCourses, Modifier.weight(1f))
             }
         }
     }
 }
 
 @Composable
-fun CoursesScreen(state: Loadable<List<Course>>, onCourse: (String) -> Unit, onBottom: (BottomDestination) -> Unit) {
-    LearningScaffold("课程", BottomDestination.Courses, onBottom) { root ->
+fun WordBooksScreen(state: Loadable<List<WordBook>>, onCourse: (String) -> Unit, onBottom: (BottomDestination) -> Unit) {
+    LearningScaffold("词书", BottomDestination.Courses, onBottom) { root ->
         ContentColumn(root) {
-            RusSectionTitle("我的课程", "按课程与课次组织长期学习")
+            RusSectionTitle("我的词书")
             when (state) {
                 Loadable.Loading -> CircularProgressIndicator()
-                is Loadable.Error -> RusEmptyState("课程加载失败", state.message)
-                is Loadable.Content -> if (state.value.isEmpty()) RusEmptyState("暂无课程", "课程库中还没有可用内容") else state.value.forEach { RusCourseCard(it, { onCourse(it.id) }) }
+                is Loadable.Error -> RusEmptyState("词书加载失败", state.message)
+                is Loadable.Content -> if (state.value.isEmpty()) RusEmptyState("暂无词书", "词书库中还没有可用内容") else state.value.forEach { RusCourseCard(it, { onCourse(it.id) }) }
             }
         }
     }
 }
 
 @Composable
-fun CourseDetailScreen(course: Course?, lessons: Loadable<List<Lesson>>, onLesson: (String, String) -> Unit, onBack: () -> Unit) {
-    LearningScaffold(course?.title ?: "课程", onBack = onBack) { root ->
+fun WordBookDetailScreen(course: WordBook?, lessons: Loadable<List<Lesson>>, onLesson: (String, String) -> Unit, onBack: () -> Unit) {
+    LearningScaffold(course?.title ?: "词书", onBack = onBack) { root ->
         ContentColumn(root) {
-            course?.let { RusSectionTitle(it.subtitle, it.description); RusProgressBar(it.progress) }
-            RusSectionTitle("Lesson", "按真实内容动态展示学习单元")
+            course?.let {
+                Row(horizontalArrangement = Arrangement.spacedBy(18.dp), verticalAlignment = Alignment.CenterVertically) {
+                    WordBookCover(it, Modifier.width(110.dp).height(162.dp))
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        RusSectionTitle(it.subtitle)
+                        RusProgressBar(it.progress)
+                    }
+                }
+            }
+            RusSectionTitle("课次")
             when (lessons) {
                 Loadable.Loading -> CircularProgressIndicator()
                 is Loadable.Error -> RusEmptyState("课次加载失败", lessons.message)
-                is Loadable.Content -> lessons.value.forEach { lesson -> RusLessonCard(lesson, { onLesson(lesson.courseId, lesson.id) }) }
+                is Loadable.Content -> lessons.value.forEach { lesson -> RusLessonCard(lesson, { onLesson(lesson.wordBookId, lesson.id) }) }
             }
         }
     }
 }
 
 @Composable
-fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitType) -> Unit, onBack: () -> Unit, onAI: () -> Unit) {
+fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, org.namchieh.rusmorph.domain.learning.LearningUnit) -> Unit, onBack: () -> Unit, onAI: () -> Unit) {
     LearningScaffold("Lesson", onBack = onBack, onAI = onAI) { root ->
         ContentColumn(root) {
             when (state) {
                 Loadable.Loading -> CircularProgressIndicator()
-                is Loadable.Error -> RusEmptyState("无法打开课程", state.message)
+                is Loadable.Error -> RusEmptyState("无法打开词书课次", state.message)
                 is Loadable.Content -> {
                     val lesson = state.value
-                    Text("${lesson.courseId}  /  ${lesson.titleRu}", color = RusMorphColors.Primary, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
-                    RusSectionTitle(lesson.titleRu, lesson.titleZh)
+                    Text("${lesson.wordBookId}  /  ${lesson.titleRu}", color = RusMorphColors.Primary, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
+                    RusSectionTitle(lesson.titleRu.orEmpty(), lesson.titleZh)
                     RusProgressBar(lesson.progress)
                     Spacer(Modifier.height(4.dp))
                     RusSectionTitle("Learning Path")
-                    lesson.units.forEachIndexed { index, unit -> RusLearningUnitCard(index + 1, unit, { onUnit(lesson, unit.type) }) }
+                    if (!lesson.content.words) Text("本课单词 · 尚未导入")
+                    if (!lesson.content.dialogues) Text("对话 · 尚未导入")
+                    if (!lesson.content.texts) Text("课文 · 尚未导入")
+                    lesson.units.forEachIndexed { index, unit -> RusLearningUnitCard(index + 1, unit, { onUnit(lesson, unit) }) }
                 }
             }
         }
@@ -317,11 +329,36 @@ fun DialogueScreen(state: Loadable<Dialogue>, onPractice: (String, String) -> Un
                                 line.speaker?.let { Text(it.uppercase(), color = RusMorphColors.Primary, style = androidx.compose.material3.MaterialTheme.typography.labelMedium) }
                                 Text(line.text, style = androidx.compose.material3.MaterialTheme.typography.titleLarge, lineHeight = androidx.compose.ui.unit.TextUnit.Unspecified)
                                 line.translation?.let { Text(it, color = RusMorphColors.TextSecondary) }
-                                TextButton(onClick = { onPractice(line.text, line.id) }) { Text("🎤 跟读") }
+                                TextButton(onClick = { onPractice(line.text, org.namchieh.rusmorph.domain.learning.scopedLearningId(dialogue.id, line.id)) }) { Text("🎤 跟读") }
                             }
                         }
                     }
                     if (!dialogue.canRolePlay) RusEmptyState("角色练习尚未启用", "教材源缺少可靠说话人标注；逐句跟读仍可使用")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TextScreen(state: Loadable<TextContent>, onPractice: (String, String) -> Unit, onBack: () -> Unit, onAI: () -> Unit) {
+    LearningScaffold("ТЕКСТ · 课文", onBack = onBack, onAI = onAI) { root ->
+        ContentColumn(root) {
+            when (state) {
+                Loadable.Loading -> CircularProgressIndicator()
+                is Loadable.Error -> RusEmptyState("课文加载失败", state.message)
+                is Loadable.Content -> {
+                    val text = state.value
+                    RusSectionTitle(text.title, text.translationTitle)
+                    text.paragraphs.forEach { paragraph ->
+                        RusCard(Modifier.fillMaxWidth()) {
+                            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Text(paragraph.text, style = MaterialTheme.typography.titleMedium)
+                                paragraph.translation?.let { Text(it, color = RusMorphColors.TextSecondary) }
+                                TextButton(onClick = { onPractice(paragraph.text, org.namchieh.rusmorph.domain.learning.scopedLearningId(text.id, paragraph.id)) }) { Text("🎤 跟读") }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -350,7 +387,7 @@ fun ReviewScreen(stats: LearningStats, onStart: () -> Unit, onBottom: (BottomDes
 fun ReviewQueueScreen(items: List<ReviewItem>, onWord: (String) -> Unit, onBack: () -> Unit) {
     LearningScaffold("今日复习", onBack = onBack) { root ->
         ContentColumn(root) {
-            RusSectionTitle("复习队列", "旧词卡 SRS 与通用复习项统一呈现")
+            RusSectionTitle("复习队列")
             if (items.isEmpty()) RusEmptyState("今日已完成", "当前没有到期项目")
             else items.forEachIndexed { index, item ->
                 RusCard(Modifier.fillMaxWidth(), onClick = { if (item.type == org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD) onWord(item.sourceId) }) {
@@ -358,7 +395,7 @@ fun ReviewQueueScreen(items: List<ReviewItem>, onWord: (String) -> Unit, onBack:
                         Text((index + 1).toString().padStart(2, '0'), color = RusMorphColors.Secondary)
                         Column(Modifier.weight(1f)) {
                             Text(item.type.name, color = RusMorphColors.Primary, fontWeight = FontWeight.SemiBold)
-                            Text(item.lessonId?.substringAfterLast('-')?.let { "第 $it 课" } ?: "跨课程复习", color = RusMorphColors.TextSecondary)
+                            Text(item.lessonId?.substringAfterLast('-')?.let { "第 $it 课" } ?: "跨词书复习", color = RusMorphColors.TextSecondary)
                         }
                         Text("开始 ›", color = RusMorphColors.Primary)
                     }
@@ -372,7 +409,7 @@ fun ReviewQueueScreen(items: List<ReviewItem>, onWord: (String) -> Unit, onBack:
 fun ProfileScreen(stats: LearningStats, onSettings: () -> Unit, onBottom: (BottomDestination) -> Unit) {
     LearningScaffold("我的", BottomDestination.Profile, onBottom) { root ->
         ContentColumn(root) {
-            RusSectionTitle("学习档案", "所有统计来自本机学习记录")
+            RusSectionTitle("学习档案")
             RusCard(Modifier.fillMaxWidth()) { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 RusStat(stats.favoriteWordCount.toString(), "收藏词汇")
                 RusStat(stats.pronunciationCount.toString(), "朗读句数")
@@ -381,7 +418,7 @@ fun ProfileScreen(stats: LearningStats, onSettings: () -> Unit, onBottom: (Botto
             RusCard(Modifier.fillMaxWidth()) { Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text("学习时间", color = RusMorphColors.TextSecondary); Text("${stats.studySeconds / 60} 分钟", style = androidx.compose.material3.MaterialTheme.typography.titleLarge)
             } }
-            RusButton("设置与 Teaching Tools", onSettings, Modifier.fillMaxWidth())
+            RusButton("设置", onSettings, Modifier.fillMaxWidth())
         }
     }
 }
@@ -390,7 +427,7 @@ fun ProfileScreen(stats: LearningStats, onSettings: () -> Unit, onBottom: (Botto
 fun UnavailableContentScreen(title: String, onBack: () -> Unit) {
     LearningScaffold(title, onBack = onBack) { root ->
         Box(root.padding(20.dp), contentAlignment = Alignment.Center) {
-            RusEmptyState("内容尚未导入", "此路由已保留；获得可靠教材来源后即可接入，不会展示 AI 生成的假内容。")
+            RusEmptyState("暂未开放", "更多学习内容正在准备中")
         }
     }
 }

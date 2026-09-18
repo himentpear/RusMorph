@@ -11,6 +11,8 @@ __pycache__/
 .pytest_cache/
 
 # Local credentials and developer configuration
+*.jks
+*.keystore
 .env
 .env.*
 !.env.example
@@ -39,3 +41,8 @@ release/
 
 # Separate project with its own Git history
 auto-sp-rule-engine-src/
+
+# Binary artifacts and data cache
+*.apk
+*.idsig
+data-source/openrussian/

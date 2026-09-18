@@ -52,27 +52,6 @@ fun SettingsScreen(
                 Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) {
                     Column(
                         Modifier.fillMaxWidth().padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Text("朗读样本工作台")
-                        Text(
-                            "按《大学俄语1》课号生成对话任务，录音、回放并提交人工评分。",
-                            color = RusMorphColors.TextSecondary,
-                        )
-                        Text(
-                            "将在系统浏览器中打开，以获得更稳定的麦克风与音频播放支持。",
-                            color = RusMorphColors.TextTertiary,
-                        )
-                        OutlinedButton(onClick = { uriHandler.openUri(BuildConfig.REVIEW_WORKBENCH_URL) }) {
-                            Text("打开工作台")
-                        }
-                    }
-                }
-            }
-            item {
-                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) {
-                    Column(
-                        Modifier.fillMaxWidth().padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         Text("牌组上限")
@@ -91,10 +70,26 @@ fun SettingsScreen(
                     }
                 }
             }
+            item {
+                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) {
+                    Column(
+                        Modifier.fillMaxWidth().padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Text("朗读样本工作台")
+                        Text(
+                            "提交课文对话录音并参与人工评分。",
+                            color = RusMorphColors.TextSecondary,
+                        )
+                        OutlinedButton(onClick = { uriHandler.openUri(BuildConfig.REVIEW_WORKBENCH_URL) }) {
+                            Text("打开工作台")
+                        }
+                    }
+                }
+            }
             item { Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated)) { Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Column(Modifier.weight(1f)) { Text("AI 请求诊断"); Text("记录接口阶段、状态码、耗时和安全错误码", color = RusMorphColors.TextSecondary) }; Switch(checked = enabled, onCheckedChange = diagnostics::setEnabled) }
-                Text("默认关闭；开启后仅保留本机当前会话数据，不含问题、回答或密钥。", color = RusMorphColors.TextTertiary)
-                if (enabled) OutlinedButton(onClick = { scope.launch { agentRepository.checkWorkerConnection() } }) { Text("测试 Worker 连接") }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Column(Modifier.weight(1f)) { Text("网络请求诊断"); Text("记录接口阶段与响应状态", color = RusMorphColors.TextSecondary) }; Switch(checked = enabled, onCheckedChange = diagnostics::setEnabled) }
+                if (enabled) OutlinedButton(onClick = { scope.launch { agentRepository.checkWorkerConnection() } }) { Text("测试连接") }
             } } }
             if (enabled) {
                 item { Text("最近反馈") }

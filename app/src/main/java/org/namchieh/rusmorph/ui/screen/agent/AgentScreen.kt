@@ -93,12 +93,6 @@ internal fun AgentContent(
             )
         }
         item { ContextSummary(data) }
-        if (data.retrieval.knowledgeChunks.isEmpty()) item {
-            Text(stringResource(R.string.agent_no_knowledge_warning), color = MaterialTheme.colorScheme.tertiary)
-        }
-        if (data.availability != AgentAvailability.AVAILABLE) item {
-            Text(stringResource(R.string.agent_not_configured), color = MaterialTheme.colorScheme.error)
-        }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Button(onClick = onSubmit, enabled = data.canSubmit && !sending) {
@@ -130,7 +124,6 @@ internal fun AgentContent(
                 answer.warnings.forEach { Text("• $it") }
             }
         }
-        item { Text(stringResource(R.string.agent_privacy_notice), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
     }
 }
 

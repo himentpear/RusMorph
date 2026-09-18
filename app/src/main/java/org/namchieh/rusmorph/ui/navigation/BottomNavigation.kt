@@ -13,7 +13,7 @@ import org.namchieh.rusmorph.ui.theme.RusMorphColors
 
 enum class BottomDestination(val label: String, val symbol: String, val route: String) {
     Home("首页", "⌂", Routes.Home),
-    Courses("课程", "▤", Routes.Courses),
+    Courses("词书", "▤", Routes.Courses),
     Dictionary("词典", "А", Routes.Dictionary),
     Review("复习", "↻", Routes.Review),
     Profile("我的", "○", Routes.Profile),

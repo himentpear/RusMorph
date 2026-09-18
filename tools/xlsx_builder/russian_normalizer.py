@@ -16,9 +16,9 @@ def normalize_russian_for_storage(text: str) -> str:
 
 
 def normalize_russian_for_search(text: str) -> str:
-    """Lowercase Russian and remove only combining acute accents."""
+    """Lowercase Russian and remove combining acute accents, apostrophes, and stress marks."""
     decomposed = unicodedata.normalize("NFD", text).lower()
-    without_accents = "".join(character for character in decomposed if character != ACCENT)
+    without_accents = "".join(character for character in decomposed if character != ACCENT and character not in "'`’")
     return SPACE_RE.sub(" ", unicodedata.normalize("NFC", without_accents)).strip()
 
 

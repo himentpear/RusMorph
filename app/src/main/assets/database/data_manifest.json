@@ -39,16 +39,16 @@
       "size": 49
     }
   ],
-  "generatedAt": "2026-08-11T06:40:52.561155+00:00",
+  "generatedAt": "2026-09-18T08:58:45.557430+00:00",
   "generatorVersion": "1.0.0",
   "normalizationVersion": "1",
-  "dataVersion": "c481300d8f70a4ed1852fef46e43eaad2a0744996af4aac94ab04a6c660e194e",
+  "dataVersion": "9cab5539971999e15857773b8710ab2c046ae4682d5cd092e7d076f595c89217",
   "counts": {
-    "entries": 1929,
-    "searchForms": 2138,
-    "partsOfSpeechRelations": 1947,
-    "annotationRecords": 5789,
-    "provenanceRecords": 1929,
+    "entries": 10929,
+    "searchForms": 116736,
+    "partsOfSpeechRelations": 10947,
+    "annotationRecords": 14815,
+    "provenanceRecords": 10929,
     "declensionRules": 234,
     "knowledgeChunks": 5,
     "crossRefs": 84
