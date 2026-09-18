@@ -220,12 +220,15 @@ android {
 
     signingConfigs {
         create("release") {
-            val keystoreFile = rootProject.file("rusmorph-release.jks")
-            if (keystoreFile.exists()) {
+            val keystoreFile = listOf(
+                rootProject.file("werus-release.jks"),
+                rootProject.file("rusmorph-release.jks"),
+            ).firstOrNull { it.exists() }
+            if (keystoreFile != null) {
                 storeFile = keystoreFile
-                storePassword = providers.gradleProperty("RUSMORPH_RELEASE_STORE_PASSWORD").orNull ?: "rusmorphrelease"
-                keyAlias = providers.gradleProperty("RUSMORPH_RELEASE_KEY_ALIAS").orNull ?: "rusmorph"
-                keyPassword = providers.gradleProperty("RUSMORPH_RELEASE_KEY_PASSWORD").orNull ?: "rusmorphrelease"
+                storePassword = providers.gradleProperty("RUSMORPH_RELEASE_STORE_PASSWORD").orNull ?: "weruspass"
+                keyAlias = providers.gradleProperty("RUSMORPH_RELEASE_KEY_ALIAS").orNull ?: "werus"
+                keyPassword = providers.gradleProperty("RUSMORPH_RELEASE_KEY_PASSWORD").orNull ?: "weruspass"
                 enableV1Signing = true
                 enableV2Signing = true
             }
@@ -265,8 +268,10 @@ android {
                 "proguard-rules.pro",
             )
             val releaseSigning = signingConfigs.getByName("release")
-            if (releaseSigning.storeFile != null) {
-                signingConfig = releaseSigning
+            signingConfig = if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
+                releaseSigning
+            } else {
+                signingConfigs.getByName("debug")
             }
         }
     }
