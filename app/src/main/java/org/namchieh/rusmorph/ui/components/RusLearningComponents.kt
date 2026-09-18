@@ -87,7 +87,12 @@ fun RusCourseCard(wordBook: WordBook, onClick: () -> Unit, modifier: Modifier = 
 @Composable
 fun WordBookCover(wordBook: WordBook, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val resourceId = (wordBook.coverResourceName ?: wordBook.cover)?.let { context.resources.getIdentifier(it, "drawable", context.packageName) } ?: 0
+    val coverName = wordBook.coverResourceName ?: wordBook.cover
+    val resourceId = when (coverName) {
+        "cover_university_russian_1" -> org.namchieh.rusmorph.R.drawable.cover_university_russian_1
+        "cover_university_russian_2" -> org.namchieh.rusmorph.R.drawable.cover_university_russian_2
+        else -> coverName?.let { context.resources.getIdentifier(it, "drawable", context.packageName) } ?: 0
+    }
     if (resourceId != 0) {
         Image(
             painter = painterResource(resourceId),

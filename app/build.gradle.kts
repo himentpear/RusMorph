@@ -300,6 +300,17 @@ android {
     }
 }
 
+afterEvaluate {
+    tasks.findByName("assembleRelease")?.doLast {
+        val releaseDir = file("build/outputs/apk/release")
+        val apk = releaseDir.listFiles { f: java.io.File -> f.extension == "apk" && !f.name.startsWith("werus") }?.firstOrNull()
+        if (apk != null) {
+            apk.copyTo(rootProject.file("werus-release.apk"), overwrite = true)
+            apk.copyTo(file("build/outputs/apk/release/werus-release.apk"), overwrite = true)
+        }
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
