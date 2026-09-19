@@ -14,6 +14,8 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
+      - name: Make gradlew executable
+        run: chmod +x gradlew
       - run: ./gradlew buildLexiconAssets verifyLexiconAssets testLocalDebugUnitTest assembleLocalDebug
       - name: Assemble signed production release
         if: ${{ env.RUSMORPH_RELEASE_STORE_FILE != '' }}
