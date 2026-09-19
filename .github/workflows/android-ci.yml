@@ -3,6 +3,11 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      RUSMORPH_RELEASE_STORE_FILE: ${{ secrets.RUSMORPH_RELEASE_STORE_FILE }}
+      RUSMORPH_RELEASE_STORE_PASSWORD: ${{ secrets.RUSMORPH_RELEASE_STORE_PASSWORD }}
+      RUSMORPH_RELEASE_KEY_ALIAS: ${{ secrets.RUSMORPH_RELEASE_KEY_ALIAS }}
+      RUSMORPH_RELEASE_KEY_PASSWORD: ${{ secrets.RUSMORPH_RELEASE_KEY_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -11,10 +16,6 @@ jobs:
         with: { python-version: '3.11' }
       - run: ./gradlew buildLexiconAssets verifyLexiconAssets testLocalDebugUnitTest assembleLocalDebug
       - name: Assemble signed production release
-        if: ${{ secrets.RUSMORPH_RELEASE_STORE_FILE != '' }}
+        if: ${{ env.RUSMORPH_RELEASE_STORE_FILE != '' }}
         run: ./gradlew assembleProductionRelease
-        env:
-          RUSMORPH_RELEASE_STORE_FILE: ${{ secrets.RUSMORPH_RELEASE_STORE_FILE }}
-          RUSMORPH_RELEASE_STORE_PASSWORD: ${{ secrets.RUSMORPH_RELEASE_STORE_PASSWORD }}
-          RUSMORPH_RELEASE_KEY_ALIAS: ${{ secrets.RUSMORPH_RELEASE_KEY_ALIAS }}
-          RUSMORPH_RELEASE_KEY_PASSWORD: ${{ secrets.RUSMORPH_RELEASE_KEY_PASSWORD }}
+

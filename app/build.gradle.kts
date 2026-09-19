@@ -377,6 +377,7 @@ kapt {
     }
 }
 
+
 tasks.named("preBuild") {
     dependsOn(buildLexiconAssets, generateCourseAssets)
 }
@@ -394,4 +395,29 @@ tasks.withType<Test>().configureEach {
     // Keep test process state isolated while reusing the already downloaded
     // Robolectric Android runtime across forked Room suites.
     systemProperty("maven.repo.local", robolectricMavenRepository.absolutePath)
+}
+
+val productionReleaseTaskNames = setOf(
+    "assembleProductionRelease",
+    ":app:assembleProductionRelease",
+    "packageProductionRelease",
+    ":app:packageProductionRelease",
+)
+
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it.name in productionReleaseTaskNames || it.path in productionReleaseTaskNames } && !hasReleaseSigning) {
+        throw GradleException(
+            "assembleProductionRelease requires release signing configuration (RUSMORPH_RELEASE_STORE_FILE, RUSMORPH_RELEASE_STORE_PASSWORD, RUSMORPH_RELEASE_KEY_ALIAS, RUSMORPH_RELEASE_KEY_PASSWORD)."
+        )
+    }
+}
+
+tasks.matching { it.name in setOf("assembleProductionRelease", "packageProductionRelease") }.configureEach {
+    doFirst {
+        if (!hasReleaseSigning) {
+            throw GradleException(
+                "assembleProductionRelease requires release signing configuration (RUSMORPH_RELEASE_STORE_FILE, RUSMORPH_RELEASE_STORE_PASSWORD, RUSMORPH_RELEASE_KEY_ALIAS, RUSMORPH_RELEASE_KEY_PASSWORD)."
+            )
+        }
+    }
 }
