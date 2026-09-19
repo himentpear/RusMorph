@@ -39,3 +39,10 @@ release/
 
 # Separate project with its own Git history
 auto-sp-rule-engine-src/
+
+# Temporary crop and OCR debug resources
+crops_check/
+crop_*.png
+data-source/scanned_pages/
+data-source/crop*.png
+
