@@ -1,0 +1,460 @@
+[
+  {
+    "pdf_page": 15,
+    "printed_page": 2,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "УРОК 1 第一课 / 语音 Фонетика",
+        "index_items": [
+          "1. 发音器官",
+          "2. 元音[a], [o], [y], [э]",
+          "3. 辅音[п], [м], [т]",
+          "4. 音节和节律",
+          "5. 重音",
+          "6. 元音[a], [o]的弱化"
+        ]
+      },
+      {
+        "type": "OTHER",
+        "heading": "1 发音器官"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 16,
+    "printed_page": 3,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "2 元音[a], [o], [y], [э]"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 1,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "а — а — а — а    о — о — о — о    у — у — у — у    э — э — э — э"
+          },
+          {
+            "number": null,
+            "text": "а — о — у — э    у — о — а — э    о — у — а — э    э — о — а — у"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 1 听录音，模仿，注意口形。\nа — а — а — а    о — о — о — о    у — у — у — у    э — э — э — э\nа — о — у — э    у — о — а — э    о — у — а — э    э — о — а — у",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "OTHER",
+        "heading": "3 辅音[п], [м], [т]"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 17,
+    "printed_page": 4,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "辅音[п], [м], [т]说明"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 2,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "П — П — П    М — М — М    Т — Т — Т"
+          },
+          {
+            "number": null,
+            "text": "М — Т — П    М — Т — П    П — Т — М"
+          },
+          {
+            "number": null,
+            "text": "П — Т — М    Т — М — П    Т — М — П"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 2 听录音，模仿，注意口形。\nП — П — П    М — М — М    Т — Т — Т\nМ — Т — П    М — Т — П    П — Т — М\nП — Т — М    Т — М — П    Т — М — П",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 3,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "па — па — па    по — по — по    пу — пу — пу    пэ — пэ — пэ"
+          },
+          {
+            "number": null,
+            "text": "ап — ап — ап    оп — оп — оп    уп — уп — уп    эп — эп — эп"
+          },
+          {
+            "number": null,
+            "text": "па — по — пу — пэ    пу — по — па — пэ    по — пу — па — пэ"
+          },
+          {
+            "number": null,
+            "text": "ап — оп — уп — эп    уп — оп — ап — эп    оп — уп — ап — эп"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 3 听录音，模仿，注意口形。\nпа — па — па    по — по — по    пу — пу — пу    пэ — пэ — пэ\nап — ап — ап    оп — оп — оп    уп — уп — уп    эп — эп — эп\nпа — по — пу — пэ    пу — по — па — пэ    по — пу — па — пэ\nап — оп — уп — эп    уп — оп — ап — эп    оп — уп — ап — эп",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 4,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "ма — ма — ма    мо — мо — мо    му — му — му    мэ — мэ — мэ"
+          },
+          {
+            "number": null,
+            "text": "ам — ам — ам    ом — ом — ом    ум — ум — ум    эм — эм — эм"
+          },
+          {
+            "number": null,
+            "text": "ма — мо — му — мэ    му — мо — ма — мэ    мо — му — ма — мэ"
+          },
+          {
+            "number": null,
+            "text": "ам — ом — ум — эм    ум — ом — ам — эм    ом — ум — ам — эм"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 4 听录音，模仿，注意口形。\nма — ма — ма    мо — мо — мо    му — му — му    мэ — мэ — мэ\nам — ам — ам    ом — ом — ом    ум — ум — ум    эм — эм — эм\nма — мо — му — мэ    му — мо — ма — мэ    мо — му — ма — мэ\nам — ом — ум — эм    ум — ом — ам — эм    ом — ум — ам — эм",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 5,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "та — та — та    то — то — то    ту — ту — ту    тэ — тэ — тэ"
+          },
+          {
+            "number": null,
+            "text": "ат — ат — ат    от — от — от    ут — ут — ут    эт — эт — эт"
+          },
+          {
+            "number": null,
+            "text": "та — то — ту — тэ    ту — то — та — тэ    то — ту — тэ — та"
+          },
+          {
+            "number": null,
+            "text": "ат — от — ут — эт    ут — эт — от — ат    от — ут — эт — ат"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 5 听录音，模仿，注意口形。\nта — та — та    то — то — то    ту — ту — ту    тэ — тэ — тэ\nат — ат — ат    от — от — от    ут — ут — ут    эт — эт — эт\nта — то — ту — тэ    ту — то — та — тэ    то — ту — тэ — та\nат — от — ут — эт    ут — эт — от — ат    от — ут — эт — ат",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 6,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "па — ма — та    мо — то — по    му — ту — пу    мэ — пэ — тэ"
+          },
+          {
+            "number": null,
+            "text": "ап — ам — ат    ом — от — оп    ут — уп — ум    эм — эп — эт"
+          },
+          {
+            "number": null,
+            "text": "пам — мап    том — мот    туп — пут    мэп — пэм"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 6 听录音，模仿，注意口形。\nпа — ма — та    мо — то — по    му — ту — пу    мэ — пэ — тэ\nап — ам — ат    ом — от — оп    ут — уп — ум    эм — эп — эт\nпам — мап    том — мот    туп — пут    мэп — пэм",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 7,
+        "instruction": "听录音，模仿，注意口形。",
+        "items": [
+          {
+            "number": null,
+            "text": "пáпа, мáма, там, тут, та, то, тот, от, у, ум, томáт, потóм, потомý, э́то, Э́мма, поэ́т"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 7 听录音，模仿，注意口形。\nпáпа, мáма, там, тут, та, то, тот, от, у, ум, томáт, потóм, потомý, э́то, Э́мма, поэ́т",
+        "status": "CONFIDENT"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 18,
+    "printed_page": 5,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "4 音节和节律"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 8,
+        "instruction": "听录音，模仿，按节律朗读下列单词，说出每个词各有几个音节。",
+        "items": [
+          {
+            "number": null,
+            "text": "пáпа, мáма, там, тут, та, то, тот, от, у, ум, томáт, потóм, потомý, э́то, Э́мма, поэ́т"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 8 听录音，模仿，按节律朗读下列单词，说出每个词各有几个音节。\nпáпа, мáма, там, тут, та, то, тот, от, у, ум, томáт, потóм, потомý, э́то, Э́мма, поэ́т",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "OTHER",
+        "heading": "5 重音"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 9,
+        "instruction": "听录音，模仿，按节律朗读下列单词。",
+        "items": [
+          {
+            "number": null,
+            "text": "пáпа, мáма, там, тут, томáт, потóм, потомý, э́то, Э́мма, поэ́т"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 9 听录音，模仿，按节律朗读下列单词。\nпáпа, мáма, там, тут, томáт, потóм, потомý, э́то, Э́мма, поэ́т",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "OTHER",
+        "heading": "6 元音[a], [o]的弱化"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 10,
+        "instruction": "听录音，模仿，体会弱化音节的读音。",
+        "items": [
+          {
+            "number": null,
+            "text": "пáпа, мáма, томáт, потóм, потомý, э́то, Э́мма, поэ́т"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 10 听录音，模仿，体会弱化音节的读音。\nпáпа, мáма, томáт, потóм, потомý, э́то, Э́мма, поэ́т",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "OTHER",
+        "heading": "语调 ИНТОНАЦИЯ / 1 俄语语调"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 19,
+    "printed_page": 6,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "2 调型1"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 11,
+        "instruction": "听录音，模仿，细心体会调心上声音的走向，标出调型的调心、调心前部及后部。",
+        "items": [
+          {
+            "number": "1",
+            "text": "Это ма́ма. Это Э́мма. Это па́па. Это поэ́т."
+          },
+          {
+            "number": "2",
+            "text": "Э́мма там. Поэ́т тут. Ма́ма тут. Па́па там."
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 11 听录音，模仿，细心体会调心上声音的走向，标出调型的调心、调心前部及后部。\n(1) Это ма́ма. Это Э́мма. Это па́па. Это поэ́т.\n(2) Э́мма там. Поэ́т тут. Ма́ма тут. Па́па там.",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "OTHER",
+        "heading": "言语训练 РАЗВИТИЕ РЕЧИ / 1 句型 Речевые образцы"
+      },
+      {
+        "type": "DIALOGUE",
+        "heading": "对话 Диалог",
+        "turns": [
+          {
+            "speaker": null,
+            "text": "— Это па́па."
+          },
+          {
+            "speaker": null,
+            "text": "— А э́то ма́ма."
+          },
+          {
+            "speaker": null,
+            "text": "— Это поэ́т."
+          },
+          {
+            "speaker": null,
+            "text": "— А э́то Э́мма."
+          }
+        ],
+        "raw_text": "对话 Диалог\n— Это па́па.\n— А э́то ма́ма.\n— Это поэ́т.\n— А э́то Э́мма.",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "TEXT",
+        "heading": "课文 Текст",
+        "title": null,
+        "paragraphs": [
+          "Это ма́ма. Ма́ма там. А э́то па́па. Па́па тут. Па́па у поэ́та."
+        ],
+        "raw_text": "3 课文 Текст\nЭто ма́ма. Ма́ма там. А э́то па́па. Па́па тут. Па́па у поэ́та.",
+        "status": "CONFIDENT"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 20,
+    "printed_page": 7,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "4 生词 Новые слова"
+      },
+      {
+        "type": "OTHER",
+        "heading": "书写 ПИСЬМО / 1 俄语字母 / 2 字母 a, o, y, э, п, м, т 的书写"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 21,
+    "printed_page": 8,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "EXERCISE",
+        "exercise_number": 12,
+        "instruction": "按照范例抄写字母a, o, y, э, п, м, т。",
+        "items": [
+          {
+            "number": null,
+            "text": "a, o, y, э, п, м, т"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 12 按照范例抄写字母a, o, y, э, п, м, т。",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "OTHER",
+        "heading": "3 字母的连写"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 13,
+        "instruction": "按照范例抄写本课生词。",
+        "items": [
+          {
+            "number": null,
+            "text": "мама папа это поэт"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 13 按照范例抄写本课生词。\nмама папа это поэт",
+        "status": "CONFIDENT"
+      },
+      {
+        "type": "EXERCISE",
+        "exercise_number": 14,
+        "instruction": "填空并标重音。",
+        "items": [
+          {
+            "number": null,
+            "text": "т□мат, п□том, пот□му, эт□, Эмм□, п□эт"
+          }
+        ],
+        "example": null,
+        "raw_text": "Упражнение 14 填空并标重音。\nт□мат, п□том, пот□му, эт□, Эмм□, п□эт",
+        "status": "CONFIDENT"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  },
+  {
+    "pdf_page": 22,
+    "printed_page": 9,
+    "lesson": 1,
+    "sections": [
+      {
+        "type": "OTHER",
+        "heading": "礼貌用语 Речевой этикет"
+      },
+      {
+        "type": "OTHER",
+        "heading": "文化国情 О России"
+      }
+    ],
+    "unclear": [],
+    "qa": {
+      "ocr_status": "TRANSCRIBED",
+      "requires_review": false
+    }
+  }
+]
