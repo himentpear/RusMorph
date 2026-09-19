@@ -386,8 +386,8 @@ tasks.withType<Test>().configureEach {
     // Robolectric native SQLite can crash the Windows JVM when several Room suites share one process.
     forkEvery = 1
     maxParallelForks = 1
-    val testHome = File(System.getProperty("java.io.tmpdir"), "rusmorph-test-home")
-    val robolectricMavenRepository = File(testHome, ".m2/repository")
+    val testHome = File(System.getProperty("java.io.tmpdir"), "rusmorph-test-home").apply { mkdirs() }
+    val robolectricMavenRepository = File(testHome, ".m2/repository").apply { mkdirs() }
     systemProperty("user.home", testHome.absolutePath)
     // All Android-backed unit tests target API 34; pin the resolver as well so
     // manifest defaults cannot trigger a second 150 MB Android 15 download.
