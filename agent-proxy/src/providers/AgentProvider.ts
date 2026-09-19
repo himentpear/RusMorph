@@ -1,6 +1,6 @@
 import type { AgentRequest, AgentResponse } from "../schema";
 export interface Env {
-  AGENT_PROVIDER?: string; ALLOWED_ORIGINS?: string; MAX_REQUEST_BYTES?: string; PROVIDER_TIMEOUT_MS?: string;
+  AGENT_PROVIDER?: string; ENVIRONMENT?: string; ALLOWED_ORIGINS?: string; MAX_REQUEST_BYTES?: string; PROVIDER_TIMEOUT_MS?: string;
   DIFY_BASE_URL?: string; DIFY_API_KEY?: string; DIFY_USER_PREFIX?: string;
   OPENAI_COMPATIBLE_BASE_URL?: string; OPENAI_COMPATIBLE_API_KEY?: string; OPENAI_COMPATIBLE_MODEL?: string;
   PROXY_ACCESS_TOKEN?: string;
@@ -19,6 +19,7 @@ export interface Env {
   REVIEW_AUDIO?: R2Bucket;
   ASSETS?: Fetcher;
   REVIEW_INVITE_CODE_SHA256?: string;
+  REVIEW_ADMIN_NAMES?: string;
   REVIEW_SESSION_DAYS?: string;
   REVIEW_AUDIO_RETENTION_DAYS?: string;
   SPEECH_ASR_MODEL?: string;

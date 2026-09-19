@@ -231,7 +231,7 @@ class SearchViewModel(
         _voiceInput.value = VoiceInputState(VoiceInputStatus.Processing, message = "正在识别俄语")
         viewModelScope.launch {
             try {
-                val result = repository.transcribe(file)
+                val result = repository.transcribeAndDelete(file)
                 when {
                     result.confidence >= 0.85 && result.language == "ru" -> {
                         setQuery(result.normalized_transcript)
@@ -360,7 +360,7 @@ class WordDetailViewModel(
                     )
                 } else {
                     val cleanTarget = targetWord.replace("́", "").trim()
-                    val result = service.analyze(file, cleanTarget, "intermediate")
+                    val result = service.analyzeAndDelete(file, cleanTarget, "intermediate")
                     _pronunciationState.value = _pronunciationState.value.copy(
                         isAnalyzing = false,
                         result = result,

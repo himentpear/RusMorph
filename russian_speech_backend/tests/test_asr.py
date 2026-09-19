@@ -66,3 +66,19 @@ def test_low_confidence_is_not_presented_as_certain():
     body = response.json()
     assert body["should_auto_search"] is False
     assert any("置信度" in warning for warning in body["warnings"])
+
+
+def test_production_precision_api_requires_gateway_token(tmp_path):
+    settings = Settings(temp_dir=tmp_path, environment="production", internal_api_token="test-gateway-token")
+    container = build_container(settings, FakeAsr())
+    container.audio = FakeAudio()
+    with TestClient(create_app(container)) as client:
+        missing = client.post("/api/asr/transcribe", files={"audio": ("sample.wav", b"fixture", "audio/wav")})
+        allowed = client.post(
+            "/api/asr/transcribe",
+            files={"audio": ("sample.wav", b"fixture", "audio/wav")},
+            headers={"x-rusmorph-internal-token": "test-gateway-token"},
+        )
+    assert missing.status_code == 401
+    assert missing.json()["error_code"] == "internal_auth_required"
+    assert allowed.status_code == 200

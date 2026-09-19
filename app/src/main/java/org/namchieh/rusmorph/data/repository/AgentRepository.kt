@@ -8,6 +8,7 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CancellationException
 import okhttp3.OkHttpClient
+import org.namchieh.rusmorph.BuildConfig
 import org.namchieh.rusmorph.agent.*
 import org.namchieh.rusmorph.data.diagnostics.AgentDiagnostics
 import org.namchieh.rusmorph.data.diagnostics.NoopAgentDiagnostics
@@ -183,12 +184,8 @@ class DefaultAgentRepository(
 
     companion object {
         fun create(baseUrl: String, diagnostics: AgentDiagnostics = NoopAgentDiagnostics): DefaultAgentRepository {
-            val normalized = baseUrl.trim().let { if (it.isNotEmpty() && !it.endsWith('/')) "$it/" else it }
+            val normalized = EndpointPolicy.normalized(baseUrl, BuildConfig.ALLOW_CLEARTEXT_ENDPOINTS).orEmpty()
             if (normalized.isBlank()) return DefaultAgentRepository(null, AgentAvailability.NOT_CONFIGURED, diagnostics)
-            val valid = runCatching { java.net.URI(normalized) }.getOrNull()?.let {
-                (it.scheme == "https" || it.scheme == "http") && !it.host.isNullOrBlank()
-            } == true
-            if (!valid) return DefaultAgentRepository(null, AgentAvailability.NOT_CONFIGURED, diagnostics)
             val gson = GsonBuilder().serializeNulls().create()
             val client = OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)

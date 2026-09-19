@@ -92,6 +92,25 @@ describe("review calibration boundary", () => {
     expect(text).not.toContain(HASH_2024);
   });
 
+  it("does not make an invite holder an administrator", async () => {
+    const reviewer = { id: "reviewer-1", display_name: "普通老师", role: "reviewer" };
+    const response = await route(new Request("https://worker.test/api/review/stats", {
+      headers: { cookie: "__Host-rusmorph_review=test-token" },
+    }), { REVIEW_DB: dbWithFirstValues([reviewer]) });
+    expect(response.status).toBe(403);
+    expect(await response.json()).toMatchObject({ error: { code: "REVIEW_ADMIN_REQUIRED" } });
+  });
+
+  it("fails closed for production review login without the native limiter", async () => {
+    const response = await route(new Request("https://worker.test/api/review/login", {
+      method: "POST",
+      headers: { "content-type": "application/json", origin: "https://worker.test" },
+      body: JSON.stringify({ displayName: "测试老师", inviteCode: "2024" }),
+    }), { ENVIRONMENT: "production", REVIEW_DB: dbWithFirstValues([]), REVIEW_INVITE_CODE_SHA256: HASH_2024 });
+    expect(response.status).toBe(503);
+    expect(await response.json()).toMatchObject({ error: { code: "RATE_LIMITER_NOT_CONFIGURED" } });
+  });
+
   it("rejects incomplete per-word ratings before machine analysis", async () => {
     const reviewer = { id: "reviewer-1", display_name: "测试老师" };
     const task = {

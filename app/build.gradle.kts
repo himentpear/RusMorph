@@ -13,6 +13,17 @@ val configuredDebugAgentProxyUrl = providers.gradleProperty("AGENT_PROXY_DEBUG_B
 val configuredSpeechBackendUrl = providers.gradleProperty("SPEECH_BACKEND_BASE_URL")
     .orElse(providers.environmentVariable("SPEECH_BACKEND_BASE_URL"))
 val productionApiUrl = "https://api.namchieh.org/"
+val releaseStoreFile = providers.gradleProperty("RUSMORPH_RELEASE_STORE_FILE")
+    .orElse(providers.environmentVariable("RUSMORPH_RELEASE_STORE_FILE"))
+val releaseStorePassword = providers.gradleProperty("RUSMORPH_RELEASE_STORE_PASSWORD")
+    .orElse(providers.environmentVariable("RUSMORPH_RELEASE_STORE_PASSWORD"))
+val releaseKeyAlias = providers.gradleProperty("RUSMORPH_RELEASE_KEY_ALIAS")
+    .orElse(providers.environmentVariable("RUSMORPH_RELEASE_KEY_ALIAS"))
+val releaseKeyPassword = providers.gradleProperty("RUSMORPH_RELEASE_KEY_PASSWORD")
+    .orElse(providers.environmentVariable("RUSMORPH_RELEASE_KEY_PASSWORD"))
+val hasReleaseSigning = listOf(
+    releaseStoreFile.orNull, releaseStorePassword.orNull, releaseKeyAlias.orNull, releaseKeyPassword.orNull,
+).all { !it.isNullOrBlank() }
 
 plugins {
     alias(libs.plugins.android.application)
@@ -218,20 +229,45 @@ android {
         buildConfigField("String", "REVIEW_WORKBENCH_URL", "https://api.namchieh.org/review/".asBuildConfigString())
     }
 
+    flavorDimensions += "environment"
+    productFlavors {
+        create("local") {
+            dimension = "environment"
+            // Local builds may explicitly point at an emulator/LAN development gateway.
+            buildConfigField("boolean", "ALLOW_CLEARTEXT_ENDPOINTS", "true")
+            resValue("bool", "allow_cleartext", "true")
+        }
+        create("production") {
+            dimension = "environment"
+            buildConfigField("boolean", "ALLOW_CLEARTEXT_ENDPOINTS", "false")
+            resValue("bool", "allow_cleartext", "false")
+        }
+    }
+
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(requireNotNull(releaseStoreFile.orNull))
+                storePassword = requireNotNull(releaseStorePassword.orNull)
+                keyAlias = requireNotNull(releaseKeyAlias.orNull)
+                keyPassword = requireNotNull(releaseKeyPassword.orNull)
+            }
+        }
+    }
+
     buildTypes {
         debug {
             val url = configuredDebugAgentProxyUrl.orNull
-                ?.takeIf { it.startsWith("https://") }
-                ?: configuredAgentProxyUrl.orNull?.takeIf { it.startsWith("https://") }
+                ?.takeIf { it.startsWith("http://") || it.startsWith("https://") }
+                ?: configuredAgentProxyUrl.orNull?.takeIf { it.startsWith("http://") || it.startsWith("https://") }
                 ?: productionApiUrl
             buildConfigField("String", "AGENT_PROXY_BASE_URL", url.asBuildConfigString())
             buildConfigField("String", "AGENT_PROXY_DEVICE_BASE_URL", "".asBuildConfigString())
             val speechUrl = configuredSpeechBackendUrl.orNull
-                ?.takeIf { it.startsWith("https://") }
+                ?.takeIf { it.startsWith("http://") || it.startsWith("https://") }
                 ?: productionApiUrl
             buildConfigField("String", "SPEECH_BACKEND_BASE_URL", speechUrl.asBuildConfigString())
             buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
-            manifestPlaceholders["usesCleartextTraffic"] = "false"
         }
         release {
             val safeUrl = configuredAgentProxyUrl.orNull
@@ -244,9 +280,10 @@ android {
                 ?: productionApiUrl
             buildConfigField("String", "SPEECH_BACKEND_BASE_URL", safeSpeechUrl.asBuildConfigString())
             buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
-            manifestPlaceholders["usesCleartextTraffic"] = "false"
-            signingConfig = signingConfigs.getByName("debug")
-            isMinifyEnabled = false
+            if (hasReleaseSigning) signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -280,6 +317,20 @@ android {
         getByName("main").assets.srcDir(generatedCourseAssets)
         getByName("debug").assets.srcDir("schemas")
         getByName("androidTest").assets.srcDir("schemas")
+    }
+}
+
+// A release artifact is never silently signed with the debug keystore.  Developers can
+// still build every debug variant without credentials, while CI/release explicitly fails.
+tasks.configureEach {
+    if (name.startsWith("assemble") && name.endsWith("Release")) {
+        doFirst {
+            check(hasReleaseSigning) {
+                "Release signing is not configured. Set RUSMORPH_RELEASE_STORE_FILE, " +
+                    "RUSMORPH_RELEASE_STORE_PASSWORD, RUSMORPH_RELEASE_KEY_ALIAS, and " +
+                    "RUSMORPH_RELEASE_KEY_PASSWORD. Refusing to produce an unsigned or debug-signed release."
+            }
+        }
     }
 }
 

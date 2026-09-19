@@ -33,7 +33,7 @@ function providerFor(env: Env): MultiAgentProvider {
   }
 }
 
-export async function route(
+async function routeInternal(
   request: Request,
   env: Env,
   rates: { ip: RateLimiter; conversation: RateLimiter } = { ip: ipLimiter, conversation: conversationLimiter },
@@ -124,6 +124,24 @@ export async function route(
   }
 }
 
+/** Applies a conservative baseline to every API response, including errors. */
+export async function route(
+  request: Request,
+  env: Env,
+  rates?: { ip: RateLimiter; conversation: RateLimiter },
+): Promise<Response> {
+  const response = await routeInternal(request, env, rates);
+  const headers = new Headers(response.headers);
+  headers.set("x-content-type-options", "nosniff");
+  headers.set("x-frame-options", "DENY");
+  headers.set("referrer-policy", "no-referrer");
+  headers.set("content-security-policy", "default-src 'none'; frame-ancestors 'none'; base-uri 'none'");
+  if (new URL(request.url).pathname.startsWith("/api/") || new URL(request.url).pathname.startsWith("/v1/")) {
+    headers.set("cache-control", "no-store");
+  }
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 async function readJson(request: Request, env: Env): Promise<unknown> {
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) throw new HttpError(400, "INVALID_REQUEST", "Content-Type must be application/json");
   authorize(request, env);
@@ -138,16 +156,25 @@ async function readJson(request: Request, env: Env): Promise<unknown> {
 async function enforceRates(request: Request, raw: unknown, rates: { ip: RateLimiter; conversation: RateLimiter }, env: Env): Promise<void> {
   const ip = request.headers.get("cf-connecting-ip") ?? "local";
   const conversationId = typeof raw === "object" && raw !== null && "conversationId" in raw ? String((raw as { conversationId: unknown }).conversationId) : "legacy";
-  const nativeAllowed = env.AI_RATE_LIMITER
-    ? (await env.AI_RATE_LIMITER.limit({ key: `ai:${ip}` })).success
-    : true;
+  // An isolate-local limiter is useful for dev and tests only.  In production,
+  // allowing an expensive provider call when the durable binding is absent would
+  // turn a misconfiguration into an unbounded billing endpoint.
+  if (isProduction(env) && !env.AI_RATE_LIMITER) {
+    throw new HttpError(503, "RATE_LIMITER_NOT_CONFIGURED", "AI service is temporarily unavailable", true);
+  }
+  const nativeAllowed = env.AI_RATE_LIMITER ? (await env.AI_RATE_LIMITER.limit({ key: `ai:${ip}` })).success : true;
   if (!nativeAllowed || !await rates.ip.check(`ip:${ip}`) || !await rates.conversation.check(`conversation:${conversationId}`)) throw new HttpError(429, "RATE_LIMITED", "请求过于频繁，请稍后再试。", true);
 }
 
 async function enforceSpeechRate(request: Request, env: Env, fallback: RateLimiter): Promise<boolean> {
   const ip = request.headers.get("cf-connecting-ip") ?? "local";
   if (env.SPEECH_RATE_LIMITER) return (await env.SPEECH_RATE_LIMITER.limit({ key: `speech:${ip}` })).success;
+  if (isProduction(env)) throw new HttpError(503, "RATE_LIMITER_NOT_CONFIGURED", "Speech service is temporarily unavailable", true);
   return fallback.check(`speech-ip:${ip}`);
+}
+
+function isProduction(env: Env): boolean {
+  return (env.ENVIRONMENT ?? "").trim().toLowerCase() === "production";
 }
 
 function boundedNumber(raw: string | undefined, fallback: number, min: number, max: number): number {

@@ -54,6 +54,19 @@ describe("Workers AI speech routes", () => {
     expect(run).not.toHaveBeenCalled();
   });
 
+  it("fails closed for paid speech when a production limiter binding is absent", async () => {
+    const run = vi.fn(async () => whisperResult());
+    const form = new FormData();
+    form.append("audio", new File([new Uint8Array([1, 2])], "speech.m4a", { type: "audio/mp4" }));
+    const response = await route(
+      new Request("https://worker.test/api/asr/transcribe", { method: "POST", body: form }),
+      { AI: { run }, ENVIRONMENT: "production" }, allow,
+    );
+    expect(response.status).toBe(503);
+    expect(await response.json()).toMatchObject({ error: { code: "RATE_LIMITER_NOT_CONFIGURED" } });
+    expect(run).not.toHaveBeenCalled();
+  });
+
   it("returns ASR text and word timestamps", async () => {
     const run = vi.fn(async () => whisperResult());
     const form = new FormData();
@@ -68,6 +81,16 @@ describe("Workers AI speech routes", () => {
     expect(body.words).toHaveLength(4);
     expect(body.words[3]).toMatchObject({ start_ms: 1600, end_ms: 2080 });
     expect(run).toHaveBeenCalledWith("@cf/openai/whisper-large-v3-turbo", expect.objectContaining({ audio: "AQI=", language: "ru", beam_size: 1, vad_filter: true }));
+  });
+
+  it("marks synthetic word clips as estimated rather than claiming confidence", async () => {
+    const synthetic = { transcription_info: { language: "ru", language_probability: 0.99, duration: 2 }, text: "Привет мир", segments: [] };
+    const form = new FormData();
+    form.append("audio", new File([new Uint8Array([1, 2])], "speech.m4a", { type: "audio/mp4" }));
+    const response = await route(new Request("https://worker.test/api/asr/transcribe", { method: "POST", body: form }), { AI: { run: async () => synthetic } }, allow);
+    const body = await response.json() as { words: Array<{ estimated: boolean; confidence: number }>; evidence: { evidence_level: string; timestamps_estimated: boolean } };
+    expect(body.words.every(word => word.estimated && word.confidence === 0)).toBe(true);
+    expect(body.evidence).toMatchObject({ evidence_level: "ASR_TEXT_ONLY", timestamps_estimated: true });
   });
 
   it("returns four clickable word clips and proxy scoring", async () => {

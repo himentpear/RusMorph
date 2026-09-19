@@ -27,6 +27,7 @@ interface TimedWord {
   startMs: number;
   endMs: number;
   confidence: number;
+  estimated: boolean;
 }
 
 interface Alignment {
@@ -58,6 +59,7 @@ export async function transcribeSpeech(request: Request, env: Env): Promise<Reco
     speech_duration_ms: secondsToMs(numberValue(result.transcription_info?.duration_after_vad)),
     words: parsed.words.map(publicWord),
     alternatives: [],
+    evidence: speechEvidence(parsed),
     warnings,
   };
 }
@@ -222,6 +224,7 @@ export async function analyzePronunciation(request: Request, env: Env): Promise<
     stress_confidence: 0,
     phoneme_score_confidence: 0,
     analysis_confidence: analysisConfidence,
+    evidence: speechEvidence(parsed),
     duration_ms: durationMs,
     speech_rate_words_per_minute: round2(wpm),
     words,
@@ -309,7 +312,7 @@ function textSimilarity(s1: string, s2: string): number {
   return Math.max(0, 1 - dist / Math.max(a.length, b.length));
 }
 
-function parseWhisper(result: WhisperResult): { text: string; confidence: number; words: TimedWord[] } {
+function parseWhisper(result: WhisperResult): { text: string; confidence: number; words: TimedWord[]; hasRealWordTimestamps: boolean } {
   const segments = Array.isArray(result.segments) ? result.segments.filter(isObject) as WhisperSegment[] : [];
   const words: TimedWord[] = [];
   const confidences: number[] = [];
@@ -325,7 +328,7 @@ function parseWhisper(result: WhisperResult): { text: string; confidence: number
       const startMs = secondsToMs(numberValue(word.start));
       const endMs = secondsToMs(numberValue(word.end));
       if (!normalized || endMs <= startMs) continue;
-      words.push({ text, normalized, startMs, endMs, confidence });
+      words.push({ text, normalized, startMs, endMs, confidence, estimated: false });
     }
   }
   const text = stringValue(result.text).trim();
@@ -339,11 +342,19 @@ function parseWhisper(result: WhisperResult): { text: string; confidence: number
         normalized: normalizeWord(t),
         startMs: idx * tokenDuration,
         endMs: (idx + 1) * tokenDuration,
-        confidence: 0.85,
+        // These are display-only evenly split clips, not model evidence.
+        // Never represent a synthetic timing as a high ASR confidence.
+        confidence: 0,
+        estimated: true,
       });
     });
   }
-  return { text, confidence: round4(confidences.length ? average(confidences) : (text ? 0.75 : 0)), words };
+  return {
+    text,
+    confidence: round4(confidences.length ? average(confidences) : (text ? 0.75 : 0)),
+    words,
+    hasRealWordTimestamps: words.some(word => !word.estimated),
+  };
 }
 
 function alignWords(targetWords: string[], actualWords: TimedWord[]): Alignment {
@@ -402,7 +413,21 @@ function contentScoreCeiling(exactCoverage: number, textMatch: number): number {
 }
 function normalizeWord(text: string): string { return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("ru-RU").replace(/^[^а-яё]+|[^а-яё-]+$/giu, ""); }
 function normalizeText(text: string): string { return text.normalize("NFC").trim().toLocaleLowerCase("ru-RU").replace(/\s+/g, " ").replace(/[.!?,;:]+$/u, ""); }
-function publicWord(word: TimedWord) { return { text: word.text.trim(), start_ms: word.startMs, end_ms: word.endMs, confidence: word.confidence }; }
+function publicWord(word: TimedWord) { return { text: word.text.trim(), start_ms: word.startMs, end_ms: word.endMs, confidence: word.confidence, estimated: word.estimated }; }
+function speechEvidence(parsed: { hasRealWordTimestamps: boolean }) {
+  const real = parsed.hasRealWordTimestamps;
+  return {
+    scoring_method: "workers_ai_asr_intelligibility_proxy",
+    provider: "workers_ai",
+    model: "whisper",
+    model_version: "provider-managed",
+    evidence_level: real ? "REAL_WORD_TIMESTAMPS" : "ASR_TEXT_ONLY",
+    has_real_word_timestamps: real,
+    has_forced_alignment: false,
+    has_phoneme_posterior: false,
+    timestamps_estimated: !real,
+  };
+}
 function segmentConfidence(segment: WhisperSegment): number {
   const logprob = numberValue(segment.avg_logprob);
   const speech = 1 - probability(segment.no_speech_prob, 0);

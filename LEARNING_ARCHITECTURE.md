@@ -1,5 +1,11 @@
 # Learning Architecture
 
+## Availability and privacy guarantees
+
+Learning schedules, cards, notes, review attempts, wrong answers, progress, activities, and pronunciation session summaries are Room data and remain usable without AI or speech connectivity. Temporary recordings are owned by `SpeechRepository` upload helpers and deleted in `finally`, including HTTP failure and coroutine cancellation.
+
+Pronunciation feedback must be displayed as ASR-based intelligibility evidence unless an API response explicitly reports stronger evidence. Synthetic word clip timings are marked `estimated` with zero timing confidence and must not be presented as real forced-alignment timestamps.
+
 ## Information architecture
 
 The Android client is now organized around `Course → Lesson → LearningUnit → Activity → Review`.

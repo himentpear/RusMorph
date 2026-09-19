@@ -27,6 +27,7 @@ namespace_id = "20260811"
 
 [vars]
 AGENT_PROVIDER = "cloudflare"
+ENVIRONMENT = "production"
 ALLOWED_ORIGINS = ""
 MAX_REQUEST_BYTES = "262144"
 MAX_COMMAND_LENGTH = "1000"
@@ -41,3 +42,6 @@ CLOUDFLARE_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8-fast"
 SPEECH_ASR_MODEL = "@cf/openai/whisper-large-v3-turbo"
 SPEECH_TIMEOUT_MS = "19000"
 MAX_AUDIO_BYTES = "2097152"
+# Comma-separated normalized display names promoted deliberately at login.
+# Keep this empty unless an administrator is explicitly provisioned.
+REVIEW_ADMIN_NAMES = ""

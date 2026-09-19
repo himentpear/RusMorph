@@ -1,11 +1,12 @@
 import asyncio
 import json
+import secrets
 import tempfile
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, Form, UploadFile, WebSocket, WebSocketDisconnect
 
-from app.api.dependencies import services
+from app.api.dependencies import require_internal_gateway, services
 from app.schemas.asr import TranscriptionResponse
 from app.services.asr_service import normalize_transcript
 from app.services.container import ServiceContainer
@@ -23,6 +24,7 @@ async def transcribe(
     enable_word_timestamps: bool = Form(True),
     search_mode: bool = Form(True),
     container: ServiceContainer = Depends(services),
+    _: None = Depends(require_internal_gateway),
 ) -> TranscriptionResponse:
     raw = await save_upload(audio, container.settings)
     try:
@@ -54,8 +56,18 @@ async def transcribe(
 
 @router.websocket("/stream")
 async def stream(websocket: WebSocket):
-    await websocket.accept()
     container: ServiceContainer = websocket.app.state.services
+    settings = container.settings
+    if settings.environment.strip().lower() == "production":
+        expected = settings.internal_api_token
+        provided = websocket.headers.get("x-rusmorph-internal-token")
+        if not expected:
+            await websocket.close(code=1013)
+            return
+        if not provided or not secrets.compare_digest(provided, expected):
+            await websocket.close(code=1008)
+            return
+    await websocket.accept()
     buffer = bytearray()
     suffix = ".webm"
     started = False
@@ -101,7 +113,14 @@ async def stream(websocket: WebSocket):
             raw_text = message.get("text")
             if raw_text is None:
                 continue
-            command = json.loads(raw_text)
+            try:
+                command = json.loads(raw_text)
+            except json.JSONDecodeError:
+                await websocket.send_json({"type": "error", "code": "invalid_command"})
+                continue
+            if not isinstance(command, dict):
+                await websocket.send_json({"type": "error", "code": "invalid_command"})
+                continue
             action = command.get("type")
             if action == "start":
                 buffer.clear()

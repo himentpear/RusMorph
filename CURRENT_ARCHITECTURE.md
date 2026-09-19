@@ -1,5 +1,13 @@
 # Current Architecture (before learning-platform refactor)
 
+## Production hardening status
+
+Android production traffic is constrained to the public Cloudflare gateway (`https://api.namchieh.org/`). Local debug is the only variant permitted to use HTTP. Release signing reads only `RUSMORPH_RELEASE_STORE_FILE`, `RUSMORPH_RELEASE_STORE_PASSWORD`, `RUSMORPH_RELEASE_KEY_ALIAS`, and `RUSMORPH_RELEASE_KEY_PASSWORD`; there is no debug-keystore fallback.
+
+With `ENVIRONMENT=production`, the Worker fails closed before paid AI, ASR, or review-login work when a native rate-limit binding is absent. Review sessions are hashed server-side, cookies are `HttpOnly; Secure; SameSite=Strict`, reviewers are owner-isolated, and only explicitly configured administrators can read global statistics.
+
+Workers AI pronunciation responses are labelled `workers_ai_asr_intelligibility_proxy`; they carry provider/model/evidence metadata and never claim forced alignment or phoneme posterior evidence. The optional FastAPI MFA/Praat path is not a public Android endpoint and needs the internal gateway token contract in production.
+
 - Android client: Kotlin, Jetpack Compose, Navigation Compose, ViewModel/StateFlow, Room and Retrofit.
 - Root experience: initialization followed by a dictionary/search screen; legacy bottom navigation exposed search, decks, favorites and profile placeholders.
 - Local database v5: imported lexicon, search forms, morphology, knowledge chunks, saved cards/decks/archives, word review attempts and wrong answers.

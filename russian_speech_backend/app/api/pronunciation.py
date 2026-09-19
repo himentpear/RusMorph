@@ -2,7 +2,7 @@ import asyncio
 
 from fastapi import APIRouter, Depends, File, Form, UploadFile
 
-from app.api.dependencies import services
+from app.api.dependencies import require_internal_gateway, services
 from app.schemas.pronunciation import PronunciationResponse
 from app.services.container import ServiceContainer
 from app.utils.exceptions import SpeechError
@@ -22,6 +22,7 @@ async def analyze(
     enable_syllable_analysis: bool = Form(True),
     enable_stress_analysis: bool = Form(True),
     container: ServiceContainer = Depends(services),
+    _: None = Depends(require_internal_gateway),
 ) -> PronunciationResponse:
     if difficulty not in {"beginner", "intermediate", "advanced"}:
         raise SpeechError("invalid_difficulty", "difficulty 必须是 beginner、intermediate 或 advanced")

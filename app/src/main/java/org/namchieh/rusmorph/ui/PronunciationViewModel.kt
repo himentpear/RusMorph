@@ -120,7 +120,7 @@ class PronunciationViewModel(
         )
         viewModelScope.launch {
             try {
-                val result = repository.analyze(file, snapshot.targetText, snapshot.difficulty)
+                val result = repository.analyzeAndDelete(file, snapshot.targetText, snapshot.difficulty)
                 _uiState.value = _uiState.value.copy(isAnalyzing = false, result = result)
                 learningRepository?.recordPronunciation(
                     PronunciationSession(

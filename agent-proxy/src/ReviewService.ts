@@ -41,6 +41,7 @@ const contentMatchSchema = z.enum(["exact", "mostly", "partial", "off_target", "
 interface ReviewerRow {
   id: string;
   display_name: string;
+  role: "reviewer" | "admin";
 }
 
 interface TaskRow {
@@ -123,6 +124,9 @@ async function login(request: Request, env: Env): Promise<Response> {
   const db = reviewDb(env);
   const input = loginSchema.parse(await readReviewJson(request));
   const ip = request.headers.get("cf-connecting-ip") ?? "unknown";
+  if (isProduction(env) && !env.REVIEW_AUTH_RATE_LIMITER) {
+    throw new HttpError(503, "RATE_LIMITER_NOT_CONFIGURED", "复核登录暂不可用。", true);
+  }
   if (env.REVIEW_AUTH_RATE_LIMITER) {
     const allowed = await env.REVIEW_AUTH_RATE_LIMITER.limit({ key: `review-login:${ip}` });
     if (!allowed.success) throw new HttpError(429, "RATE_LIMITED", "登录尝试过于频繁，请一分钟后再试。", true);
@@ -136,16 +140,19 @@ async function login(request: Request, env: Env): Promise<Response> {
   const nowIso = now.toISOString();
   const normalizedName = input.displayName.normalize("NFKC").toLocaleLowerCase("zh-CN");
   let reviewer = await db.prepare(
-    "SELECT id, display_name FROM reviewers WHERE normalized_name = ? AND active = 1",
+    "SELECT id, display_name, role FROM reviewers WHERE normalized_name = ? AND active = 1",
   ).bind(normalizedName).first<ReviewerRow>();
   if (!reviewer) {
-    reviewer = { id: crypto.randomUUID(), display_name: input.displayName };
+    reviewer = { id: crypto.randomUUID(), display_name: input.displayName, role: isConfiguredAdmin(input.displayName, env) ? "admin" : "reviewer" };
     await db.prepare(
-      "INSERT INTO reviewers (id, display_name, normalized_name, active, created_at, last_seen_at) VALUES (?, ?, ?, 1, ?, ?)",
-    ).bind(reviewer.id, reviewer.display_name, normalizedName, nowIso, nowIso).run();
+      "INSERT INTO reviewers (id, display_name, normalized_name, role, active, created_at, last_seen_at) VALUES (?, ?, ?, ?, 1, ?, ?)",
+    ).bind(reviewer.id, reviewer.display_name, normalizedName, reviewer.role, nowIso, nowIso).run();
   } else {
-    await db.prepare("UPDATE reviewers SET display_name = ?, last_seen_at = ? WHERE id = ?")
-      .bind(input.displayName, nowIso, reviewer.id).run();
+    // Roles are derived at authentication time from server configuration so
+    // removing a name immediately revokes administrative access on next login.
+    reviewer.role = isConfiguredAdmin(input.displayName, env) ? "admin" : "reviewer";
+    await db.prepare("UPDATE reviewers SET display_name = ?, role = ?, last_seen_at = ? WHERE id = ?")
+      .bind(input.displayName, reviewer.role, nowIso, reviewer.id).run();
     reviewer.display_name = input.displayName;
   }
 
@@ -345,8 +352,9 @@ async function submitReview(request: Request, env: Env): Promise<Response> {
 }
 
 async function listSubmissions(request: Request, env: Env): Promise<Response> {
-  await requireReviewer(request, env);
+  const reviewer = await requireReviewer(request, env);
   const db = reviewDb(env);
+  const ownerWhere = reviewer.role === "admin" ? "" : "WHERE s.reviewer_id = ?";
   const result = await db.prepare(
     `SELECT s.id, s.task_id, s.reviewer_id, r.display_name AS reviewer_name,
       t.target_text, t.sample_mode, t.lesson_number, s.content_match, s.overall_score,
@@ -355,8 +363,8 @@ async function listSubmissions(request: Request, env: Env): Promise<Response> {
      FROM review_submissions s
      JOIN reviewers r ON r.id = s.reviewer_id
      JOIN review_tasks t ON t.id = s.task_id
-     ORDER BY s.created_at DESC LIMIT 50`,
-  ).all<SubmissionRow>();
+     ${ownerWhere} ORDER BY s.created_at DESC LIMIT 50`,
+  ).bind(...(reviewer.role === "admin" ? [] : [reviewer.id])).all<SubmissionRow>();
   return noStoreJson({ submissions: result.results.map(row => ({
     id: row.id,
     taskId: row.task_id,
@@ -400,7 +408,7 @@ async function deleteSubmission(request: Request, env: Env, submissionId: string
 }
 
 async function stats(request: Request, env: Env): Promise<Response> {
-  await requireReviewer(request, env);
+  requireAdmin(await requireReviewer(request, env));
   const db = reviewDb(env);
   const totals = await db.prepare(
     `SELECT COUNT(*) AS samples,
@@ -423,12 +431,12 @@ async function stats(request: Request, env: Env): Promise<Response> {
 }
 
 async function audio(request: Request, env: Env, submissionId: string): Promise<Response> {
-  await requireReviewer(request, env);
+  const reviewer = await requireReviewer(request, env);
   const db = reviewDb(env);
   const bucket = reviewAudio(env);
   const metadata = await db.prepare(
-    "SELECT audio_key, audio_content_type, audio_bytes FROM review_submissions WHERE id = ?",
-  ).bind(submissionId).first<{ audio_key: string; audio_content_type: string; audio_bytes: number }>();
+    `SELECT audio_key, audio_content_type, audio_bytes FROM review_submissions WHERE id = ?${reviewer.role === "admin" ? "" : " AND reviewer_id = ?"}`,
+  ).bind(...(reviewer.role === "admin" ? [submissionId] : [submissionId, reviewer.id])).first<{ audio_key: string; audio_content_type: string; audio_bytes: number }>();
   if (!metadata) throw new HttpError(404, "AUDIO_NOT_FOUND", "录音不存在。");
 
   const range = parseRange(request.headers.get("range"), metadata.audio_bytes);
@@ -450,7 +458,7 @@ async function requireReviewer(request: Request, env: Env): Promise<ReviewerRow>
   const token = cookieValue(request, SESSION_COOKIE);
   if (!token) throw new HttpError(401, "REVIEW_LOGIN_REQUIRED", "请先登录复核通道。");
   const reviewer = await reviewDb(env).prepare(
-    `SELECT r.id, r.display_name
+    `SELECT r.id, r.display_name, r.role
      FROM review_sessions s JOIN reviewers r ON r.id = s.reviewer_id
      WHERE s.token_hash = ? AND s.expires_at > ? AND r.active = 1`,
   ).bind(await sha256Hex(token), new Date().toISOString()).first<ReviewerRow>();
@@ -526,7 +534,22 @@ function optionalFormText(form: FormData, name: string, maxLength: number): stri
 }
 
 function publicReviewer(row: ReviewerRow) {
-  return { id: row.id, displayName: row.display_name };
+  return { id: row.id, displayName: row.display_name, role: row.role };
+}
+
+function requireAdmin(reviewer: ReviewerRow): void {
+  if (reviewer.role !== "admin") throw new HttpError(403, "REVIEW_ADMIN_REQUIRED", "需要管理员权限。", true);
+}
+
+function isConfiguredAdmin(displayName: string, env: Env): boolean {
+  const normalized = displayName.normalize("NFKC").trim().toLocaleLowerCase("zh-CN");
+  return (env.REVIEW_ADMIN_NAMES ?? "").split(",")
+    .map(name => name.normalize("NFKC").trim().toLocaleLowerCase("zh-CN"))
+    .filter(Boolean).includes(normalized);
+}
+
+function isProduction(env: Env): boolean {
+  return (env.ENVIRONMENT ?? "").trim().toLowerCase() === "production";
 }
 
 function noStoreJson(value: unknown, status = 200): Response {

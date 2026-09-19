@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- User learning data is retained; generated dictionary assets and future credentials are not. -->
+<full-backup-content>
+    <include domain="database" path="rusmorph.db" />
+    <exclude domain="database" path="rusmorph.db-wal" />
+    <exclude domain="database" path="rusmorph.db-shm" />
+    <exclude domain="file" path="datastore/auth" />
+    <exclude domain="sharedpref" path="auth.xml" />
+</full-backup-content>

@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_prefix="SPEECH_", extra="ignore")
 
     app_name: str = "RusMorph Speech"
+    environment: str = "development"
+    # Production accepts only an authenticated gateway-to-backend request.
+    # Android must never receive this value.
+    internal_api_token: str | None = None
     temp_dir: Path = Path("temp")
     max_upload_bytes: int = 20 * 1024 * 1024
     max_duration_seconds: float = 60.0

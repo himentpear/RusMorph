@@ -272,7 +272,7 @@ fun WordCardScreen(
                                     isAnalyzing = true
                                     scope.launch {
                                         try {
-                                            val eval = speechRepository.analyze(file, lexeme.lemma, "beginner")
+                                            val eval = speechRepository.analyzeAndDelete(file, lexeme.lemma, "beginner")
                                             evaluationResult = eval
                                         } catch (e: Exception) {
                                             Toast.makeText(context, "评测失败: ${e.message}", Toast.LENGTH_SHORT).show()

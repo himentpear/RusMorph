@@ -1,5 +1,13 @@
 # RusMorph（俄语词法助手）
 
+## Production boundaries
+
+- Production Android variants use only `https://api.namchieh.org/`. `localDebug` may use an explicitly configured HTTP development gateway; production variants reject HTTP in both the manifest and client validation.
+- A release is never debug-signed. `assembleProductionRelease` requires all four `RUSMORPH_RELEASE_*` signing values and fails clearly when any is absent.
+- Dictionary and local learning functions remain available if AI or speech is unavailable. Backup keeps the Room learning database while excluding cache and reserved authentication locations.
+- Public speech is Workers AI ASR through the Cloudflare gateway. It is an ASR intelligibility proxy—not MFA/GOP or phoneme-level diagnosis—and response metadata identifies real versus synthetic timing.
+- The optional FastAPI precision service is a private gateway backend in production and requires `X-Rusmorph-Internal-Token`; this secret is never shipped in Android.
+
 ## 俄语语音输入与朗读纠音
 
 工程现包含独立 FastAPI 服务 [russian_speech_backend](russian_speech_backend/README.md)：

@@ -10,6 +10,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.namchieh.rusmorph.data.remote.PronunciationDto
 import org.namchieh.rusmorph.data.remote.SpeechApi
 import org.namchieh.rusmorph.data.remote.TranscriptionDto
+import org.namchieh.rusmorph.BuildConfig
+import org.namchieh.rusmorph.data.remote.EndpointPolicy
 import retrofit2.Retrofit
 import retrofit2.HttpException
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,6 +31,9 @@ class SpeechRepository private constructor(private val api: SpeechApi?) {
         ) }
     }
 
+    /** Owns a recorder's temporary file through every completion path, including cancellation. */
+    suspend fun transcribeAndDelete(file: File): TranscriptionDto = consumeTemporaryAudio(file) { transcribe(it) }
+
     suspend fun analyze(file: File, targetText: String, difficulty: String): PronunciationDto {
         val service = checkNotNull(api) { "语音服务尚未配置" }
         return speechCall { service.analyze(
@@ -39,6 +44,10 @@ class SpeechRepository private constructor(private val api: SpeechApi?) {
             difficulty.toRequestBody("text/plain".toMediaType()),
         ) }
     }
+
+    /** Owns a recorder's temporary file through every completion path, including cancellation. */
+    suspend fun analyzeAndDelete(file: File, targetText: String, difficulty: String): PronunciationDto =
+        consumeTemporaryAudio(file) { analyze(it, targetText, difficulty) }
 
     private suspend fun <T> speechCall(block: suspend () -> T): T = try {
         block()
@@ -56,8 +65,7 @@ class SpeechRepository private constructor(private val api: SpeechApi?) {
 
     companion object {
         fun create(baseUrl: String): SpeechRepository {
-            val normalized = baseUrl.trim().takeIf { it.startsWith("http://") || it.startsWith("https://") }
-                ?.let { if (it.endsWith('/')) it else "$it/" }
+            val normalized = EndpointPolicy.normalized(baseUrl, BuildConfig.ALLOW_CLEARTEXT_ENDPOINTS)
             val api = normalized?.let {
                 val client = OkHttpClient.Builder()
                     .connectTimeout(15, TimeUnit.SECONDS)
@@ -75,4 +83,11 @@ class SpeechRepository private constructor(private val api: SpeechApi?) {
             return SpeechRepository(api)
         }
     }
+}
+
+/** Centralized ownership rule for microphone files; UI code never owns deletion after upload begins. */
+internal suspend fun <T> consumeTemporaryAudio(file: File, upload: suspend (File) -> T): T = try {
+    upload(file)
+} finally {
+    file.delete()
 }

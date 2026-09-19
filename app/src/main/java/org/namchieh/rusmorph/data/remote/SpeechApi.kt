@@ -11,6 +11,19 @@ data class SpeechWordDto(
     val start_ms: Int,
     val end_ms: Int,
     val confidence: Double,
+    val estimated: Boolean = false,
+)
+
+data class SpeechEvidenceDto(
+    val scoring_method: String,
+    val provider: String,
+    val model: String,
+    val model_version: String,
+    val evidence_level: String,
+    val has_real_word_timestamps: Boolean,
+    val has_forced_alignment: Boolean,
+    val has_phoneme_posterior: Boolean,
+    val timestamps_estimated: Boolean,
 )
 
 data class TranscriptionDto(
@@ -26,6 +39,7 @@ data class TranscriptionDto(
     val words: List<SpeechWordDto>,
     val alternatives: List<String>,
     val warnings: List<String>,
+    val evidence: SpeechEvidenceDto? = null,
 )
 
 data class PronunciationWordDto(
@@ -56,6 +70,7 @@ data class PronunciationDto(
     val words: List<PronunciationWordDto>,
     val summary_feedback_zh: String,
     val warnings: List<String>,
+    val evidence: SpeechEvidenceDto? = null,
 )
 
 interface SpeechApi {

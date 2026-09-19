@@ -6,11 +6,13 @@
     <application
         android:name=".RusMorphApplication"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="${usesCleartextTraffic}"
+        android:usesCleartextTraffic="@bool/allow_cleartext"
         android:theme="@style/Theme.RusMorph">
         <activity
             android:name=".MainActivity"
