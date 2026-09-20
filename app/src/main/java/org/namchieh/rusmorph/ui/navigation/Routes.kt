@@ -17,6 +17,7 @@ object Routes {
     const val DialoguePattern = "dialogue/{dialogueId}"
     const val GrammarPattern = "grammar/{grammarId}"
     const val TextPattern = "text/{textId}"
+    const val TextbookLessonPattern = "textbook/{lessonId}"
     const val WordPattern = "word/{entryId}"
     const val ExplanationPattern = "local-explanation/{chunkId}"
     const val AgentPattern = "agent/{entryId}?questionType={questionType}"
@@ -39,6 +40,7 @@ object Routes {
     fun dialogue(dialogueId: String) = "dialogue/${Uri.encode(dialogueId)}"
     fun grammar(grammarId: String) = "grammar/${Uri.encode(grammarId)}"
     fun text(textId: String) = "text/${Uri.encode(textId)}"
+    fun textbookLesson(lessonId: String) = "textbook/${Uri.encode(lessonId)}"
     fun pronunciation(target: String, type: String, sourceId: String? = null, lessonId: String? = null) =
         "pronunciation?target=${Uri.encode(target)}&type=${Uri.encode(type)}&sourceId=${Uri.encode(sourceId.orEmpty())}&lessonId=${Uri.encode(lessonId.orEmpty())}"
     fun word(entryId: String) = "word/${Uri.encode(entryId)}"

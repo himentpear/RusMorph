@@ -454,3 +454,22 @@ interface WordBookDao {
     @Query("SELECT * FROM word_book_texts WHERE wordBookId = :wordBookId AND lessonId = :lessonId ORDER BY position") suspend fun texts(wordBookId: String, lessonId: String): List<WordBookTextEntity>
     @Query("SELECT * FROM word_book_text_paragraphs WHERE wordBookId = :wordBookId AND lessonId = :lessonId AND textId = :textId ORDER BY position") suspend fun textParagraphs(wordBookId: String, lessonId: String, textId: String): List<WordBookTextParagraphEntity>
 }
+
+@Dao
+interface TextbookDao {
+    @Query("SELECT * FROM textbooks ORDER BY id") suspend fun textbooks(): List<TextbookEntity>
+    @Query("SELECT * FROM textbook_lessons WHERE textbookId = :textbookId ORDER BY lessonNumber") suspend fun lessons(textbookId: String): List<TextbookLessonEntity>
+    @Query("SELECT * FROM textbook_lessons WHERE id = :lessonId LIMIT 1") suspend fun lesson(lessonId: String): TextbookLessonEntity?
+    @Query("SELECT * FROM reading_sections WHERE lessonId = :lessonId ORDER BY position") suspend fun sections(lessonId: String): List<ReadingSectionEntity>
+    @Query("SELECT * FROM reading_paragraphs WHERE sectionId = :sectionId ORDER BY position") suspend fun paragraphs(sectionId: String): List<ParagraphEntity>
+    @Query("SELECT * FROM textbook_annotations WHERE paragraphId = :paragraphId ORDER BY startOffset") suspend fun annotations(paragraphId: String): List<AnnotationEntity>
+
+    @Upsert suspend fun upsertTextbooks(items: List<TextbookEntity>)
+    @Upsert suspend fun upsertLessons(items: List<TextbookLessonEntity>)
+    @Upsert suspend fun upsertSections(items: List<ReadingSectionEntity>)
+    @Upsert suspend fun upsertParagraphs(items: List<ParagraphEntity>)
+    @Query("DELETE FROM reading_paragraphs") suspend fun clearParagraphs()
+    @Query("DELETE FROM reading_sections") suspend fun clearSections()
+    @Query("DELETE FROM textbook_lessons") suspend fun clearLessons()
+    @Query("DELETE FROM textbooks") suspend fun clearTextbooks()
+}

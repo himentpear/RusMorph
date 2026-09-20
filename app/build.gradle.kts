@@ -317,6 +317,7 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.room.testing)
 }
 
 kapt {
@@ -343,4 +344,89 @@ tasks.withType<Test>().configureEach {
     // Keep test process state isolated while reusing the already downloaded
     // Robolectric Android runtime across forked Room suites.
     systemProperty("maven.repo.local", robolectricMavenRepository.absolutePath)
+}
+// AGP compiles Kotlin unit tests into this variant-specific directory, but the
+// Test task does not include it on Windows with the current AGP/Kotlin pairing.
+val packageDebugUnitTestKotlinClasses by tasks.registering(Jar::class) {
+    dependsOn("compileDebugUnitTestKotlin")
+    archiveFileName.set("debug-unit-test-kotlin-classes.jar")
+    // Gradle's Windows test-worker argfile cannot reliably load a classpath
+    // entry under this checkout's non-ASCII path. Use the ASCII temp root.
+    destinationDirectory.set(File(System.getProperty("java.io.tmpdir"), "rusmorph-unit-test-classes"))
+    from(layout.buildDirectory.dir("tmp/kotlin-classes/debugUnitTest"))
+}
+
+val packageDebugKotlinClasses by tasks.registering(Jar::class) {
+    dependsOn("compileDebugKotlin", "compileDebugJavaWithJavac")
+    archiveFileName.set("debug-kotlin-classes.jar")
+    destinationDirectory.set(File(System.getProperty("java.io.tmpdir"), "rusmorph-unit-test-classes"))
+    from(layout.buildDirectory.dir("tmp/kotlin-classes/debug"))
+    from(layout.buildDirectory.dir("intermediates/javac/debug/compileDebugJavaWithJavac/classes"))
+}
+
+val asciiTestWorktree = File(System.getProperty("java.io.tmpdir"), "rusmorph-test-worktree")
+val prepareAsciiTestWorktree by tasks.registering {
+    dependsOn("generateDebugUnitTestConfig", "mergeDebugAssets", "packageDebugUnitTestForUnitTest")
+    onlyIf { System.getProperty("os.name").startsWith("Windows", ignoreCase = true) }
+    doLast {
+        if (!asciiTestWorktree.exists()) {
+            val result = ProcessBuilder(
+                "cmd.exe", "/d", "/c", "mklink", "/J",
+                asciiTestWorktree.absolutePath,
+                rootProject.projectDir.absolutePath,
+            ).inheritIO().start().waitFor()
+            check(result == 0) { "Could not create ASCII test worktree" }
+        }
+        val runtime = File(System.getProperty("java.io.tmpdir"), "rusmorph-test-runtime")
+        val assets = File(runtime, "assets")
+        copy {
+            from(layout.buildDirectory.dir("intermediates/assets/debug/mergeDebugAssets"))
+            into(assets)
+        }
+        val localApk = File(runtime, "apk-for-local-test.ap_")
+        copy {
+            from(layout.buildDirectory.file("intermediates/apk_for_local_test/debugUnitTest/packageDebugUnitTestForUnitTest/apk-for-local-test.ap_"))
+            into(runtime)
+            rename { localApk.name }
+        }
+        val manifest = File(runtime, "AndroidManifest.xml")
+        copy {
+            from(layout.buildDirectory.file("intermediates/packaged_manifests/debug/processDebugManifestForPackage/AndroidManifest.xml"))
+            into(runtime)
+        }
+        val config = layout.buildDirectory.file("intermediates/unit_test_config_directory/debugUnitTest/generateDebugUnitTestConfig/out/com/android/tools/test_config.properties").get().asFile
+        config.writeText(
+            """# Generated for the Windows JVM test worker
+android_custom_package=org.namchieh.rusmorph
+android_merged_assets=${assets.absolutePath.replace('\\', '/')}
+android_merged_manifest=${manifest.absolutePath.replace('\\', '/')}
+android_resource_apk=${localApk.absolutePath.replace('\\', '/')}
+""",
+        )
+    }
+}
+
+val packageAsciiTestConfig by tasks.registering(Jar::class) {
+    dependsOn(prepareAsciiTestWorktree)
+    archiveFileName.set("debug-unit-test-config.jar")
+    destinationDirectory.set(File(System.getProperty("java.io.tmpdir"), "rusmorph-unit-test-classes"))
+    from(layout.buildDirectory.dir("intermediates/unit_test_config_directory/debugUnitTest/generateDebugUnitTestConfig/out"))
+}
+
+afterEvaluate {
+    tasks.named<Test>("testDebugUnitTest") {
+        val kotlinTestClasses = layout.buildDirectory.dir("tmp/kotlin-classes/debugUnitTest")
+        testClassesDirs = files(kotlinTestClasses)
+        dependsOn(packageDebugUnitTestKotlinClasses, packageDebugKotlinClasses)
+        dependsOn(prepareAsciiTestWorktree, packageAsciiTestConfig)
+        // Configure after AGP has populated the variant classpath; configuring
+        // earlier is overwritten by the Android plugin.
+        classpath = files(packageAsciiTestConfig.flatMap { it.archiveFile }) + classpath + files(
+            packageDebugUnitTestKotlinClasses.flatMap { it.archiveFile },
+            packageDebugKotlinClasses.flatMap { it.archiveFile },
+        )
+        if (System.getProperty("os.name").startsWith("Windows", ignoreCase = true)) {
+            workingDir = File(asciiTestWorktree, "app")
+        }
+    }
 }

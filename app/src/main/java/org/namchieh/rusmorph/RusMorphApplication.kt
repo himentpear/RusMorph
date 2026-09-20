@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.data.local.AssetDatabaseImporter
 import org.namchieh.rusmorph.data.local.RusMorphDatabase
 import org.namchieh.rusmorph.data.local.WordBookAssetImporter
+import org.namchieh.rusmorph.data.local.TextbookAssetImporter
 import org.namchieh.rusmorph.data.repository.RoomSearchDataSource
 import org.namchieh.rusmorph.data.repository.SearchRepository
 import org.namchieh.rusmorph.agent.AgentContextBuilder
@@ -23,6 +24,7 @@ import org.namchieh.rusmorph.data.repository.LearningRepository
 import org.namchieh.rusmorph.data.repository.AssetWordBookDataSource
 import org.namchieh.rusmorph.data.repository.CompositeWordBookRepository
 import org.namchieh.rusmorph.data.repository.RoomWordBookDataSource
+import org.namchieh.rusmorph.data.repository.TextbookRepository
 
 class RusMorphApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -45,6 +47,8 @@ class RusMorphApplication : Application() {
     }
     val localLibraryRepository by lazy { LocalLibraryRepository(database.localLibraryDao()) }
     val wordBookAssetImporter by lazy { WordBookAssetImporter(this, database) }
+    val textbookAssetImporter by lazy { TextbookAssetImporter(this, database) }
+    val textbookRepository by lazy { TextbookRepository(database.textbookDao()) }
     val wordBookRepository by lazy {
         CompositeWordBookRepository(
             AssetWordBookDataSource(this, searchRepository),
@@ -65,6 +69,7 @@ class RusMorphApplication : Application() {
         applicationScope.launch {
             dataInitializer.initialize()
             wordBookAssetImporter.importIfNeeded()
+            textbookAssetImporter.importIfNeeded()
         }
     }
 }

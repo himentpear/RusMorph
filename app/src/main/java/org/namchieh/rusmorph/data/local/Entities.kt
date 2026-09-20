@@ -422,3 +422,52 @@ data class WordBookTextParagraphEntity(
     val wordBookId: String,
     val lessonId: String,
 )
+
+/** Verified textbook reading corpus. This is intentionally separate from WordBook data. */
+@Entity(tableName = "textbooks")
+data class TextbookEntity(
+    @androidx.room.PrimaryKey val id: String,
+    val title: String,
+    val language: String,
+    val level: String,
+    val sourceVersion: Int,
+)
+
+@Entity(
+    tableName = "textbook_lessons",
+    primaryKeys = ["textbookId", "id"],
+    indices = [Index("textbookId"), Index(value = ["textbookId", "lessonNumber"], unique = true)],
+)
+data class TextbookLessonEntity(
+    val id: String,
+    val textbookId: String,
+    val lessonNumber: Int,
+    val title: String,
+)
+
+@Entity(tableName = "reading_sections", indices = [Index("lessonId"), Index(value = ["lessonId", "position"])])
+data class ReadingSectionEntity(
+    @androidx.room.PrimaryKey val id: String,
+    val lessonId: String,
+    val position: Int,
+    val type: String,
+    val title: String?,
+)
+
+@Entity(tableName = "reading_paragraphs", indices = [Index("sectionId"), Index(value = ["sectionId", "position"])])
+data class ParagraphEntity(
+    @androidx.room.PrimaryKey val id: String,
+    val sectionId: String,
+    val position: Int,
+    val content: String,
+)
+
+@Entity(tableName = "textbook_annotations", indices = [Index("paragraphId")])
+data class AnnotationEntity(
+    @androidx.room.PrimaryKey val id: String,
+    val paragraphId: String,
+    val startOffset: Int,
+    val endOffset: Int,
+    val annotationType: String,
+    val payload: String,
+)

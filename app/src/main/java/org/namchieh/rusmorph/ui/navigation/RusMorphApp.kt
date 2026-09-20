@@ -34,6 +34,7 @@ import org.namchieh.rusmorph.ui.learning.CoursesViewModel
 import org.namchieh.rusmorph.ui.learning.DialogueViewModel
 import org.namchieh.rusmorph.ui.learning.LearningSummaryViewModel
 import org.namchieh.rusmorph.ui.learning.LessonDetailViewModel
+import org.namchieh.rusmorph.ui.learning.LessonTextbookViewModel
 import org.namchieh.rusmorph.ui.learning.VocabularyViewModel
 import org.namchieh.rusmorph.ui.screen.agent.AgentScreen
 import org.namchieh.rusmorph.ui.screen.cards.CommandScreen
@@ -45,6 +46,7 @@ import org.namchieh.rusmorph.ui.screen.learning.CoursesScreen
 import org.namchieh.rusmorph.ui.screen.learning.DialogueScreen
 import org.namchieh.rusmorph.ui.screen.learning.HomeScreen
 import org.namchieh.rusmorph.ui.screen.learning.LessonDetailScreen
+import org.namchieh.rusmorph.ui.screen.learning.LessonTextbookScreen
 import org.namchieh.rusmorph.ui.screen.learning.ProfileScreen
 import org.namchieh.rusmorph.ui.screen.learning.ReviewScreen
 import org.namchieh.rusmorph.ui.screen.learning.ReviewQueueScreen
@@ -179,10 +181,11 @@ fun RusMorphApp(application: RusMorphApplication) {
                     when (type) {
                         LearningUnitType.VOCABULARY -> navController.navigate(Routes.vocabulary(lesson.id))
                         LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-${lesson.id}"))
+                        LearningUnitType.TEXT -> navController.navigate(Routes.textbookLesson(lesson.id))
                         LearningUnitType.REVIEW -> selectBottom(BottomDestination.Review)
                         else -> Unit
                     }
-                }, navController::navigateUp, { navController.navigate(Routes.commands("总结本课 ${lessonId.substringAfterLast('-')}")) })
+                }, navController::navigateUp, { navController.navigate(Routes.commands("总结本课 ${lessonId.substringAfterLast('-')}")) }, { navController.navigate(Routes.textbookLesson(it.id)) })
             }
             composable(Routes.VocabularyPattern, listOf(navArgument("lessonId") { type = NavType.StringType })) { entry ->
                 val lessonId = checkNotNull(entry.arguments?.getString("lessonId"))
@@ -219,6 +222,12 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.GrammarPattern, listOf(navArgument("grammarId") { type = NavType.StringType })) { UnavailableContentScreen("语法", navController::navigateUp) }
             composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { UnavailableContentScreen("课文", navController::navigateUp) }
+            composable(Routes.TextbookLessonPattern, listOf(navArgument("lessonId") { type = NavType.StringType })) { entry ->
+                val lessonId = checkNotNull(entry.arguments?.getString("lessonId"))
+                val vm: LessonTextbookViewModel = viewModel(key = "textbook-$lessonId", factory = remember(application, lessonId) { viewModelFactory { initializer { LessonTextbookViewModel(application.textbookRepository, lessonId) } } })
+                val state by vm.state.collectAsState()
+                LessonTextbookScreen(state, navController::navigateUp)
+            }
             composable(Routes.Settings) { SettingsScreen(application.apiDiagnostics, application.agentRepository, application.appSettings, navController::navigateUp) }
             composable(
                 Routes.PronunciationPattern,

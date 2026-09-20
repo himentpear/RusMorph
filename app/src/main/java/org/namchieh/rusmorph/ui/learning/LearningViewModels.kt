@@ -12,6 +12,7 @@ import org.namchieh.rusmorph.data.local.LexiconEntryWithDetails
 import org.namchieh.rusmorph.data.repository.CourseRepository
 import org.namchieh.rusmorph.data.repository.LearningRepository
 import org.namchieh.rusmorph.data.repository.LearningStats
+import org.namchieh.rusmorph.data.repository.TextbookRepository
 import org.namchieh.rusmorph.data.settings.AppSettings
 import org.namchieh.rusmorph.domain.learning.Course
 import org.namchieh.rusmorph.domain.learning.Dialogue
@@ -21,6 +22,7 @@ import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
+import org.namchieh.rusmorph.domain.textbook.LessonTextContent
 
 sealed interface Loadable<out T> {
     data object Loading : Loadable<Nothing>
@@ -91,6 +93,11 @@ class VocabularyViewModel(
 class DialogueViewModel(private val repository: CourseRepository, private val dialogueId: String) : ViewModel() {
     val state = MutableStateFlow<Loadable<Dialogue>>(Loadable.Loading)
     init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.dialogue(dialogueId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("对话加载失败") }) } }
+}
+
+class LessonTextbookViewModel(private val repository: TextbookRepository, private val lessonId: String) : ViewModel() {
+    val state = MutableStateFlow<Loadable<LessonTextContent>>(Loadable.Loading)
+    init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.getLessonContent(lessonId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("课文尚未导入") }) } }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

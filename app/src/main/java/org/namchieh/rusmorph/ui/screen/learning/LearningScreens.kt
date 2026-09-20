@@ -46,6 +46,7 @@ import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.domain.learning.LearningUnitType
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
+import org.namchieh.rusmorph.domain.textbook.LessonTextContent
 import org.namchieh.rusmorph.ui.components.RusButton
 import org.namchieh.rusmorph.ui.components.RusBottomSheet
 import org.namchieh.rusmorph.ui.components.RusCard
@@ -431,7 +432,7 @@ fun CourseDetailScreen(course: Course?, lessons: Loadable<List<Lesson>>, onLesso
 }
 
 @Composable
-fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitType) -> Unit, onBack: () -> Unit, onAI: () -> Unit) {
+fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitType) -> Unit, onBack: () -> Unit, onAI: () -> Unit, onTextbook: ((Lesson) -> Unit)? = null) {
     val topTitle = when (state) {
         is Loadable.Content -> state.value.titleZh
         else -> "课次详情"
@@ -446,9 +447,36 @@ fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitTyp
                     Text(lesson.titleRu, color = RusMorphColors.CarbonBlack, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
                     RusSectionTitle(lesson.titleRu, lesson.titleZh)
                     RusProgressBar(lesson.progress)
+                    onTextbook?.let { openTextbook -> RusButton("📖 课文", { openTextbook(lesson) }, Modifier.fillMaxWidth()) }
                     Spacer(Modifier.height(4.dp))
                     RusSectionTitle("学习单元", "点击进入专项练习与跟读")
                     lesson.units.forEachIndexed { index, unit -> RusLearningUnitCard(index + 1, unit, { onUnit(lesson, unit.type) }) }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LessonTextbookScreen(state: Loadable<LessonTextContent>, onBack: () -> Unit) {
+    LearningScaffold("📖 课文", onBack = onBack) { root ->
+        ContentColumn(root) {
+            when (state) {
+                Loadable.Loading -> CircularProgressIndicator(color = RusMorphColors.CarbonBlack)
+                is Loadable.Error -> RusEmptyState("课文尚未导入", state.message)
+                is Loadable.Content -> {
+                    val content = state.value
+                    RusSectionTitle(content.textbook.title, "${content.lesson.title} · 第 ${content.lesson.lessonNumber} 课")
+                    content.sections.forEach { section ->
+                        section.title?.let { Text(it, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = RusMorphColors.CarbonBlack) }
+                        RusCard(Modifier.fillMaxWidth()) {
+                            Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                                section.paragraphs.forEach { paragraph ->
+                                    Text(paragraph.content, style = MaterialTheme.typography.bodyLarge, lineHeight = 29.sp, color = RusMorphColors.TextPrimary)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

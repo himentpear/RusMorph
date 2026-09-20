@@ -37,8 +37,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         WordBookDialogueLineEntity::class,
         WordBookTextEntity::class,
         WordBookTextParagraphEntity::class,
+        TextbookEntity::class,
+        TextbookLessonEntity::class,
+        ReadingSectionEntity::class,
+        ParagraphEntity::class,
+        AnnotationEntity::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = true,
 )
 abstract class RusMorphDatabase : RoomDatabase() {
@@ -47,6 +52,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
     abstract fun localLibraryDao(): LocalLibraryDao
     abstract fun learningDao(): LearningDao
     abstract fun wordBookDao(): WordBookDao
+    abstract fun textbookDao(): TextbookDao
 
     companion object {
         fun create(context: Context): RusMorphDatabase =
@@ -55,7 +61,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 RusMorphDatabase::class.java,
                 "rusmorph.db",
             )
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
                 .build()
 
         val MIGRATION_2_3 = object : Migration(2, 3) {
@@ -167,6 +173,23 @@ abstract class RusMorphDatabase : RoomDatabase() {
                     db.execSQL("INSERT INTO word_book_lessons(id,wordBookId,number,titleRu,titleZh) VALUES (?, 'university-russian-1', ?, NULL, NULL)", arrayOf("ur1-lesson-$number", number))
                 }
                 db.execSQL("INSERT INTO word_book_lesson_words(wordBookId,lessonId,entryId,position,isKey) SELECT 'university-russian-1', 'ur1-lesson-' || lesson, id, COALESCE(sequence, 0), 0 FROM lexicon_entries WHERE lesson BETWEEN 1 AND 18")
+            }
+        }
+
+        val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `textbooks` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `language` TEXT NOT NULL, `level` TEXT NOT NULL, `sourceVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `textbook_lessons` (`id` TEXT NOT NULL, `textbookId` TEXT NOT NULL, `lessonNumber` INTEGER NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`textbookId`, `id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_textbook_lessons_textbookId` ON `textbook_lessons` (`textbookId`)")
+                db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_textbook_lessons_textbookId_lessonNumber` ON `textbook_lessons` (`textbookId`, `lessonNumber`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `reading_sections` (`id` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `position` INTEGER NOT NULL, `type` TEXT NOT NULL, `title` TEXT, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_reading_sections_lessonId` ON `reading_sections` (`lessonId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_reading_sections_lessonId_position` ON `reading_sections` (`lessonId`, `position`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `reading_paragraphs` (`id` TEXT NOT NULL, `sectionId` TEXT NOT NULL, `position` INTEGER NOT NULL, `content` TEXT NOT NULL, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_reading_paragraphs_sectionId` ON `reading_paragraphs` (`sectionId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_reading_paragraphs_sectionId_position` ON `reading_paragraphs` (`sectionId`, `position`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `textbook_annotations` (`id` TEXT NOT NULL, `paragraphId` TEXT NOT NULL, `startOffset` INTEGER NOT NULL, `endOffset` INTEGER NOT NULL, `annotationType` TEXT NOT NULL, `payload` TEXT NOT NULL, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_textbook_annotations_paragraphId` ON `textbook_annotations` (`paragraphId`)")
             }
         }
     }
