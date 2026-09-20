@@ -7,6 +7,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.data.local.AssetDatabaseImporter
 import org.namchieh.rusmorph.data.local.RusMorphDatabase
+import org.namchieh.rusmorph.data.local.WordBookAssetImporter
 import org.namchieh.rusmorph.data.repository.RoomSearchDataSource
 import org.namchieh.rusmorph.data.repository.SearchRepository
 import org.namchieh.rusmorph.agent.AgentContextBuilder
@@ -19,6 +20,9 @@ import org.namchieh.rusmorph.data.settings.AppSettings
 import org.namchieh.rusmorph.data.repository.SpeechRepository
 import org.namchieh.rusmorph.data.repository.CourseRepository
 import org.namchieh.rusmorph.data.repository.LearningRepository
+import org.namchieh.rusmorph.data.repository.AssetWordBookDataSource
+import org.namchieh.rusmorph.data.repository.CompositeWordBookRepository
+import org.namchieh.rusmorph.data.repository.RoomWordBookDataSource
 
 class RusMorphApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -40,7 +44,14 @@ class RusMorphApplication : Application() {
         )
     }
     val localLibraryRepository by lazy { LocalLibraryRepository(database.localLibraryDao()) }
-    val courseRepository by lazy { CourseRepository(this, searchRepository) }
+    val wordBookAssetImporter by lazy { WordBookAssetImporter(this, database) }
+    val wordBookRepository by lazy {
+        CompositeWordBookRepository(
+            AssetWordBookDataSource(this, searchRepository),
+            RoomWordBookDataSource(database.wordBookDao(), searchRepository),
+        )
+    }
+    val courseRepository by lazy { CourseRepository(wordBookRepository) }
     val learningRepository by lazy { LearningRepository(database.learningDao()) }
     val multiAgentCoordinator by lazy { MultiAgentCoordinator(agentRepository, searchRepository) }
     val speechRepository by lazy {
@@ -53,6 +64,7 @@ class RusMorphApplication : Application() {
         super.onCreate()
         applicationScope.launch {
             dataInitializer.initialize()
+            wordBookAssetImporter.importIfNeeded()
         }
     }
 }

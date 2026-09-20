@@ -151,7 +151,8 @@ class SearchViewModel(
                 val result = when {
                     request.query.isNotBlank() -> SearchResult(
                         controls = request,
-                        results = repository.search(request.query, request.partOfSpeech, request.lesson, 50),
+                        // Exact matching is attempted first; morphology/typo recall only runs on zero results.
+                        results = repository.searchWithFuzzyFallback(request.query, request.partOfSpeech, request.lesson, 50).entries,
                         databaseEntryCount = count,
                     )
                     request.partOfSpeech != null || request.lesson != null -> SearchResult(

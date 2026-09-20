@@ -8,6 +8,14 @@ import org.junit.Test
 import org.namchieh.rusmorph.data.local.*
 
 class FuzzySearchTest {
+    @Test fun exact_results_remain_the_default_before_fallback() = runTest {
+        val item = details("employee", "сотру́дник", "сотрудник")
+        val repository = SearchRepository(FuzzySource(item))
+        val result = repository.searchWithFuzzyFallback("сотрудник")
+        assertEquals(false, result.isFuzzyMatch)
+        assertEquals("employee", result.entries.single().entry.id)
+    }
+
     @Test fun oneAndTwoCharacterTyposResolveLocally() = runTest {
         val item = details("employee", "сотру́дник", "сотрудник")
         val repository = SearchRepository(FuzzySource(item))

@@ -106,6 +106,24 @@ class SearchRepository(
     private val dataSource: SearchDataSource,
     private val gson: Gson = Gson(),
 ) {
+    /** Exact search remains the default; callers opt into this zero-result fallback. */
+    suspend fun searchWithFuzzyFallback(
+        query: String,
+        partOfSpeech: String? = null,
+        lesson: Int? = null,
+        limit: Int = 50,
+    ): SearchResponse {
+        val exact = search(query, partOfSpeech, lesson, limit)
+        if (exact.isNotEmpty() || query.isBlank()) return SearchResponse(exact)
+        val fuzzy = fuzzySearch(query, partOfSpeech, lesson, limit)
+        return SearchResponse(
+            entries = fuzzy,
+            redirectedFrom = query.takeIf { fuzzy.isNotEmpty() },
+            redirectedTo = fuzzy.firstOrNull()?.entry?.displayForm,
+            isFuzzyMatch = fuzzy.isNotEmpty(),
+        )
+    }
+
     suspend fun search(
         query: String,
         partOfSpeech: String? = null,
@@ -202,6 +220,13 @@ class SearchRepository(
         dataSource.markViewed(entryId, viewedAt)
     }
 }
+
+data class SearchResponse(
+    val entries: List<LexiconEntryWithDetails>,
+    val redirectedFrom: String? = null,
+    val redirectedTo: String? = null,
+    val isFuzzyMatch: Boolean = false,
+)
 
 internal fun LexiconEntryWithDetails.matches(filters: MorphologyFilters): Boolean {
     fun String?.isPresent() = !isNullOrBlank() && this != "8"

@@ -30,8 +30,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         GenericReviewItemEntity::class,
         MistakeItemV2Entity::class,
         PronunciationSessionEntity::class,
+        WordBookEntity::class,
+        WordBookLessonEntity::class,
+        WordBookLessonWordEntity::class,
+        WordBookDialogueEntity::class,
+        WordBookDialogueLineEntity::class,
+        WordBookTextEntity::class,
+        WordBookTextParagraphEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
 )
 abstract class RusMorphDatabase : RoomDatabase() {
@@ -39,6 +46,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
     abstract fun searchDao(): SearchDao
     abstract fun localLibraryDao(): LocalLibraryDao
     abstract fun learningDao(): LearningDao
+    abstract fun wordBookDao(): WordBookDao
 
     companion object {
         fun create(context: Context): RusMorphDatabase =
@@ -47,7 +55,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 RusMorphDatabase::class.java,
                 "rusmorph.db",
             )
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                 .build()
 
         val MIGRATION_2_3 = object : Migration(2, 3) {
@@ -125,6 +133,40 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_sourceId` ON `pronunciation_sessions` (`sourceId`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_lessonId` ON `pronunciation_sessions` (`lessonId`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_startedAt` ON `pronunciation_sessions` (`startedAt`)")
+            }
+        }
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE generic_review_items ADD COLUMN wordBookId TEXT")
+                db.execSQL("UPDATE generic_review_items SET wordBookId = 'university-russian-1' WHERE lessonId LIKE 'ur1-lesson-%'")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_books` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `coverUri` TEXT, `sourceType` TEXT NOT NULL, `version` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_books_sourceType` ON `word_books` (`sourceType`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_books_updatedAt` ON `word_books` (`updatedAt`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_book_lessons` (`id` TEXT NOT NULL, `wordBookId` TEXT NOT NULL, `number` INTEGER NOT NULL, `titleRu` TEXT, `titleZh` TEXT, PRIMARY KEY(`wordBookId`, `id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_lessons_wordBookId` ON `word_book_lessons` (`wordBookId`)")
+                db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_word_book_lessons_wordBookId_number` ON `word_book_lessons` (`wordBookId`, `number`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_book_lesson_words` (`wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `entryId` TEXT NOT NULL, `position` INTEGER NOT NULL, `isKey` INTEGER NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `entryId`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_lesson_words_lessonId` ON `word_book_lesson_words` (`lessonId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_lesson_words_entryId` ON `word_book_lesson_words` (`entryId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_lesson_words_wordBookId_lessonId_position` ON `word_book_lesson_words` (`wordBookId`, `lessonId`, `position`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_book_dialogues` (`id` TEXT NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `position` INTEGER NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_dialogues_wordBookId` ON `word_book_dialogues` (`wordBookId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_dialogues_lessonId` ON `word_book_dialogues` (`lessonId`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_book_dialogue_lines` (`id` TEXT NOT NULL, `dialogueId` TEXT NOT NULL, `speaker` TEXT, `text` TEXT NOT NULL, `translation` TEXT, `audio` TEXT, `position` INTEGER NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `dialogueId`, `id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_dialogue_lines_dialogueId` ON `word_book_dialogue_lines` (`dialogueId`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_book_texts` (`id` TEXT NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `title` TEXT NOT NULL, `translationTitle` TEXT, `position` INTEGER NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_texts_wordBookId` ON `word_book_texts` (`wordBookId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_texts_lessonId` ON `word_book_texts` (`lessonId`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `word_book_text_paragraphs` (`id` TEXT NOT NULL, `textId` TEXT NOT NULL, `text` TEXT NOT NULL, `translation` TEXT, `audio` TEXT, `position` INTEGER NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `textId`, `id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_word_book_text_paragraphs_textId` ON `word_book_text_paragraphs` (`textId`)")
+                // Version zero marks a migrated shell; initialization installs the verified asset
+                // snapshot transactionally before the learning UI is made available.
+                db.execSQL("INSERT INTO word_books VALUES ('university-russian-1', '大学俄语 1', '', '', 'cover_university_russian_1', 'BUILT_IN', 0, 0)")
+                for (number in 1..18) {
+                    db.execSQL("INSERT INTO word_book_lessons(id,wordBookId,number,titleRu,titleZh) VALUES (?, 'university-russian-1', ?, NULL, NULL)", arrayOf("ur1-lesson-$number", number))
+                }
+                db.execSQL("INSERT INTO word_book_lesson_words(wordBookId,lessonId,entryId,position,isKey) SELECT 'university-russian-1', 'ur1-lesson-' || lesson, id, COALESCE(sequence, 0), 0 FROM lexicon_entries WHERE lesson BETWEEN 1 AND 18")
             }
         }
     }
