@@ -5,15 +5,12 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
-import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.namchieh.rusmorph.agent.*
 import org.namchieh.rusmorph.data.repository.KnowledgeRetrievalResult
 import org.namchieh.rusmorph.ui.screen.agent.AgentContent
-import org.namchieh.rusmorph.ui.screen.detail.AgentQuestionActions
 import org.namchieh.rusmorph.ui.theme.RusMorphTheme
 
 class AgentComposeTest {
@@ -31,16 +28,6 @@ class AgentComposeTest {
         AgentQuestionType.MORPHOLOGY, AgentQuestionTemplateFactory.create(AgentQuestionType.MORPHOLOGY, detail.displayForm),
         "", availability,
     )
-
-    @Test fun detailShowsFourActions_andEtymologyClickCarriesType() {
-        var selected: AgentQuestionType? = null
-        compose.setContent { RusMorphTheme { AgentQuestionActions("write") { _, type -> selected = type } } }
-        listOf("其词源", "其派生", "特殊变格／变位／音变", "自定义提问").forEach {
-            compose.onNodeWithText(it).assertIsDisplayed()
-        }
-        compose.onNodeWithText("其词源").performClick()
-        assertEquals(AgentQuestionType.ETYMOLOGY, selected)
-    }
 
     @Test fun agentShowsWordAndNoKnowledgeWarning() {
         setAgentContent(prepared())

@@ -1,5 +1,6 @@
 package org.namchieh.rusmorph.data.repository
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -19,7 +20,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34])
+@Config(sdk = [34], application = Application::class)
 class LocalLibraryRepositoryTest {
     private lateinit var context: Context
     private val databaseName = "local-library-${UUID.randomUUID()}.db"
