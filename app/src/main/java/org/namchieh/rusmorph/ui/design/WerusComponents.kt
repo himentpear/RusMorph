@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -22,9 +23,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 
 enum class WerusButtonStyle { Primary, Secondary }
 
@@ -118,5 +122,89 @@ fun WerusBottomSheet(onDismiss: () -> Unit, content: @Composable () -> Unit) {
         dragHandle = { BottomSheetDefaults.DragHandle(color = WerusColors.Red) },
     ) {
         Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) { content() }
+    }
+}
+
+/**
+ * Werus canonical Surface component.
+ * Replaces generic Material Surface with Werus paper/canvas styling and borders.
+ */
+@Composable
+fun WerusSurface(
+    modifier: Modifier = Modifier,
+    shape: Shape = WerusShapes.medium,
+    color: Color = WerusColors.Paper,
+    contentColor: Color = WerusColors.Ink,
+    border: BorderStroke? = null,
+    shadowElevation: Dp = 0.dp,
+    content: @Composable () -> Unit,
+) {
+    Surface(
+        modifier = modifier,
+        shape = shape,
+        color = color,
+        contentColor = contentColor,
+        border = border,
+        shadowElevation = shadowElevation,
+        content = content,
+    )
+}
+
+/**
+ * Werus canonical Dialog component.
+ * Styled as an academic paper modal with textbook border, serif title, and Werus buttons.
+ */
+@Composable
+fun WerusDialog(
+    onDismissRequest: () -> Unit,
+    title: String? = null,
+    confirmText: String = "确定",
+    onConfirm: () -> Unit,
+    dismissText: String? = null,
+    onDismiss: (() -> Unit)? = null,
+    properties: DialogProperties = DialogProperties(),
+    content: @Composable () -> Unit,
+) {
+    Dialog(onDismissRequest = onDismissRequest, properties = properties) {
+        WerusSurface(
+            shape = WerusShapes.large,
+            color = WerusColors.Paper,
+            border = BorderStroke(1.dp, WerusColors.Border),
+            shadowElevation = 6.dp,
+        ) {
+            androidx.compose.foundation.layout.Column(
+                modifier = Modifier.padding(20.dp),
+                verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(14.dp),
+            ) {
+                if (title != null) {
+                    Text(
+                        text = title,
+                        style = WerusTypography.titleLarge,
+                        color = WerusColors.RedDark,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+                Box(Modifier.weight(1f, fill = false)) {
+                    content()
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(10.dp, androidx.compose.ui.Alignment.End),
+                ) {
+                    if (dismissText != null && onDismiss != null) {
+                        WerusButton(
+                            text = dismissText,
+                            onClick = onDismiss,
+                            style = WerusButtonStyle.Secondary,
+                        )
+                    }
+                    WerusButton(
+                        text = confirmText,
+                        onClick = onConfirm,
+                        style = WerusButtonStyle.Primary,
+                    )
+                }
+            }
+        }
     }
 }

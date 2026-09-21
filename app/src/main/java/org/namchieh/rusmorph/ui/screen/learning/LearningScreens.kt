@@ -58,6 +58,7 @@ import org.namchieh.rusmorph.domain.textbook.KnowledgeProgressStatus
 import org.namchieh.rusmorph.domain.textbook.LessonSentence
 import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
 import org.namchieh.rusmorph.domain.textbook.KnowledgeType
+import org.namchieh.rusmorph.ui.components.CourseCoverImage
 import org.namchieh.rusmorph.ui.components.KnowledgeCard
 import org.namchieh.rusmorph.ui.components.RusButton
 import org.namchieh.rusmorph.ui.components.RusBottomSheet
@@ -74,6 +75,13 @@ import org.namchieh.rusmorph.ui.components.RusProgressBar
 import org.namchieh.rusmorph.ui.components.RusSectionTitle
 import org.namchieh.rusmorph.ui.components.RusStat
 import org.namchieh.rusmorph.ui.components.RusWordChip
+import org.namchieh.rusmorph.ui.design.WerusCard
+import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusChip
+import org.namchieh.rusmorph.ui.design.WerusSurface
+import org.namchieh.rusmorph.ui.design.WerusTypography
+import org.namchieh.rusmorph.ui.design.werusPalette
+import androidx.compose.ui.text.font.FontFamily
 import org.namchieh.rusmorph.ui.learning.Loadable
 import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.navigation.RusMorphBottomBar
@@ -346,61 +354,83 @@ fun HomeScreen(
                                 ) {
                                     allCourses.forEach { c ->
                                         val isSelected = c.id == currentCourse.id
-                                        Surface(
-                                            shape = RoundedCornerShape(16.dp),
-                                            color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.Surface,
-                                            contentColor = if (isSelected) RusMorphColors.WarmCream else RusMorphColors.TextSecondary,
-                                            border = androidx.compose.foundation.BorderStroke(
-                                                1.dp,
-                                                if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
-                                            ),
-                                            modifier = Modifier.clickable { onSelectCourse(c.id) },
-                                        ) {
-                                            Text(
-                                                text = c.title,
-                                                style = RusMorphTechTypography.MicroPill,
-                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                                            )
-                                        }
+                                        WerusChip(
+                                            text = c.title,
+                                            selected = isSelected,
+                                            onClick = { onSelectCourse(c.id) },
+                                        )
                                     }
                                 }
                             }
 
-                            RusCard(
-                                Modifier.fillMaxWidth(),
+                            WerusCard(
+                                modifier = Modifier.fillMaxWidth(),
                                 onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it) } ?: onCourse(currentCourse.id) },
+                                accentColor = WerusColors.Red,
+                                containerColor = WerusColors.Paper,
                             ) {
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    Row(
-                                        Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically,
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(14.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    CourseCoverImage(
+                                        coverResourceName = currentCourse.coverResourceName,
+                                        title = currentCourse.title,
+                                        subtitle = currentCourse.subtitle,
+                                        modifier = Modifier
+                                            .width(72.dp)
+                                            .height(96.dp),
+                                    )
+                                    Column(
+                                        modifier = Modifier.weight(1f),
+                                        verticalArrangement = Arrangement.spacedBy(6.dp),
                                     ) {
-                                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                                            RusPillBadge("当前课次", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                                        Row(
+                                            Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
+                                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                                WerusChip(
+                                                    text = "当前课次",
+                                                    selected = false,
+                                                    containerColor = WerusColors.Beige,
+                                                    contentColor = WerusColors.RedDark,
+                                                )
+                                                Text(
+                                                    latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
+                                                    style = RusMorphTechTypography.SmallDigit,
+                                                    color = WerusColors.Red,
+                                                )
+                                            }
                                             Text(
-                                                latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
-                                                style = RusMorphTechTypography.SmallDigit,
-                                                color = RusMorphColors.AccentOrange,
+                                                "课次目录 ›",
+                                                style = WerusTypography.labelMedium,
+                                                color = WerusColors.InkFaint,
+                                                modifier = Modifier.clickable { onCourse(currentCourse.id) },
                                             )
                                         }
                                         Text(
-                                            "课次目录 ›",
-                                            style = RusMorphTechTypography.MicroPill,
-                                            color = RusMorphColors.TextTertiary,
-                                            modifier = Modifier.clickable { onCourse(currentCourse.id) },
+                                            text = currentCourse.title,
+                                            style = WerusTypography.titleMedium,
+                                            fontFamily = FontFamily.Serif,
+                                            fontWeight = FontWeight.Bold,
+                                            color = WerusColors.Ink,
                                         )
-                                    }
-                                    Text(currentCourse.title, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                    RusProgressBar(latest?.progress ?: 0f)
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                        Text(
-                                            text = if ((latest?.progress ?: 0f) > 0f) "已研习 ${((latest?.progress ?: 0f) * 100).toInt()}% · 继续课次" else "尚未开始 · 进入学习",
-                                            style = RusMorphTechTypography.MicroPill,
-                                            color = RusMorphColors.TextSecondary,
-                                        )
-                                        Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
+                                        RusProgressBar(latest?.progress ?: 0f)
+                                        Row(
+                                            Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
+                                            Text(
+                                                text = if ((latest?.progress ?: 0f) > 0f) "已研习 ${((latest?.progress ?: 0f) * 100).toInt()}% · 继续课次" else "尚未开始 · 进入学习",
+                                                style = WerusTypography.labelMedium,
+                                                color = WerusColors.InkMuted,
+                                            )
+                                            Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = WerusColors.Ink)
+                                        }
                                     }
                                 }
                             }
@@ -537,22 +567,14 @@ fun LessonTextbookScreen(
                                 ) {
                                     currentSentenceKnowledge.forEach { item ->
                                         val isSelected = item.id == activeKnowledge?.id
-                                        Surface(
-                                            modifier = Modifier.clickable {
+                                        WerusChip(
+                                            text = "${item.label ?: item.text} · ${item.type.name.lowercase()}",
+                                            selected = isSelected,
+                                            onClick = {
                                                 localActiveKnowledgeId = item.id
                                                 onKnowledgeSelect(item, selectedSentence)
                                             },
-                                            shape = RoundedCornerShape(8.dp),
-                                            color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.PillBackground,
-                                        ) {
-                                            Text(
-                                                text = "${item.label ?: item.text} · ${item.type.name.lowercase()}",
-                                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                                                style = MaterialTheme.typography.labelSmall,
-                                                color = if (isSelected) RusMorphColors.TextOnDark else RusMorphColors.TextPrimary,
-                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                            )
-                                        }
+                                        )
                                     }
                                 }
                             }
@@ -605,7 +627,7 @@ fun LessonTextbookScreen(
                                         buildAnnotatedSentence(sentence.text, annotations)
                                     }
 
-                                    Surface(
+                                    WerusSurface(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .clickable {
@@ -614,8 +636,9 @@ fun LessonTextbookScreen(
                                                     onKnowledgeSelect(firstAnn, sentence)
                                                 }
                                             },
-                                        color = if (isCurrentSentence) RusMorphColors.WarmCream.copy(alpha = 0.5f) else Color.Transparent,
+                                        color = if (isCurrentSentence) WerusColors.Beige.copy(alpha = 0.55f) else Color.Transparent,
                                         shape = RoundedCornerShape(10.dp),
+                                        border = if (isCurrentSentence) BorderStroke(1.dp, WerusColors.Border) else null,
                                     ) {
                                         Column(
                                             modifier = Modifier
@@ -626,8 +649,9 @@ fun LessonTextbookScreen(
                                             Text(
                                                 text = annotatedText,
                                                 style = MaterialTheme.typography.bodyLarge,
+                                                fontFamily = FontFamily.Serif,
                                                 lineHeight = 29.sp,
-                                                color = RusMorphColors.TextPrimary,
+                                                color = WerusColors.Ink,
                                             )
 
                                             if (annotations.isNotEmpty()) {
@@ -638,30 +662,26 @@ fun LessonTextbookScreen(
                                                 ) {
                                                     Text(
                                                         text = "↑",
-                                                        style = MaterialTheme.typography.labelMedium,
-                                                        color = RusMorphColors.TextSecondary,
+                                                        style = WerusTypography.labelMedium,
+                                                        color = WerusColors.GoldDark,
                                                         fontWeight = FontWeight.Bold,
                                                     )
                                                     annotations.forEach { ann ->
                                                         val progress = knowledgeProgressMap[ann.id]
                                                         val status = progress?.status ?: KnowledgeProgressStatus.SEEN
                                                         val isItemActive = selectedKnowledge?.id == ann.id
-                                                        Surface(
+                                                        val palette = ann.type.werusPalette()
+                                                        WerusSurface(
                                                             modifier = Modifier.clickable {
                                                                 onSentence(sentence)
                                                                 onKnowledgeSelect(ann, sentence)
                                                             },
                                                             shape = RoundedCornerShape(6.dp),
-                                                            color = when (ann.type) {
-                                                                KnowledgeType.GRAMMAR -> Color(0xFFEFF6FF)
-                                                                KnowledgeType.PHRASE -> Color(0xFFFEF3C7)
-                                                                KnowledgeType.PATTERN -> Color(0xFFF0FDF4)
-                                                                KnowledgeType.WORD -> Color(0xFFFEF2F2)
-                                                                else -> RusMorphColors.PillBackground
-                                                            },
+                                                            color = palette.container,
+                                                            contentColor = palette.content,
                                                             border = BorderStroke(
                                                                 1.dp,
-                                                                if (isItemActive) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
+                                                                if (isItemActive) palette.content else palette.content.copy(alpha = 0.25f),
                                                             ),
                                                         ) {
                                                             Row(
@@ -673,23 +693,23 @@ fun LessonTextbookScreen(
                                                                     text = "[${ann.text}]",
                                                                     fontSize = 11.sp,
                                                                     fontWeight = FontWeight.SemiBold,
-                                                                    color = RusMorphColors.TextPrimary,
+                                                                    color = palette.content,
                                                                 )
                                                                 Text(
                                                                     text = ann.type.name.lowercase(),
                                                                     fontSize = 10.sp,
                                                                     fontWeight = FontWeight.Normal,
-                                                                    color = RusMorphColors.TextSecondary,
+                                                                    color = palette.content.copy(alpha = 0.8f),
                                                                 )
                                                                 Text(
                                                                     text = "· ${status.labelZh}",
                                                                     fontSize = 9.sp,
                                                                     fontWeight = FontWeight.SemiBold,
                                                                     color = when (status) {
-                                                                        KnowledgeProgressStatus.MASTERED -> RusMorphColors.AccentGreen
-                                                                        KnowledgeProgressStatus.PRACTICED -> RusMorphColors.AccentBlue
-                                                                        KnowledgeProgressStatus.UNDERSTOOD -> RusMorphColors.VividOrange
-                                                                        KnowledgeProgressStatus.SEEN -> RusMorphColors.TextTertiary
+                                                                        KnowledgeProgressStatus.MASTERED -> WerusColors.Success
+                                                                        KnowledgeProgressStatus.PRACTICED -> WerusColors.GoldDark
+                                                                        KnowledgeProgressStatus.UNDERSTOOD -> WerusColors.RedDark
+                                                                        KnowledgeProgressStatus.SEEN -> WerusColors.InkMuted
                                                                     },
                                                                 )
                                                             }
@@ -726,20 +746,9 @@ private fun buildAnnotatedSentence(
         if (ann.start > currentIndex) {
             builder.append(text.substring(currentIndex, ann.start))
         }
-        val typeBg = when (ann.type) {
-            KnowledgeType.GRAMMAR -> Color(0xFFDBEAFE)
-            KnowledgeType.PHRASE -> Color(0xFFFEF3C7)
-            KnowledgeType.PATTERN -> Color(0xFFD1FAE5)
-            KnowledgeType.WORD -> Color(0xFFFEE2E2)
-            else -> Color(0xFFFFE7D0)
-        }
-        val typeFg = when (ann.type) {
-            KnowledgeType.GRAMMAR -> Color(0xFF1D4ED8)
-            KnowledgeType.PHRASE -> Color(0xFFB45309)
-            KnowledgeType.PATTERN -> Color(0xFF047857)
-            KnowledgeType.WORD -> Color(0xFFB91C1C)
-            else -> Color(0xFF1B1B1B)
-        }
+        val palette = ann.type.werusPalette()
+        val typeBg = palette.container
+        val typeFg = palette.content
         builder.pushStringAnnotation(tag = "KNOWLEDGE", annotation = ann.id)
         builder.pushStyle(
             SpanStyle(

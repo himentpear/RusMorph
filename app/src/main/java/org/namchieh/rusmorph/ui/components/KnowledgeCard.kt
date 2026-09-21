@@ -6,14 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,14 +21,16 @@ import org.namchieh.rusmorph.domain.textbook.KnowledgeProgress
 import org.namchieh.rusmorph.domain.textbook.KnowledgeProgressStatus
 import org.namchieh.rusmorph.domain.textbook.KnowledgeType
 import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
-import org.namchieh.rusmorph.ui.design.werusPalette
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.*
 
 /**
- * 统一规范知识卡片组件 (KnowledgeCard)
+ * Werus 教材批注卡 (Textbook Annotation Card)
  *
- * 支持四种核心语言学实体类型：Phrase、Grammar、Pattern、Word
- * 呈现：类型徽章、标题、解释、例句、学习进度状态机交互与上下文操作
+ * 具有古典俄语学术教材装订气质：
+ * - 左侧垂直书脊装订色条 (Accent Spine)，颜色对应知识点类型 (语法/短语/句型/词汇)
+ * - 纯正米白书纸底色 (Paper / Canvas)
+ * - 衬线标题 (Serif) 与正统学术排版
+ * - 规范掌握度认知步进器
  */
 @Composable
 fun KnowledgeCard(
@@ -44,149 +45,166 @@ fun KnowledgeCard(
     val currentStatus = progress?.status ?: KnowledgeProgressStatus.SEEN
     val typeTheme = getKnowledgeTypeTheme(knowledge.type)
 
-    RusCard(
+    WerusCard(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
-        border = BorderStroke(1.dp, RusMorphColors.Outline),
+        containerColor = WerusColors.Paper,
+        border = BorderStroke(1.dp, WerusColors.Border),
+        accentColor = typeTheme.contentColor,
+        contentPadding = 16.dp,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            // 1. 类型徽章与当前状态
+            // 1. 顶部标头：类型徽章与当前掌握状态
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // 类型徽章
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
+                // 教材类型徽章
+                WerusSurface(
+                    shape = RoundedCornerShape(6.dp),
                     color = typeTheme.containerColor,
                     contentColor = typeTheme.contentColor,
+                    border = BorderStroke(1.dp, typeTheme.contentColor.copy(alpha = 0.25f)),
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(7.dp)
+                                .size(6.dp)
                                 .clip(CircleShape)
                                 .background(typeTheme.contentColor),
                         )
                         Text(
                             text = typeTheme.badgeText,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp,
-                            letterSpacing = 0.5.sp,
+                            fontSize = 11.sp,
+                            letterSpacing = 0.6.sp,
                         )
                     }
                 }
 
-                // 当前学习进度标签
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = RusMorphColors.PillBackground,
-                    border = BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                // 认知掌握进度状态标签
+                WerusSurface(
+                    shape = WerusPillShape,
+                    color = when (currentStatus) {
+                        KnowledgeProgressStatus.MASTERED -> WerusColors.ScoreExcellentPaper
+                        KnowledgeProgressStatus.PRACTICED -> WerusColors.PhrasePaper
+                        KnowledgeProgressStatus.UNDERSTOOD -> WerusColors.RedSoft
+                        KnowledgeProgressStatus.SEEN -> WerusColors.BeigeMuted
+                    },
+                    border = BorderStroke(
+                        1.dp,
+                        when (currentStatus) {
+                            KnowledgeProgressStatus.MASTERED -> WerusColors.ScoreExcellentBorder
+                            KnowledgeProgressStatus.PRACTICED -> WerusColors.ScoreGoodBorder
+                            KnowledgeProgressStatus.UNDERSTOOD -> WerusColors.ScoreNeedsWorkBorder
+                            KnowledgeProgressStatus.SEEN -> WerusColors.Border
+                        },
+                    ),
                 ) {
                     Text(
                         text = currentStatus.labelZh,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
+                        style = WerusTypography.labelSmall,
                         color = when (currentStatus) {
-                            KnowledgeProgressStatus.MASTERED -> RusMorphColors.AccentGreen
-                            KnowledgeProgressStatus.PRACTICED -> RusMorphColors.AccentBlue
-                            KnowledgeProgressStatus.UNDERSTOOD -> RusMorphColors.VividOrange
-                            KnowledgeProgressStatus.SEEN -> RusMorphColors.TextSecondary
+                            KnowledgeProgressStatus.MASTERED -> WerusColors.Success
+                            KnowledgeProgressStatus.PRACTICED -> WerusColors.GoldDark
+                            KnowledgeProgressStatus.UNDERSTOOD -> WerusColors.RedDark
+                            KnowledgeProgressStatus.SEEN -> WerusColors.InkMuted
                         },
                         fontWeight = FontWeight.SemiBold,
                     )
                 }
             }
 
-            // 2. 标题区
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            // 2. 核心标题区 (Serif 学术教材字体)
+            Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 val title = knowledge.label ?: knowledge.text
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = WerusTypography.titleLarge,
+                    fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
-                    color = RusMorphColors.TextPrimary,
-                    lineHeight = 28.sp,
+                    color = WerusColors.Ink,
+                    lineHeight = 26.sp,
                 )
                 // 若标题与原文片段不同，则辅助呈现原文划定片段
                 if (knowledge.label != null && knowledge.label != knowledge.text) {
                     Text(
                         text = "原句片段：«${knowledge.text}»",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = RusMorphColors.TextSecondary,
+                        style = WerusTypography.bodyMedium,
+                        color = WerusColors.InkMuted,
                         fontStyle = FontStyle.Italic,
                     )
                 }
             }
 
-            // 3. 解释区
+            // 3. 详细解释区 (纸张嵌入卡)
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    text = "解释",
-                    style = MaterialTheme.typography.labelMedium,
+                    text = "教材批注与解析",
+                    style = WerusTypography.labelMedium,
                     fontWeight = FontWeight.Bold,
-                    color = RusMorphColors.TextSecondary,
+                    color = WerusColors.InkMuted,
                 )
-                Surface(
-                    shape = RoundedCornerShape(10.dp),
-                    color = RusMorphColors.Canvas,
+                WerusSurface(
+                    shape = WerusShapes.small,
+                    color = WerusColors.Canvas,
+                    border = BorderStroke(1.dp, WerusColors.BorderSoft),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
                         text = knowledge.explanation?.ifBlank { null } ?: "该知识点暂无额外文字解释",
-                        modifier = Modifier.padding(12.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = RusMorphColors.TextPrimary,
-                        lineHeight = 22.sp,
+                        modifier = Modifier.padding(11.dp),
+                        style = WerusTypography.bodyMedium,
+                        color = WerusColors.Ink,
+                        lineHeight = 21.sp,
                     )
                 }
             }
 
-            // 4. 例句区 (若有)
+            // 4. 教材例句区 (若有)
             if (!knowledge.example.isNullOrBlank()) {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
-                        text = "例句",
-                        style = MaterialTheme.typography.labelMedium,
+                        text = "典型例句",
+                        style = WerusTypography.labelMedium,
                         fontWeight = FontWeight.Bold,
-                        color = RusMorphColors.TextSecondary,
+                        color = WerusColors.InkMuted,
                     )
-                    Surface(
-                        shape = RoundedCornerShape(10.dp),
-                        color = RusMorphColors.WarmCream.copy(alpha = 0.45f),
-                        border = BorderStroke(1.dp, RusMorphColors.WarmCream),
+                    WerusSurface(
+                        shape = WerusShapes.small,
+                        color = WerusColors.Beige.copy(alpha = 0.4f),
+                        border = BorderStroke(1.dp, WerusColors.Border),
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            Text(
-                                text = knowledge.example,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Medium,
-                                color = RusMorphColors.TextPrimary,
-                                lineHeight = 22.sp,
-                            )
-                        }
+                        Text(
+                            text = knowledge.example,
+                            modifier = Modifier.padding(11.dp),
+                            style = WerusTypography.bodyMedium,
+                            fontFamily = FontFamily.Serif,
+                            fontWeight = FontWeight.Medium,
+                            color = WerusColors.Ink,
+                            lineHeight = 21.sp,
+                        )
                     }
                 }
             }
 
-            // 5. 学习进度流转 (seen -> understood -> practiced -> mastered)
+            // 5. 认知掌握进度交互流转
             if (onProgressChange != null) {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        text = "认知掌握进度",
-                        style = MaterialTheme.typography.labelMedium,
+                        text = "研习掌握度",
+                        style = WerusTypography.labelMedium,
                         fontWeight = FontWeight.Bold,
-                        color = RusMorphColors.TextSecondary,
+                        color = WerusColors.InkMuted,
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -195,30 +213,30 @@ fun KnowledgeCard(
                         KnowledgeProgressStatus.values().forEach { status ->
                             val isCurrent = status == currentStatus
                             val isPassed = status.rank <= currentStatus.rank
-                            Surface(
+                            WerusSurface(
                                 modifier = Modifier
                                     .weight(1f)
                                     .clickable { onProgressChange(status) },
-                                shape = RoundedCornerShape(8.dp),
+                                shape = WerusShapes.small,
                                 color = when {
-                                    isCurrent -> RusMorphColors.Primary
-                                    isPassed -> RusMorphColors.PillBackground
-                                    else -> RusMorphColors.Canvas
+                                    isCurrent -> WerusColors.Red
+                                    isPassed -> WerusColors.Beige
+                                    else -> WerusColors.Canvas
                                 },
                                 border = BorderStroke(
                                     1.dp,
-                                    if (isCurrent) RusMorphColors.PrimaryDark else RusMorphColors.OutlineSoft,
+                                    if (isCurrent) WerusColors.RedDark else WerusColors.Border,
                                 ),
                             ) {
                                 Box(
-                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    modifier = Modifier.padding(vertical = 7.dp),
                                     contentAlignment = Alignment.Center,
                                 ) {
                                     Text(
                                         text = status.labelZh,
                                         fontSize = 11.sp,
                                         fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isCurrent) RusMorphColors.TextOnDark else RusMorphColors.TextPrimary,
+                                        color = if (isCurrent) WerusColors.OnDark else WerusColors.Ink,
                                     )
                                 }
                             }
@@ -228,35 +246,34 @@ fun KnowledgeCard(
                     // 步进引导按钮
                     when (currentStatus) {
                         KnowledgeProgressStatus.SEEN -> {
-                            RusButton(
+                            WerusButton(
                                 text = "标为已理解 ✓",
                                 onClick = { onProgressChange(KnowledgeProgressStatus.UNDERSTOOD) },
                                 modifier = Modifier.fillMaxWidth(),
-                                isSecondary = true,
+                                style = WerusButtonStyle.Secondary,
                             )
                         }
                         KnowledgeProgressStatus.UNDERSTOOD -> {
-                            RusButton(
+                            WerusButton(
                                 text = "标为已练习 ✎",
                                 onClick = { onProgressChange(KnowledgeProgressStatus.PRACTICED) },
                                 modifier = Modifier.fillMaxWidth(),
-                                isSecondary = true,
+                                style = WerusButtonStyle.Secondary,
                             )
                         }
                         KnowledgeProgressStatus.PRACTICED -> {
-                            RusButton(
+                            WerusButton(
                                 text = "标为已掌握 ★",
                                 onClick = { onProgressChange(KnowledgeProgressStatus.MASTERED) },
                                 modifier = Modifier.fillMaxWidth(),
-                                isSecondary = true,
+                                style = WerusButtonStyle.Secondary,
                             )
                         }
                         KnowledgeProgressStatus.MASTERED -> {
-                            // 已完全掌握，显示完成提示
                             Text(
                                 text = "✓ 已达成掌握阶段，巩固记忆可主动加入复习",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = RusMorphColors.AccentGreen,
+                                style = WerusTypography.labelSmall,
+                                color = WerusColors.Success,
                                 modifier = Modifier.padding(top = 2.dp),
                             )
                         }
@@ -270,29 +287,30 @@ fun KnowledgeCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 if (knowledge.type == KnowledgeType.WORD && onWordLookup != null) {
-                    RusButton(
+                    WerusButton(
                         text = "在词库中查找",
                         onClick = { onWordLookup(knowledge.text) },
                         modifier = Modifier.weight(1f),
+                        style = WerusButtonStyle.Primary,
                     )
                 }
 
                 if (onAddReview != null) {
-                    RusButton(
+                    WerusButton(
                         text = "加入复习",
                         onClick = onAddReview,
                         modifier = Modifier.weight(1f),
-                        isSecondary = knowledge.type == KnowledgeType.WORD && onWordLookup != null,
+                        style = if (knowledge.type == KnowledgeType.WORD && onWordLookup != null) WerusButtonStyle.Secondary else WerusButtonStyle.Primary,
                     )
                 }
             }
 
             if (onAskAi != null) {
-                RusButton(
+                WerusButton(
                     text = "✦ 问 AI：讲解「${knowledge.label ?: knowledge.text}」",
                     onClick = { onAskAi(knowledge.label ?: knowledge.text) },
                     modifier = Modifier.fillMaxWidth(),
-                    isSecondary = true,
+                    style = WerusButtonStyle.Secondary,
                 )
             }
         }
