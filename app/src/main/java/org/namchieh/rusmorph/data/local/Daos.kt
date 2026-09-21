@@ -483,7 +483,7 @@ interface LessonTextDao {
 @Dao
 interface TextbookKnowledgeDao {
     @Query("SELECT * FROM sentence_knowledge WHERE sentenceId = :sentenceId ORDER BY start, end, id") suspend fun knowledge(sentenceId: String): List<SentenceKnowledgeEntity>
-    @Query("SELECT * FROM sentence_knowledge WHERE sentenceId IN (:sentenceIds) ORDER BY start, end, id") suspend fun knowledgeForSentences(sentenceIds: List<String>): List<SentenceKnowledgeEntity>
+    @Query("SELECT * FROM sentence_knowledge WHERE sentenceId IN (:sentenceIds) ORDER BY sentenceId, start, end, id") suspend fun knowledgeForSentences(sentenceIds: List<String>): List<SentenceKnowledgeEntity>
     @Query("SELECT * FROM sentence_knowledge WHERE sentenceId = :sentenceId AND type = :type ORDER BY start, end, id") suspend fun knowledgeByType(sentenceId: String, type: String): List<SentenceKnowledgeEntity>
     @Upsert suspend fun upsertKnowledge(items: List<SentenceKnowledgeEntity>)
     @Query("DELETE FROM sentence_knowledge") suspend fun clearKnowledge()

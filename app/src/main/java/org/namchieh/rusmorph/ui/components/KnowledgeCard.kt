@@ -22,6 +22,7 @@ import org.namchieh.rusmorph.domain.textbook.KnowledgeProgress
 import org.namchieh.rusmorph.domain.textbook.KnowledgeProgressStatus
 import org.namchieh.rusmorph.domain.textbook.KnowledgeType
 import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
+import org.namchieh.rusmorph.ui.design.werusPalette
 import org.namchieh.rusmorph.ui.theme.RusMorphColors
 
 /**
@@ -50,8 +51,7 @@ fun KnowledgeCard(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(18.dp),
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             // 1. 类型徽章与当前状态
@@ -201,13 +201,13 @@ fun KnowledgeCard(
                                     .clickable { onProgressChange(status) },
                                 shape = RoundedCornerShape(8.dp),
                                 color = when {
-                                    isCurrent -> RusMorphColors.CarbonBlack
+                                    isCurrent -> RusMorphColors.Primary
                                     isPassed -> RusMorphColors.PillBackground
                                     else -> RusMorphColors.Canvas
                                 },
                                 border = BorderStroke(
                                     1.dp,
-                                    if (isCurrent) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
+                                    if (isCurrent) RusMorphColors.PrimaryDark else RusMorphColors.OutlineSoft,
                                 ),
                             ) {
                                 Box(
@@ -305,35 +305,15 @@ private data class KnowledgeTypeTheme(
     val contentColor: Color,
 )
 
-private fun getKnowledgeTypeTheme(type: KnowledgeType): KnowledgeTypeTheme = when (type) {
-    KnowledgeType.GRAMMAR -> KnowledgeTypeTheme(
-        badgeText = "GRAMMAR · 语法",
-        containerColor = Color(0xFFEFF6FF), // soft blue
-        contentColor = Color(0xFF1D4ED8),
-    )
-    KnowledgeType.PHRASE -> KnowledgeTypeTheme(
-        badgeText = "PHRASE · 短语",
-        containerColor = Color(0xFFFEF3C7), // soft amber
-        contentColor = Color(0xFFB45309),
-    )
-    KnowledgeType.PATTERN -> KnowledgeTypeTheme(
-        badgeText = "PATTERN · 句型",
-        containerColor = Color(0xFFF0FDF4), // soft green
-        contentColor = Color(0xFF047857),
-    )
-    KnowledgeType.WORD -> KnowledgeTypeTheme(
-        badgeText = "WORD · 单词",
-        containerColor = Color(0xFFFEF2F2), // soft rose/brick
-        contentColor = Color(0xFFB91C1C),
-    )
-    KnowledgeType.PRONUNCIATION -> KnowledgeTypeTheme(
-        badgeText = "PRONUNCIATION · 发音",
-        containerColor = Color(0xFFF5F3FF),
-        contentColor = Color(0xFF6D28D9),
-    )
-    KnowledgeType.AI_NOTE -> KnowledgeTypeTheme(
-        badgeText = "AI NOTE · 笔记",
-        containerColor = Color(0xFFFFFBEB),
-        contentColor = Color(0xFFD97706),
-    )
+private fun getKnowledgeTypeTheme(type: KnowledgeType): KnowledgeTypeTheme {
+    val palette = type.werusPalette()
+    val badge = when (type) {
+        KnowledgeType.GRAMMAR -> "GRAMMAR · 语法"
+        KnowledgeType.PHRASE -> "PHRASE · 短语"
+        KnowledgeType.PATTERN -> "PATTERN · 句型"
+        KnowledgeType.WORD -> "WORD · 单词"
+        KnowledgeType.PRONUNCIATION -> "PRONUNCIATION · 发音"
+        KnowledgeType.AI_NOTE -> "AI NOTE · 笔记"
+    }
+    return KnowledgeTypeTheme(badge, palette.container, palette.content)
 }

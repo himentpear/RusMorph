@@ -78,6 +78,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import org.namchieh.rusmorph.audio.SpeechRecorder
 import org.namchieh.rusmorph.data.remote.PronunciationWordDto
 import org.namchieh.rusmorph.ui.PronunciationViewModel
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphColors
 
 private val PageBackground = RusMorphColors.Canvas
@@ -881,28 +882,28 @@ private fun formatMillis(value: Int): String {
 
 private fun scorePalette(score: Double?): ScorePalette = when {
     score == null -> ScorePalette(
-        Color(0xFF8D8D8D),
-        Color(0xFFF4F4F4),
-        Color(0xFFC9C9C9),
+        WerusColors.InkFaint,
+        WerusColors.BeigeMuted,
+        WerusColors.Border,
     )
     score >= 90 -> ScorePalette(
-        Color(0xFF2F9B43),
-        Color(0xFFF2FAEE),
-        Color(0xFFB9DDAA),
+        WerusColors.Success,
+        WerusColors.ScoreExcellentPaper,
+        WerusColors.ScoreExcellentBorder,
     )
     score >= 75 -> ScorePalette(
-        Color(0xFFE2A000),
-        Color(0xFFFFF9E9),
-        Color(0xFFF1CF72),
+        WerusColors.GoldDark,
+        WerusColors.ScoreGoodPaper,
+        WerusColors.ScoreGoodBorder,
     )
     score >= 60 -> ScorePalette(
-        Color(0xFFF07818),
-        Color(0xFFFFF4EA),
-        Color(0xFFF4BB82),
+        WerusColors.Warning,
+        WerusColors.ScoreFairPaper,
+        WerusColors.ScoreFairBorder,
     )
     else -> ScorePalette(
-        Color(0xFFE65145),
-        Color(0xFFFFF0EE),
-        Color(0xFFF1A39C),
+        WerusColors.Error,
+        WerusColors.RedSoft,
+        WerusColors.ScoreNeedsWorkBorder,
     )
 }

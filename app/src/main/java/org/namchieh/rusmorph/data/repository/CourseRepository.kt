@@ -7,8 +7,18 @@ import org.namchieh.rusmorph.domain.learning.Lesson
 /** Compatibility façade: WordBookRepository is the sole owner of course content. */
 class CourseRepository(private val books: WordBookRepository) {
     suspend fun courses(): List<Course> = books.wordBooks().map { book ->
-        Course(book.id, book.title, book.subtitle, book.description.orEmpty(), book.lessonCount,
-            book.completedLessonCount, book.progress, book.visualIdentity, book.lastLessonId)
+        Course(
+            id = book.id,
+            title = book.title,
+            subtitle = book.subtitle,
+            description = book.description.orEmpty(),
+            lessonCount = book.lessonCount,
+            completedLessonCount = book.completedLessonCount,
+            progress = book.progress,
+            visualIdentity = book.visualIdentity,
+            lastLessonId = book.lastLessonId,
+            coverResourceName = book.coverResourceName ?: book.cover,
+        )
     }
 
     suspend fun course(courseId: String): Course? = courses().firstOrNull { it.id == courseId }

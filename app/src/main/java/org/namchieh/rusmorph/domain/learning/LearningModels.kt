@@ -22,6 +22,7 @@ data class Course(
     val progress: Float = 0f,
     val visualIdentity: String = "brick",
     val lastLessonId: String? = null,
+    val coverResourceName: String? = null,
 )
 
 /** Versioned catalog metadata; progress remains owned by Course/LearningRepository. */

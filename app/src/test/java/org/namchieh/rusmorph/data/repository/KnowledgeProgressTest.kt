@@ -25,7 +25,7 @@ import java.util.concurrent.Executor
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34])
+@Config(sdk = [34], application = android.app.Application::class)
 class KnowledgeProgressTest {
     private lateinit var database: RusMorphDatabase
     private lateinit var knowledgeDao: TextbookKnowledgeDao

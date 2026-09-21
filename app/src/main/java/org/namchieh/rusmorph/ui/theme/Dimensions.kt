@@ -1,19 +1,7 @@
 package org.namchieh.rusmorph.ui.theme
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.unit.dp
+import org.namchieh.rusmorph.ui.design.LocalWerusSpacing
+import org.namchieh.rusmorph.ui.design.WerusSpacing
 
-@Immutable
-data class RusMorphSpacing(
-    val xxs: androidx.compose.ui.unit.Dp = 4.dp,
-    val xs: androidx.compose.ui.unit.Dp = 8.dp,
-    val sm: androidx.compose.ui.unit.Dp = 12.dp,
-    val md: androidx.compose.ui.unit.Dp = 16.dp,
-    val lg: androidx.compose.ui.unit.Dp = 20.dp,
-    val xl: androidx.compose.ui.unit.Dp = 24.dp,
-    val xxl: androidx.compose.ui.unit.Dp = 32.dp,
-    val hero: androidx.compose.ui.unit.Dp = 40.dp,
-)
-
-val LocalRusMorphSpacing = staticCompositionLocalOf { RusMorphSpacing() }
+typealias RusMorphSpacing = WerusSpacing
+val LocalRusMorphSpacing = LocalWerusSpacing

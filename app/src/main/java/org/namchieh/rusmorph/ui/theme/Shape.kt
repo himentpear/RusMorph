@@ -1,18 +1,11 @@
 package org.namchieh.rusmorph.ui.theme
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Shapes
-import androidx.compose.ui.unit.dp
+import org.namchieh.rusmorph.ui.design.WerusBookShape
+import org.namchieh.rusmorph.ui.design.WerusPillShape
+import org.namchieh.rusmorph.ui.design.WerusShapes
 
-val RusMorphShapes = Shapes(
-    extraSmall = RoundedCornerShape(8.dp),
-    small = RoundedCornerShape(8.dp),
-    medium = RoundedCornerShape(12.dp),
-    large = RoundedCornerShape(18.dp),
-    extraLarge = RoundedCornerShape(24.dp),
-)
-
-val HeroSearchShape = RoundedCornerShape(24.dp)
-val WordCardShape = RoundedCornerShape(20.dp)
-val TechCardShape = RoundedCornerShape(22.dp)
-val PillShape = RoundedCornerShape(50)
+val RusMorphShapes = WerusShapes
+val HeroSearchShape = WerusShapes.extraLarge
+val WordCardShape = WerusShapes.large
+val TechCardShape = WerusBookShape
+val PillShape = WerusPillShape

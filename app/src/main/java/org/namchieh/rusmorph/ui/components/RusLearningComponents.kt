@@ -208,25 +208,64 @@ fun RusNeedleCurve(
 @Composable
 fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modifier) {
     RusCard(modifier.fillMaxWidth(), onClick) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            CourseCoverImage(
+                coverResourceName = course.coverResourceName,
+                title = course.title,
+                subtitle = course.subtitle,
+                modifier = Modifier
+                    .width(72.dp)
+                    .height(96.dp),
+            )
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                RusPillBadge(course.subtitle.lowercase(), containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    RusPillBadge(course.subtitle.lowercase(), containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                    Text(
+                        "${(course.progress * 100).toInt()}%",
+                        style = RusMorphTechTypography.SmallDigit,
+                        color = RusMorphColors.AccentOrange,
+                    )
+                }
                 Text(
-                    "${(course.progress * 100).toInt()}%",
-                    style = RusMorphTechTypography.SmallDigit,
-                    color = RusMorphColors.AccentOrange,
+                    text = course.title,
+                    style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
-            }
-            Text(course.title, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
-            Text(course.description, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
-            RusProgressBar(course.progress)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("${course.completedLessonCount} / ${course.lessonCount} 课", color = RusMorphColors.TextTertiary, style = RusMorphTechTypography.MicroPill)
-                Text("继续 →", color = RusMorphColors.CarbonBlack, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                if (course.description.isNotBlank()) {
+                    Text(
+                        text = course.description,
+                        color = RusMorphColors.TextSecondary,
+                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                RusProgressBar(course.progress)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        "${course.completedLessonCount} / ${course.lessonCount} 课",
+                        color = RusMorphColors.TextTertiary,
+                        style = RusMorphTechTypography.MicroPill,
+                    )
+                    Text("继续 →", color = RusMorphColors.CarbonBlack, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                }
             }
         }
     }

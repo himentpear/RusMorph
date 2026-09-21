@@ -116,7 +116,8 @@ def apply_external_knowledge(path: Path, lessons: list[dict], blocks: list[dict]
                 "explanation": annotation.get("explanation"), "example": annotation.get("example"),
                 "start": start, "end": end, "status": annotation.get("status"),
                 "knowledgeVersion": annotation.get("knowledgeVersion", annotation.get("version", 1)),
-                "generatedBy": annotation.get("generatedBy"), "reviewStatus": annotation.get("reviewStatus", annotation.get("status")),
+                "generatedBy": annotation.get("generatedBy", annotation.get("source")),
+                "reviewStatus": annotation.get("reviewStatus", annotation.get("status")),
             })
     if isinstance(document, dict) and "lessons" in document:
         lesson_ids = {lesson["id"] for _, lesson, _, _ in external_sentences(document) if lesson}
