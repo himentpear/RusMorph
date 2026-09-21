@@ -9,11 +9,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.namchieh.rusmorph.ui.common.TerminalLabel
 import org.namchieh.rusmorph.ui.design.WerusBottomSheet
 import org.namchieh.rusmorph.ui.design.WerusButton
 import org.namchieh.rusmorph.ui.design.WerusButtonStyle
 import org.namchieh.rusmorph.ui.design.WerusChip
+import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
 import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
@@ -32,12 +33,12 @@ fun FilterBottomSheet(
             Text("筛选本地词库", style = MaterialTheme.typography.headlineMedium)
             Text("当前筛选：${listOfNotNull(lesson?.let { "第 $it 课" }, part).ifEmpty { listOf("全部词条") }.joinToString(" · ")}", color = RusMorphColors.TextSecondary)
             HorizontalDivider(color = RusMorphColors.Divider)
-            TerminalLabel("课号")
+            Text("课号", style = WerusTypography.labelLarge, color = WerusColors.InkMuted)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 WerusChip("全部课号", selected = lesson == null, onClick = { lesson = null })
                 lessonOptions.forEach { value -> WerusChip("第 $value 课", selected = lesson == value, onClick = { lesson = value }) }
             }
-            TerminalLabel("词性")
+            Text("词性", style = WerusTypography.labelLarge, color = WerusColors.InkMuted)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 WerusChip("全部词性", selected = part == null, onClick = { part = null })
                 partOfSpeechOptions.forEach { value -> WerusChip(value, selected = part == value, onClick = { part = value }) }

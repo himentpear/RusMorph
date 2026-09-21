@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.namchieh.rusmorph.ui.card.*
-import org.namchieh.rusmorph.ui.common.TerminalBackground
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryBackground
 import org.namchieh.rusmorph.ui.home.*
 import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.navigation.RusMorphBottomBar
@@ -25,27 +25,27 @@ private val PreviewCard = TerminalCardData(
 )
 
 @Preview(name = "AI Search Hero", showBackground = true, widthDp = 390)
-@Composable private fun SearchPreview() = RusMorphTheme { TerminalBackground { AiSearchHero("", {}, {}, {}, false, Modifier.padding(16.dp)) } }
+@Composable private fun SearchPreview() = RusMorphTheme { LaboratoryBackground { AiSearchHero("", {}, {}, {}, false, Modifier.padding(16.dp)) } }
 
 @Preview(name = "AI Search Hero With Input", showBackground = true, widthDp = 390)
-@Composable private fun SearchInputPreview() = RusMorphTheme { TerminalBackground { AiSearchHero("писать", {}, {}, {}, false, Modifier.padding(16.dp)) } }
+@Composable private fun SearchInputPreview() = RusMorphTheme { LaboratoryBackground { AiSearchHero("писать", {}, {}, {}, false, Modifier.padding(16.dp)) } }
 
 @Preview(name = "Home Empty Compact", showBackground = true, widthDp = 390, heightDp = 760)
 @Preview(name = "Home Empty Expanded", showBackground = true, widthDp = 900, heightDp = 700)
 @Composable private fun EmptyHomePreview() = RusMorphTheme {
-    TerminalBackground {
+    LaboratoryBackground {
         Column(Modifier.fillMaxSize()) { BrandHeader({}); Column(Modifier.weight(1f).padding(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) { AiSearchHero("", {}, {}, {}, false); SuggestionCommandRow({}); EmptyTerminalState() }; RusMorphBottomBar(BottomDestination.Home, {}) }
     }
 }
 
 @Preview(name = "Home Single Result", showBackground = true, widthDp = 390, heightDp = 820)
 @Composable private fun SingleHomePreview() = RusMorphTheme {
-    TerminalBackground { Column(Modifier.fillMaxSize()) { BrandHeader({}); Column(Modifier.weight(1f).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) { AiSearchHero("автомобиль", {}, {}, {}, false); FlippableWordCard(PreviewCard) }; RusMorphBottomBar(BottomDestination.Home, {}) } }
+    LaboratoryBackground { Column(Modifier.fillMaxSize()) { BrandHeader({}); Column(Modifier.weight(1f).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) { AiSearchHero("автомобиль", {}, {}, {}, false); FlippableWordCard(PreviewCard) }; RusMorphBottomBar(BottomDestination.Home, {}) } }
 }
 
 @Preview(name = "Home Card Deck", showBackground = true, widthDp = 420, heightDp = 840)
 @Composable private fun DeckHomePreview() = RusMorphTheme {
-    TerminalBackground { Column(Modifier.fillMaxSize()) { BrandHeader({}); Column(Modifier.weight(1f).padding(vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) { AiSearchHero("第一课的动词", {}, {}, {}, false, Modifier.padding(horizontal = 16.dp)); WordCardCarousel(listOf(PreviewCard, PreviewCard.copy(id = "preview-write", word = "писа́ть"))) }; RusMorphBottomBar(BottomDestination.Home, {}) } }
+    LaboratoryBackground { Column(Modifier.fillMaxSize()) { BrandHeader({}); Column(Modifier.weight(1f).padding(vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) { AiSearchHero("第一课的动词", {}, {}, {}, false, Modifier.padding(horizontal = 16.dp)); WordCardCarousel(listOf(PreviewCard, PreviewCard.copy(id = "preview-write", word = "писа́ть"))) }; RusMorphBottomBar(BottomDestination.Home, {}) } }
 }
 
 @Preview(name = "Word Card Front", showBackground = true, widthDp = 390)

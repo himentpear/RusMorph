@@ -1,80 +1,72 @@
 package org.namchieh.rusmorph.ui.common
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import org.namchieh.rusmorph.ui.theme.*
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryBackground
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLabel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLoadingState
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryMessageState
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryPanel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryPrimaryButton
+import org.namchieh.rusmorph.ui.theme.RusMorphColors
 
+/**
+ * Legacy terminal components.
+ * Deprecated: Use [org.namchieh.rusmorph.ui.laboratory.LaboratoryComponents] instead.
+ */
+
+@Deprecated(
+    message = "Use LaboratoryBackground from org.namchieh.rusmorph.ui.laboratory instead",
+    replaceWith = ReplaceWith("LaboratoryBackground(modifier, content)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryBackground")
+)
 @Composable
 fun TerminalBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
-    val gradient = remember { Brush.verticalGradient(listOf(RusMorphColors.Surface, RusMorphColors.Canvas, RusMorphColors.BackgroundSecondary)) }
-    Box(modifier.background(gradient)) {
-        Canvas(Modifier.matchParentSize()) {
-            val step = 32.dp.toPx()
-            val line = RusMorphColors.Primary.copy(alpha = 0.03f)
-            var x = 0f
-            while (x < size.width) { drawLine(line, Offset(x, 0f), Offset(x, size.height), 1f); x += step }
-            var y = 0f
-            while (y < size.height) { drawLine(line, Offset(0f, y), Offset(size.width, y), 1f); y += step }
-        }
-        content()
-    }
+    LaboratoryBackground(modifier = modifier, content = content)
 }
 
+@Deprecated(
+    message = "Use LaboratoryLabel from org.namchieh.rusmorph.ui.laboratory instead",
+    replaceWith = ReplaceWith("LaboratoryLabel(text, modifier, color)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryLabel")
+)
 @Composable
 fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = RusMorphColors.TextTertiary) {
-    Text(text.uppercase(), modifier, style = RusMorphTechTypography.MicroPill, color = color)
+    LaboratoryLabel(text = text, modifier = modifier, color = color)
 }
 
+@Deprecated(
+    message = "Use LaboratoryPanel from org.namchieh.rusmorph.ui.laboratory instead",
+    replaceWith = ReplaceWith("LaboratoryPanel(modifier, content)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryPanel")
+)
 @Composable
 fun TerminalPanel(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    Column(
-        modifier = modifier
-            .background(RusMorphColors.Surface, TechCardShape)
-            .border(1.dp, RusMorphColors.Outline, TechCardShape)
-            .padding(18.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        content = content,
-    )
+    LaboratoryPanel(modifier = modifier, content = content)
 }
 
+@Deprecated(
+    message = "Use LaboratoryPrimaryButton from org.namchieh.rusmorph.ui.laboratory instead",
+    replaceWith = ReplaceWith("LaboratoryPrimaryButton(text, onClick, modifier, enabled)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryPrimaryButton")
+)
 @Composable
 fun RusMorphPrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
-    Button(
-        onClick = onClick,
-        modifier = modifier.heightIn(min = 48.dp),
-        enabled = enabled,
-        shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = RusMorphColors.CarbonBlack, contentColor = RusMorphColors.TextOnDark),
-        contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp),
-    ) { Text(text, style = MaterialTheme.typography.labelLarge) }
+    LaboratoryPrimaryButton(text = text, onClick = onClick, modifier = modifier, enabled = enabled)
 }
 
+@Deprecated(
+    message = "Use LaboratoryLoadingState from org.namchieh.rusmorph.ui.laboratory instead",
+    replaceWith = ReplaceWith("LaboratoryLoadingState(label, modifier)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryLoadingState")
+)
 @Composable
 fun TerminalLoadingState(label: String, modifier: Modifier = Modifier) {
-    Column(modifier.padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            repeat(3) { index -> Box(Modifier.size(width = 22.dp, height = 4.dp).background(if (index == 0) RusMorphColors.AccentOrange else RusMorphColors.OutlineSoft, CircleShape)) }
-        }
-        TerminalLabel(label, color = RusMorphColors.TextSecondary)
-    }
+    LaboratoryLoadingState(label = label, modifier = modifier)
 }
 
+@Deprecated(
+    message = "Use LaboratoryMessageState from org.namchieh.rusmorph.ui.laboratory instead",
+    replaceWith = ReplaceWith("LaboratoryMessageState(title, detail, modifier, action, onAction)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryMessageState")
+)
 @Composable
 fun TerminalMessageState(
     title: String,
@@ -83,10 +75,11 @@ fun TerminalMessageState(
     action: String? = null,
     onAction: (() -> Unit)? = null,
 ) {
-    TerminalPanel(modifier) {
-        TerminalLabel("STATUS / RM-01")
-        Text(title, style = MaterialTheme.typography.titleLarge, color = RusMorphColors.Primary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-        Text(detail, style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextSecondary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-        if (action != null && onAction != null) RusMorphPrimaryButton(action, onAction, Modifier.align(Alignment.CenterHorizontally))
-    }
+    LaboratoryMessageState(
+        title = title,
+        detail = detail,
+        modifier = modifier,
+        action = action,
+        onAction = onAction,
+    )
 }

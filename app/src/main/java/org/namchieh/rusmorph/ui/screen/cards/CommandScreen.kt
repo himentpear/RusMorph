@@ -15,15 +15,15 @@ import org.namchieh.rusmorph.agent.AgentError
 import org.namchieh.rusmorph.ui.CommandUiState
 import org.namchieh.rusmorph.ui.CommandViewModel
 import org.namchieh.rusmorph.ui.card.*
-import org.namchieh.rusmorph.ui.common.*
 import org.namchieh.rusmorph.ui.home.AiSearchHero
+import org.namchieh.rusmorph.ui.laboratory.*
 import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
 fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val command by viewModel.command.collectAsStateWithLifecycle()
-    TerminalBackground(Modifier.fillMaxSize()) {
+    LaboratoryBackground(Modifier.fillMaxSize()) {
         Scaffold(
             containerColor = androidx.compose.ui.graphics.Color.Transparent,
             topBar = {
@@ -40,10 +40,10 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                 AiSearchHero(command, viewModel::setCommand, viewModel::submit, onFilter = {}, isLoading = state is CommandUiState.Sending, modifier = Modifier.fillMaxWidth().widthIn(max = RusMorphComponentTokens.SearchMaxWidth).align(Alignment.CenterHorizontally))
                 when (val current = state) {
                     CommandUiState.Idle -> Unit
-                    CommandUiState.Sending -> TerminalLoadingState("正在理解命令、检索本地词库并整理卡片", Modifier.fillMaxWidth())
-                    is CommandUiState.Error -> TerminalMessageState("AI 暂不可用", commandErrorMessage(current.error), Modifier.fillMaxWidth())
+                    CommandUiState.Sending -> LaboratoryLoadingState("正在理解命令、检索本地词库并整理卡片", Modifier.fillMaxWidth())
+                    is CommandUiState.Error -> LaboratoryMessageState("AI 暂不可用", commandErrorMessage(current.error), Modifier.fillMaxWidth())
                     is CommandUiState.Content -> {
-                        current.localMessage?.let { TerminalPanel(Modifier.fillMaxWidth()) { TerminalLabel("本地操作", color = RusMorphColors.AccentOrange); Text(it, color = RusMorphColors.CarbonBlack) } }
+                        current.localMessage?.let { LaboratoryPanel(Modifier.fillMaxWidth()) { LaboratoryLabel("本地操作", color = RusMorphColors.AccentOrange); Text(it, color = RusMorphColors.CarbonBlack) } }
                         AiThoughtAndReplyPanel(
                             thinking = current.response.thinkingSummary,
                             reply = current.response.plainAnswer ?: current.response.clarification,
@@ -51,14 +51,14 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                         )
                         current.response.card?.let { card -> WordCardView(card, { viewModel.saveCard(card) }, Modifier.align(Alignment.CenterHorizontally).widthIn(max = RusMorphComponentTokens.CardMaxWidth)) }
                         current.response.deck?.let { deck ->
-                            TerminalPanel(Modifier.fillMaxWidth()) {
-                                TerminalLabel("${deck.cards.size} 张", color = RusMorphColors.AccentOrange)
+                            LaboratoryPanel(Modifier.fillMaxWidth()) {
+                                LaboratoryLabel("${deck.cards.size} 张", color = RusMorphColors.AccentOrange)
                                 Text(deck.title, style = MaterialTheme.typography.headlineMedium)
-                                RusMorphPrimaryButton("保存卡组", { viewModel.saveDeck(deck) })
+                                LaboratoryPrimaryButton("保存卡组", { viewModel.saveDeck(deck) })
                             }
                             WordCardCarousel(deck.cards.map { it.toTerminalCardData() }, onSave = { data -> deck.cards.firstOrNull { it.id == data.id }?.let(viewModel::saveCard) }, modifier = Modifier.fillMaxWidth())
                         }
-                        if (current.localMessage?.startsWith("删除归档需要确认") == true) RusMorphPrimaryButton("确认删除归档", viewModel::confirmArchiveDeletion)
+                        if (current.localMessage?.startsWith("删除归档需要确认") == true) LaboratoryPrimaryButton("确认删除归档", viewModel::confirmArchiveDeletion)
                     }
                 }
             }
@@ -73,13 +73,13 @@ private fun AiThoughtAndReplyPanel(
     modifier: Modifier = Modifier,
 ) {
     if (thinking.isNullOrBlank() && reply.isNullOrBlank()) return
-    TerminalPanel(modifier) {
+    LaboratoryPanel(modifier) {
         thinking?.takeIf(String::isNotBlank)?.let {
-            TerminalLabel("AI 思考摘要", color = RusMorphColors.Secondary)
+            LaboratoryLabel("AI 思考摘要", color = RusMorphColors.Secondary)
             Text(it, color = RusMorphColors.TextSecondary)
         }
         reply?.takeIf(String::isNotBlank)?.let {
-            TerminalLabel("AI 回复", color = RusMorphColors.Primary)
+            LaboratoryLabel("AI 回复", color = RusMorphColors.Primary)
             Text(it, color = RusMorphColors.TextPrimary)
         }
     }

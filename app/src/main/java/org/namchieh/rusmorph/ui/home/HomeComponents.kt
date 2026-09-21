@@ -28,7 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.namchieh.rusmorph.ui.common.TerminalLabel
+import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
 import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
@@ -36,7 +37,7 @@ fun BrandHeader(onMore: () -> Unit, modifier: Modifier = Modifier) {
     Row(modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text("俄语词法助手", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.semantics { heading() })
-            TerminalLabel("RM–01", color = RusMorphColors.AccentOrange)
+            Text("RM–01", style = WerusTypography.labelSmall, color = WerusColors.Red)
         }
         Surface(
             onClick = onMore,
@@ -64,7 +65,7 @@ fun AiSearchHero(
     val border by animateColorAsState(if (focused) RusMorphColors.CarbonBlack else RusMorphColors.Outline, tween(RusMorphMotion.FocusMillis), label = "searchBorder")
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            TerminalLabel("AI 搜索", color = RusMorphColors.CarbonBlack)
+            Text("AI 搜索", style = WerusTypography.labelLarge, color = WerusColors.Ink)
             TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 40.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡", color = RusMorphColors.TextSecondary) }
         }
         BasicTextField(

@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.agent.EvidenceType
 import org.namchieh.rusmorph.agent.WordCard
 import org.namchieh.rusmorph.data.local.LexiconEntryWithDetails
-import org.namchieh.rusmorph.ui.common.TerminalLabel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLabel
 import org.namchieh.rusmorph.ui.theme.*
 
 data class TerminalCardData(
@@ -112,8 +112,8 @@ fun PhysicalCardSurface(modifier: Modifier = Modifier, content: @Composable Colu
 fun WordCardFront(data: TerminalCardData, onOpen: (() -> Unit)? = null, onSave: (() -> Unit)? = null, onFlip: (() -> Unit)? = null, modifier: Modifier = Modifier) {
     PhysicalCardSurface(modifier) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            TerminalLabel(data.partsOfSpeech.firstOrNull() ?: "词条", color = RusMorphColors.CarbonBlack)
-            TerminalLabel(data.lesson?.let { "第 $it 课" } ?: data.id.takeLast(6), color = RusMorphColors.AccentOrange)
+            LaboratoryLabel(data.partsOfSpeech.firstOrNull() ?: "词条", color = RusMorphColors.CarbonBlack)
+            LaboratoryLabel(data.lesson?.let { "第 $it 课" } ?: data.id.takeLast(6), color = RusMorphColors.AccentOrange)
         }
         Box(Modifier.fillMaxWidth().height(2.dp).background(RusMorphColors.AccentOrange))
         Text(data.word, style = MaterialTheme.typography.displayMedium.copy(fontFamily = FontFamily.Serif), color = RusMorphColors.TextPrimary, maxLines = 2, overflow = TextOverflow.Visible)
@@ -135,14 +135,14 @@ fun WordCardFront(data: TerminalCardData, onOpen: (() -> Unit)? = null, onSave: 
 @Composable
 fun WordCardBack(data: TerminalCardData, onFlip: () -> Unit, modifier: Modifier = Modifier) {
     PhysicalCardSurface(modifier) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { TerminalLabel("形态分析", color = RusMorphColors.CarbonBlack); TerminalLabel(data.word, color = RusMorphColors.AccentOrange) }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { LaboratoryLabel("形态分析", color = RusMorphColors.CarbonBlack); LaboratoryLabel(data.word, color = RusMorphColors.AccentOrange) }
         if (data.analysis.isEmpty()) Text("暂无扩展资料", style = MaterialTheme.typography.bodyLarge, color = RusMorphColors.TextSecondary)
         data.analysis.forEach { (label, value) ->
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) { TerminalLabel(label); Text(value, style = MaterialTheme.typography.bodyMedium) }
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) { LaboratoryLabel(label); Text(value, style = MaterialTheme.typography.bodyMedium) }
             HorizontalDivider(color = RusMorphColors.Divider)
         }
         if (data.sourceLabels.isNotEmpty()) {
-            TerminalLabel("来源")
+            LaboratoryLabel("来源")
             data.sourceLabels.take(4).forEach { Text(it, style = MaterialTheme.typography.labelMedium, color = RusMorphColors.Tertiary) }
         }
         data.warnings.forEach { Text(it, style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.Error) }

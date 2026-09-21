@@ -14,11 +14,11 @@ import androidx.compose.ui.unit.dp
 import org.namchieh.rusmorph.R
 import org.namchieh.rusmorph.data.local.InitializationFailureReason
 import org.namchieh.rusmorph.data.local.InitializationState
-import org.namchieh.rusmorph.ui.common.RusMorphPrimaryButton
-import org.namchieh.rusmorph.ui.common.TerminalBackground
-import org.namchieh.rusmorph.ui.common.TerminalLabel
-import org.namchieh.rusmorph.ui.common.TerminalLoadingState
-import org.namchieh.rusmorph.ui.common.TerminalPanel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryBackground
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLabel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLoadingState
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryPanel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryPrimaryButton
 
 @Composable
 fun InitializationScreen(
@@ -26,7 +26,7 @@ fun InitializationScreen(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    TerminalBackground(modifier.fillMaxSize()) {
+    LaboratoryBackground(modifier.fillMaxSize()) {
     Column(
         modifier = Modifier.fillMaxSize().padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,20 +34,20 @@ fun InitializationScreen(
     ) {
         when (state) {
             InitializationState.NotStarted -> {
-                TerminalLoadingState(stringResource(R.string.initialization_checking))
+                LaboratoryLoadingState(stringResource(R.string.initialization_checking))
             }
             InitializationState.Initializing -> {
-                TerminalLoadingState(stringResource(R.string.initialization_importing))
+                LaboratoryLoadingState(stringResource(R.string.initialization_importing))
             }
             is InitializationState.Failed -> {
-                TerminalPanel {
-                TerminalLabel("DATABASE INITIALIZATION ERROR")
+                LaboratoryPanel {
+                LaboratoryLabel("DATABASE INITIALIZATION ERROR")
                 Text(
                     text = stringResource(state.reason.messageResource()),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.error,
                 )
-                RusMorphPrimaryButton(stringResource(R.string.retry_import), onRetry)
+                LaboratoryPrimaryButton(stringResource(R.string.retry_import), onRetry)
                 }
             }
             is InitializationState.Ready -> Unit
