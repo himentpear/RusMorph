@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">全员俄人WeRus</string>
+    <string name="app_name">werus</string>
     <string name="initialization_checking">正在检查本地词库</string>
     <string name="initialization_importing">正在初始化词库</string>
     <string name="initialization_failed">本地词库初始化失败</string>

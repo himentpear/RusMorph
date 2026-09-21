@@ -207,8 +207,8 @@ android {
         applicationId = "org.namchieh.rusmorph"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.003"
+        versionCode = 50
+        versionName = "0.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "AGENT_PROXY_BASE_URL", "".asBuildConfigString())
@@ -280,6 +280,15 @@ android {
         getByName("main").assets.srcDir(generatedCourseAssets)
         getByName("debug").assets.srcDir("schemas")
         getByName("androidTest").assets.srcDir("schemas")
+    }
+
+    applicationVariants.all {
+        val artifactVersion = versionName
+        val artifactQualifier = if (buildType.name == "release") "universal" else "${buildType.name}-universal"
+        outputs.all {
+            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
+                "werus-v$artifactVersion-$artifactQualifier.apk"
+        }
     }
 }
 

@@ -480,3 +480,23 @@ data class SentenceKnowledgeEntity(
     val generatedBy: String?,
     val reviewStatus: String?,
 )
+
+@Entity(
+    tableName = "knowledge_progress",
+    indices = [
+        Index("status"),
+        Index("lessonId"),
+        Index("updatedAt"),
+    ],
+)
+data class KnowledgeProgressEntity(
+    @androidx.room.PrimaryKey val knowledgeId: String,
+    val status: String,
+    val seenCount: Int,
+    val understoodAt: Long?,
+    val practicedCount: Int,
+    val masteredAt: Long?,
+    val updatedAt: Long,
+    val lessonId: String?,
+)
+

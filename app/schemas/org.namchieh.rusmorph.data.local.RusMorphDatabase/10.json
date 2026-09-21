@@ -1,0 +1,2703 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 10,
+    "identityHash": "babb5d0c9ac29cf75cbc39daa0ef6356",
+    "entities": [
+      {
+        "tableName": "lexicon_entries",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `lesson` INTEGER, `sequence` INTEGER, `displayForm` TEXT NOT NULL, `lemma` TEXT NOT NULL, `normalizedLemma` TEXT NOT NULL, `chineseMeaning` TEXT, `gender` TEXT, `declensionClass` TEXT, `endingType` TEXT, `pluralStressPattern` TEXT, `aspect` TEXT, `conjugationClass` TEXT, `phoneticAlternation` TEXT, `sourceWorkbook` TEXT NOT NULL, `sourceSheet` TEXT NOT NULL, `sourceRow` INTEGER NOT NULL, `lastViewedAt` INTEGER, `isRecommended` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lesson",
+            "columnName": "lesson",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "sequence",
+            "columnName": "sequence",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "displayForm",
+            "columnName": "displayForm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lemma",
+            "columnName": "lemma",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedLemma",
+            "columnName": "normalizedLemma",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chineseMeaning",
+            "columnName": "chineseMeaning",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "declensionClass",
+            "columnName": "declensionClass",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "endingType",
+            "columnName": "endingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "pluralStressPattern",
+            "columnName": "pluralStressPattern",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "aspect",
+            "columnName": "aspect",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "conjugationClass",
+            "columnName": "conjugationClass",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "phoneticAlternation",
+            "columnName": "phoneticAlternation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sourceWorkbook",
+            "columnName": "sourceWorkbook",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceSheet",
+            "columnName": "sourceSheet",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceRow",
+            "columnName": "sourceRow",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastViewedAt",
+            "columnName": "lastViewedAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "isRecommended",
+            "columnName": "isRecommended",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lexicon_entries_normalizedLemma",
+            "unique": false,
+            "columnNames": [
+              "normalizedLemma"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_normalizedLemma` ON `${TABLE_NAME}` (`normalizedLemma`)"
+          },
+          {
+            "name": "index_lexicon_entries_chineseMeaning",
+            "unique": false,
+            "columnNames": [
+              "chineseMeaning"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_chineseMeaning` ON `${TABLE_NAME}` (`chineseMeaning`)"
+          },
+          {
+            "name": "index_lexicon_entries_lesson",
+            "unique": false,
+            "columnNames": [
+              "lesson"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_lesson` ON `${TABLE_NAME}` (`lesson`)"
+          },
+          {
+            "name": "index_lexicon_entries_phoneticAlternation",
+            "unique": false,
+            "columnNames": [
+              "phoneticAlternation"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_phoneticAlternation` ON `${TABLE_NAME}` (`phoneticAlternation`)"
+          },
+          {
+            "name": "index_lexicon_entries_conjugationClass",
+            "unique": false,
+            "columnNames": [
+              "conjugationClass"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_conjugationClass` ON `${TABLE_NAME}` (`conjugationClass`)"
+          },
+          {
+            "name": "index_lexicon_entries_gender",
+            "unique": false,
+            "columnNames": [
+              "gender"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_gender` ON `${TABLE_NAME}` (`gender`)"
+          },
+          {
+            "name": "index_lexicon_entries_declensionClass",
+            "unique": false,
+            "columnNames": [
+              "declensionClass"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_declensionClass` ON `${TABLE_NAME}` (`declensionClass`)"
+          },
+          {
+            "name": "index_lexicon_entries_endingType",
+            "unique": false,
+            "columnNames": [
+              "endingType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_endingType` ON `${TABLE_NAME}` (`endingType`)"
+          },
+          {
+            "name": "index_lexicon_entries_pluralStressPattern",
+            "unique": false,
+            "columnNames": [
+              "pluralStressPattern"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_pluralStressPattern` ON `${TABLE_NAME}` (`pluralStressPattern`)"
+          },
+          {
+            "name": "index_lexicon_entries_aspect",
+            "unique": false,
+            "columnNames": [
+              "aspect"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_aspect` ON `${TABLE_NAME}` (`aspect`)"
+          },
+          {
+            "name": "index_lexicon_entries_gender_phoneticAlternation_lesson",
+            "unique": false,
+            "columnNames": [
+              "gender",
+              "phoneticAlternation",
+              "lesson"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_gender_phoneticAlternation_lesson` ON `${TABLE_NAME}` (`gender`, `phoneticAlternation`, `lesson`)"
+          },
+          {
+            "name": "index_lexicon_entries_lesson_normalizedLemma",
+            "unique": false,
+            "columnNames": [
+              "lesson",
+              "normalizedLemma"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_lesson_normalizedLemma` ON `${TABLE_NAME}` (`lesson`, `normalizedLemma`)"
+          },
+          {
+            "name": "index_lexicon_entries_lesson_sequence",
+            "unique": false,
+            "columnNames": [
+              "lesson",
+              "sequence"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lexicon_entries_lesson_sequence` ON `${TABLE_NAME}` (`lesson`, `sequence`)"
+          }
+        ]
+      },
+      {
+        "tableName": "entry_search_forms",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` TEXT NOT NULL, `normalizedSearchForm` TEXT NOT NULL, PRIMARY KEY(`entryId`, `normalizedSearchForm`), FOREIGN KEY(`entryId`) REFERENCES `lexicon_entries`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedSearchForm",
+            "columnName": "normalizedSearchForm",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "entryId",
+            "normalizedSearchForm"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_entry_search_forms_normalizedSearchForm",
+            "unique": false,
+            "columnNames": [
+              "normalizedSearchForm"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_search_forms_normalizedSearchForm` ON `${TABLE_NAME}` (`normalizedSearchForm`)"
+          },
+          {
+            "name": "index_entry_search_forms_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_search_forms_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_entry_search_forms_normalizedSearchForm_entryId",
+            "unique": false,
+            "columnNames": [
+              "normalizedSearchForm",
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_search_forms_normalizedSearchForm_entryId` ON `${TABLE_NAME}` (`normalizedSearchForm`, `entryId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "lexicon_entries",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "entryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "entry_parts_of_speech",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` TEXT NOT NULL, `partOfSpeech` TEXT NOT NULL, PRIMARY KEY(`entryId`, `partOfSpeech`), FOREIGN KEY(`entryId`) REFERENCES `lexicon_entries`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "partOfSpeech",
+            "columnName": "partOfSpeech",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "entryId",
+            "partOfSpeech"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_entry_parts_of_speech_partOfSpeech",
+            "unique": false,
+            "columnNames": [
+              "partOfSpeech"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_parts_of_speech_partOfSpeech` ON `${TABLE_NAME}` (`partOfSpeech`)"
+          },
+          {
+            "name": "index_entry_parts_of_speech_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_parts_of_speech_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_entry_parts_of_speech_partOfSpeech_entryId",
+            "unique": false,
+            "columnNames": [
+              "partOfSpeech",
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_parts_of_speech_partOfSpeech_entryId` ON `${TABLE_NAME}` (`partOfSpeech`, `entryId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "lexicon_entries",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "entryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "entry_annotations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` TEXT NOT NULL, `fieldName` TEXT NOT NULL, `value` TEXT NOT NULL, `normalizedValue` TEXT NOT NULL, PRIMARY KEY(`entryId`, `fieldName`, `normalizedValue`), FOREIGN KEY(`entryId`) REFERENCES `lexicon_entries`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fieldName",
+            "columnName": "fieldName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedValue",
+            "columnName": "normalizedValue",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "entryId",
+            "fieldName",
+            "normalizedValue"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_entry_annotations_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_annotations_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_entry_annotations_normalizedValue",
+            "unique": false,
+            "columnNames": [
+              "normalizedValue"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_annotations_normalizedValue` ON `${TABLE_NAME}` (`normalizedValue`)"
+          },
+          {
+            "name": "index_entry_annotations_normalizedValue_entryId",
+            "unique": false,
+            "columnNames": [
+              "normalizedValue",
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_annotations_normalizedValue_entryId` ON `${TABLE_NAME}` (`normalizedValue`, `entryId`)"
+          },
+          {
+            "name": "index_entry_annotations_fieldName_normalizedValue_entryId",
+            "unique": false,
+            "columnNames": [
+              "fieldName",
+              "normalizedValue",
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_annotations_fieldName_normalizedValue_entryId` ON `${TABLE_NAME}` (`fieldName`, `normalizedValue`, `entryId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "lexicon_entries",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "entryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "declension_rules",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `category` TEXT NOT NULL, `gender` TEXT, `endingType` TEXT, `number` TEXT, `caseName` TEXT NOT NULL, `resultEnding` TEXT NOT NULL, `description` TEXT NOT NULL, `sourceWorkbook` TEXT, `sourceSheet` TEXT NOT NULL, `sourceCellRange` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "endingType",
+            "columnName": "endingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "caseName",
+            "columnName": "caseName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resultEnding",
+            "columnName": "resultEnding",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceWorkbook",
+            "columnName": "sourceWorkbook",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sourceSheet",
+            "columnName": "sourceSheet",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceCellRange",
+            "columnName": "sourceCellRange",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_declension_rules_category",
+            "unique": false,
+            "columnNames": [
+              "category"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_declension_rules_category` ON `${TABLE_NAME}` (`category`)"
+          },
+          {
+            "name": "index_declension_rules_gender",
+            "unique": false,
+            "columnNames": [
+              "gender"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_declension_rules_gender` ON `${TABLE_NAME}` (`gender`)"
+          },
+          {
+            "name": "index_declension_rules_endingType",
+            "unique": false,
+            "columnNames": [
+              "endingType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_declension_rules_endingType` ON `${TABLE_NAME}` (`endingType`)"
+          }
+        ]
+      },
+      {
+        "tableName": "knowledge_chunks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `category` TEXT NOT NULL, `keywordsJson` TEXT NOT NULL, `content` TEXT NOT NULL, `examplesJson` TEXT NOT NULL, `sourceDocument` TEXT NOT NULL, `sectionPathJson` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keywordsJson",
+            "columnName": "keywordsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "examplesJson",
+            "columnName": "examplesJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceDocument",
+            "columnName": "sourceDocument",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sectionPathJson",
+            "columnName": "sectionPathJson",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_knowledge_chunks_category",
+            "unique": false,
+            "columnNames": [
+              "category"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_knowledge_chunks_category` ON `${TABLE_NAME}` (`category`)"
+          }
+        ]
+      },
+      {
+        "tableName": "entry_knowledge_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` TEXT NOT NULL, `knowledgeChunkId` TEXT NOT NULL, PRIMARY KEY(`entryId`, `knowledgeChunkId`), FOREIGN KEY(`entryId`) REFERENCES `lexicon_entries`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`knowledgeChunkId`) REFERENCES `knowledge_chunks`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "knowledgeChunkId",
+            "columnName": "knowledgeChunkId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "entryId",
+            "knowledgeChunkId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_entry_knowledge_cross_ref_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_knowledge_cross_ref_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_entry_knowledge_cross_ref_knowledgeChunkId",
+            "unique": false,
+            "columnNames": [
+              "knowledgeChunkId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_knowledge_cross_ref_knowledgeChunkId` ON `${TABLE_NAME}` (`knowledgeChunkId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "lexicon_entries",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "entryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "knowledge_chunks",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "knowledgeChunkId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "entry_sources",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` TEXT NOT NULL, `sourceWorkbook` TEXT NOT NULL, `sourceSheet` TEXT NOT NULL, `sourceRow` INTEGER NOT NULL, PRIMARY KEY(`entryId`, `sourceWorkbook`, `sourceSheet`, `sourceRow`), FOREIGN KEY(`entryId`) REFERENCES `lexicon_entries`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceWorkbook",
+            "columnName": "sourceWorkbook",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceSheet",
+            "columnName": "sourceSheet",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceRow",
+            "columnName": "sourceRow",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "entryId",
+            "sourceWorkbook",
+            "sourceSheet",
+            "sourceRow"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_entry_sources_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_entry_sources_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "lexicon_entries",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "entryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "app_metadata",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`key`))",
+        "fields": [
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "key"
+          ]
+        }
+      },
+      {
+        "tableName": "saved_cards",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `entryId` TEXT NOT NULL, `deckId` TEXT, `isFavorite` INTEGER NOT NULL, `userNote` TEXT, `generationVersion` INTEGER NOT NULL, `generatedSnapshotJson` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`deckId`) REFERENCES `saved_decks`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deckId",
+            "columnName": "deckId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isFavorite",
+            "columnName": "isFavorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userNote",
+            "columnName": "userNote",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "generationVersion",
+            "columnName": "generationVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generatedSnapshotJson",
+            "columnName": "generatedSnapshotJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_saved_cards_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_saved_cards_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_saved_cards_deckId",
+            "unique": false,
+            "columnNames": [
+              "deckId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_saved_cards_deckId` ON `${TABLE_NAME}` (`deckId`)"
+          },
+          {
+            "name": "index_saved_cards_isFavorite",
+            "unique": false,
+            "columnNames": [
+              "isFavorite"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_saved_cards_isFavorite` ON `${TABLE_NAME}` (`isFavorite`)"
+          },
+          {
+            "name": "index_saved_cards_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_saved_cards_updatedAt` ON `${TABLE_NAME}` (`updatedAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "saved_decks",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "deckId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "saved_decks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `commandText` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commandText",
+            "columnName": "commandText",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_saved_decks_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_saved_decks_updatedAt` ON `${TABLE_NAME}` (`updatedAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "archives",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `normalizedName` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedName",
+            "columnName": "normalizedName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_archives_normalizedName",
+            "unique": true,
+            "columnNames": [
+              "normalizedName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_archives_normalizedName` ON `${TABLE_NAME}` (`normalizedName`)"
+          }
+        ]
+      },
+      {
+        "tableName": "archive_card_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`archiveId` TEXT NOT NULL, `savedCardId` TEXT NOT NULL, PRIMARY KEY(`archiveId`, `savedCardId`), FOREIGN KEY(`archiveId`) REFERENCES `archives`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`savedCardId`) REFERENCES `saved_cards`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "archiveId",
+            "columnName": "archiveId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "savedCardId",
+            "columnName": "savedCardId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "archiveId",
+            "savedCardId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_archive_card_cross_ref_savedCardId",
+            "unique": false,
+            "columnNames": [
+              "savedCardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_archive_card_cross_ref_savedCardId` ON `${TABLE_NAME}` (`savedCardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "archives",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "archiveId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "saved_cards",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "savedCardId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "review_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `savedCardId` TEXT NOT NULL, `reviewStatus` TEXT NOT NULL, `dueAt` INTEGER, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`savedCardId`) REFERENCES `saved_cards`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "savedCardId",
+            "columnName": "savedCardId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reviewStatus",
+            "columnName": "reviewStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueAt",
+            "columnName": "dueAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_review_items_savedCardId",
+            "unique": true,
+            "columnNames": [
+              "savedCardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_review_items_savedCardId` ON `${TABLE_NAME}` (`savedCardId`)"
+          },
+          {
+            "name": "index_review_items_reviewStatus",
+            "unique": false,
+            "columnNames": [
+              "reviewStatus"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_review_items_reviewStatus` ON `${TABLE_NAME}` (`reviewStatus`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "saved_cards",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "savedCardId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "review_attempts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `reviewItemId` TEXT NOT NULL, `wasCorrect` INTEGER NOT NULL, `attemptedAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`reviewItemId`) REFERENCES `review_items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reviewItemId",
+            "columnName": "reviewItemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasCorrect",
+            "columnName": "wasCorrect",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attemptedAt",
+            "columnName": "attemptedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_review_attempts_reviewItemId",
+            "unique": false,
+            "columnNames": [
+              "reviewItemId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_review_attempts_reviewItemId` ON `${TABLE_NAME}` (`reviewItemId`)"
+          },
+          {
+            "name": "index_review_attempts_attemptedAt",
+            "unique": false,
+            "columnNames": [
+              "attemptedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_review_attempts_attemptedAt` ON `${TABLE_NAME}` (`attemptedAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "review_items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "reviewItemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "wrong_answers",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `reviewAttemptId` TEXT NOT NULL, `entryId` TEXT NOT NULL, `submittedAnswer` TEXT, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`reviewAttemptId`) REFERENCES `review_attempts`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reviewAttemptId",
+            "columnName": "reviewAttemptId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "submittedAnswer",
+            "columnName": "submittedAnswer",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_wrong_answers_reviewAttemptId",
+            "unique": false,
+            "columnNames": [
+              "reviewAttemptId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_wrong_answers_reviewAttemptId` ON `${TABLE_NAME}` (`reviewAttemptId`)"
+          },
+          {
+            "name": "index_wrong_answers_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_wrong_answers_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "review_attempts",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "reviewAttemptId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "learning_progress",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sourceId` TEXT NOT NULL, `courseId` TEXT, `lessonId` TEXT, `unitType` TEXT, `progress` REAL NOT NULL, `status` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`sourceId`))",
+        "fields": [
+          {
+            "fieldPath": "sourceId",
+            "columnName": "sourceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "courseId",
+            "columnName": "courseId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "unitType",
+            "columnName": "unitType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "progress",
+            "columnName": "progress",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sourceId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_learning_progress_courseId",
+            "unique": false,
+            "columnNames": [
+              "courseId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_progress_courseId` ON `${TABLE_NAME}` (`courseId`)"
+          },
+          {
+            "name": "index_learning_progress_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_progress_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_learning_progress_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_progress_updatedAt` ON `${TABLE_NAME}` (`updatedAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "learning_activities",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `sourceId` TEXT, `courseId` TEXT, `lessonId` TEXT, `occurredAt` INTEGER NOT NULL, `durationSeconds` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceId",
+            "columnName": "sourceId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "courseId",
+            "columnName": "courseId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "occurredAt",
+            "columnName": "occurredAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "durationSeconds",
+            "columnName": "durationSeconds",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_learning_activities_occurredAt",
+            "unique": false,
+            "columnNames": [
+              "occurredAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_activities_occurredAt` ON `${TABLE_NAME}` (`occurredAt`)"
+          },
+          {
+            "name": "index_learning_activities_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_activities_type` ON `${TABLE_NAME}` (`type`)"
+          },
+          {
+            "name": "index_learning_activities_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_activities_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "generic_review_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `sourceId` TEXT NOT NULL, `lessonId` TEXT, `dueAt` INTEGER, `interval` INTEGER, `difficulty` REAL, `mistakeCount` INTEGER NOT NULL, `lastResult` REAL, `updatedAt` INTEGER NOT NULL, `wordBookId` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceId",
+            "columnName": "sourceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "dueAt",
+            "columnName": "dueAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "interval",
+            "columnName": "interval",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "difficulty",
+            "columnName": "difficulty",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "mistakeCount",
+            "columnName": "mistakeCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastResult",
+            "columnName": "lastResult",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_generic_review_items_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_generic_review_items_type` ON `${TABLE_NAME}` (`type`)"
+          },
+          {
+            "name": "index_generic_review_items_sourceId",
+            "unique": false,
+            "columnNames": [
+              "sourceId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_generic_review_items_sourceId` ON `${TABLE_NAME}` (`sourceId`)"
+          },
+          {
+            "name": "index_generic_review_items_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_generic_review_items_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_generic_review_items_dueAt",
+            "unique": false,
+            "columnNames": [
+              "dueAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_generic_review_items_dueAt` ON `${TABLE_NAME}` (`dueAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "mistake_items_v2",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `sourceId` TEXT NOT NULL, `lessonId` TEXT, `count` INTEGER NOT NULL, `lastOccurredAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceId",
+            "columnName": "sourceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastOccurredAt",
+            "columnName": "lastOccurredAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_mistake_items_v2_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mistake_items_v2_type` ON `${TABLE_NAME}` (`type`)"
+          },
+          {
+            "name": "index_mistake_items_v2_sourceId",
+            "unique": false,
+            "columnNames": [
+              "sourceId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mistake_items_v2_sourceId` ON `${TABLE_NAME}` (`sourceId`)"
+          },
+          {
+            "name": "index_mistake_items_v2_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mistake_items_v2_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_mistake_items_v2_lastOccurredAt",
+            "unique": false,
+            "columnNames": [
+              "lastOccurredAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mistake_items_v2_lastOccurredAt` ON `${TABLE_NAME}` (`lastOccurredAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "pronunciation_sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `sourceId` TEXT, `courseId` TEXT, `lessonId` TEXT, `targetText` TEXT NOT NULL, `startedAt` INTEGER NOT NULL, `completedAt` INTEGER, `intelligibilityScore` REAL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceId",
+            "columnName": "sourceId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "courseId",
+            "columnName": "courseId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "targetText",
+            "columnName": "targetText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "startedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedAt",
+            "columnName": "completedAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "intelligibilityScore",
+            "columnName": "intelligibilityScore",
+            "affinity": "REAL"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_pronunciation_sessions_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_type` ON `${TABLE_NAME}` (`type`)"
+          },
+          {
+            "name": "index_pronunciation_sessions_sourceId",
+            "unique": false,
+            "columnNames": [
+              "sourceId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_sourceId` ON `${TABLE_NAME}` (`sourceId`)"
+          },
+          {
+            "name": "index_pronunciation_sessions_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_pronunciation_sessions_startedAt",
+            "unique": false,
+            "columnNames": [
+              "startedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_startedAt` ON `${TABLE_NAME}` (`startedAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_books",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `coverUri` TEXT, `sourceType` TEXT NOT NULL, `version` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subtitle",
+            "columnName": "subtitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coverUri",
+            "columnName": "coverUri",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sourceType",
+            "columnName": "sourceType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_books_sourceType",
+            "unique": false,
+            "columnNames": [
+              "sourceType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_books_sourceType` ON `${TABLE_NAME}` (`sourceType`)"
+          },
+          {
+            "name": "index_word_books_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_books_updatedAt` ON `${TABLE_NAME}` (`updatedAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_book_lessons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `wordBookId` TEXT NOT NULL, `number` INTEGER NOT NULL, `titleRu` TEXT, `titleZh` TEXT, PRIMARY KEY(`wordBookId`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleRu",
+            "columnName": "titleRu",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "titleZh",
+            "columnName": "titleZh",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordBookId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_book_lessons_wordBookId",
+            "unique": false,
+            "columnNames": [
+              "wordBookId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_lessons_wordBookId` ON `${TABLE_NAME}` (`wordBookId`)"
+          },
+          {
+            "name": "index_word_book_lessons_wordBookId_number",
+            "unique": true,
+            "columnNames": [
+              "wordBookId",
+              "number"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_word_book_lessons_wordBookId_number` ON `${TABLE_NAME}` (`wordBookId`, `number`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_book_lesson_words",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `entryId` TEXT NOT NULL, `position` INTEGER NOT NULL, `isKey` INTEGER NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `entryId`))",
+        "fields": [
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entryId",
+            "columnName": "entryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isKey",
+            "columnName": "isKey",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordBookId",
+            "lessonId",
+            "entryId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_book_lesson_words_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_lesson_words_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_word_book_lesson_words_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_lesson_words_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_word_book_lesson_words_wordBookId_lessonId_position",
+            "unique": false,
+            "columnNames": [
+              "wordBookId",
+              "lessonId",
+              "position"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_lesson_words_wordBookId_lessonId_position` ON `${TABLE_NAME}` (`wordBookId`, `lessonId`, `position`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_book_dialogues",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `position` INTEGER NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordBookId",
+            "lessonId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_book_dialogues_wordBookId",
+            "unique": false,
+            "columnNames": [
+              "wordBookId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_dialogues_wordBookId` ON `${TABLE_NAME}` (`wordBookId`)"
+          },
+          {
+            "name": "index_word_book_dialogues_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_dialogues_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_book_dialogue_lines",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `dialogueId` TEXT NOT NULL, `speaker` TEXT, `text` TEXT NOT NULL, `translation` TEXT, `audio` TEXT, `position` INTEGER NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `dialogueId`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dialogueId",
+            "columnName": "dialogueId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "speaker",
+            "columnName": "speaker",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "translation",
+            "columnName": "translation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "audio",
+            "columnName": "audio",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordBookId",
+            "lessonId",
+            "dialogueId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_book_dialogue_lines_dialogueId",
+            "unique": false,
+            "columnNames": [
+              "dialogueId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_dialogue_lines_dialogueId` ON `${TABLE_NAME}` (`dialogueId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_book_texts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `title` TEXT NOT NULL, `translationTitle` TEXT, `position` INTEGER NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "translationTitle",
+            "columnName": "translationTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordBookId",
+            "lessonId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_book_texts_wordBookId",
+            "unique": false,
+            "columnNames": [
+              "wordBookId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_texts_wordBookId` ON `${TABLE_NAME}` (`wordBookId`)"
+          },
+          {
+            "name": "index_word_book_texts_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_texts_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "word_book_text_paragraphs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `textId` TEXT NOT NULL, `text` TEXT NOT NULL, `translation` TEXT, `audio` TEXT, `position` INTEGER NOT NULL, `wordBookId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, PRIMARY KEY(`wordBookId`, `lessonId`, `textId`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textId",
+            "columnName": "textId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "translation",
+            "columnName": "translation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "audio",
+            "columnName": "audio",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordBookId",
+            "columnName": "wordBookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordBookId",
+            "lessonId",
+            "textId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_book_text_paragraphs_textId",
+            "unique": false,
+            "columnNames": [
+              "textId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_book_text_paragraphs_textId` ON `${TABLE_NAME}` (`textId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "textbooks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `language` TEXT NOT NULL, `level` TEXT NOT NULL, `sourceVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "language",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceVersion",
+            "columnName": "sourceVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "textbook_lessons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `textbookId` TEXT NOT NULL, `lessonNumber` INTEGER NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`textbookId`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textbookId",
+            "columnName": "textbookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonNumber",
+            "columnName": "lessonNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "textbookId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_textbook_lessons_textbookId",
+            "unique": false,
+            "columnNames": [
+              "textbookId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_textbook_lessons_textbookId` ON `${TABLE_NAME}` (`textbookId`)"
+          },
+          {
+            "name": "index_textbook_lessons_textbookId_lessonNumber",
+            "unique": true,
+            "columnNames": [
+              "textbookId",
+              "lessonNumber"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_textbook_lessons_textbookId_lessonNumber` ON `${TABLE_NAME}` (`textbookId`, `lessonNumber`)"
+          }
+        ]
+      },
+      {
+        "tableName": "textbook_blocks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `order` INTEGER NOT NULL, `type` TEXT NOT NULL, `title` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_textbook_blocks_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_textbook_blocks_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_textbook_blocks_lessonId_order",
+            "unique": false,
+            "columnNames": [
+              "lessonId",
+              "order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_textbook_blocks_lessonId_order` ON `${TABLE_NAME}` (`lessonId`, `order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "lesson_sentences",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `blockId` TEXT NOT NULL, `order` INTEGER NOT NULL, `text` TEXT NOT NULL, `sourceText` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockId",
+            "columnName": "blockId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceText",
+            "columnName": "sourceText",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lesson_sentences_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_sentences_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_lesson_sentences_blockId",
+            "unique": false,
+            "columnNames": [
+              "blockId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_sentences_blockId` ON `${TABLE_NAME}` (`blockId`)"
+          },
+          {
+            "name": "index_lesson_sentences_blockId_order",
+            "unique": false,
+            "columnNames": [
+              "blockId",
+              "order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_sentences_blockId_order` ON `${TABLE_NAME}` (`blockId`, `order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "sentence_knowledge",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `sentenceId` TEXT NOT NULL, `type` TEXT NOT NULL, `text` TEXT NOT NULL, `label` TEXT, `explanation` TEXT, `example` TEXT, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `status` TEXT, `knowledgeVersion` INTEGER NOT NULL, `generatedBy` TEXT, `reviewStatus` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sentenceId",
+            "columnName": "sentenceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "explanation",
+            "columnName": "explanation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "example",
+            "columnName": "example",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "knowledgeVersion",
+            "columnName": "knowledgeVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generatedBy",
+            "columnName": "generatedBy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "reviewStatus",
+            "columnName": "reviewStatus",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_sentence_knowledge_sentenceId",
+            "unique": false,
+            "columnNames": [
+              "sentenceId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sentence_knowledge_sentenceId` ON `${TABLE_NAME}` (`sentenceId`)"
+          },
+          {
+            "name": "index_sentence_knowledge_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sentence_knowledge_type` ON `${TABLE_NAME}` (`type`)"
+          },
+          {
+            "name": "index_sentence_knowledge_sentenceId_type",
+            "unique": false,
+            "columnNames": [
+              "sentenceId",
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sentence_knowledge_sentenceId_type` ON `${TABLE_NAME}` (`sentenceId`, `type`)"
+          }
+        ]
+      },
+      {
+        "tableName": "knowledge_progress",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`knowledgeId` TEXT NOT NULL, `status` TEXT NOT NULL, `seenCount` INTEGER NOT NULL, `understoodAt` INTEGER, `practicedCount` INTEGER NOT NULL, `masteredAt` INTEGER, `updatedAt` INTEGER NOT NULL, `lessonId` TEXT, PRIMARY KEY(`knowledgeId`))",
+        "fields": [
+          {
+            "fieldPath": "knowledgeId",
+            "columnName": "knowledgeId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seenCount",
+            "columnName": "seenCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "understoodAt",
+            "columnName": "understoodAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "practicedCount",
+            "columnName": "practicedCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "masteredAt",
+            "columnName": "masteredAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "knowledgeId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_knowledge_progress_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_knowledge_progress_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_knowledge_progress_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_knowledge_progress_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_knowledge_progress_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_knowledge_progress_updatedAt` ON `${TABLE_NAME}` (`updatedAt`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'babb5d0c9ac29cf75cbc39daa0ef6356')"
+    ]
+  }
+}

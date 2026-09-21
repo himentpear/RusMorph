@@ -50,7 +50,7 @@ class RusMorphApplication : Application() {
     val wordBookAssetImporter by lazy { WordBookAssetImporter(this, database) }
     val textbookAssetImporter by lazy { TextbookAssetImporter(this, database) }
     val textbookRepository by lazy { TextbookRepository(database.textbookDao()) }
-    val textbookKnowledgeRepository by lazy { TextbookKnowledgeRepository(database.textbookKnowledgeDao()) }
+    val textbookKnowledgeRepository by lazy { TextbookKnowledgeRepository(database.textbookKnowledgeDao(), database.knowledgeProgressDao()) }
     val wordBookRepository by lazy {
         CompositeWordBookRepository(
             AssetWordBookDataSource(this, searchRepository),

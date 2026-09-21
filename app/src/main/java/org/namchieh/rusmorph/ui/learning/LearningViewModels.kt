@@ -24,6 +24,8 @@ import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
+import org.namchieh.rusmorph.domain.textbook.KnowledgeProgress
+import org.namchieh.rusmorph.domain.textbook.KnowledgeProgressStatus
 import org.namchieh.rusmorph.domain.textbook.LessonTextContent
 import org.namchieh.rusmorph.domain.textbook.LessonSentence
 import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
@@ -108,17 +110,61 @@ class LessonTextbookViewModel(
 ) : ViewModel() {
     val state = MutableStateFlow<Loadable<LessonTextContent>>(Loadable.Loading)
     val selectedSentence = MutableStateFlow<LessonSentence?>(null)
+    val selectedKnowledge = MutableStateFlow<SentenceKnowledge?>(null)
     val knowledge = MutableStateFlow<Loadable<List<SentenceKnowledge>>?>(null)
+    val lessonKnowledge = MutableStateFlow<Map<String, List<SentenceKnowledge>>>(emptyMap())
+    val knowledgeProgress = MutableStateFlow<Map<String, KnowledgeProgress>>(emptyMap())
     val wordLookupTarget = MutableStateFlow<String?>(null)
-    init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.getLessonContent(lessonId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("课文尚未导入") }) } }
-    fun selectSentence(sentence: LessonSentence) {
-        selectedSentence.value = sentence
-        knowledge.value = Loadable.Loading
+
+    init {
         viewModelScope.launch {
-            knowledge.value = runCatching { knowledgeRepository.getSentenceKnowledge(sentence.id) }
-                .fold({ Loadable.Content(it) }, { Loadable.Error("知识加载失败") })
+            val content = runCatching { requireNotNull(repository.getLessonContent(lessonId)) }.getOrNull()
+            if (content != null) {
+                state.value = Loadable.Content(content)
+                val sentenceIds = content.blocks.flatMap { it.sentences }.map { it.id }
+                val items = runCatching { knowledgeRepository.getKnowledgeForSentences(sentenceIds) }.getOrDefault(emptyList())
+                lessonKnowledge.value = items.groupBy { it.sentenceId }
+            } else {
+                state.value = Loadable.Error("课文尚未导入")
+            }
+        }
+        viewModelScope.launch {
+            knowledgeRepository.observeProgressForLesson(lessonId).collect { map ->
+                knowledgeProgress.value = map
+            }
         }
     }
+
+    fun selectSentence(sentence: LessonSentence) {
+        selectedSentence.value = sentence
+        val preloaded = lessonKnowledge.value[sentence.id]
+        if (preloaded != null) {
+            knowledge.value = Loadable.Content(preloaded)
+        } else {
+            knowledge.value = Loadable.Loading
+            viewModelScope.launch {
+                knowledge.value = runCatching { knowledgeRepository.getSentenceKnowledge(sentence.id) }
+                    .fold({ Loadable.Content(it) }, { Loadable.Error("知识加载失败") })
+            }
+        }
+    }
+
+    fun selectKnowledge(item: SentenceKnowledge, sentence: LessonSentence? = null) {
+        selectedKnowledge.value = item
+        if (sentence != null) selectedSentence.value = sentence
+        viewModelScope.launch {
+            val updated = knowledgeRepository.recordSeen(item.id, lessonId)
+            knowledgeProgress.value = knowledgeProgress.value + (item.id to updated)
+        }
+    }
+
+    fun updateKnowledgeStatus(knowledgeId: String, status: KnowledgeProgressStatus) {
+        viewModelScope.launch {
+            val updated = knowledgeRepository.updateStatus(knowledgeId, status, lessonId)
+            knowledgeProgress.value = knowledgeProgress.value + (knowledgeId to updated)
+        }
+    }
+
     fun addKnowledgeToReview(item: SentenceKnowledge) = viewModelScope.launch {
         val reviewType = when (item.type) {
             org.namchieh.rusmorph.domain.textbook.KnowledgeType.GRAMMAR -> org.namchieh.rusmorph.domain.learning.ReviewItemType.GRAMMAR
@@ -130,6 +176,7 @@ class LessonTextbookViewModel(
             dueAt = System.currentTimeMillis(), interval = 1, difficulty = 2.5, mistakeCount = 0, lastResult = null,
         ))
     }
+
     fun lookupWord(surface: String) = viewModelScope.launch {
         val wordBookId = if (lessonId.startsWith("ur2-")) CourseRepository.COURSE_2_ID else CourseRepository.COURSE_1_ID
         val target = normalizeRussian(surface)
@@ -138,14 +185,20 @@ class LessonTextbookViewModel(
         }
         wordLookupTarget.value = match?.entry?.id ?: DICTIONARY_FALLBACK
     }
+
     fun consumeWordLookup() { wordLookupTarget.value = null }
-    fun dismissKnowledge() { selectedSentence.value = null; knowledge.value = null }
+    fun dismissKnowledge() {
+        selectedSentence.value = null
+        selectedKnowledge.value = null
+        knowledge.value = null
+    }
 
     private fun normalizeRussian(value: String): String = java.text.Normalizer.normalize(value, java.text.Normalizer.Form.NFD)
         .replace(Regex("\\p{M}+"), "").lowercase().trim().trim('—', '-', ',', '.', '!', '?', ':', ';')
 
     companion object { const val DICTIONARY_FALLBACK = "__dictionary__" }
 }
+
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class LearningSummaryViewModel(

@@ -3,9 +3,11 @@ package org.namchieh.rusmorph.ui.screen.learning
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,9 +49,16 @@ import org.namchieh.rusmorph.domain.learning.LearningUnitType
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
 import org.namchieh.rusmorph.domain.textbook.LessonTextContent
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import org.namchieh.rusmorph.domain.textbook.KnowledgeProgress
+import org.namchieh.rusmorph.domain.textbook.KnowledgeProgressStatus
 import org.namchieh.rusmorph.domain.textbook.LessonSentence
 import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
 import org.namchieh.rusmorph.domain.textbook.KnowledgeType
+import org.namchieh.rusmorph.ui.components.KnowledgeCard
 import org.namchieh.rusmorph.ui.components.RusButton
 import org.namchieh.rusmorph.ui.components.RusBottomSheet
 import org.namchieh.rusmorph.ui.components.RusCard
@@ -464,33 +473,101 @@ fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitTyp
 fun LessonTextbookScreen(
     state: Loadable<LessonTextContent>,
     selectedSentence: LessonSentence? = null,
+    selectedKnowledge: SentenceKnowledge? = null,
+    sentenceKnowledgeMap: Map<String, List<SentenceKnowledge>> = emptyMap(),
+    knowledgeProgressMap: Map<String, KnowledgeProgress> = emptyMap(),
     knowledge: Loadable<List<SentenceKnowledge>>? = null,
     onSentence: (LessonSentence) -> Unit = {},
+    onKnowledgeSelect: (SentenceKnowledge, LessonSentence) -> Unit = { _, _ -> },
+    onProgressChange: (String, KnowledgeProgressStatus) -> Unit = { _, _ -> },
     onDismissKnowledge: () -> Unit = {},
     onWordLookup: (String) -> Unit = {},
     onAddReview: (SentenceKnowledge) -> Unit = {},
+    onAskAi: (String) -> Unit = {},
     onBack: () -> Unit,
 ) {
+    val currentSentenceKnowledge = remember(selectedSentence, sentenceKnowledgeMap, knowledge) {
+        if (selectedSentence == null) emptyList()
+        else sentenceKnowledgeMap[selectedSentence.id]
+            ?: (knowledge as? Loadable.Content)?.value
+            ?: emptyList()
+    }
+
+    var localActiveKnowledgeId by remember(selectedSentence?.id, selectedKnowledge?.id) {
+        mutableStateOf(selectedKnowledge?.id ?: currentSentenceKnowledge.firstOrNull()?.id)
+    }
+    val activeKnowledge = currentSentenceKnowledge.firstOrNull { it.id == localActiveKnowledgeId }
+        ?: selectedKnowledge
+        ?: currentSentenceKnowledge.firstOrNull()
+
     if (selectedSentence != null) {
         RusBottomSheet(onDismiss = onDismissKnowledge) {
-            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("知识卡片", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                Text(selectedSentence.sourceText, style = MaterialTheme.typography.bodyLarge, lineHeight = 27.sp, color = RusMorphColors.TextPrimary)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
+                Text(
+                    text = "知识卡片",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = RusMorphColors.TextPrimary,
+                )
+                Text(
+                    text = selectedSentence.sourceText,
+                    style = MaterialTheme.typography.bodyLarge,
+                    lineHeight = 27.sp,
+                    color = RusMorphColors.TextPrimary,
+                )
+
                 when (knowledge) {
-                    null, Loadable.Loading -> CircularProgressIndicator(color = RusMorphColors.CarbonBlack)
+                    Loadable.Loading -> CircularProgressIndicator(color = RusMorphColors.CarbonBlack)
                     is Loadable.Error -> RusEmptyState("知识加载失败", knowledge.message)
-                    is Loadable.Content -> if (knowledge.value.isEmpty()) {
-                        RusEmptyState("暂无知识标注", "该句尚无经过审核的外部知识数据")
-                    } else knowledge.value.forEach { item ->
-                        RusCard(Modifier.fillMaxWidth()) {
-                            Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
-                                RusPillBadge(item.type.name, containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-                                Text(item.text, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                item.label?.let { Text(it, color = RusMorphColors.Primary) }
-                                item.explanation?.let { Text(it, color = RusMorphColors.TextSecondary) }
-                                item.example?.let { Text("例：$it", color = RusMorphColors.TextSecondary) }
-                                if (item.type == KnowledgeType.WORD) RusButton("在词库中查找", { onWordLookup(item.text) })
-                                else RusButton("加入复习", { onAddReview(item) })
+                    else -> {
+                        if (currentSentenceKnowledge.isEmpty()) {
+                            RusEmptyState("暂无知识标注", "该句尚无经过审核的外部知识数据")
+                        } else {
+                            if (currentSentenceKnowledge.size > 1) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .horizontalScroll(rememberScrollState()),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                ) {
+                                    currentSentenceKnowledge.forEach { item ->
+                                        val isSelected = item.id == activeKnowledge?.id
+                                        Surface(
+                                            modifier = Modifier.clickable {
+                                                localActiveKnowledgeId = item.id
+                                                onKnowledgeSelect(item, selectedSentence)
+                                            },
+                                            shape = RoundedCornerShape(8.dp),
+                                            color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.PillBackground,
+                                        ) {
+                                            Text(
+                                                text = "${item.label ?: item.text} · ${item.type.name.lowercase()}",
+                                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = if (isSelected) RusMorphColors.TextOnDark else RusMorphColors.TextPrimary,
+                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (activeKnowledge != null) {
+                                KnowledgeCard(
+                                    knowledge = activeKnowledge,
+                                    progress = knowledgeProgressMap[activeKnowledge.id],
+                                    onProgressChange = { newStatus ->
+                                        onProgressChange(activeKnowledge.id, newStatus)
+                                    },
+                                    onWordLookup = onWordLookup,
+                                    onAddReview = { onAddReview(activeKnowledge) },
+                                    onAskAi = onAskAi,
+                                )
                             }
                         }
                     }
@@ -498,6 +575,7 @@ fun LessonTextbookScreen(
             }
         }
     }
+
     LearningScaffold("📖 课文", onBack = onBack) { root ->
         ContentColumn(root) {
             when (state) {
@@ -507,16 +585,119 @@ fun LessonTextbookScreen(
                     val content = state.value
                     RusSectionTitle(content.textbook.title, "${content.lesson.title} · 第 ${content.lesson.lessonNumber} 课")
                     content.blocks.forEach { block ->
-                        block.title?.let { Text(it, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = RusMorphColors.CarbonBlack) }
+                        block.title?.let {
+                            Text(
+                                it,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = RusMorphColors.CarbonBlack,
+                            )
+                        }
                         RusCard(Modifier.fillMaxWidth()) {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 block.sentences.forEach { sentence ->
+                                    val annotations = sentenceKnowledgeMap[sentence.id]
+                                        ?: (if (selectedSentence?.id == sentence.id) (knowledge as? Loadable.Content)?.value else null)
+                                        ?: emptyList()
+
+                                    val isCurrentSentence = selectedSentence?.id == sentence.id
+                                    val annotatedText = remember(sentence.text, annotations) {
+                                        buildAnnotatedSentence(sentence.text, annotations)
+                                    }
+
                                     Surface(
-                                        modifier = Modifier.fillMaxWidth().clickable { onSentence(sentence) },
-                                        color = if (selectedSentence?.id == sentence.id) RusMorphColors.WarmCream else androidx.compose.ui.graphics.Color.Transparent,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                onSentence(sentence)
+                                                annotations.firstOrNull()?.let { firstAnn ->
+                                                    onKnowledgeSelect(firstAnn, sentence)
+                                                }
+                                            },
+                                        color = if (isCurrentSentence) RusMorphColors.WarmCream.copy(alpha = 0.5f) else Color.Transparent,
                                         shape = RoundedCornerShape(10.dp),
                                     ) {
-                                        Text(sentence.text, modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp), style = MaterialTheme.typography.bodyLarge, lineHeight = 29.sp, color = RusMorphColors.TextPrimary)
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 10.dp, vertical = 8.dp),
+                                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                                        ) {
+                                            Text(
+                                                text = annotatedText,
+                                                style = MaterialTheme.typography.bodyLarge,
+                                                lineHeight = 29.sp,
+                                                color = RusMorphColors.TextPrimary,
+                                            )
+
+                                            if (annotations.isNotEmpty()) {
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                ) {
+                                                    Text(
+                                                        text = "↑",
+                                                        style = MaterialTheme.typography.labelMedium,
+                                                        color = RusMorphColors.TextSecondary,
+                                                        fontWeight = FontWeight.Bold,
+                                                    )
+                                                    annotations.forEach { ann ->
+                                                        val progress = knowledgeProgressMap[ann.id]
+                                                        val status = progress?.status ?: KnowledgeProgressStatus.SEEN
+                                                        val isItemActive = selectedKnowledge?.id == ann.id
+                                                        Surface(
+                                                            modifier = Modifier.clickable {
+                                                                onSentence(sentence)
+                                                                onKnowledgeSelect(ann, sentence)
+                                                            },
+                                                            shape = RoundedCornerShape(6.dp),
+                                                            color = when (ann.type) {
+                                                                KnowledgeType.GRAMMAR -> Color(0xFFEFF6FF)
+                                                                KnowledgeType.PHRASE -> Color(0xFFFEF3C7)
+                                                                KnowledgeType.PATTERN -> Color(0xFFF0FDF4)
+                                                                KnowledgeType.WORD -> Color(0xFFFEF2F2)
+                                                                else -> RusMorphColors.PillBackground
+                                                            },
+                                                            border = BorderStroke(
+                                                                1.dp,
+                                                                if (isItemActive) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
+                                                            ),
+                                                        ) {
+                                                            Row(
+                                                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                                                verticalAlignment = Alignment.CenterVertically,
+                                                            ) {
+                                                                Text(
+                                                                    text = "[${ann.text}]",
+                                                                    fontSize = 11.sp,
+                                                                    fontWeight = FontWeight.SemiBold,
+                                                                    color = RusMorphColors.TextPrimary,
+                                                                )
+                                                                Text(
+                                                                    text = ann.type.name.lowercase(),
+                                                                    fontSize = 10.sp,
+                                                                    fontWeight = FontWeight.Normal,
+                                                                    color = RusMorphColors.TextSecondary,
+                                                                )
+                                                                Text(
+                                                                    text = "· ${status.labelZh}",
+                                                                    fontSize = 9.sp,
+                                                                    fontWeight = FontWeight.SemiBold,
+                                                                    color = when (status) {
+                                                                        KnowledgeProgressStatus.MASTERED -> RusMorphColors.AccentGreen
+                                                                        KnowledgeProgressStatus.PRACTICED -> RusMorphColors.AccentBlue
+                                                                        KnowledgeProgressStatus.UNDERSTOOD -> RusMorphColors.VividOrange
+                                                                        KnowledgeProgressStatus.SEEN -> RusMorphColors.TextTertiary
+                                                                    },
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -527,6 +708,57 @@ fun LessonTextbookScreen(
         }
     }
 }
+
+private fun buildAnnotatedSentence(
+    text: String,
+    annotations: List<SentenceKnowledge>,
+): AnnotatedString {
+    if (annotations.isEmpty()) return AnnotatedString(text)
+    val valid = annotations
+        .filter { it.start >= 0 && it.end <= text.length && it.start < it.end }
+        .sortedBy { it.start }
+    if (valid.isEmpty()) return AnnotatedString(text)
+
+    val builder = AnnotatedString.Builder()
+    var currentIndex = 0
+    for (ann in valid) {
+        if (ann.start < currentIndex) continue
+        if (ann.start > currentIndex) {
+            builder.append(text.substring(currentIndex, ann.start))
+        }
+        val typeBg = when (ann.type) {
+            KnowledgeType.GRAMMAR -> Color(0xFFDBEAFE)
+            KnowledgeType.PHRASE -> Color(0xFFFEF3C7)
+            KnowledgeType.PATTERN -> Color(0xFFD1FAE5)
+            KnowledgeType.WORD -> Color(0xFFFEE2E2)
+            else -> Color(0xFFFFE7D0)
+        }
+        val typeFg = when (ann.type) {
+            KnowledgeType.GRAMMAR -> Color(0xFF1D4ED8)
+            KnowledgeType.PHRASE -> Color(0xFFB45309)
+            KnowledgeType.PATTERN -> Color(0xFF047857)
+            KnowledgeType.WORD -> Color(0xFFB91C1C)
+            else -> Color(0xFF1B1B1B)
+        }
+        builder.pushStringAnnotation(tag = "KNOWLEDGE", annotation = ann.id)
+        builder.pushStyle(
+            SpanStyle(
+                background = typeBg,
+                color = typeFg,
+                fontWeight = FontWeight.Bold,
+            ),
+        )
+        builder.append(text.substring(ann.start, ann.end))
+        builder.pop()
+        builder.pop()
+        currentIndex = ann.end
+    }
+    if (currentIndex < text.length) {
+        builder.append(text.substring(currentIndex))
+    }
+    return builder.toAnnotatedString()
+}
+
 
 @Composable
 fun VocabularyScreen(

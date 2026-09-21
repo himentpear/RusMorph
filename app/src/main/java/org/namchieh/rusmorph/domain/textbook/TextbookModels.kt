@@ -14,7 +14,40 @@ data class SentenceKnowledge(
 )
 data class LessonTextContent(val textbook: Textbook, val lesson: TextbookLesson, val blocks: List<TextbookBlock>)
 
+enum class KnowledgeProgressStatus {
+    SEEN,
+    UNDERSTOOD,
+    PRACTICED,
+    MASTERED;
+
+    val labelZh: String get() = when (this) {
+        SEEN -> "已读"
+        UNDERSTOOD -> "已理解"
+        PRACTICED -> "已练习"
+        MASTERED -> "已掌握"
+    }
+
+    val rank: Int get() = when (this) {
+        SEEN -> 1
+        UNDERSTOOD -> 2
+        PRACTICED -> 3
+        MASTERED -> 4
+    }
+}
+
+data class KnowledgeProgress(
+    val knowledgeId: String,
+    val status: KnowledgeProgressStatus = KnowledgeProgressStatus.SEEN,
+    val seenCount: Int = 1,
+    val understoodAt: Long? = null,
+    val practicedCount: Int = 0,
+    val masteredAt: Long? = null,
+    val updatedAt: Long = System.currentTimeMillis(),
+    val lessonId: String? = null,
+)
+
 /** Boundary between textbook text selection and the existing vocabulary lookup system. */
 fun interface TextSelectionHandler {
     fun onWordSelected(sentenceId: String, word: String)
 }
+

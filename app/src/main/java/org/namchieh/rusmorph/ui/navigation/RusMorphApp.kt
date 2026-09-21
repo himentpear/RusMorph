@@ -227,6 +227,9 @@ fun RusMorphApp(application: RusMorphApplication) {
                 val vm: LessonTextbookViewModel = viewModel(key = "textbook-$lessonId", factory = remember(application, lessonId) { viewModelFactory { initializer { LessonTextbookViewModel(application.textbookRepository, application.textbookKnowledgeRepository, application.learningRepository, application.wordBookRepository, lessonId) } } })
                 val state by vm.state.collectAsState()
                 val selectedSentence by vm.selectedSentence.collectAsState()
+                val selectedKnowledge by vm.selectedKnowledge.collectAsState()
+                val lessonKnowledge by vm.lessonKnowledge.collectAsState()
+                val knowledgeProgress by vm.knowledgeProgress.collectAsState()
                 val knowledge by vm.knowledge.collectAsState()
                 val wordLookupTarget by vm.wordLookupTarget.collectAsState()
                 LaunchedEffect(wordLookupTarget) {
@@ -236,7 +239,22 @@ fun RusMorphApp(application: RusMorphApplication) {
                         vm.consumeWordLookup()
                     }
                 }
-                LessonTextbookScreen(state, selectedSentence, knowledge, vm::selectSentence, vm::dismissKnowledge, vm::lookupWord, vm::addKnowledgeToReview, navController::navigateUp)
+                LessonTextbookScreen(
+                    state = state,
+                    selectedSentence = selectedSentence,
+                    selectedKnowledge = selectedKnowledge,
+                    sentenceKnowledgeMap = lessonKnowledge,
+                    knowledgeProgressMap = knowledgeProgress,
+                    knowledge = knowledge,
+                    onSentence = vm::selectSentence,
+                    onKnowledgeSelect = vm::selectKnowledge,
+                    onProgressChange = vm::updateKnowledgeStatus,
+                    onDismissKnowledge = vm::dismissKnowledge,
+                    onWordLookup = vm::lookupWord,
+                    onAddReview = vm::addKnowledgeToReview,
+                    onAskAi = { topic -> navController.navigate(Routes.commands("讲解语法点：$topic")) },
+                    onBack = navController::navigateUp,
+                )
             }
             composable(Routes.Settings) { SettingsScreen(application.apiDiagnostics, application.agentRepository, application.appSettings, navController::navigateUp) }
             composable(

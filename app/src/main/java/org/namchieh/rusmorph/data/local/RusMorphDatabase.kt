@@ -42,8 +42,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         TextbookBlockEntity::class,
         LessonSentenceEntity::class,
         SentenceKnowledgeEntity::class,
+        KnowledgeProgressEntity::class,
     ],
-    version = 9,
+    version = 10,
     exportSchema = true,
 )
 abstract class RusMorphDatabase : RoomDatabase() {
@@ -55,6 +56,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
     abstract fun textbookDao(): TextbookDao
     abstract fun lessonTextDao(): LessonTextDao
     abstract fun textbookKnowledgeDao(): TextbookKnowledgeDao
+    abstract fun knowledgeProgressDao(): KnowledgeProgressDao
 
     companion object {
         fun create(context: Context): RusMorphDatabase =
@@ -63,7 +65,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 RusMorphDatabase::class.java,
                 "rusmorph.db",
             )
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
                 .build()
 
         val MIGRATION_2_3 = object : Migration(2, 3) {
@@ -213,6 +215,15 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 db.execSQL("DROP TABLE textbook_annotations")
                 db.execSQL("DROP TABLE reading_paragraphs")
                 db.execSQL("DROP TABLE reading_sections")
+            }
+        }
+
+        val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `knowledge_progress` (`knowledgeId` TEXT NOT NULL, `status` TEXT NOT NULL, `seenCount` INTEGER NOT NULL, `understoodAt` INTEGER, `practicedCount` INTEGER NOT NULL, `masteredAt` INTEGER, `updatedAt` INTEGER NOT NULL, `lessonId` TEXT, PRIMARY KEY(`knowledgeId`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_knowledge_progress_status` ON `knowledge_progress` (`status`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_knowledge_progress_lessonId` ON `knowledge_progress` (`lessonId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_knowledge_progress_updatedAt` ON `knowledge_progress` (`updatedAt`)")
             }
         }
     }

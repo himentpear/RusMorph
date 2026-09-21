@@ -483,7 +483,39 @@ interface LessonTextDao {
 @Dao
 interface TextbookKnowledgeDao {
     @Query("SELECT * FROM sentence_knowledge WHERE sentenceId = :sentenceId ORDER BY start, end, id") suspend fun knowledge(sentenceId: String): List<SentenceKnowledgeEntity>
+    @Query("SELECT * FROM sentence_knowledge WHERE sentenceId IN (:sentenceIds) ORDER BY start, end, id") suspend fun knowledgeForSentences(sentenceIds: List<String>): List<SentenceKnowledgeEntity>
     @Query("SELECT * FROM sentence_knowledge WHERE sentenceId = :sentenceId AND type = :type ORDER BY start, end, id") suspend fun knowledgeByType(sentenceId: String, type: String): List<SentenceKnowledgeEntity>
     @Upsert suspend fun upsertKnowledge(items: List<SentenceKnowledgeEntity>)
     @Query("DELETE FROM sentence_knowledge") suspend fun clearKnowledge()
 }
+
+@Dao
+interface KnowledgeProgressDao {
+    @Query("SELECT * FROM knowledge_progress WHERE knowledgeId = :knowledgeId LIMIT 1")
+    suspend fun getProgress(knowledgeId: String): KnowledgeProgressEntity?
+
+    @Query("SELECT * FROM knowledge_progress WHERE knowledgeId IN (:knowledgeIds)")
+    suspend fun getProgressForList(knowledgeIds: List<String>): List<KnowledgeProgressEntity>
+
+    @Query("SELECT * FROM knowledge_progress WHERE lessonId = :lessonId")
+    suspend fun getProgressForLesson(lessonId: String): List<KnowledgeProgressEntity>
+
+    @Query("SELECT * FROM knowledge_progress")
+    fun observeAllProgress(): Flow<List<KnowledgeProgressEntity>>
+
+    @Query("SELECT * FROM knowledge_progress WHERE lessonId = :lessonId")
+    fun observeProgressForLesson(lessonId: String): Flow<List<KnowledgeProgressEntity>>
+
+    @Upsert
+    suspend fun upsert(progress: KnowledgeProgressEntity)
+
+    @Upsert
+    suspend fun upsertAll(progressList: List<KnowledgeProgressEntity>)
+
+    @Query("DELETE FROM knowledge_progress WHERE knowledgeId = :knowledgeId")
+    suspend fun deleteProgress(knowledgeId: String)
+
+    @Query("DELETE FROM knowledge_progress")
+    suspend fun clearAll()
+}
+
