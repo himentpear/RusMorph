@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ur1-lesson-1-b1-s1",
+    "lessonId": "ur1-lesson-1",
+    "blockId": "ur1-lesson-1-b1",
+    "order": 1,
+    "text": "Тестовый текст первого учебника.",
+    "sourceText": "Тестовый текст первого учебника."
+  },
+  {
+    "id": "ur2-lesson-1-b1-s1",
+    "lessonId": "ur2-lesson-1",
+    "blockId": "ur2-lesson-1-b1",
+    "order": 1,
+    "text": "Меня́ зову́т Васи́лий Никола́евич, моя́ фами́лия Ивано́в.",
+    "sourceText": "Меня́ зову́т Васи́лий Никола́евич, моя́ фами́лия Ивано́в."
+  },
+  {
+    "id": "ur2-lesson-1-b2-s1",
+    "lessonId": "ur2-lesson-1",
+    "blockId": "ur2-lesson-1-b2",
+    "order": 1,
+    "text": "Мне испо́лнилось три́дцать лет.",
+    "sourceText": "Мне испо́лнилось три́дцать лет."
+  },
+  {
+    "id": "ur2-lesson-1-b2-s2",
+    "lessonId": "ur2-lesson-1",
+    "blockId": "ur2-lesson-1-b2",
+    "order": 2,
+    "text": "Я роди́лся в Москве́ и всю жизнь живу́ здесь.",
+    "sourceText": "Я роди́лся в Москве́ и всю жизнь живу́ здесь."
+  },
+  {
+    "id": "ur2-lesson-1-b2-s3",
+    "lessonId": "ur2-lesson-1",
+    "blockId": "ur2-lesson-1-b2",
+    "order": 3,
+    "text": "С де́тства я интересова́лся иностра́нными языка́ми.",
+    "sourceText": "С де́тства я интересова́лся иностра́нными языка́ми."
+  },
+  {
+    "id": "ur2-lesson-1-b2-s4",
+    "lessonId": "ur2-lesson-1",
+    "blockId": "ur2-lesson-1-b2",
+    "order": 4,
+    "text": "Предложе́ние без аннота́ций остаётся обы́чным те́кстом.",
+    "sourceText": "Предложе́ние без аннота́ций остаётся обы́чным те́кстом."
+  }
+]

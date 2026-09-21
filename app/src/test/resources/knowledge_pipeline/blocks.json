@@ -1,0 +1,23 @@
+[
+  {
+    "id": "ur1-lesson-1-b1",
+    "lessonId": "ur1-lesson-1",
+    "order": 1,
+    "type": "READING",
+    "title": "Урок 1"
+  },
+  {
+    "id": "ur2-lesson-1-b1",
+    "lessonId": "ur2-lesson-1",
+    "order": 1,
+    "type": "READING",
+    "title": "Урок 1"
+  },
+  {
+    "id": "ur2-lesson-1-b2",
+    "lessonId": "ur2-lesson-1",
+    "order": 2,
+    "type": "READING",
+    "title": null
+  }
+]

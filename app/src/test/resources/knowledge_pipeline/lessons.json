@@ -1,0 +1,14 @@
+[
+  {
+    "id": "ur1-lesson-1",
+    "textbookId": "university-russian-1",
+    "lessonNumber": 1,
+    "title": "Урок 1"
+  },
+  {
+    "id": "ur2-lesson-1",
+    "textbookId": "university-russian-2",
+    "lessonNumber": 1,
+    "title": "Урок 1"
+  }
+]

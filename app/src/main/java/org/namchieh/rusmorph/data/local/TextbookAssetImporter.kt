@@ -17,10 +17,15 @@ private data class KnowledgeAsset(
     val knowledgeVersion: Int?, val generatedBy: String?, val reviewStatus: String?,
 )
 
-class TextbookAssetImporter(private val context: Context, private val database: RusMorphDatabase) {
+class TextbookAssetImporter(
+    private val context: Context,
+    private val database: RusMorphDatabase,
+    private val assetDirectory: String = "database",
+    private val openAsset: (String) -> java.io.Reader = { path -> context.assets.open(path).bufferedReader() },
+) {
     suspend fun importIfNeeded() = withContext(Dispatchers.IO) {
         val gson = Gson()
-        fun <T> read(name: String, token: TypeToken<T>): T = context.assets.open("database/$name").bufferedReader().use { gson.fromJson(it, token.type) }
+        fun <T> read(name: String, token: TypeToken<T>): T = openAsset("$assetDirectory/$name").use { gson.fromJson(it, token.type) }
         val textbooks = read("textbooks.json", object : TypeToken<List<TextbookAsset>>() {})
         val lessons = read("lessons.json", object : TypeToken<List<LessonAsset>>() {})
         val blocks = read("blocks.json", object : TypeToken<List<BlockAsset>>() {})
