@@ -15,7 +15,6 @@ import org.namchieh.rusmorph.ui.design.WerusButtonStyle
 import org.namchieh.rusmorph.ui.design.WerusChip
 import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.design.WerusTypography
-import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
 fun FilterBottomSheet(
@@ -31,8 +30,8 @@ fun FilterBottomSheet(
     WerusBottomSheet(onDismiss = onDismiss) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).navigationBarsPadding(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("筛选本地词库", style = MaterialTheme.typography.headlineMedium)
-            Text("当前筛选：${listOfNotNull(lesson?.let { "第 $it 课" }, part).ifEmpty { listOf("全部词条") }.joinToString(" · ")}", color = RusMorphColors.TextSecondary)
-            HorizontalDivider(color = RusMorphColors.Divider)
+            Text("当前筛选：${listOfNotNull(lesson?.let { "第 $it 课" }, part).ifEmpty { listOf("全部词条") }.joinToString(" · ")}", color = WerusColors.InkMuted)
+            HorizontalDivider(color = WerusColors.Border)
             Text("课号", style = WerusTypography.labelLarge, color = WerusColors.InkMuted)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 WerusChip("全部课号", selected = lesson == null, onClick = { lesson = null })
@@ -65,13 +64,13 @@ fun MoreActionsSheet(onDismiss: () -> Unit, onSmartCommand: () -> Unit, onFilter
         LazyColumn(Modifier.fillMaxWidth().navigationBarsPadding(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             item { Text("更多", style = MaterialTheme.typography.headlineMedium); Spacer(Modifier.height(12.dp)) }
             items(allActions) { (title, description, action) ->
-                Surface(onClick = { if (!description.contains("即将开放")) { onDismiss(); action() } }, color = RusMorphColors.SurfaceElevated) {
+                Surface(onClick = { if (!description.contains("即将开放")) { onDismiss(); action() } }, color = WerusColors.Paper) {
                     Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(title, style = MaterialTheme.typography.titleMedium)
-                        if (description == "即将开放") Text(description, style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextTertiary)
+                        if (description == "即将开放") Text(description, style = MaterialTheme.typography.labelMedium, color = WerusColors.InkFaint)
                     }
                 }
-                HorizontalDivider(color = RusMorphColors.Divider)
+                HorizontalDivider(color = WerusColors.Border)
             }
         }
     }

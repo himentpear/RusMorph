@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.ui.theme.TechCardShape
 
@@ -49,16 +49,16 @@ fun LaboratoryBackground(
     val gradient = remember {
         Brush.verticalGradient(
             listOf(
-                RusMorphColors.Surface,
-                RusMorphColors.Canvas,
-                RusMorphColors.BackgroundSecondary,
+                WerusColors.Paper,
+                WerusColors.Canvas,
+                WerusColors.BeigeMuted,
             )
         )
     }
     Box(modifier.background(gradient)) {
         Canvas(Modifier.matchParentSize()) {
             val step = 32.dp.toPx()
-            val line = RusMorphColors.Primary.copy(alpha = 0.03f)
+            val line = WerusColors.Red.copy(alpha = 0.03f)
             var x = 0f
             while (x < size.width) {
                 drawLine(line, Offset(x, 0f), Offset(x, size.height), 1f)
@@ -78,7 +78,7 @@ fun LaboratoryBackground(
 fun LaboratoryLabel(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = RusMorphColors.TextTertiary,
+    color: Color = WerusColors.InkFaint,
 ) {
     Text(
         text = text.uppercase(),
@@ -95,8 +95,8 @@ fun LaboratoryPanel(
 ) {
     Column(
         modifier = modifier
-            .background(RusMorphColors.Surface, TechCardShape)
-            .border(1.dp, RusMorphColors.Outline, TechCardShape)
+            .background(WerusColors.Paper, TechCardShape)
+            .border(1.dp, WerusColors.Border, TechCardShape)
             .padding(18.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         content = content,
@@ -116,8 +116,8 @@ fun LaboratoryPrimaryButton(
         enabled = enabled,
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = RusMorphColors.CarbonBlack,
-            contentColor = RusMorphColors.TextOnDark,
+            containerColor = WerusColors.Ink,
+            contentColor = WerusColors.OnDark,
         ),
         contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp),
     ) {
@@ -141,13 +141,13 @@ fun LaboratoryLoadingState(
                     Modifier
                         .size(width = 22.dp, height = 4.dp)
                         .background(
-                            if (index == 0) RusMorphColors.AccentOrange else RusMorphColors.OutlineSoft,
+                            if (index == 0) WerusColors.Red else WerusColors.BorderSoft,
                             CircleShape,
                         )
                 )
             }
         }
-        LaboratoryLabel(label, color = RusMorphColors.TextSecondary)
+        LaboratoryLabel(label, color = WerusColors.InkMuted)
     }
 }
 
@@ -164,14 +164,14 @@ fun LaboratoryMessageState(
         Text(
             title,
             style = MaterialTheme.typography.titleLarge,
-            color = RusMorphColors.Primary,
+            color = WerusColors.Red,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )
         Text(
             detail,
             style = MaterialTheme.typography.bodyMedium,
-            color = RusMorphColors.TextSecondary,
+            color = WerusColors.InkMuted,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )

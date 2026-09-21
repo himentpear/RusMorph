@@ -31,7 +31,7 @@ import org.namchieh.rusmorph.audio.SpeechRecorder
 import org.namchieh.rusmorph.data.remote.PronunciationDto
 import org.namchieh.rusmorph.data.repository.SpeechRepository
 import org.namchieh.rusmorph.ui.components.RusPillBadge
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.wordcard.data.ReviewRepository
 import org.namchieh.rusmorph.wordcard.data.WordCardRepository
@@ -121,19 +121,19 @@ fun WordCardScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Text("←", fontSize = 22.sp, color = RusMorphColors.CarbonBlack)
+                        Text("←", fontSize = 22.sp, color = WerusColors.Ink)
                     }
                 },
                 actions = {
                     cardData?.first?.basic?.cefr?.let { cefr ->
-                        RusPillBadge(cefr, containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                        RusPillBadge(cefr, containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                         Spacer(Modifier.width(8.dp))
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = WerusColors.Canvas)
             )
         },
-        containerColor = RusMorphColors.Canvas,
+        containerColor = WerusColors.Canvas,
         modifier = modifier,
     ) { padding ->
         Column(
@@ -152,9 +152,9 @@ fun WordCardScreen(
                 items(CardMode.values()) { mode ->
                     val isSelected = currentMode == mode
                     Surface(
-                        color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.Surface,
+                        color = if (isSelected) WerusColors.Ink else WerusColors.Paper,
                         shape = RoundedCornerShape(8.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, if (isSelected) WerusColors.Ink else WerusColors.BorderSoft),
                         modifier = Modifier
                             .height(32.dp)
                             .clickable {
@@ -166,7 +166,7 @@ fun WordCardScreen(
                             Text(
                                 text = mode.labelZh,
                                 style = MaterialTheme.typography.labelMedium,
-                                color = if (isSelected) RusMorphColors.Surface else RusMorphColors.TextSecondary,
+                                color = if (isSelected) WerusColors.Paper else WerusColors.InkMuted,
                             )
                         }
                     }
@@ -176,17 +176,17 @@ fun WordCardScreen(
             when {
                 isLoading -> {
                     Box(modifier = Modifier.fillMaxWidth().height(300.dp), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = RusMorphColors.CarbonBlack)
+                        CircularProgressIndicator(color = WerusColors.Ink)
                     }
                 }
                 errorMessage != null -> {
                     Surface(
-                        color = RusMorphColors.SurfaceMuted,
+                        color = WerusColors.BeigeMuted,
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
                     ) {
                         Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(errorMessage ?: "加载异常", color = RusMorphColors.AccentOrange)
+                            Text(errorMessage ?: "加载异常", color = WerusColors.Red)
                             Spacer(Modifier.height(12.dp))
                             Button(onClick = {
                                 scope.launch {

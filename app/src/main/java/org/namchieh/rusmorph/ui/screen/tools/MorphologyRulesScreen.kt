@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.ui.components.RusCard
 import org.namchieh.rusmorph.ui.components.RusPillBadge
 import org.namchieh.rusmorph.ui.components.RusSectionTitle
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.wordcard.model.*
 
@@ -73,12 +73,12 @@ fun MorphologyRulesScreen(
                 title = {
                     Column {
                         Text("俄语变格变位", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                        Text("Склонение · Спряжение", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                        Text("Склонение · Спряжение", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                     }
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Text("←", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = RusMorphColors.CarbonBlack)
+                        Text("←", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
                     }
                 },
                 actions = {
@@ -93,16 +93,16 @@ fun MorphologyRulesScreen(
                             )
                         },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = RusMorphColors.CarbonBlack,
-                            selectedLabelColor = RusMorphColors.WarmCream,
+                            selectedContainerColor = WerusColors.Ink,
+                            selectedLabelColor = WerusColors.Beige,
                         ),
                         modifier = Modifier.padding(end = 8.dp),
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas),
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = WerusColors.Canvas),
             )
         },
-        containerColor = RusMorphColors.Canvas,
+        containerColor = WerusColors.Canvas,
         modifier = modifier,
     ) { padding ->
         Column(
@@ -159,7 +159,7 @@ private fun PrimaryCategoryTabs(
     onSelect: (MorphologyCategory) -> Unit,
 ) {
     Surface(
-        color = RusMorphColors.Canvas,
+        color = WerusColors.Canvas,
         modifier = Modifier.fillMaxWidth(),
     ) {
         Row(
@@ -173,9 +173,9 @@ private fun PrimaryCategoryTabs(
                 val isSelected = category == selected
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.Surface,
-                    contentColor = if (isSelected) RusMorphColors.WarmCream else RusMorphColors.TextSecondary,
-                    border = BorderStroke(1.dp, if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft),
+                    color = if (isSelected) WerusColors.Ink else WerusColors.Paper,
+                    contentColor = if (isSelected) WerusColors.Beige else WerusColors.InkMuted,
+                    border = BorderStroke(1.dp, if (isSelected) WerusColors.Ink else WerusColors.BorderSoft),
                     modifier = Modifier.clickable { onSelect(category) },
                 ) {
                     Text(
@@ -220,16 +220,16 @@ private fun NounRulesContent(
                     Text(
                         text = if (isCompactMode) "展开释义" else "紧凑视图",
                         style = RusMorphTechTypography.MicroPill,
-                        color = RusMorphColors.AccentBlue,
+                        color = WerusColors.GoldDark,
                         modifier = Modifier.clickable { onToggleCompact() },
                     )
                 }
 
                 if (isBeginnerMode) {
                     Surface(
-                        color = RusMorphColors.Surface,
+                        color = WerusColors.Paper,
                         shape = RoundedCornerShape(12.dp),
-                        border = BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                        border = BorderStroke(1.dp, WerusColors.BorderSoft),
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -237,7 +237,7 @@ private fun NounRulesContent(
                                 text = "💡 初学者快速定位：这个词以什么结尾？",
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.SemiBold,
-                                color = RusMorphColors.TextPrimary,
+                                color = WerusColors.Ink,
                             )
                             Row(
                                 modifier = Modifier
@@ -249,9 +249,9 @@ private fun NounRulesContent(
                                     val isCurrent = rule.id == highlightedRuleId
                                     Surface(
                                         shape = RoundedCornerShape(12.dp),
-                                        color = if (isCurrent) RusMorphColors.AccentOrange else RusMorphColors.Canvas,
-                                        contentColor = if (isCurrent) Color.White else RusMorphColors.TextPrimary,
-                                        border = BorderStroke(1.dp, if (isCurrent) RusMorphColors.AccentOrange else RusMorphColors.OutlineSoft),
+                                        color = if (isCurrent) WerusColors.Red else WerusColors.Canvas,
+                                        contentColor = if (isCurrent) Color.White else WerusColors.Ink,
+                                        border = BorderStroke(1.dp, if (isCurrent) WerusColors.Red else WerusColors.BorderSoft),
                                         modifier = Modifier.clickable { onSelectEnding(rule.id) },
                                     ) {
                                         Text(
@@ -294,7 +294,7 @@ private fun AnimacyAccusativeCard() {
 
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
@@ -303,60 +303,60 @@ private fun AnimacyAccusativeCard() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    RusPillBadge("核心规则", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                    RusPillBadge("核心规则", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                     Text("宾格与有生命性", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 }
-                Text("Одушевлённость", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                Text("Одушевлённость", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
             }
 
             Text(
                 "俄语阳性名词单数及所有名词复数中，宾格（动作作用的对象）严格区分有无生命：",
                 style = MaterialTheme.typography.bodySmall,
-                color = RusMorphColors.TextSecondary,
+                color = WerusColors.InkMuted,
             )
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 // 📦 无生命
                 Surface(
                     shape = RoundedCornerShape(10.dp),
-                    color = RusMorphColors.Canvas,
-                    border = BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                    color = WerusColors.Canvas,
+                    border = BorderStroke(1.dp, WerusColors.BorderSoft),
                     modifier = Modifier.weight(1f),
                 ) {
                     Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("📦 无生命物体", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.TextSecondary)
+                        Text("📦 无生命物体", style = MaterialTheme.typography.labelSmall, color = WerusColors.InkMuted)
                         Text(
                             text = "В = И (同主格)",
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
-                            color = RusMorphColors.AccentBlue,
+                            color = WerusColors.GoldDark,
                         )
-                        HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+                        HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
                         Text("стол (桌子)", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
-                        Text("И. стол", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                        Text("В. стол", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentBlue, fontWeight = FontWeight.Bold)
+                        Text("И. стол", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                        Text("В. стол", style = RusMorphTechTypography.MicroPill, color = WerusColors.GoldDark, fontWeight = FontWeight.Bold)
                     }
                 }
 
                 // 👤 有生命
                 Surface(
                     shape = RoundedCornerShape(10.dp),
-                    color = RusMorphColors.Canvas,
-                    border = BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                    color = WerusColors.Canvas,
+                    border = BorderStroke(1.dp, WerusColors.BorderSoft),
                     modifier = Modifier.weight(1f),
                 ) {
                     Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("👤 人或动物", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.TextSecondary)
+                        Text("👤 人或动物", style = MaterialTheme.typography.labelSmall, color = WerusColors.InkMuted)
                         Text(
                             text = "В = Р (同属格)",
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
-                            color = RusMorphColors.AccentOrange,
+                            color = WerusColors.Red,
                         )
-                        HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+                        HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
                         Text("студент (学生)", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
-                        Text("Р. студента", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                        Text("В. студента", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentOrange, fontWeight = FontWeight.Bold)
+                        Text("Р. студента", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                        Text("В. студента", style = RusMorphTechTypography.MicroPill, color = WerusColors.Red, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -369,8 +369,8 @@ private fun AnimacyAccusativeCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("为什么俄语要这样区分？", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentBlue)
-                Text(if (isWhyExpanded) "收起 ▲" else "展开为什么 ▼", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                Text("为什么俄语要这样区分？", style = RusMorphTechTypography.MicroPill, color = WerusColors.GoldDark)
+                Text(if (isWhyExpanded) "收起 ▲" else "展开为什么 ▼", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
             }
 
             AnimatedVisibility(
@@ -379,14 +379,14 @@ private fun AnimacyAccusativeCard() {
                 exit = fadeOut() + shrinkVertically(),
             ) {
                 Surface(
-                    color = RusMorphColors.WarmCream.copy(alpha = 0.4f),
+                    color = WerusColors.Beige.copy(alpha = 0.4f),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
                         text = "古俄语中阳性宾格原本与主格相同。但在处理指人的句子时（例如“老师看见学生”），如果主格与宾格完全一样，极易发生混淆。为了明确谁是动作发出者、谁是被作用者，俄语借用了属格（所有格 -а/-я）来专门作为有生命名词的宾格。",
                         style = MaterialTheme.typography.bodySmall,
-                        color = RusMorphColors.CarbonBlack,
+                        color = WerusColors.Ink,
                         modifier = Modifier.padding(10.dp),
                     )
                 }
@@ -408,14 +408,14 @@ fun DeclensionRuleCard(
     var isWhyExpanded by remember { mutableStateOf(false) }
 
     val borderColor by animateColorAsState(
-        targetValue = if (isHighlighted) RusMorphColors.AccentOrange else RusMorphColors.OutlineSoft,
+        targetValue = if (isHighlighted) WerusColors.Red else WerusColors.BorderSoft,
         animationSpec = tween(250),
         label = "border",
     )
 
     RusCard(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
         border = BorderStroke(if (isHighlighted) 1.5.dp else 1.dp, borderColor),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -427,15 +427,15 @@ fun DeclensionRuleCard(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                        RusPillBadge(rule.endingToken, containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                        RusPillBadge(rule.endingToken, containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                         Text(rule.titleZh, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                     }
                     rule.genderZh?.let {
-                        Text(it, style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
+                        Text(it, style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
                     }
                 }
                 rule.traditionalLabel?.let {
-                    Text(it, style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                    Text(it, style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                 }
             }
 
@@ -449,18 +449,18 @@ fun DeclensionRuleCard(
                     text = "代表词: ${rule.representativeWord}",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = RusMorphColors.TextPrimary,
+                    color = WerusColors.Ink,
                 )
                 if (rule.examples.isNotEmpty()) {
                     Text(
                         text = "常见: " + rule.examples.take(4).joinToString(" · "),
                         style = RusMorphTechTypography.MicroPill,
-                        color = RusMorphColors.TextTertiary,
+                        color = WerusColors.InkFaint,
                     )
                 }
             }
 
-            HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+            HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
 
             // 6格表格
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -469,7 +469,7 @@ fun DeclensionRuleCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
-                                color = if (row.case == RussianCase.ACCUSATIVE) RusMorphColors.Canvas else Color.Transparent,
+                                color = if (row.case == RussianCase.ACCUSATIVE) WerusColors.Canvas else Color.Transparent,
                                 shape = RoundedCornerShape(4.dp),
                             )
                             .padding(vertical = 3.dp, horizontal = 4.dp),
@@ -480,7 +480,7 @@ fun DeclensionRuleCard(
                         Column(modifier = Modifier.width(100.dp)) {
                             Text(row.labelZh, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold)
                             if (!isCompactMode && row.questionZh != null) {
-                                Text(row.questionZh, style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                                Text(row.questionZh, style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                             }
                         }
 
@@ -490,7 +490,7 @@ fun DeclensionRuleCard(
                             horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Text("单: ", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                            Text("单: ", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                             Text(
                                 text = buildStemEndingText(row.singularStemExample, row.singularEnding),
                                 style = MaterialTheme.typography.bodySmall,
@@ -504,7 +504,7 @@ fun DeclensionRuleCard(
                             horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Text("复: ", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                            Text("复: ", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                             Text(
                                 text = buildStemEndingText(row.pluralStemExample, row.pluralEnding),
                                 style = MaterialTheme.typography.bodySmall,
@@ -524,8 +524,8 @@ fun DeclensionRuleCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("为什么？", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentBlue)
-                    Text(if (isWhyExpanded) "收起 ▲" else "展开解释 ▼", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                    Text("为什么？", style = RusMorphTechTypography.MicroPill, color = WerusColors.GoldDark)
+                    Text(if (isWhyExpanded) "收起 ▲" else "展开解释 ▼", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                 }
 
                 AnimatedVisibility(
@@ -534,14 +534,14 @@ fun DeclensionRuleCard(
                     exit = fadeOut() + shrinkVertically(),
                 ) {
                     Surface(
-                        color = RusMorphColors.Canvas,
+                        color = WerusColors.Canvas,
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(
                             text = rule.whyExplanation,
                             style = MaterialTheme.typography.bodySmall,
-                            color = RusMorphColors.TextSecondary,
+                            color = WerusColors.InkMuted,
                             modifier = Modifier.padding(10.dp),
                         )
                     }
@@ -573,12 +573,12 @@ private fun AdjectiveRulesContent(isCompactMode: Boolean) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        RusPillBadge("性", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-                        RusPillBadge("数", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-                        RusPillBadge("格", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                        RusPillBadge("性", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
+                        RusPillBadge("数", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
+                        RusPillBadge("格", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                     }
                     TextButton(onClick = { showComparison = !showComparison }) {
-                        Text(if (showComparison) "独立查看" else "硬/软对比 ⇄", color = RusMorphColors.AccentBlue, style = RusMorphTechTypography.MicroPill)
+                        Text(if (showComparison) "独立查看" else "硬/软对比 ⇄", color = WerusColors.GoldDark, style = RusMorphTechTypography.MicroPill)
                     }
                 }
             }
@@ -625,7 +625,7 @@ private fun AdjectiveCard(
 ) {
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(
@@ -635,12 +635,12 @@ private fun AdjectiveCard(
             ) {
                 Column {
                     Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text("代表: $rep", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
+                    Text("代表: $rep", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
                 }
-                RusPillBadge(tag, containerColor = RusMorphColors.Canvas, contentColor = RusMorphColors.TextSecondary)
+                RusPillBadge(tag, containerColor = WerusColors.Canvas, contentColor = WerusColors.InkMuted)
             }
 
-            HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+            HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
 
             rows.forEach { r ->
                 Row(
@@ -653,7 +653,7 @@ private fun AdjectiveCard(
                         text = r.note ?: "",
                         style = MaterialTheme.typography.bodySmall,
                         fontFamily = FontFamily.Serif,
-                        color = RusMorphColors.TextPrimary,
+                        color = WerusColors.Ink,
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -666,11 +666,11 @@ private fun AdjectiveCard(
 private fun AdjectiveComparisonCard(isCompactMode: Boolean) {
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text("硬变化 (новый) ⇄ 软变化 (синий) 词尾对照", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-            HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+            HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
 
             val cases = listOf("И 主", "Р 属", "Д 与", "В 宾", "Т 工", "П 前")
             cases.forEachIndexed { i, c ->
@@ -679,13 +679,13 @@ private fun AdjectiveComparisonCard(isCompactMode: Boolean) {
 
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = RusMorphColors.Canvas,
+                    color = WerusColors.Canvas,
                     modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
                 ) {
                     Column(modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                        Text(c, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold, color = RusMorphColors.AccentOrange)
+                        Text(c, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold, color = WerusColors.Red)
                         Text("硬: ${hardRow?.note ?: ""}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif)
-                        Text("软: ${softRow?.note ?: ""}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif, color = RusMorphColors.AccentBlue)
+                        Text("软: ${softRow?.note ?: ""}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif, color = WerusColors.GoldDark)
                     }
                 }
             }
@@ -707,14 +707,14 @@ private fun PronounRulesContent() {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 RusSectionTitle("人称代词六格表", "俄语人称代词具有高度不规则性，建议直接熟记整体词形")
                 Surface(
-                    color = RusMorphColors.WarmCream.copy(alpha = 0.5f),
+                    color = WerusColors.Beige.copy(alpha = 0.5f),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
                         "📌 关键提示：在介词后，第三人称代词（он, она, оно, они）词首需加 н-（如 у него, к ней, с ними）。",
                         style = MaterialTheme.typography.bodySmall,
-                        color = RusMorphColors.CarbonBlack,
+                        color = WerusColors.Ink,
                         modifier = Modifier.padding(10.dp),
                     )
                 }
@@ -724,7 +724,7 @@ private fun PronounRulesContent() {
         items(MorphologyRulesRepository.personalPronouns, key = { it.pronoun }) { p ->
             RusCard(
                 modifier = Modifier.fillMaxWidth(),
-                backgroundColor = RusMorphColors.Surface,
+                backgroundColor = WerusColors.Paper,
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(
@@ -736,12 +736,12 @@ private fun PronounRulesContent() {
                             text = "${p.pronoun} (${p.translationZh})",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = RusMorphColors.TextPrimary,
+                            color = WerusColors.Ink,
                         )
-                        RusPillBadge("代词", containerColor = RusMorphColors.Canvas, contentColor = RusMorphColors.TextSecondary)
+                        RusPillBadge("代词", containerColor = WerusColors.Canvas, contentColor = WerusColors.InkMuted)
                     }
 
-                    HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+                    HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
 
                     // 六格紧凑展示
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -751,7 +751,7 @@ private fun PronounRulesContent() {
                             Text("Д. ${p.dative}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif)
                         }
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("В. ${p.accusative}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = RusMorphColors.AccentOrange)
+                            Text("В. ${p.accusative}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = WerusColors.Red)
                             Text("Т. ${p.instrumental}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif)
                             Text("П. ${p.prepositional}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif)
                         }
@@ -822,7 +822,7 @@ private fun VerbRulesContent(isCompactMode: Boolean) {
 private fun VerbConjugationComparisonCard() {
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
@@ -830,26 +830,26 @@ private fun VerbConjugationComparisonCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                RusPillBadge("核心对比", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                RusPillBadge("核心对比", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                 Text("第一变位 ⇄ 第二变位对照表", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
 
-            HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
+            HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
 
             // 对比列
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text("人称", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary, modifier = Modifier.weight(1.1f))
-                Text("第一变位 (читать)", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentBlue, modifier = Modifier.weight(1.3f))
-                Text("第二变位 (говорить)", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentOrange, modifier = Modifier.weight(1.3f))
+                Text("人称", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint, modifier = Modifier.weight(1.1f))
+                Text("第一变位 (читать)", style = RusMorphTechTypography.MicroPill, color = WerusColors.GoldDark, modifier = Modifier.weight(1.3f))
+                Text("第二变位 (говорить)", style = RusMorphTechTypography.MicroPill, color = WerusColors.Red, modifier = Modifier.weight(1.3f))
             }
 
             MorphologyRulesRepository.conjugationComparison.forEach { c ->
                 Surface(
                     shape = RoundedCornerShape(6.dp),
-                    color = RusMorphColors.Canvas,
+                    color = WerusColors.Canvas,
                     modifier = Modifier.fillMaxWidth().padding(vertical = 1.dp),
                 ) {
                     Row(
@@ -862,14 +862,14 @@ private fun VerbConjugationComparisonCard() {
                             text = "${c.firstEnding} (${c.firstExample})",
                             style = MaterialTheme.typography.bodySmall,
                             fontFamily = FontFamily.Serif,
-                            color = RusMorphColors.AccentBlue,
+                            color = WerusColors.GoldDark,
                             modifier = Modifier.weight(1.3f),
                         )
                         Text(
                             text = "${c.secondEnding} (${c.secondExample})",
                             style = MaterialTheme.typography.bodySmall,
                             fontFamily = FontFamily.Serif,
-                            color = RusMorphColors.AccentOrange,
+                            color = WerusColors.Red,
                             modifier = Modifier.weight(1.3f),
                         )
                     }
@@ -890,7 +890,7 @@ private fun VerbCard(
 ) {
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(
@@ -900,16 +900,16 @@ private fun VerbCard(
             ) {
                 Column {
                     Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text("典型代表: $rep", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
+                    Text("典型代表: $rep", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
                 }
-                RusPillBadge(tag, containerColor = RusMorphColors.Canvas, contentColor = RusMorphColors.TextSecondary)
+                RusPillBadge(tag, containerColor = WerusColors.Canvas, contentColor = WerusColors.InkMuted)
             }
 
-            Text(summary, style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+            Text(summary, style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
 
             Surface(
                 shape = RoundedCornerShape(8.dp),
-                color = RusMorphColors.Canvas,
+                color = WerusColors.Canvas,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
@@ -923,13 +923,13 @@ private fun VerbCard(
             mutationAlert?.let {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = RusMorphColors.WarmCream.copy(alpha = 0.4f),
+                    color = WerusColors.Beige.copy(alpha = 0.4f),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
                         text = it,
                         style = MaterialTheme.typography.bodySmall,
-                        color = RusMorphColors.CarbonBlack,
+                        color = WerusColors.Ink,
                         modifier = Modifier.padding(8.dp),
                     )
                 }
@@ -942,7 +942,7 @@ private fun VerbCard(
 private fun PastTenseCard() {
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
@@ -950,12 +950,12 @@ private fun PastTenseCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                RusPillBadge("过去时态", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                RusPillBadge("过去时态", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                 Text("动词过去时形式", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
 
             Surface(
-                color = RusMorphColors.Canvas,
+                color = WerusColors.Canvas,
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.fillMaxWidth(),
             ) {
@@ -963,7 +963,7 @@ private fun PastTenseCard() {
                     "★ 核心记忆法：过去时不看“我 / 你 / 他”，而严格看“性 + 数”！",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = RusMorphColors.AccentOrange,
+                    color = WerusColors.Red,
                     modifier = Modifier.padding(10.dp),
                 )
             }
@@ -975,7 +975,7 @@ private fun PastTenseCard() {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(r.labelZh, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, modifier = Modifier.width(100.dp))
-                    Text(r.singularEnding ?: "", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.AccentOrange, fontWeight = FontWeight.Bold, modifier = Modifier.width(50.dp))
+                    Text(r.singularEnding ?: "", style = MaterialTheme.typography.bodySmall, color = WerusColors.Red, fontWeight = FontWeight.Bold, modifier = Modifier.width(50.dp))
                     Text(r.note ?: "", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Serif, modifier = Modifier.weight(1f))
                 }
             }
@@ -987,7 +987,7 @@ private fun PastTenseCard() {
 private fun AspectAndFutureCard() {
     RusCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = RusMorphColors.Surface,
+        backgroundColor = WerusColors.Paper,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
@@ -995,7 +995,7 @@ private fun AspectAndFutureCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                RusPillBadge("体与将来", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                RusPillBadge("体与将来", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                 Text("动词体貌与将来时构成", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
 
@@ -1003,34 +1003,34 @@ private fun AspectAndFutureCard() {
                 // 未完成体
                 Surface(
                     shape = RoundedCornerShape(10.dp),
-                    color = RusMorphColors.Canvas,
-                    border = BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                    color = WerusColors.Canvas,
+                    border = BorderStroke(1.dp, WerusColors.BorderSoft),
                     modifier = Modifier.weight(1f),
                 ) {
                     Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("🔁 未完成体 (НСВ)", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.TextSecondary)
+                        Text("🔁 未完成体 (НСВ)", style = MaterialTheme.typography.labelSmall, color = WerusColors.InkMuted)
                         Text("过程 / 重复 / 持续", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                        Text("代表: читать", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                        HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
-                        Text("复合将来时:", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
-                        Text("буду читать", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = RusMorphColors.AccentBlue)
+                        Text("代表: читать", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                        HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
+                        Text("复合将来时:", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
+                        Text("буду читать", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = WerusColors.GoldDark)
                     }
                 }
 
                 // 完成体
                 Surface(
                     shape = RoundedCornerShape(10.dp),
-                    color = RusMorphColors.Canvas,
-                    border = BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                    color = WerusColors.Canvas,
+                    border = BorderStroke(1.dp, WerusColors.BorderSoft),
                     modifier = Modifier.weight(1f),
                 ) {
                     Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("✓ 完成体 (СВ)", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.TextSecondary)
+                        Text("✓ 完成体 (СВ)", style = MaterialTheme.typography.labelSmall, color = WerusColors.InkMuted)
                         Text("完成 / 结果 / 一次性", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                        Text("代表: прочитать", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                        HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.5.dp)
-                        Text("简单将来时:", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
-                        Text("прочитаю", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = RusMorphColors.AccentOrange)
+                        Text("代表: прочитать", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                        HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.5.dp)
+                        Text("简单将来时:", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
+                        Text("прочитаю", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = WerusColors.Red)
                     }
                 }
             }
@@ -1048,7 +1048,7 @@ private fun buildStemEndingText(stem: String?, ending: String?): androidx.compos
             append("·")
             withStyle(
                 SpanStyle(
-                    color = RusMorphColors.AccentOrange,
+                    color = WerusColors.Red,
                     fontWeight = FontWeight.Bold,
                 )
             ) {

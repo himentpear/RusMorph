@@ -11,7 +11,13 @@ import org.namchieh.rusmorph.ui.laboratory.LaboratoryLoadingState
 import org.namchieh.rusmorph.ui.laboratory.LaboratoryMessageState
 import org.namchieh.rusmorph.ui.laboratory.LaboratoryPanel
 import org.namchieh.rusmorph.ui.laboratory.LaboratoryPrimaryButton
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryBackground
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLabel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryLoadingState
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryMessageState
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryPanel
+import org.namchieh.rusmorph.ui.laboratory.LaboratoryPrimaryButton
 
 /**
  * Legacy terminal components.
@@ -32,7 +38,7 @@ fun TerminalBackground(modifier: Modifier = Modifier, content: @Composable BoxSc
     replaceWith = ReplaceWith("LaboratoryLabel(text, modifier, color)", "org.namchieh.rusmorph.ui.laboratory.LaboratoryLabel")
 )
 @Composable
-fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = RusMorphColors.TextTertiary) {
+fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = WerusColors.InkFaint) {
     LaboratoryLabel(text = text, modifier = modifier, color = color)
 }
 

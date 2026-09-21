@@ -79,15 +79,14 @@ import org.namchieh.rusmorph.audio.SpeechRecorder
 import org.namchieh.rusmorph.data.remote.PronunciationWordDto
 import org.namchieh.rusmorph.ui.PronunciationViewModel
 import org.namchieh.rusmorph.ui.design.WerusColors
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
 
-private val PageBackground = RusMorphColors.Canvas
-private val WarmSurface = RusMorphColors.Surface
-private val WarmText = RusMorphColors.CarbonBlack
-private val WarmMuted = RusMorphColors.TextSecondary
-private val WarmGold = RusMorphColors.AccentOrange
-private val WarmGoldSoft = RusMorphColors.WarmCream
-private val WarmOutline = RusMorphColors.Outline
+private val PageBackground = WerusColors.Canvas
+private val WarmSurface = WerusColors.Paper
+private val WarmText = WerusColors.Ink
+private val WarmMuted = WerusColors.InkMuted
+private val WarmGold = WerusColors.Red
+private val WarmGoldSoft = WerusColors.Beige
+private val WarmOutline = WerusColors.Border
 
 private data class WordClipRequest(
     val key: Int,
@@ -290,7 +289,7 @@ private fun TargetSentenceCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Surface(
-                    color = RusMorphColors.PillBackground,
+                    color = WerusColors.Beige,
                     shape = RoundedCornerShape(9.dp),
                 ) {
                     Text(
@@ -380,10 +379,10 @@ private fun RecordingCard(
                     .size(118.dp)
                     .clickable(enabled = !isAnalyzing, onClick = onClick),
                 shape = CircleShape,
-                color = if (isRecording) RusMorphColors.WarmCream else RusMorphColors.PillBackground,
+                color = if (isRecording) WerusColors.Beige else WerusColors.Beige,
                 border = BorderStroke(
                     2.dp,
-                    if (isRecording) RusMorphColors.AccentOrange else RusMorphColors.Outline,
+                    if (isRecording) WerusColors.Red else WerusColors.Border,
                 ),
                 shadowElevation = 4.dp,
             ) {
@@ -395,7 +394,7 @@ private fun RecordingCard(
                         )
                     } else {
                         MicrophoneMark(
-                            color = if (isRecording) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack
+                            color = if (isRecording) WerusColors.Red else WerusColors.Ink
                         )
                     }
                 }
@@ -554,7 +553,7 @@ private fun ScoreRing(score: Double) {
             progress = { (score / 100.0).toFloat().coerceIn(0f, 1f) },
             modifier = Modifier.fillMaxSize(),
             color = scorePalette(score).foreground,
-            trackColor = RusMorphColors.PillBackground,
+            trackColor = WerusColors.Beige,
             strokeWidth = 9.dp,
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -626,7 +625,7 @@ private fun ScoreLegend() {
         modifier = Modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState())
-            .background(RusMorphColors.PillBackground, RoundedCornerShape(12.dp))
+            .background(WerusColors.Beige, RoundedCornerShape(12.dp))
             .padding(horizontal = 10.dp, vertical = 9.dp),
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
@@ -816,7 +815,7 @@ private fun UserRecordingPlayer(recordingPath: String) {
 
     Surface(
         shape = RoundedCornerShape(16.dp),
-        color = RusMorphColors.PillBackground,
+        color = WerusColors.Beige,
         border = BorderStroke(1.dp, WarmOutline),
         modifier = Modifier.fillMaxWidth(),
     ) {

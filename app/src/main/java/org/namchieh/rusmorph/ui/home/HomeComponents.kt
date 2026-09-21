@@ -30,7 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.design.WerusTypography
-import org.namchieh.rusmorph.ui.theme.*
+import org.namchieh.rusmorph.ui.theme.HeroSearchShape
+import org.namchieh.rusmorph.ui.theme.RusMorphMotion
 
 @Composable
 fun BrandHeader(onMore: () -> Unit, modifier: Modifier = Modifier) {
@@ -43,11 +44,11 @@ fun BrandHeader(onMore: () -> Unit, modifier: Modifier = Modifier) {
             onClick = onMore,
             modifier = Modifier.size(40.dp).semantics { contentDescription = "更多功能" },
             shape = androidx.compose.foundation.shape.CircleShape,
-            color = RusMorphColors.Surface,
-            border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline),
-        ) { Box(contentAlignment = Alignment.Center) { Text("•••", color = RusMorphColors.CarbonBlack, fontWeight = FontWeight.Bold, fontSize = 11.sp) } }
+            color = WerusColors.Paper,
+            border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border),
+        ) { Box(contentAlignment = Alignment.Center) { Text("•••", color = WerusColors.Ink, fontWeight = FontWeight.Bold, fontSize = 11.sp) } }
     }
-    HorizontalDivider(color = RusMorphColors.Divider, thickness = 1.dp)
+    HorizontalDivider(color = WerusColors.Border, thickness = 1.dp)
 }
 
 @Composable
@@ -62,28 +63,28 @@ fun AiSearchHero(
     microphoneActive: Boolean = false,
 ) {
     var focused by remember { mutableStateOf(false) }
-    val border by animateColorAsState(if (focused) RusMorphColors.CarbonBlack else RusMorphColors.Outline, tween(RusMorphMotion.FocusMillis), label = "searchBorder")
+    val border by animateColorAsState(if (focused) WerusColors.Ink else WerusColors.Border, tween(RusMorphMotion.FocusMillis), label = "searchBorder")
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text("AI 搜索", style = WerusTypography.labelLarge, color = WerusColors.Ink)
-            TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 40.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡", color = RusMorphColors.TextSecondary) }
+            TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 40.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡", color = WerusColors.InkMuted) }
         }
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
             modifier = Modifier.fillMaxWidth().onFocusChanged { focused = it.isFocused }.semantics { contentDescription = "AI 检索终端输入框" },
-            textStyle = MaterialTheme.typography.bodyLarge.copy(color = RusMorphColors.TextPrimary),
-            cursorBrush = SolidColor(RusMorphColors.AccentOrange),
+            textStyle = MaterialTheme.typography.bodyLarge.copy(color = WerusColors.Ink),
+            cursorBrush = SolidColor(WerusColors.Red),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
             decorationBox = { inner ->
                 Row(
-                    Modifier.fillMaxWidth().heightIn(min = 68.dp).background(RusMorphColors.Surface, HeroSearchShape).border(if (focused) 1.5.dp else 1.dp, border, HeroSearchShape).padding(8.dp),
+                    Modifier.fillMaxWidth().heightIn(min = 68.dp).background(WerusColors.Paper, HeroSearchShape).border(if (focused) 1.5.dp else 1.dp, border, HeroSearchShape).padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("⌕", style = MaterialTheme.typography.headlineSmall, color = RusMorphColors.TextTertiary, modifier = Modifier.padding(horizontal = 10.dp))
+                    Text("⌕", style = MaterialTheme.typography.headlineSmall, color = WerusColors.InkFaint, modifier = Modifier.padding(horizontal = 10.dp))
                     Box(Modifier.weight(1f).padding(vertical = 8.dp)) {
-                        if (query.isBlank()) Text("单词、释义或命令", style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextTertiary)
+                        if (query.isBlank()) Text("单词、释义或命令", style = MaterialTheme.typography.bodyMedium, color = WerusColors.InkFaint)
                         inner()
                     }
                     Surface(
@@ -91,8 +92,8 @@ fun AiSearchHero(
                         modifier = Modifier.size(44.dp).semantics {
                             contentDescription = if (microphoneActive) "停止俄语录音" else "开始俄语语音输入"
                         },
-                        color = if (microphoneActive) RusMorphColors.AccentOrange else RusMorphColors.PillBackground,
-                        contentColor = if (microphoneActive) RusMorphColors.TextOnDark else RusMorphColors.CarbonBlack,
+                        color = if (microphoneActive) WerusColors.Red else WerusColors.Beige,
+                        contentColor = if (microphoneActive) WerusColors.OnDark else WerusColors.Ink,
                         shape = androidx.compose.foundation.shape.CircleShape,
                     ) { Box(contentAlignment = Alignment.Center) { Text(if (microphoneActive) "■" else "●", fontSize = 14.sp) } }
                     Spacer(Modifier.width(6.dp))
@@ -100,8 +101,8 @@ fun AiSearchHero(
                         onClick = onSubmit,
                         enabled = query.isNotBlank() && !isLoading,
                         modifier = Modifier.size(44.dp).semantics { contentDescription = if (isLoading) "正在检索" else "执行检索" },
-                        color = RusMorphColors.CarbonBlack,
-                        contentColor = RusMorphColors.TextOnDark,
+                        color = WerusColors.Ink,
+                        contentColor = WerusColors.OnDark,
                         shape = androidx.compose.foundation.shape.CircleShape,
                     ) { Box(contentAlignment = Alignment.Center) { Text(if (isLoading) "···" else "→", style = MaterialTheme.typography.titleMedium) } }
                 }
@@ -115,8 +116,8 @@ fun SuggestionCommandRow(onSelect: (String) -> Unit, modifier: Modifier = Modifi
     val commands = listOf("查单词" to "автомобиль", "造句" to "用这个词造句", "辨析" to "比较 тоже 和 также", "课内词汇" to "第一课词汇")
     Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         commands.forEach { (label, command) ->
-            Surface(onClick = { onSelect(command) }, shape = RoundedCornerShape(10.dp), color = RusMorphColors.Surface, border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineStrong)) {
-                Text(label, Modifier.padding(horizontal = 13.dp, vertical = 9.dp), style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextPrimary)
+            Surface(onClick = { onSelect(command) }, shape = RoundedCornerShape(10.dp), color = WerusColors.Paper, border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.BorderStrong)) {
+                Text(label, Modifier.padding(horizontal = 13.dp, vertical = 9.dp), style = MaterialTheme.typography.labelMedium, color = WerusColors.Ink)
             }
         }
     }
@@ -126,16 +127,16 @@ fun SuggestionCommandRow(onSelect: (String) -> Unit, modifier: Modifier = Modifi
 fun SearchStatusSummary(lesson: Int?, partOfSpeech: String?, resultCount: Int, modifier: Modifier = Modifier) {
     if (lesson == null && partOfSpeech == null) return
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(listOfNotNull(lesson?.let { "第 $it 课" }, partOfSpeech).joinToString(" · "), style = MaterialTheme.typography.labelLarge, color = RusMorphColors.Primary)
+        Text(listOfNotNull(lesson?.let { "第 $it 课" }, partOfSpeech).joinToString(" · "), style = MaterialTheme.typography.labelLarge, color = WerusColors.Red)
         Spacer(Modifier.weight(1f))
-        Text("$resultCount 条", style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextTertiary)
+        Text("$resultCount 条", style = MaterialTheme.typography.labelMedium, color = WerusColors.InkFaint)
     }
 }
 
 @Composable
 fun EmptyTerminalState(modifier: Modifier = Modifier, onCommand: (String) -> Unit = {}) {
-    Column(modifier.border(1.dp, RusMorphColors.OutlineSoft, MaterialTheme.shapes.large).background(RusMorphColors.Surface.copy(alpha = .72f), MaterialTheme.shapes.large).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("开始检索", style = MaterialTheme.typography.titleLarge, color = RusMorphColors.Primary)
+    Column(modifier.border(1.dp, WerusColors.BorderSoft, MaterialTheme.shapes.large).background(WerusColors.Paper.copy(alpha = .72f), MaterialTheme.shapes.large).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text("开始检索", style = MaterialTheme.typography.titleLarge, color = WerusColors.Red)
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("автомобиль", "第一课动词", "тоже / также").forEach { value -> TextButton(onClick = { onCommand(value) }) { Text(value) } }
         }

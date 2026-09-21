@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.data.remote.PronunciationDto
 import org.namchieh.rusmorph.ui.components.RusPillBadge
 import org.namchieh.rusmorph.ui.components.RusStat
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 
 /**
@@ -55,7 +55,7 @@ fun PronunciationPanel(
                 onClick = { onPlayTts(1.0f) },
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = if (isTtsSpeaking && ttsSpeed == 1.0f) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack
+                    contentColor = if (isTtsSpeaking && ttsSpeed == 1.0f) WerusColors.Red else WerusColors.Ink
                 ),
                 modifier = Modifier.weight(1f),
             ) {
@@ -67,7 +67,7 @@ fun PronunciationPanel(
                 onClick = { onPlayTts(0.75f) },
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = if (isTtsSpeaking && ttsSpeed == 0.75f) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack
+                    contentColor = if (isTtsSpeaking && ttsSpeed == 0.75f) WerusColors.Red else WerusColors.Ink
                 ),
                 modifier = Modifier.weight(1f),
             ) {
@@ -81,8 +81,8 @@ fun PronunciationPanel(
                 },
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isRecording) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack,
-                    contentColor = RusMorphColors.Surface,
+                    containerColor = if (isRecording) WerusColors.Red else WerusColors.Ink,
+                    contentColor = WerusColors.Paper,
                 ),
                 modifier = Modifier.weight(1.2f),
             ) {
@@ -93,7 +93,7 @@ fun PronunciationPanel(
         // 录音中：实时跳动音量柱动效
         AnimatedVisibility(visible = isRecording) {
             Surface(
-                color = RusMorphColors.SurfaceMuted,
+                color = WerusColors.BeigeMuted,
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
             ) {
@@ -102,7 +102,7 @@ fun PronunciationPanel(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("正在收音，请清晰朗读…", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                    Text("正在收音，请清晰朗读…", style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                     Spacer(Modifier.width(12.dp))
                     RecordingVolumeBars()
                 }
@@ -112,7 +112,7 @@ fun PronunciationPanel(
         // 评测中加载
         AnimatedVisibility(visible = isAnalyzing) {
             Surface(
-                color = RusMorphColors.SurfaceMuted,
+                color = WerusColors.BeigeMuted,
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
             ) {
@@ -121,9 +121,9 @@ fun PronunciationPanel(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp, color = RusMorphColors.CarbonBlack)
+                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp, color = WerusColors.Ink)
                     Spacer(Modifier.width(10.dp))
-                    Text("Whisper 语音模型正在比对可懂度…", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                    Text("Whisper 语音模型正在比对可懂度…", style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                 }
             }
         }
@@ -131,9 +131,9 @@ fun PronunciationPanel(
         // 评测结果卡片
         evaluationResult?.let { result ->
             Surface(
-                color = RusMorphColors.Canvas,
+                color = WerusColors.Canvas,
                 shape = RoundedCornerShape(12.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+                border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.BorderSoft),
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
             ) {
                 Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -159,7 +159,7 @@ fun PronunciationPanel(
                                 (score ?: 0) > 0 -> "待加强 · Developing"
                                 else -> "未识别到 · Retry"
                             }
-                            RusPillBadge(level, containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                            RusPillBadge(level, containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                         }
                     }
 
@@ -173,7 +173,7 @@ fun PronunciationPanel(
                     Text(
                         text = feedback,
                         style = MaterialTheme.typography.bodySmall,
-                        color = RusMorphColors.TextSecondary,
+                        color = WerusColors.InkMuted,
                     )
 
                     // 回放自己刚才的录音
@@ -182,7 +182,7 @@ fun PronunciationPanel(
                             onClick = { onPlayUserRecording(path) },
                             modifier = Modifier.align(Alignment.End),
                         ) {
-                            Text("🎧 试听我的录音", style = MaterialTheme.typography.labelMedium, color = RusMorphColors.AccentBlue)
+                            Text("🎧 试听我的录音", style = MaterialTheme.typography.labelMedium, color = WerusColors.GoldDark)
                         }
                     }
                 }
@@ -226,7 +226,7 @@ private fun RecordingVolumeBars() {
                     .width(4.dp)
                     .height(height.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(RusMorphColors.AccentOrange)
+                    .background(WerusColors.Red)
             )
         }
     }

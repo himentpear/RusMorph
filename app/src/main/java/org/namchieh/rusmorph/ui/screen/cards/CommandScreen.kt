@@ -17,6 +17,7 @@ import org.namchieh.rusmorph.ui.CommandViewModel
 import org.namchieh.rusmorph.ui.card.*
 import org.namchieh.rusmorph.ui.home.AiSearchHero
 import org.namchieh.rusmorph.ui.laboratory.*
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
@@ -43,7 +44,7 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                     CommandUiState.Sending -> LaboratoryLoadingState("正在理解命令、检索本地词库并整理卡片", Modifier.fillMaxWidth())
                     is CommandUiState.Error -> LaboratoryMessageState("AI 暂不可用", commandErrorMessage(current.error), Modifier.fillMaxWidth())
                     is CommandUiState.Content -> {
-                        current.localMessage?.let { LaboratoryPanel(Modifier.fillMaxWidth()) { LaboratoryLabel("本地操作", color = RusMorphColors.AccentOrange); Text(it, color = RusMorphColors.CarbonBlack) } }
+                        current.localMessage?.let { LaboratoryPanel(Modifier.fillMaxWidth()) { LaboratoryLabel("本地操作", color = WerusColors.Red); Text(it, color = WerusColors.Ink) } }
                         AiThoughtAndReplyPanel(
                             thinking = current.response.thinkingSummary,
                             reply = current.response.plainAnswer ?: current.response.clarification,
@@ -52,7 +53,7 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                         current.response.card?.let { card -> WordCardView(card, { viewModel.saveCard(card) }, Modifier.align(Alignment.CenterHorizontally).widthIn(max = RusMorphComponentTokens.CardMaxWidth)) }
                         current.response.deck?.let { deck ->
                             LaboratoryPanel(Modifier.fillMaxWidth()) {
-                                LaboratoryLabel("${deck.cards.size} 张", color = RusMorphColors.AccentOrange)
+                                LaboratoryLabel("${deck.cards.size} 张", color = WerusColors.Red)
                                 Text(deck.title, style = MaterialTheme.typography.headlineMedium)
                                 LaboratoryPrimaryButton("保存卡组", { viewModel.saveDeck(deck) })
                             }
@@ -75,12 +76,12 @@ private fun AiThoughtAndReplyPanel(
     if (thinking.isNullOrBlank() && reply.isNullOrBlank()) return
     LaboratoryPanel(modifier) {
         thinking?.takeIf(String::isNotBlank)?.let {
-            LaboratoryLabel("AI 思考摘要", color = RusMorphColors.Secondary)
-            Text(it, color = RusMorphColors.TextSecondary)
+            LaboratoryLabel("AI 思考摘要", color = WerusColors.Gold)
+            Text(it, color = WerusColors.InkMuted)
         }
         reply?.takeIf(String::isNotBlank)?.let {
-            LaboratoryLabel("AI 回复", color = RusMorphColors.Primary)
-            Text(it, color = RusMorphColors.TextPrimary)
+            LaboratoryLabel("AI 回复", color = WerusColors.Red)
+            Text(it, color = WerusColors.Ink)
         }
     }
 }

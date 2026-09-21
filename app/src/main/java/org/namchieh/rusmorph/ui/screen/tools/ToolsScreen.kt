@@ -19,7 +19,7 @@ import org.namchieh.rusmorph.ui.components.RusSectionTitle
 import org.namchieh.rusmorph.ui.learning.Loadable
 import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.screen.learning.LearningScaffold
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 
 /**
@@ -52,7 +52,7 @@ fun ToolsScreen(
             RusCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onPronunciation,
-                backgroundColor = RusMorphColors.Surface,
+                backgroundColor = WerusColors.Paper,
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -61,17 +61,17 @@ fun ToolsScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                            RusPillBadge("语音实验室", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-                            Text("1.0x / 0.75x", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                            RusPillBadge("语音实验室", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
+                            Text("1.0x / 0.75x", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                         }
                         Text("自由发音与 Whisper 评测", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                         Text(
                             "支持俄语句子自由朗读、动态音量跳动柱与智能可懂度分析比对",
                             style = MaterialTheme.typography.bodySmall,
-                            color = RusMorphColors.TextSecondary,
+                            color = WerusColors.InkMuted,
                         )
                     }
-                    Text("开始 🎙", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = RusMorphColors.AccentOrange)
+                    Text("开始 🎙", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = WerusColors.Red)
                 }
             }
 
@@ -79,7 +79,7 @@ fun ToolsScreen(
             RusCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onAiCommands,
-                backgroundColor = RusMorphColors.Surface,
+                backgroundColor = WerusColors.Paper,
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -88,17 +88,17 @@ fun ToolsScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                            RusPillBadge("语言智能", containerColor = RusMorphColors.SurfaceMuted, contentColor = RusMorphColors.AccentBlue)
-                            Text("自然语言终端", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                            RusPillBadge("语言智能", containerColor = WerusColors.BeigeMuted, contentColor = WerusColors.GoldDark)
+                            Text("自然语言终端", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                         }
                         Text("AI 俄语助教工作台", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                         Text(
                             "语法疑难探究、汉俄双向句型结构对比、长句变格成分拆解",
                             style = MaterialTheme.typography.bodySmall,
-                            color = RusMorphColors.TextSecondary,
+                            color = WerusColors.InkMuted,
                         )
                     }
-                    Text("唤起 ⚡", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = RusMorphColors.AccentBlue)
+                    Text("唤起 ⚡", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = WerusColors.GoldDark)
                 }
             }
 
@@ -106,7 +106,7 @@ fun ToolsScreen(
             RusCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onNavigateToRules,
-                backgroundColor = RusMorphColors.Surface,
+                backgroundColor = WerusColors.Paper,
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -115,17 +115,17 @@ fun ToolsScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                            RusPillBadge("语法基石", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-                            Text("Склонение · Спряжение", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                            RusPillBadge("语法基石", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
+                            Text("Склонение · Спряжение", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                         }
                         Text("俄语变格变位规则表", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                         Text(
                             "名词六格、性数变化、硬软词尾、形容词一致关系与动词第一/第二变位规则。",
                             style = MaterialTheme.typography.bodySmall,
-                            color = RusMorphColors.TextSecondary,
+                            color = WerusColors.InkMuted,
                         )
                     }
-                    Text("查看规则 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
+                    Text("查看规则 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = WerusColors.Ink)
                 }
             }
 
@@ -136,7 +136,7 @@ fun ToolsScreen(
                     RusCard(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = { onCourse(course.id) },
-                        backgroundColor = RusMorphColors.Surface,
+                        backgroundColor = WerusColors.Paper,
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -144,11 +144,11 @@ fun ToolsScreen(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                RusPillBadge("教材册次", containerColor = RusMorphColors.SurfaceMuted, contentColor = RusMorphColors.CarbonBlack)
+                                RusPillBadge("教材册次", containerColor = WerusColors.BeigeMuted, contentColor = WerusColors.Ink)
                                 Text(course.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                Text("${course.lessonCount} 个标准课次", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                                Text("${course.lessonCount} 个标准课次", style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                             }
-                            Text("查看目录 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
+                            Text("查看目录 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = WerusColors.Ink)
                         }
                     }
                 }
@@ -158,7 +158,7 @@ fun ToolsScreen(
             RusCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onSettings,
-                backgroundColor = RusMorphColors.Surface,
+                backgroundColor = WerusColors.Paper,
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -166,11 +166,11 @@ fun ToolsScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        RusPillBadge("系统设置", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                        RusPillBadge("系统设置", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                         Text("系统参数与接口诊断", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                        Text("离线词库校验、Cloudflare 服务诊断、显示偏好", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                        Text("离线词库校验、Cloudflare 服务诊断、显示偏好", style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                     }
-                    Text("设置 ⚙", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = RusMorphColors.TextSecondary)
+                    Text("设置 ⚙", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = WerusColors.InkMuted)
                 }
             }
         }
