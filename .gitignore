@@ -4,6 +4,8 @@
 local.properties
 **/build/
 *.iml
+*.jks
+*.keystore
 .DS_Store
 __pycache__/
 *.py[cod]

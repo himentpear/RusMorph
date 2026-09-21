@@ -13,6 +13,16 @@ val configuredDebugAgentProxyUrl = providers.gradleProperty("AGENT_PROXY_DEBUG_B
 val configuredSpeechBackendUrl = providers.gradleProperty("SPEECH_BACKEND_BASE_URL")
     .orElse(providers.environmentVariable("SPEECH_BACKEND_BASE_URL"))
 val productionApiUrl = "https://api.namchieh.org/"
+val releaseStoreFile = providers.environmentVariable("WERUS_RELEASE_STORE_FILE")
+val releaseStorePassword = providers.environmentVariable("WERUS_RELEASE_STORE_PASSWORD")
+val releaseKeyAlias = providers.environmentVariable("WERUS_RELEASE_KEY_ALIAS")
+val releaseKeyPassword = providers.environmentVariable("WERUS_RELEASE_KEY_PASSWORD")
+val hasReleaseSigning = listOf(
+    releaseStoreFile.orNull,
+    releaseStorePassword.orNull,
+    releaseKeyAlias.orNull,
+    releaseKeyPassword.orNull,
+).all { !it.isNullOrBlank() }
 
 plugins {
     alias(libs.plugins.android.application)
@@ -218,6 +228,17 @@ android {
         buildConfigField("String", "REVIEW_WORKBENCH_URL", "https://api.namchieh.org/review/".asBuildConfigString())
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(requireNotNull(releaseStoreFile.orNull))
+                storePassword = requireNotNull(releaseStorePassword.orNull)
+                keyAlias = requireNotNull(releaseKeyAlias.orNull)
+                keyPassword = requireNotNull(releaseKeyPassword.orNull)
+            }
+        }
+    }
+
     buildTypes {
         debug {
             val url = configuredDebugAgentProxyUrl.orNull
@@ -245,7 +266,9 @@ android {
             buildConfigField("String", "SPEECH_BACKEND_BASE_URL", safeSpeechUrl.asBuildConfigString())
             buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
             manifestPlaceholders["usesCleartextTraffic"] = "false"
-            signingConfig = signingConfigs.getByName("debug")
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -289,6 +312,19 @@ android {
             (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
                 "werus-v$artifactVersion-$artifactQualifier.apk"
         }
+    }
+}
+
+gradle.taskGraph.whenReady {
+    val releasePackagingRequested = allTasks.any { task ->
+        task.project == project && task.name in setOf("assembleRelease", "packageRelease", "bundleRelease")
+    }
+    if (releasePackagingRequested && !hasReleaseSigning) {
+        throw GradleException(
+            "Release signing is not configured. Set WERUS_RELEASE_STORE_FILE, " +
+                "WERUS_RELEASE_STORE_PASSWORD, WERUS_RELEASE_KEY_ALIAS, and " +
+                "WERUS_RELEASE_KEY_PASSWORD. Refusing to produce an unsigned or debug-signed release."
+        )
     }
 }
 
