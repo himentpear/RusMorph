@@ -9,29 +9,46 @@ import kotlinx.coroutines.withContext
 
 private data class TextbookAsset(val id: String, val title: String, val language: String, val level: String, val sourceVersion: Int)
 private data class LessonAsset(val id: String, val textbookId: String, val lessonNumber: Int, val title: String)
-private data class SectionAsset(val id: String, val lessonId: String, val order: Int, val type: String, val title: String?)
-private data class ParagraphAsset(val id: String, val sectionId: String, val order: Int, val content: String)
+private data class BlockAsset(val id: String, val lessonId: String, val order: Int, val type: String, val title: String?)
+private data class SentenceAsset(val id: String, val lessonId: String, val blockId: String, val order: Int, val text: String, val sourceText: String)
+private data class KnowledgeAsset(
+    val id: String, val sentenceId: String, val type: String, val text: String, val label: String?,
+    val explanation: String?, val example: String?, val start: Int, val end: Int, val status: String?,
+    val knowledgeVersion: Int?, val generatedBy: String?, val reviewStatus: String?,
+)
 
-/** Imports only the verified structured assets emitted by tools/textbook_importer. */
 class TextbookAssetImporter(private val context: Context, private val database: RusMorphDatabase) {
     suspend fun importIfNeeded() = withContext(Dispatchers.IO) {
         val gson = Gson()
         fun <T> read(name: String, token: TypeToken<T>): T = context.assets.open("database/$name").bufferedReader().use { gson.fromJson(it, token.type) }
         val textbooks = read("textbooks.json", object : TypeToken<List<TextbookAsset>>() {})
         val lessons = read("lessons.json", object : TypeToken<List<LessonAsset>>() {})
-        val sections = read("sections.json", object : TypeToken<List<SectionAsset>>() {})
-        val paragraphs = read("paragraphs.json", object : TypeToken<List<ParagraphAsset>>() {})
-        require(textbooks.map { it.id }.distinct().size == textbooks.size)
-        require(lessons.all { it.textbookId in textbooks.map { book -> book.id }.toSet() })
-        require(sections.all { it.lessonId in lessons.map { lesson -> lesson.id }.toSet() })
-        require(paragraphs.all { it.sectionId in sections.map { section -> section.id }.toSet() })
+        val blocks = read("blocks.json", object : TypeToken<List<BlockAsset>>() {})
+        val sentences = read("sentences.json", object : TypeToken<List<SentenceAsset>>() {})
+        val knowledge = read("knowledge.json", object : TypeToken<List<KnowledgeAsset>>() {})
+        val textbookIds = textbooks.map { it.id }.toSet(); val lessonIds = lessons.map { it.id }.toSet()
+        val blockIds = blocks.map { it.id }.toSet(); val sentenceIds = sentences.map { it.id }.toSet()
+        val sentenceById = sentences.associateBy { it.id }; val knowledgeIds = knowledge.map { it.id }.toSet()
+        require(textbookIds.size == textbooks.size && lessons.all { it.textbookId in textbookIds })
+        require(blockIds.size == blocks.size && blocks.all { it.lessonId in lessonIds })
+        require(sentenceIds.size == sentences.size && sentences.all { it.lessonId in lessonIds && it.blockId in blockIds })
+        require(knowledgeIds.size == knowledge.size)
+        require(knowledge.all {
+            val sourceLength = sentenceById[it.sentenceId]?.sourceText?.length ?: return@all false
+            it.type in setOf("WORD", "PHRASE", "GRAMMAR", "PATTERN", "PRONUNCIATION", "AI_NOTE") &&
+                it.start >= 0 && it.end >= it.start && it.end <= sourceLength
+        })
         database.withTransaction {
-            val dao = database.textbookDao()
-            dao.clearParagraphs(); dao.clearSections(); dao.clearLessons(); dao.clearTextbooks()
-            dao.upsertTextbooks(textbooks.map { TextbookEntity(it.id, it.title, it.language, it.level, it.sourceVersion) })
-            dao.upsertLessons(lessons.map { TextbookLessonEntity(it.id, it.textbookId, it.lessonNumber, it.title) })
-            dao.upsertSections(sections.map { ReadingSectionEntity(it.id, it.lessonId, it.order, it.type, it.title) })
-            dao.upsertParagraphs(paragraphs.map { ParagraphEntity(it.id, it.sectionId, it.order, it.content) })
+            val textbookDao = database.textbookDao(); val knowledgeDao = database.textbookKnowledgeDao()
+            knowledgeDao.clearKnowledge(); textbookDao.clearSentences(); textbookDao.clearBlocks(); textbookDao.clearLessons(); textbookDao.clearTextbooks()
+            textbookDao.upsertTextbooks(textbooks.map { TextbookEntity(it.id, it.title, it.language, it.level, it.sourceVersion) })
+            textbookDao.upsertLessons(lessons.map { TextbookLessonEntity(it.id, it.textbookId, it.lessonNumber, it.title) })
+            textbookDao.upsertBlocks(blocks.map { TextbookBlockEntity(it.id, it.lessonId, it.order, it.type, it.title) })
+            textbookDao.upsertSentences(sentences.map { LessonSentenceEntity(it.id, it.lessonId, it.blockId, it.order, it.text, it.sourceText) })
+            knowledgeDao.upsertKnowledge(knowledge.map {
+                SentenceKnowledgeEntity(it.id, it.sentenceId, it.type, it.text, it.label, it.explanation, it.example,
+                    it.start, it.end, it.status, it.knowledgeVersion ?: 1, it.generatedBy, it.reviewStatus)
+            })
         }
     }
 }

@@ -445,29 +445,38 @@ data class TextbookLessonEntity(
     val title: String,
 )
 
-@Entity(tableName = "reading_sections", indices = [Index("lessonId"), Index(value = ["lessonId", "position"])])
-data class ReadingSectionEntity(
+@Entity(tableName = "textbook_blocks", indices = [Index("lessonId"), Index(value = ["lessonId", "order"])])
+data class TextbookBlockEntity(
     @androidx.room.PrimaryKey val id: String,
     val lessonId: String,
-    val position: Int,
+    val order: Int,
     val type: String,
     val title: String?,
 )
 
-@Entity(tableName = "reading_paragraphs", indices = [Index("sectionId"), Index(value = ["sectionId", "position"])])
-data class ParagraphEntity(
+@Entity(tableName = "lesson_sentences", indices = [Index("lessonId"), Index("blockId"), Index(value = ["blockId", "order"])])
+data class LessonSentenceEntity(
     @androidx.room.PrimaryKey val id: String,
-    val sectionId: String,
-    val position: Int,
-    val content: String,
+    val lessonId: String,
+    val blockId: String,
+    val order: Int,
+    val text: String,
+    val sourceText: String,
 )
 
-@Entity(tableName = "textbook_annotations", indices = [Index("paragraphId")])
-data class AnnotationEntity(
+@Entity(tableName = "sentence_knowledge", indices = [Index("sentenceId"), Index("type"), Index(value = ["sentenceId", "type"])])
+data class SentenceKnowledgeEntity(
     @androidx.room.PrimaryKey val id: String,
-    val paragraphId: String,
-    val startOffset: Int,
-    val endOffset: Int,
-    val annotationType: String,
-    val payload: String,
+    val sentenceId: String,
+    val type: String,
+    val text: String,
+    val label: String?,
+    val explanation: String?,
+    val example: String?,
+    val start: Int,
+    val end: Int,
+    val status: String?,
+    val knowledgeVersion: Int,
+    val generatedBy: String?,
+    val reviewStatus: String?,
 )

@@ -4,13 +4,13 @@
     "title": "大学俄语 1",
     "language": "ru",
     "level": "1",
-    "sourceVersion": 1
+    "sourceVersion": 2
   },
   {
     "id": "university-russian-2",
     "title": "大学俄语 2",
     "language": "ru",
     "level": "2",
-    "sourceVersion": 1
+    "sourceVersion": 2
   }
 ]

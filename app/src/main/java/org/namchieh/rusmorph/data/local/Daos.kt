@@ -460,16 +460,30 @@ interface TextbookDao {
     @Query("SELECT * FROM textbooks ORDER BY id") suspend fun textbooks(): List<TextbookEntity>
     @Query("SELECT * FROM textbook_lessons WHERE textbookId = :textbookId ORDER BY lessonNumber") suspend fun lessons(textbookId: String): List<TextbookLessonEntity>
     @Query("SELECT * FROM textbook_lessons WHERE id = :lessonId LIMIT 1") suspend fun lesson(lessonId: String): TextbookLessonEntity?
-    @Query("SELECT * FROM reading_sections WHERE lessonId = :lessonId ORDER BY position") suspend fun sections(lessonId: String): List<ReadingSectionEntity>
-    @Query("SELECT * FROM reading_paragraphs WHERE sectionId = :sectionId ORDER BY position") suspend fun paragraphs(sectionId: String): List<ParagraphEntity>
-    @Query("SELECT * FROM textbook_annotations WHERE paragraphId = :paragraphId ORDER BY startOffset") suspend fun annotations(paragraphId: String): List<AnnotationEntity>
+    @Query("SELECT * FROM textbook_blocks WHERE lessonId = :lessonId ORDER BY `order`") suspend fun blocks(lessonId: String): List<TextbookBlockEntity>
+    @Query("SELECT * FROM lesson_sentences WHERE blockId = :blockId ORDER BY `order`") suspend fun sentences(blockId: String): List<LessonSentenceEntity>
 
     @Upsert suspend fun upsertTextbooks(items: List<TextbookEntity>)
     @Upsert suspend fun upsertLessons(items: List<TextbookLessonEntity>)
-    @Upsert suspend fun upsertSections(items: List<ReadingSectionEntity>)
-    @Upsert suspend fun upsertParagraphs(items: List<ParagraphEntity>)
-    @Query("DELETE FROM reading_paragraphs") suspend fun clearParagraphs()
-    @Query("DELETE FROM reading_sections") suspend fun clearSections()
+    @Upsert suspend fun upsertBlocks(items: List<TextbookBlockEntity>)
+    @Upsert suspend fun upsertSentences(items: List<LessonSentenceEntity>)
+    @Query("DELETE FROM lesson_sentences") suspend fun clearSentences()
+    @Query("DELETE FROM textbook_blocks") suspend fun clearBlocks()
     @Query("DELETE FROM textbook_lessons") suspend fun clearLessons()
     @Query("DELETE FROM textbooks") suspend fun clearTextbooks()
+}
+
+@Dao
+interface LessonTextDao {
+    @Query("SELECT * FROM lesson_sentences WHERE id = :sentenceId LIMIT 1") suspend fun sentence(sentenceId: String): LessonSentenceEntity?
+    @Query("SELECT sentence.* FROM lesson_sentences AS sentence JOIN textbook_blocks AS block ON block.id = sentence.blockId WHERE sentence.lessonId = :lessonId ORDER BY block.`order`, sentence.`order`")
+    suspend fun sentencesForLesson(lessonId: String): List<LessonSentenceEntity>
+}
+
+@Dao
+interface TextbookKnowledgeDao {
+    @Query("SELECT * FROM sentence_knowledge WHERE sentenceId = :sentenceId ORDER BY start, end, id") suspend fun knowledge(sentenceId: String): List<SentenceKnowledgeEntity>
+    @Query("SELECT * FROM sentence_knowledge WHERE sentenceId = :sentenceId AND type = :type ORDER BY start, end, id") suspend fun knowledgeByType(sentenceId: String, type: String): List<SentenceKnowledgeEntity>
+    @Upsert suspend fun upsertKnowledge(items: List<SentenceKnowledgeEntity>)
+    @Query("DELETE FROM sentence_knowledge") suspend fun clearKnowledge()
 }

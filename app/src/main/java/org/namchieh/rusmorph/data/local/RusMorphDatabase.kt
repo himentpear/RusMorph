@@ -39,11 +39,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         WordBookTextParagraphEntity::class,
         TextbookEntity::class,
         TextbookLessonEntity::class,
-        ReadingSectionEntity::class,
-        ParagraphEntity::class,
-        AnnotationEntity::class,
+        TextbookBlockEntity::class,
+        LessonSentenceEntity::class,
+        SentenceKnowledgeEntity::class,
     ],
-    version = 8,
+    version = 9,
     exportSchema = true,
 )
 abstract class RusMorphDatabase : RoomDatabase() {
@@ -53,6 +53,8 @@ abstract class RusMorphDatabase : RoomDatabase() {
     abstract fun learningDao(): LearningDao
     abstract fun wordBookDao(): WordBookDao
     abstract fun textbookDao(): TextbookDao
+    abstract fun lessonTextDao(): LessonTextDao
+    abstract fun textbookKnowledgeDao(): TextbookKnowledgeDao
 
     companion object {
         fun create(context: Context): RusMorphDatabase =
@@ -61,7 +63,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 RusMorphDatabase::class.java,
                 "rusmorph.db",
             )
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
                 .build()
 
         val MIGRATION_2_3 = object : Migration(2, 3) {
@@ -170,7 +172,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 // snapshot transactionally before the learning UI is made available.
                 db.execSQL("INSERT INTO word_books VALUES ('university-russian-1', '大学俄语 1', '', '', 'cover_university_russian_1', 'BUILT_IN', 0, 0)")
                 for (number in 1..18) {
-                    db.execSQL("INSERT INTO word_book_lessons(id,wordBookId,number,titleRu,titleZh) VALUES (?, 'university-russian-1', ?, NULL, NULL)", arrayOf("ur1-lesson-$number", number))
+                    db.execSQL("INSERT INTO word_book_lessons(id,wordBookId,number,titleRu,titleZh) VALUES (?, 'university-russian-1', ?, NULL, NULL)", arrayOf<Any>("ur1-lesson-$number", number))
                 }
                 db.execSQL("INSERT INTO word_book_lesson_words(wordBookId,lessonId,entryId,position,isKey) SELECT 'university-russian-1', 'ur1-lesson-' || lesson, id, COALESCE(sequence, 0), 0 FROM lexicon_entries WHERE lesson BETWEEN 1 AND 18")
             }
@@ -190,6 +192,27 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_reading_paragraphs_sectionId_position` ON `reading_paragraphs` (`sectionId`, `position`)")
                 db.execSQL("CREATE TABLE IF NOT EXISTS `textbook_annotations` (`id` TEXT NOT NULL, `paragraphId` TEXT NOT NULL, `startOffset` INTEGER NOT NULL, `endOffset` INTEGER NOT NULL, `annotationType` TEXT NOT NULL, `payload` TEXT NOT NULL, PRIMARY KEY(`id`))")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_textbook_annotations_paragraphId` ON `textbook_annotations` (`paragraphId`)")
+            }
+        }
+
+        val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `textbook_blocks` (`id` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `order` INTEGER NOT NULL, `type` TEXT NOT NULL, `title` TEXT, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_textbook_blocks_lessonId` ON `textbook_blocks` (`lessonId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_textbook_blocks_lessonId_order` ON `textbook_blocks` (`lessonId`, `order`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `lesson_sentences` (`id` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `blockId` TEXT NOT NULL, `order` INTEGER NOT NULL, `text` TEXT NOT NULL, `sourceText` TEXT NOT NULL, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_lesson_sentences_lessonId` ON `lesson_sentences` (`lessonId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_lesson_sentences_blockId` ON `lesson_sentences` (`blockId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_lesson_sentences_blockId_order` ON `lesson_sentences` (`blockId`, `order`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `sentence_knowledge` (`id` TEXT NOT NULL, `sentenceId` TEXT NOT NULL, `type` TEXT NOT NULL, `text` TEXT NOT NULL, `label` TEXT, `explanation` TEXT, `example` TEXT, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `status` TEXT, `knowledgeVersion` INTEGER NOT NULL, `generatedBy` TEXT, `reviewStatus` TEXT, PRIMARY KEY(`id`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_sentence_knowledge_sentenceId` ON `sentence_knowledge` (`sentenceId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_sentence_knowledge_type` ON `sentence_knowledge` (`type`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_sentence_knowledge_sentenceId_type` ON `sentence_knowledge` (`sentenceId`, `type`)")
+                db.execSQL("INSERT INTO textbook_blocks(id,lessonId,`order`,type,title) SELECT id,lessonId,position,type,title FROM reading_sections")
+                db.execSQL("INSERT INTO lesson_sentences(id,lessonId,blockId,`order`,text,sourceText) SELECT p.id,s.lessonId,p.sectionId,p.position,p.content,p.content FROM reading_paragraphs p JOIN reading_sections s ON s.id=p.sectionId")
+                db.execSQL("DROP TABLE textbook_annotations")
+                db.execSQL("DROP TABLE reading_paragraphs")
+                db.execSQL("DROP TABLE reading_sections")
             }
         }
     }

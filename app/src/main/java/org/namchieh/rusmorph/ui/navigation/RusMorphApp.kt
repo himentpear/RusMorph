@@ -224,9 +224,19 @@ fun RusMorphApp(application: RusMorphApplication) {
             composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { UnavailableContentScreen("课文", navController::navigateUp) }
             composable(Routes.TextbookLessonPattern, listOf(navArgument("lessonId") { type = NavType.StringType })) { entry ->
                 val lessonId = checkNotNull(entry.arguments?.getString("lessonId"))
-                val vm: LessonTextbookViewModel = viewModel(key = "textbook-$lessonId", factory = remember(application, lessonId) { viewModelFactory { initializer { LessonTextbookViewModel(application.textbookRepository, lessonId) } } })
+                val vm: LessonTextbookViewModel = viewModel(key = "textbook-$lessonId", factory = remember(application, lessonId) { viewModelFactory { initializer { LessonTextbookViewModel(application.textbookRepository, application.textbookKnowledgeRepository, application.learningRepository, application.wordBookRepository, lessonId) } } })
                 val state by vm.state.collectAsState()
-                LessonTextbookScreen(state, navController::navigateUp)
+                val selectedSentence by vm.selectedSentence.collectAsState()
+                val knowledge by vm.knowledge.collectAsState()
+                val wordLookupTarget by vm.wordLookupTarget.collectAsState()
+                LaunchedEffect(wordLookupTarget) {
+                    wordLookupTarget?.let { target ->
+                        if (target == LessonTextbookViewModel.DICTIONARY_FALLBACK) navController.navigate(Routes.Dictionary)
+                        else navController.navigate(Routes.word(target))
+                        vm.consumeWordLookup()
+                    }
+                }
+                LessonTextbookScreen(state, selectedSentence, knowledge, vm::selectSentence, vm::dismissKnowledge, vm::lookupWord, vm::addKnowledgeToReview, navController::navigateUp)
             }
             composable(Routes.Settings) { SettingsScreen(application.apiDiagnostics, application.agentRepository, application.appSettings, navController::navigateUp) }
             composable(

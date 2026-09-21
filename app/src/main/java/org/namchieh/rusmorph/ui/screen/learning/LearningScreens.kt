@@ -47,6 +47,9 @@ import org.namchieh.rusmorph.domain.learning.LearningUnitType
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
 import org.namchieh.rusmorph.domain.textbook.LessonTextContent
+import org.namchieh.rusmorph.domain.textbook.LessonSentence
+import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
+import org.namchieh.rusmorph.domain.textbook.KnowledgeType
 import org.namchieh.rusmorph.ui.components.RusButton
 import org.namchieh.rusmorph.ui.components.RusBottomSheet
 import org.namchieh.rusmorph.ui.components.RusCard
@@ -458,7 +461,43 @@ fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitTyp
 }
 
 @Composable
-fun LessonTextbookScreen(state: Loadable<LessonTextContent>, onBack: () -> Unit) {
+fun LessonTextbookScreen(
+    state: Loadable<LessonTextContent>,
+    selectedSentence: LessonSentence? = null,
+    knowledge: Loadable<List<SentenceKnowledge>>? = null,
+    onSentence: (LessonSentence) -> Unit = {},
+    onDismissKnowledge: () -> Unit = {},
+    onWordLookup: (String) -> Unit = {},
+    onAddReview: (SentenceKnowledge) -> Unit = {},
+    onBack: () -> Unit,
+) {
+    if (selectedSentence != null) {
+        RusBottomSheet(onDismiss = onDismissKnowledge) {
+            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("知识卡片", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                Text(selectedSentence.sourceText, style = MaterialTheme.typography.bodyLarge, lineHeight = 27.sp, color = RusMorphColors.TextPrimary)
+                when (knowledge) {
+                    null, Loadable.Loading -> CircularProgressIndicator(color = RusMorphColors.CarbonBlack)
+                    is Loadable.Error -> RusEmptyState("知识加载失败", knowledge.message)
+                    is Loadable.Content -> if (knowledge.value.isEmpty()) {
+                        RusEmptyState("暂无知识标注", "该句尚无经过审核的外部知识数据")
+                    } else knowledge.value.forEach { item ->
+                        RusCard(Modifier.fillMaxWidth()) {
+                            Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                                RusPillBadge(item.type.name, containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                                Text(item.text, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                                item.label?.let { Text(it, color = RusMorphColors.Primary) }
+                                item.explanation?.let { Text(it, color = RusMorphColors.TextSecondary) }
+                                item.example?.let { Text("例：$it", color = RusMorphColors.TextSecondary) }
+                                if (item.type == KnowledgeType.WORD) RusButton("在词库中查找", { onWordLookup(item.text) })
+                                else RusButton("加入复习", { onAddReview(item) })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     LearningScaffold("📖 课文", onBack = onBack) { root ->
         ContentColumn(root) {
             when (state) {
@@ -467,12 +506,18 @@ fun LessonTextbookScreen(state: Loadable<LessonTextContent>, onBack: () -> Unit)
                 is Loadable.Content -> {
                     val content = state.value
                     RusSectionTitle(content.textbook.title, "${content.lesson.title} · 第 ${content.lesson.lessonNumber} 课")
-                    content.sections.forEach { section ->
-                        section.title?.let { Text(it, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = RusMorphColors.CarbonBlack) }
+                    content.blocks.forEach { block ->
+                        block.title?.let { Text(it, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = RusMorphColors.CarbonBlack) }
                         RusCard(Modifier.fillMaxWidth()) {
-                            Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                                section.paragraphs.forEach { paragraph ->
-                                    Text(paragraph.content, style = MaterialTheme.typography.bodyLarge, lineHeight = 29.sp, color = RusMorphColors.TextPrimary)
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                block.sentences.forEach { sentence ->
+                                    Surface(
+                                        modifier = Modifier.fillMaxWidth().clickable { onSentence(sentence) },
+                                        color = if (selectedSentence?.id == sentence.id) RusMorphColors.WarmCream else androidx.compose.ui.graphics.Color.Transparent,
+                                        shape = RoundedCornerShape(10.dp),
+                                    ) {
+                                        Text(sentence.text, modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp), style = MaterialTheme.typography.bodyLarge, lineHeight = 29.sp, color = RusMorphColors.TextPrimary)
+                                    }
                                 }
                             }
                         }

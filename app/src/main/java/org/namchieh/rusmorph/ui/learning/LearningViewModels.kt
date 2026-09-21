@@ -13,6 +13,8 @@ import org.namchieh.rusmorph.data.repository.CourseRepository
 import org.namchieh.rusmorph.data.repository.LearningRepository
 import org.namchieh.rusmorph.data.repository.LearningStats
 import org.namchieh.rusmorph.data.repository.TextbookRepository
+import org.namchieh.rusmorph.data.repository.TextbookKnowledgeRepository
+import org.namchieh.rusmorph.data.repository.WordBookRepository
 import org.namchieh.rusmorph.data.settings.AppSettings
 import org.namchieh.rusmorph.domain.learning.Course
 import org.namchieh.rusmorph.domain.learning.Dialogue
@@ -23,6 +25,8 @@ import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
 import org.namchieh.rusmorph.domain.textbook.LessonTextContent
+import org.namchieh.rusmorph.domain.textbook.LessonSentence
+import org.namchieh.rusmorph.domain.textbook.SentenceKnowledge
 
 sealed interface Loadable<out T> {
     data object Loading : Loadable<Nothing>
@@ -95,9 +99,52 @@ class DialogueViewModel(private val repository: CourseRepository, private val di
     init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.dialogue(dialogueId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("对话加载失败") }) } }
 }
 
-class LessonTextbookViewModel(private val repository: TextbookRepository, private val lessonId: String) : ViewModel() {
+class LessonTextbookViewModel(
+    private val repository: TextbookRepository,
+    private val knowledgeRepository: TextbookKnowledgeRepository,
+    private val learningRepository: LearningRepository,
+    private val wordBookRepository: WordBookRepository,
+    private val lessonId: String,
+) : ViewModel() {
     val state = MutableStateFlow<Loadable<LessonTextContent>>(Loadable.Loading)
+    val selectedSentence = MutableStateFlow<LessonSentence?>(null)
+    val knowledge = MutableStateFlow<Loadable<List<SentenceKnowledge>>?>(null)
+    val wordLookupTarget = MutableStateFlow<String?>(null)
     init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.getLessonContent(lessonId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("课文尚未导入") }) } }
+    fun selectSentence(sentence: LessonSentence) {
+        selectedSentence.value = sentence
+        knowledge.value = Loadable.Loading
+        viewModelScope.launch {
+            knowledge.value = runCatching { knowledgeRepository.getSentenceKnowledge(sentence.id) }
+                .fold({ Loadable.Content(it) }, { Loadable.Error("知识加载失败") })
+        }
+    }
+    fun addKnowledgeToReview(item: SentenceKnowledge) = viewModelScope.launch {
+        val reviewType = when (item.type) {
+            org.namchieh.rusmorph.domain.textbook.KnowledgeType.GRAMMAR -> org.namchieh.rusmorph.domain.learning.ReviewItemType.GRAMMAR
+            org.namchieh.rusmorph.domain.textbook.KnowledgeType.WORD -> org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD
+            else -> org.namchieh.rusmorph.domain.learning.ReviewItemType.SENTENCE
+        }
+        learningRepository.addToReview(ReviewItem(
+            id = "textbook-knowledge-${item.id}", type = reviewType, sourceId = item.id, lessonId = lessonId,
+            dueAt = System.currentTimeMillis(), interval = 1, difficulty = 2.5, mistakeCount = 0, lastResult = null,
+        ))
+    }
+    fun lookupWord(surface: String) = viewModelScope.launch {
+        val wordBookId = if (lessonId.startsWith("ur2-")) CourseRepository.COURSE_2_ID else CourseRepository.COURSE_1_ID
+        val target = normalizeRussian(surface)
+        val match = wordBookRepository.lessonWords(wordBookId, lessonId).firstOrNull { entry ->
+            normalizeRussian(entry.entry.displayForm) == target || normalizeRussian(entry.entry.lemma) == target
+        }
+        wordLookupTarget.value = match?.entry?.id ?: DICTIONARY_FALLBACK
+    }
+    fun consumeWordLookup() { wordLookupTarget.value = null }
+    fun dismissKnowledge() { selectedSentence.value = null; knowledge.value = null }
+
+    private fun normalizeRussian(value: String): String = java.text.Normalizer.normalize(value, java.text.Normalizer.Form.NFD)
+        .replace(Regex("\\p{M}+"), "").lowercase().trim().trim('—', '-', ',', '.', '!', '?', ':', ';')
+
+    companion object { const val DICTIONARY_FALLBACK = "__dictionary__" }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

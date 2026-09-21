@@ -25,6 +25,7 @@ import org.namchieh.rusmorph.data.repository.AssetWordBookDataSource
 import org.namchieh.rusmorph.data.repository.CompositeWordBookRepository
 import org.namchieh.rusmorph.data.repository.RoomWordBookDataSource
 import org.namchieh.rusmorph.data.repository.TextbookRepository
+import org.namchieh.rusmorph.data.repository.TextbookKnowledgeRepository
 
 class RusMorphApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -49,6 +50,7 @@ class RusMorphApplication : Application() {
     val wordBookAssetImporter by lazy { WordBookAssetImporter(this, database) }
     val textbookAssetImporter by lazy { TextbookAssetImporter(this, database) }
     val textbookRepository by lazy { TextbookRepository(database.textbookDao()) }
+    val textbookKnowledgeRepository by lazy { TextbookKnowledgeRepository(database.textbookKnowledgeDao()) }
     val wordBookRepository by lazy {
         CompositeWordBookRepository(
             AssetWordBookDataSource(this, searchRepository),
