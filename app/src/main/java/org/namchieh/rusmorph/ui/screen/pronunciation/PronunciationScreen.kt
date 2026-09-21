@@ -79,6 +79,7 @@ import org.namchieh.rusmorph.audio.SpeechRecorder
 import org.namchieh.rusmorph.data.remote.PronunciationWordDto
 import org.namchieh.rusmorph.ui.PronunciationViewModel
 import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
 
 private val PageBackground = WerusColors.Canvas
 private val WarmSurface = WerusColors.Paper
@@ -173,7 +174,7 @@ fun PronunciationScreen(viewModel: PronunciationViewModel, onBack: () -> Unit) {
                         Text(
                             "语音学习 · 智能评分与逐词跟读",
                             color = WarmMuted,
-                            style = MaterialTheme.typography.labelMedium,
+                            style = WerusTypography.Metadata,
                         )
                     }
                 },
@@ -296,7 +297,7 @@ private fun TargetSentenceCard(
                         "请朗读以下俄语",
                         color = WarmMuted,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = WerusTypography.Subtitle,
                     )
                 }
                 OutlinedButton(
@@ -323,7 +324,7 @@ private fun TargetSentenceCard(
                 value = text,
                 onValueChange = onTextChange,
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.titleLarge.copy(
+                textStyle = WerusTypography.Title.copy(
                     color = WarmText,
                     fontWeight = FontWeight.SemiBold,
                 ),
@@ -335,7 +336,7 @@ private fun TargetSentenceCard(
                 Text(
                     "AI 生成译文：$it",
                     color = WarmMuted,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = WerusTypography.Body,
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -406,7 +407,7 @@ private fun RecordingCard(
                     else -> "点击开始朗读"
                 },
                 color = WarmText,
-                style = MaterialTheme.typography.titleLarge,
+                style = WerusTypography.Title,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -416,7 +417,7 @@ private fun RecordingCard(
                     else -> "请靠近麦克风，用自然语速朗读"
                 },
                 color = WarmMuted,
-                style = MaterialTheme.typography.bodyMedium,
+                style = WerusTypography.Body,
             )
         }
     }
@@ -488,19 +489,19 @@ private fun ScoreResultCard(
                     Text(
                         "总分 ${score.toInt()}/100",
                         color = WarmText,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = WerusTypography.Title,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         level ?: "朗读完成",
                         color = WarmGold,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = WerusTypography.Subtitle,
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
                         summary,
                         color = WarmMuted,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = WerusTypography.Body,
                     )
                 }
             }
@@ -509,7 +510,7 @@ private fun ScoreResultCard(
             Text(
                 "▥  单词发音评测",
                 color = WarmText,
-                style = MaterialTheme.typography.titleMedium,
+                style = WerusTypography.Subtitle,
                 fontWeight = FontWeight.Bold,
             )
             LazyRow(
@@ -530,13 +531,13 @@ private fun ScoreResultCard(
                 if (canPlay) "点击任一单词，可回放你朗读该词的录音片段。"
                 else "录音文件不可用，暂时无法按词回放。",
                 color = WarmMuted,
-                style = MaterialTheme.typography.bodySmall,
+                style = WerusTypography.Caption,
             )
             playbackError?.let {
                 Text(
                     it,
                     color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = WerusTypography.Caption,
                 )
             }
         }
@@ -563,7 +564,7 @@ private fun ScoreRing(score: Double) {
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold,
             )
-            Text("/100", color = WarmMuted, style = MaterialTheme.typography.labelMedium)
+            Text("/100", color = WarmMuted, style = WerusTypography.Metadata)
         }
     }
 }
@@ -595,7 +596,7 @@ private fun WordScoreCard(
                 color = WarmText,
                 maxLines = 1,
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyLarge,
+                style = WerusTypography.SerifBody,
             )
             Text(
                 word.score?.toInt()?.toString() ?: "—",
@@ -643,7 +644,7 @@ private fun LegendItem(text: String, color: Color) {
         horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         Box(Modifier.size(10.dp).background(color, CircleShape))
-        Text(text, color = WarmMuted, style = MaterialTheme.typography.labelMedium)
+        Text(text, color = WarmMuted, style = WerusTypography.Metadata)
     }
 }
 
@@ -661,7 +662,7 @@ private fun UnavailableResult(reason: String) {
             Text(
                 "本次暂无法可靠评分",
                 color = WarmText,
-                style = MaterialTheme.typography.titleLarge,
+                style = WerusTypography.Title,
                 fontWeight = FontWeight.Bold,
             )
             Text(reason, color = WarmMuted)
@@ -864,7 +865,7 @@ private fun UserRecordingPlayer(recordingPath: String) {
                 Text(
                     "${formatMillis(positionMs)} / ${formatMillis(durationMs)}",
                     color = WarmMuted,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = WerusTypography.Metadata,
                 )
             }
             playbackError?.let {

@@ -167,10 +167,10 @@ fun LearningScaffold(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(9.dp),
             ) {
-                Text("✦  AI 学习工作区", style = RusMorphTechTypography.MicroPill, color = WerusColors.Red, fontWeight = FontWeight.Bold)
-                Text("AI 助教工作区", style = MaterialTheme.typography.headlineMedium, color = WerusColors.OnDark, fontWeight = FontWeight.SemiBold)
-                Text("当前上下文 · $title", color = WerusColors.OnDark.copy(alpha = .74f), style = RusMorphTechTypography.MicroPill)
-                Text(if (progress >= 1f) "松开进入 AI" else "继续向下滑动", color = if (progress >= 1f) WerusColors.Red else WerusColors.OnDark, style = RusMorphTechTypography.MicroPill)
+                Text("✦  AI 学习工作区", style = WerusTypography.Metadata, color = WerusColors.Red, fontWeight = FontWeight.Bold)
+                Text("AI 助教工作区", style = WerusTypography.Title, color = WerusColors.OnDark, fontWeight = FontWeight.SemiBold)
+                Text("当前上下文 · $title", color = WerusColors.OnDark.copy(alpha = .74f), style = WerusTypography.Metadata)
+                Text(if (progress >= 1f) "松开进入 AI" else "继续向下滑动", color = if (progress >= 1f) WerusColors.Red else WerusColors.OnDark, style = WerusTypography.Metadata)
                 Box(Modifier.width(52.dp).height(3.dp).graphicsLayer { scaleX = progress.coerceAtLeast(.12f) }.background(WerusColors.Red))
             }
         }
@@ -485,7 +485,7 @@ fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitTyp
                 is Loadable.Error -> RusEmptyState("无法打开课程", state.message)
                 is Loadable.Content -> {
                     val lesson = state.value
-                    Text(lesson.titleRu, color = WerusColors.Ink, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
+                    Text(lesson.titleRu, color = WerusColors.Ink, style = WerusTypography.Subtitle)
                     RusSectionTitle(lesson.titleRu, lesson.titleZh)
                     RusProgressBar(lesson.progress)
                     onTextbook?.let { openTextbook -> RusButton("📖 课文", { openTextbook(lesson) }, Modifier.fillMaxWidth()) }
@@ -539,13 +539,13 @@ fun LessonTextbookScreen(
             ) {
                 Text(
                     text = "知识卡片",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = WerusTypography.Title,
                     fontWeight = FontWeight.SemiBold,
                     color = WerusColors.Ink,
                 )
                 Text(
                     text = selectedSentence.sourceText,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = WerusTypography.SerifBody,
                     lineHeight = 27.sp,
                     color = WerusColors.Ink,
                 )
@@ -609,7 +609,7 @@ fun LessonTextbookScreen(
                         block.title?.let {
                             Text(
                                 it,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = WerusTypography.Subtitle,
                                 fontWeight = FontWeight.SemiBold,
                                 color = WerusColors.Ink,
                             )
@@ -647,8 +647,7 @@ fun LessonTextbookScreen(
                                         ) {
                                             Text(
                                                 text = annotatedText,
-                                                style = MaterialTheme.typography.bodyLarge,
-                                                fontFamily = FontFamily.Serif,
+                                                style = WerusTypography.SerifBody,
                                                 lineHeight = 29.sp,
                                                 color = WerusColors.Ink,
                                             )
@@ -786,9 +785,9 @@ fun VocabularyScreen(
         val isEnrolled = item.entry.id in enrolledSourceIds
         RusBottomSheet(onDismiss = { selected = null }) {
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text(item.entry.displayForm, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
-                Text(item.partsOfSpeech.joinToString(" · ") { it.partOfSpeech }.ifBlank { "词性未记录" }, color = WerusColors.Red)
-                Text(item.entry.chineseMeaning ?: "本地词典未记录中文释义", color = WerusColors.InkMuted)
+                Text(item.entry.displayForm, style = WerusTypography.Display, fontWeight = FontWeight.SemiBold)
+                Text(item.partsOfSpeech.joinToString(" · ") { it.partOfSpeech }.ifBlank { "词性未记录" }, color = WerusColors.Red, style = WerusTypography.Caption)
+                Text(item.entry.chineseMeaning ?: "本地词典未记录中文释义", color = WerusColors.InkMuted, style = WerusTypography.Body)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     RusButton("详情", { selected = null; onWord(item.entry.id) }, Modifier.weight(1f))
                     if (isEnrolled) {
@@ -824,13 +823,13 @@ fun VocabularyScreen(
                                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                                     Text(
                                         "已收纳 $enrolledCount / ${list.size} 词",
-                                        style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
+                                        style = WerusTypography.Subtitle,
                                         fontWeight = FontWeight.SemiBold,
                                         color = WerusColors.Ink,
                                     )
                                     Text(
                                         "艾宾浩斯复习计划",
-                                        style = RusMorphTechTypography.MicroPill,
+                                        style = WerusTypography.Metadata,
                                         color = WerusColors.InkFaint,
                                     )
                                 }
@@ -881,10 +880,10 @@ fun DialogueScreen(state: Loadable<Dialogue>, onPractice: (String, String) -> Un
                         dialogue.lines.forEach { line ->
                             RusCard(Modifier.fillMaxWidth()) {
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    line.speaker?.let { Text(it.uppercase(), color = WerusColors.Ink, style = androidx.compose.material3.MaterialTheme.typography.labelMedium) }
-                                    Text(line.text, style = androidx.compose.material3.MaterialTheme.typography.titleLarge, lineHeight = androidx.compose.ui.unit.TextUnit.Unspecified)
-                                    line.translation?.let { Text(it, color = WerusColors.InkMuted) }
-                                    TextButton(onClick = { onPractice(line.text, line.id) }) { Text("🎤 跟读", color = WerusColors.Red) }
+                                    line.speaker?.let { Text(it.uppercase(), color = WerusColors.Ink, style = WerusTypography.Metadata) }
+                                    Text(line.text, style = WerusTypography.SerifBody, lineHeight = androidx.compose.ui.unit.TextUnit.Unspecified)
+                                    line.translation?.let { Text(it, color = WerusColors.InkMuted, style = WerusTypography.Body) }
+                                    TextButton(onClick = { onPractice(line.text, line.id) }) { Text("🎤 跟读", color = WerusColors.Red, style = WerusTypography.Caption) }
                                 }
                             }
                         }
@@ -1000,7 +999,7 @@ fun ProfileScreen(stats: LearningStats, onSettings: () -> Unit, onBottom: (Botto
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         RusPillBadge("累计时长", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
-                        Text("${stats.studySeconds / 60} 分钟", style = androidx.compose.material3.MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                        Text("${stats.studySeconds / 60} 分钟", style = WerusTypography.Title, fontWeight = FontWeight.SemiBold)
                     }
                     Text(
                         (stats.studySeconds / 60).toString().padStart(2, '0'),

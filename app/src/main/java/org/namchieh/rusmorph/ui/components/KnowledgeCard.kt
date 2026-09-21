@@ -111,7 +111,7 @@ fun KnowledgeCard(
                     Text(
                         text = currentStatus.labelZh,
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
-                        style = WerusTypography.labelSmall,
+                        style = WerusTypography.Metadata,
                         color = when (currentStatus) {
                             KnowledgeProgressStatus.MASTERED -> WerusColors.Success
                             KnowledgeProgressStatus.PRACTICED -> WerusColors.GoldDark
@@ -128,17 +128,15 @@ fun KnowledgeCard(
                 val title = knowledge.label ?: knowledge.text
                 Text(
                     text = title,
-                    style = WerusTypography.titleLarge,
-                    fontFamily = FontFamily.Serif,
+                    style = WerusTypography.Title,
                     fontWeight = FontWeight.Bold,
                     color = WerusColors.Ink,
-                    lineHeight = 26.sp,
                 )
                 // 若标题与原文片段不同，则辅助呈现原文划定片段
                 if (knowledge.label != null && knowledge.label != knowledge.text) {
                     Text(
                         text = "原句片段：«${knowledge.text}»",
-                        style = WerusTypography.bodyMedium,
+                        style = WerusTypography.Body,
                         color = WerusColors.InkMuted,
                         fontStyle = FontStyle.Italic,
                     )
@@ -149,7 +147,7 @@ fun KnowledgeCard(
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
                     text = "教材批注与解析",
-                    style = WerusTypography.labelMedium,
+                    style = WerusTypography.Metadata,
                     fontWeight = FontWeight.Bold,
                     color = WerusColors.InkMuted,
                 )
@@ -162,9 +160,8 @@ fun KnowledgeCard(
                     Text(
                         text = knowledge.explanation?.ifBlank { null } ?: "该知识点暂无额外文字解释",
                         modifier = Modifier.padding(11.dp),
-                        style = WerusTypography.bodyMedium,
+                        style = WerusTypography.Body,
                         color = WerusColors.Ink,
-                        lineHeight = 21.sp,
                     )
                 }
             }
@@ -174,7 +171,7 @@ fun KnowledgeCard(
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         text = "典型例句",
-                        style = WerusTypography.labelMedium,
+                        style = WerusTypography.Metadata,
                         fontWeight = FontWeight.Bold,
                         color = WerusColors.InkMuted,
                     )
@@ -187,11 +184,9 @@ fun KnowledgeCard(
                         Text(
                             text = knowledge.example,
                             modifier = Modifier.padding(11.dp),
-                            style = WerusTypography.bodyMedium,
-                            fontFamily = FontFamily.Serif,
+                            style = WerusTypography.SerifBody,
                             fontWeight = FontWeight.Medium,
                             color = WerusColors.Ink,
-                            lineHeight = 21.sp,
                         )
                     }
                 }
@@ -202,7 +197,7 @@ fun KnowledgeCard(
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
                         text = "研习掌握度",
-                        style = WerusTypography.labelMedium,
+                        style = WerusTypography.Metadata,
                         fontWeight = FontWeight.Bold,
                         color = WerusColors.InkMuted,
                     )
@@ -234,7 +229,7 @@ fun KnowledgeCard(
                                 ) {
                                     Text(
                                         text = status.labelZh,
-                                        fontSize = 11.sp,
+                                        style = WerusTypography.Metadata,
                                         fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
                                         color = if (isCurrent) WerusColors.OnDark else WerusColors.Ink,
                                     )
@@ -242,26 +237,30 @@ fun KnowledgeCard(
                             }
                         }
                     }
-
-                    // 步进引导按钮
                     when (currentStatus) {
                         KnowledgeProgressStatus.SEEN -> {
-                            WerusButton(
-                                text = "标为已理解 ✓",
-                                onClick = { onProgressChange(KnowledgeProgressStatus.UNDERSTOOD) },
-                                modifier = Modifier.fillMaxWidth(),
-                                style = WerusButtonStyle.Secondary,
+                            Text(
+                                text = "初次涉猎，建议结合教材例句与语法规则研读",
+                                style = WerusTypography.Caption,
+                                color = WerusColors.InkMuted,
+                                modifier = Modifier.padding(top = 2.dp),
                             )
                         }
                         KnowledgeProgressStatus.UNDERSTOOD -> {
-                            WerusButton(
-                                text = "标为已练习 ✎",
-                                onClick = { onProgressChange(KnowledgeProgressStatus.PRACTICED) },
-                                modifier = Modifier.fillMaxWidth(),
-                                style = WerusButtonStyle.Secondary,
+                            Text(
+                                text = "已基本理解词法逻辑，可尝试完成课后造句与听辨",
+                                style = WerusTypography.Caption,
+                                color = WerusColors.RedDark,
+                                modifier = Modifier.padding(top = 2.dp),
                             )
                         }
                         KnowledgeProgressStatus.PRACTICED -> {
+                            Text(
+                                text = "已进行实际语法操练，达到牢固记忆标准后可标记掌握",
+                                style = WerusTypography.Caption,
+                                color = WerusColors.GoldDark,
+                                modifier = Modifier.padding(top = 2.dp),
+                            )
                             WerusButton(
                                 text = "标为已掌握 ★",
                                 onClick = { onProgressChange(KnowledgeProgressStatus.MASTERED) },
@@ -272,7 +271,7 @@ fun KnowledgeCard(
                         KnowledgeProgressStatus.MASTERED -> {
                             Text(
                                 text = "✓ 已达成掌握阶段，巩固记忆可主动加入复习",
-                                style = WerusTypography.labelSmall,
+                                style = WerusTypography.Caption,
                                 color = WerusColors.Success,
                                 modifier = Modifier.padding(top = 2.dp),
                             )

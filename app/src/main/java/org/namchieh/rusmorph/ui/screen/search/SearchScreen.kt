@@ -31,6 +31,7 @@ import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.navigation.RusMorphBottomBar
 import org.namchieh.rusmorph.ui.sheet.FilterBottomSheet
 import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
 
 @Composable
 fun SearchScreen(
@@ -119,11 +120,11 @@ private fun VoiceStatus(status: VoiceInputStatus, candidate: String?, message: S
                 VoiceInputStatus.LowConfidence -> "请确认识别结果"
                 VoiceInputStatus.Error -> "语音输入失败"
                 VoiceInputStatus.Idle -> ""
-            })
-            candidate?.let { Text(it, style = MaterialTheme.typography.titleMedium) }
-            message?.let { Text(it, color = WerusColors.InkMuted) }
-            if (status == VoiceInputStatus.LowConfidence) Row { TextButton(onClick = onConfirm) { Text("确认") }; TextButton(onClick = onDismiss) { Text("重录") } }
-            else if (status == VoiceInputStatus.Success || status == VoiceInputStatus.Error) TextButton(onClick = onDismiss) { Text("关闭") }
+            }, style = WerusTypography.Body)
+            candidate?.let { Text(it, style = WerusTypography.Subtitle) }
+            message?.let { Text(it, color = WerusColors.InkMuted, style = WerusTypography.Caption) }
+            if (status == VoiceInputStatus.LowConfidence) Row { TextButton(onClick = onConfirm) { Text("确认", style = WerusTypography.Caption) }; TextButton(onClick = onDismiss) { Text("重录", style = WerusTypography.Caption) } }
+            else if (status == VoiceInputStatus.Success || status == VoiceInputStatus.Error) TextButton(onClick = onDismiss) { Text("关闭", style = WerusTypography.Caption) }
         }
     }
 }

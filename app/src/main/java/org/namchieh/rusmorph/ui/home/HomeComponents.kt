@@ -37,8 +37,8 @@ import org.namchieh.rusmorph.ui.theme.RusMorphMotion
 fun BrandHeader(onMore: () -> Unit, modifier: Modifier = Modifier) {
     Row(modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text("俄语词法助手", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.semantics { heading() })
-            Text("RM–01", style = WerusTypography.labelSmall, color = WerusColors.Red)
+            Text("俄语词法助手", style = WerusTypography.Title, fontWeight = FontWeight.Bold, modifier = Modifier.semantics { heading() })
+            Text("RM–01", style = WerusTypography.Metadata, color = WerusColors.Red)
         }
         Surface(
             onClick = onMore,
@@ -46,7 +46,7 @@ fun BrandHeader(onMore: () -> Unit, modifier: Modifier = Modifier) {
             shape = androidx.compose.foundation.shape.CircleShape,
             color = WerusColors.Paper,
             border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border),
-        ) { Box(contentAlignment = Alignment.Center) { Text("•••", color = WerusColors.Ink, fontWeight = FontWeight.Bold, fontSize = 11.sp) } }
+        ) { Box(contentAlignment = Alignment.Center) { Text("•••", color = WerusColors.Ink, fontWeight = FontWeight.Bold, style = WerusTypography.Caption) } }
     }
     HorizontalDivider(color = WerusColors.Border, thickness = 1.dp)
 }
@@ -66,14 +66,14 @@ fun AiSearchHero(
     val border by animateColorAsState(if (focused) WerusColors.Ink else WerusColors.Border, tween(RusMorphMotion.FocusMillis), label = "searchBorder")
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text("AI 搜索", style = WerusTypography.labelLarge, color = WerusColors.Ink)
-            TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 40.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡", color = WerusColors.InkMuted) }
+            Text("AI 搜索", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+            TextButton(onClick = onFilter, modifier = Modifier.heightIn(min = 40.dp).semantics { contentDescription = "打开检索筛选" }) { Text("筛选  ≡", color = WerusColors.InkMuted, style = WerusTypography.Caption) }
         }
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
             modifier = Modifier.fillMaxWidth().onFocusChanged { focused = it.isFocused }.semantics { contentDescription = "AI 检索终端输入框" },
-            textStyle = MaterialTheme.typography.bodyLarge.copy(color = WerusColors.Ink),
+            textStyle = WerusTypography.Body.copy(color = WerusColors.Ink),
             cursorBrush = SolidColor(WerusColors.Red),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
@@ -82,9 +82,9 @@ fun AiSearchHero(
                     Modifier.fillMaxWidth().heightIn(min = 68.dp).background(WerusColors.Paper, HeroSearchShape).border(if (focused) 1.5.dp else 1.dp, border, HeroSearchShape).padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("⌕", style = MaterialTheme.typography.headlineSmall, color = WerusColors.InkFaint, modifier = Modifier.padding(horizontal = 10.dp))
+                    Text("⌕", style = WerusTypography.Title, color = WerusColors.InkFaint, modifier = Modifier.padding(horizontal = 10.dp))
                     Box(Modifier.weight(1f).padding(vertical = 8.dp)) {
-                        if (query.isBlank()) Text("单词、释义或命令", style = MaterialTheme.typography.bodyMedium, color = WerusColors.InkFaint)
+                        if (query.isBlank()) Text("单词、释义或命令", style = WerusTypography.Body, color = WerusColors.InkFaint)
                         inner()
                     }
                     Surface(
@@ -95,7 +95,7 @@ fun AiSearchHero(
                         color = if (microphoneActive) WerusColors.Red else WerusColors.Beige,
                         contentColor = if (microphoneActive) WerusColors.OnDark else WerusColors.Ink,
                         shape = androidx.compose.foundation.shape.CircleShape,
-                    ) { Box(contentAlignment = Alignment.Center) { Text(if (microphoneActive) "■" else "●", fontSize = 14.sp) } }
+                    ) { Box(contentAlignment = Alignment.Center) { Text(if (microphoneActive) "■" else "●", style = WerusTypography.Caption) } }
                     Spacer(Modifier.width(6.dp))
                     Surface(
                         onClick = onSubmit,
@@ -104,7 +104,7 @@ fun AiSearchHero(
                         color = WerusColors.Ink,
                         contentColor = WerusColors.OnDark,
                         shape = androidx.compose.foundation.shape.CircleShape,
-                    ) { Box(contentAlignment = Alignment.Center) { Text(if (isLoading) "···" else "→", style = MaterialTheme.typography.titleMedium) } }
+                    ) { Box(contentAlignment = Alignment.Center) { Text(if (isLoading) "···" else "→", style = WerusTypography.Title) } }
                 }
             },
         )
@@ -117,7 +117,7 @@ fun SuggestionCommandRow(onSelect: (String) -> Unit, modifier: Modifier = Modifi
     Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         commands.forEach { (label, command) ->
             Surface(onClick = { onSelect(command) }, shape = RoundedCornerShape(10.dp), color = WerusColors.Paper, border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.BorderStrong)) {
-                Text(label, Modifier.padding(horizontal = 13.dp, vertical = 9.dp), style = MaterialTheme.typography.labelMedium, color = WerusColors.Ink)
+                Text(label, Modifier.padding(horizontal = 13.dp, vertical = 9.dp), style = WerusTypography.Caption, color = WerusColors.Ink)
             }
         }
     }
@@ -127,18 +127,18 @@ fun SuggestionCommandRow(onSelect: (String) -> Unit, modifier: Modifier = Modifi
 fun SearchStatusSummary(lesson: Int?, partOfSpeech: String?, resultCount: Int, modifier: Modifier = Modifier) {
     if (lesson == null && partOfSpeech == null) return
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(listOfNotNull(lesson?.let { "第 $it 课" }, partOfSpeech).joinToString(" · "), style = MaterialTheme.typography.labelLarge, color = WerusColors.Red)
+        Text(listOfNotNull(lesson?.let { "第 $it 课" }, partOfSpeech).joinToString(" · "), style = WerusTypography.Subtitle, color = WerusColors.Red)
         Spacer(Modifier.weight(1f))
-        Text("$resultCount 条", style = MaterialTheme.typography.labelMedium, color = WerusColors.InkFaint)
+        Text("$resultCount 条", style = WerusTypography.Metadata, color = WerusColors.InkFaint)
     }
 }
 
 @Composable
 fun EmptyTerminalState(modifier: Modifier = Modifier, onCommand: (String) -> Unit = {}) {
     Column(modifier.border(1.dp, WerusColors.BorderSoft, MaterialTheme.shapes.large).background(WerusColors.Paper.copy(alpha = .72f), MaterialTheme.shapes.large).padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("开始检索", style = MaterialTheme.typography.titleLarge, color = WerusColors.Red)
+        Text("开始检索", style = WerusTypography.Title, color = WerusColors.Red)
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf("автомобиль", "第一课动词", "тоже / также").forEach { value -> TextButton(onClick = { onCommand(value) }) { Text(value) } }
+            listOf("автомобиль", "第一课动词", "тоже / также").forEach { value -> TextButton(onClick = { onCommand(value) }) { Text(value, style = WerusTypography.Caption) } }
         }
     }
 }

@@ -59,6 +59,7 @@ import org.namchieh.rusmorph.ui.components.knowledgeCategoryLabel
 import org.namchieh.rusmorph.ui.components.readableSummary
 import org.namchieh.rusmorph.ui.components.visibleValue
 import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.ui.theme.WordCardShape
 
@@ -504,7 +505,7 @@ private fun WordHeroCard(
             // 核心俄语大词形（衬线大字体，突显重音）
             Text(
                 text = detail.displayForm,
-                style = MaterialTheme.typography.displayMedium.copy(fontFamily = FontFamily.Serif),
+                style = WerusTypography.Display,
                 color = WerusColors.Ink,
                 fontWeight = FontWeight.Bold,
             )
@@ -573,7 +574,7 @@ private fun ChineseMeaningCard(meaning: String?) {
                 Text("释义", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                 Text(
                     text = meaning ?: "本地暂无中文释义",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = WerusTypography.Title,
                     fontWeight = FontWeight.SemiBold,
                     color = WerusColors.Ink,
                 )
@@ -604,7 +605,7 @@ private fun WordWhisperEvaluationCard(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     RusPillBadge("WHISPER 评测", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
-                    Text("语音发音与评测", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, color = WerusColors.Ink)
+                    Text("语音发音与评测", fontWeight = FontWeight.Bold, style = WerusTypography.Subtitle, color = WerusColors.Ink)
                 }
                 if (pronState.result != null) {
                     TextButton(onClick = onClearEvaluation) {
@@ -632,7 +633,7 @@ private fun WordWhisperEvaluationCard(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     CircularProgressIndicator(color = WerusColors.Ink, modifier = Modifier.size(32.dp), strokeWidth = 3.dp)
-                    Text("Whisper 模型正在分析语音特征与音素对齐...", style = MaterialTheme.typography.bodyMedium, color = WerusColors.InkMuted)
+                    Text("Whisper 模型正在分析语音特征与音素对齐...", style = WerusTypography.Body, color = WerusColors.InkMuted)
                 }
             }
             // 状态 3: 评测结果就绪
@@ -664,7 +665,7 @@ private fun WordWhisperEvaluationCard(
                             }
                             Text(
                                 text = "“${result.recognized_text.ifBlank { targetWord }}”",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = WerusTypography.Subtitle,
                                 fontWeight = FontWeight.SemiBold,
                                 color = WerusColors.Ink,
                             )
@@ -726,7 +727,7 @@ private fun WordWhisperEvaluationCard(
                     ) {
                         Text(
                             text = feedbackText,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = WerusTypography.Body,
                             color = WerusColors.InkMuted,
                             modifier = Modifier.padding(12.dp),
                         )
@@ -787,7 +788,7 @@ private fun WordWhisperEvaluationCard(
                 ) {
                     Text(
                         text = "朗读当前俄语单词「$targetWord」，调用 Whisper 模型进行发音清晰度与重音核对。",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = WerusTypography.Body,
                         color = WerusColors.InkMuted,
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -814,7 +815,7 @@ private fun WordWhisperEvaluationCard(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(err, color = MaterialTheme.colorScheme.onErrorContainer, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                        Text(err, color = MaterialTheme.colorScheme.onErrorContainer, style = WerusTypography.Caption, modifier = Modifier.weight(1f))
                         TextButton(onClick = onToggleRecording) { Text("重试", color = MaterialTheme.colorScheme.error) }
                     }
                 }
@@ -860,7 +861,7 @@ private fun RecordingActiveView(
         }
         Text(
             text = targetWord,
-            style = MaterialTheme.typography.headlineMedium.copy(fontFamily = FontFamily.Serif),
+            style = WerusTypography.Title,
             fontWeight = FontWeight.Bold,
             color = WerusColors.Ink,
         )
@@ -892,7 +893,7 @@ private fun RecordingActiveView(
 private fun MorphologySectionCard(title: String, rows: List<Pair<String, String>>) {
     RusCard(modifier = Modifier.fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
+            Text(title, style = WerusTypography.Subtitle, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -909,7 +910,7 @@ private fun MorphologySectionCard(title: String, rows: List<Pair<String, String>
                             verticalArrangement = Arrangement.spacedBy(2.dp),
                         ) {
                             Text(label, style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
-                            Text(value, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = WerusColors.Ink)
+                            Text(value, style = WerusTypography.Body, fontWeight = FontWeight.SemiBold, color = WerusColors.Ink)
                         }
                     }
                 }
@@ -930,12 +931,12 @@ private fun WordAiStationCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("词法深度探究", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
+                Text("词法深度探究", style = WerusTypography.Subtitle, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
                 RusPillBadge("多智能体", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
             }
             Text(
                 "由本地大模型根据词根与教材大纲生成针对性语法变格与构词解析：",
-                style = MaterialTheme.typography.bodyMedium,
+                style = WerusTypography.Body,
                 color = WerusColors.InkMuted,
             )
             FlowRow(
@@ -958,7 +959,7 @@ private fun WordAiStationCard(
                         Text(
                             text = label,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.labelLarge,
+                            style = WerusTypography.Caption,
                             fontWeight = FontWeight.Medium,
                             color = WerusColors.Ink,
                         )
@@ -981,11 +982,11 @@ private fun KnowledgeCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(knowledge.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
+                Text(knowledge.title, style = WerusTypography.Subtitle, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
                 Text("查看 ›", style = RusMorphTechTypography.MicroPill, color = WerusColors.Red)
             }
-            Text(stringResource(knowledgeCategoryLabel(knowledge.category)), color = WerusColors.Red, style = MaterialTheme.typography.labelMedium)
-            Text(readableSummary(knowledge.content), style = MaterialTheme.typography.bodyMedium, color = WerusColors.InkMuted)
+            Text(stringResource(knowledgeCategoryLabel(knowledge.category)), color = WerusColors.Red, style = WerusTypography.Metadata)
+            Text(readableSummary(knowledge.content), style = WerusTypography.Body, color = WerusColors.InkMuted)
         }
     }
 }
@@ -1003,7 +1004,7 @@ private fun SourcesFooterCard(sources: List<WordDetailUiState.Source>) {
             sources.forEach { source ->
                 Text(
                     stringResource(R.string.workbook_source_format, source.workbook, source.sheet, source.row),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = WerusTypography.Caption,
                     color = WerusColors.InkMuted,
                 )
             }
