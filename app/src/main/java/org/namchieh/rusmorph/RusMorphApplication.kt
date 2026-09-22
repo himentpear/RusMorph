@@ -19,6 +19,8 @@ import org.namchieh.rusmorph.data.settings.AppSettings
 import org.namchieh.rusmorph.data.repository.SpeechRepository
 import org.namchieh.rusmorph.data.repository.CourseRepository
 import org.namchieh.rusmorph.data.repository.LearningRepository
+import org.namchieh.rusmorph.update.UpdateCoordinator
+import org.namchieh.rusmorph.update.data.UpdateRepository
 
 class RusMorphApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -48,6 +50,8 @@ class RusMorphApplication : Application() {
             BuildConfig.SPEECH_BACKEND_BASE_URL,
         )
     }
+    private val updateRepository by lazy { UpdateRepository.create("https://namchieh.org/") }
+    val updateCoordinator by lazy { UpdateCoordinator(this, appSettings, updateRepository) }
 
     override fun onCreate() {
         super.onCreate()

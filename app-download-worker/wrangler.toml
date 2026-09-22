@@ -13,3 +13,7 @@ zone_name = "namchieh.org"
 [[routes]]
 pattern = "namchieh.org/rusmorph*"
 zone_name = "namchieh.org"
+
+[[routes]]
+pattern = "namchieh.org/update*"
+zone_name = "namchieh.org"

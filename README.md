@@ -4,6 +4,7 @@
 
 - Production Android variants use only `https://api.namchieh.org/`. `localDebug` may use an explicitly configured HTTP development gateway; production variants reject HTTP in both the manifest and client validation.
 - A release is never debug-signed. `assembleProductionRelease` requires all four `RUSMORPH_RELEASE_*` signing values and fails clearly when any is absent.
+- All production APKs must use the same RusMorph release signing key; otherwise Android cannot install an update over an existing version while preserving user data.
 - Dictionary and local learning functions remain available if AI or speech is unavailable. Backup keeps the Room learning database while excluding cache and reserved authentication locations.
 - Public speech is Workers AI ASR through the Cloudflare gateway. It is an ASR intelligibility proxy—not MFA/GOP or phoneme-level diagnosis—and response metadata identifies real versus synthetic timing.
 - The optional FastAPI precision service is a private gateway backend in production and requires `X-Rusmorph-Internal-Token`; this secret is never shipped in Android.
