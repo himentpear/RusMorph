@@ -4,6 +4,4 @@
     <include domain="database" path="rusmorph.db" />
     <exclude domain="database" path="rusmorph.db-wal" />
     <exclude domain="database" path="rusmorph.db-shm" />
-    <exclude domain="file" path="datastore/auth" />
-    <exclude domain="sharedpref" path="auth.xml" />
 </full-backup-content>

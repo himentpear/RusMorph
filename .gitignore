@@ -29,6 +29,9 @@ temp/
 # Generated desktop bundles and downloaded runtimes
 release/
 **/release/
+!release/
+release/*
+!release/update-policy.json
 .electron-binaries/
 **/.electron-binaries/
 

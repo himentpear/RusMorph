@@ -3,6 +3,7 @@ package org.namchieh.rusmorph.ui.navigation
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.RusMorphApplication
 import org.namchieh.rusmorph.data.local.InitializationState
@@ -54,11 +56,13 @@ import org.namchieh.rusmorph.ui.screen.placeholder.PlaceholderScreen
 import org.namchieh.rusmorph.ui.screen.pronunciation.PronunciationScreen
 import org.namchieh.rusmorph.ui.screen.search.SearchScreen
 import org.namchieh.rusmorph.ui.screen.settings.SettingsScreen
+import org.namchieh.rusmorph.update.ui.AppUpdateDialog
 
 @Composable
 fun RusMorphApp(application: RusMorphApplication) {
     val navController = rememberNavController()
     val initializationState by application.dataInitializer.state.collectAsState()
+    val updateState by application.updateCoordinator.state.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     fun selectBottom(destination: BottomDestination) {
         navController.navigate(destination.route) {
@@ -68,8 +72,16 @@ fun RusMorphApp(application: RusMorphApplication) {
         }
     }
 
+    LaunchedEffect(initializationState) {
+        if (initializationState is InitializationState.Ready) {
+            delay(1_500)
+            application.updateCoordinator.checkAutomatically()
+        }
+    }
+
     Surface {
-        NavHost(navController, startDestination = Routes.Initialization) {
+        Box {
+            NavHost(navController, startDestination = Routes.Initialization) {
             composable(Routes.Initialization) {
                 LaunchedEffect(initializationState) {
                     if (initializationState is InitializationState.Ready) navController.navigate(Routes.Home) {
@@ -219,7 +231,15 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.GrammarPattern, listOf(navArgument("grammarId") { type = NavType.StringType })) { UnavailableContentScreen("语法", navController::navigateUp) }
             composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { UnavailableContentScreen("课文", navController::navigateUp) }
-            composable(Routes.Settings) { SettingsScreen(application.apiDiagnostics, application.agentRepository, application.appSettings, navController::navigateUp) }
+            composable(Routes.Settings) {
+                SettingsScreen(
+                    application.apiDiagnostics,
+                    application.agentRepository,
+                    application.appSettings,
+                    application.updateCoordinator,
+                    navController::navigateUp,
+                )
+            }
             composable(
                 Routes.PronunciationPattern,
                 listOf(
@@ -306,6 +326,15 @@ fun RusMorphApp(application: RusMorphApplication) {
                 LocalExplanationScreen(vm, navController::navigateUp)
             }
             listOf(Routes.Decks, Routes.Favorites).forEach { route -> composable(route) { PlaceholderScreen(BottomDestination.Profile, { selectBottom(it) }) } }
+            }
+            AppUpdateDialog(
+                state = updateState,
+                onLater = application.updateCoordinator::remindLater,
+                onSkip = application.updateCoordinator::skipVersion,
+                onDownload = application.updateCoordinator::startDownload,
+                onInstall = application.updateCoordinator::installDownloaded,
+                onOpenPermission = application.updateCoordinator::openInstallPermission,
+            )
         }
     }
 }

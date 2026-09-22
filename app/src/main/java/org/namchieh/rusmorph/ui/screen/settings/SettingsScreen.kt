@@ -32,6 +32,8 @@ import org.namchieh.rusmorph.data.settings.AppSettings
 import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.ui.theme.RusMorphColors
 import org.namchieh.rusmorph.BuildConfig
+import org.namchieh.rusmorph.update.UpdateCoordinator
+import org.namchieh.rusmorph.update.model.ManualUpdateStatus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,15 +41,52 @@ fun SettingsScreen(
     diagnostics: AgentDiagnostics,
     agentRepository: AgentRepository,
     appSettings: AppSettings,
+    updateCoordinator: UpdateCoordinator,
     onBack: () -> Unit,
 ) {
     val enabled by diagnostics.enabled.collectAsStateWithLifecycle()
     val events by diagnostics.events.collectAsStateWithLifecycle()
     val deckLimit by appSettings.deckLimit.collectAsStateWithLifecycle()
+    val updateStatus by updateCoordinator.manualStatus.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     Scaffold(containerColor = RusMorphColors.Canvas, topBar = { TopAppBar(title = { Text("设置", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) }, navigationIcon = { TextButton(onClick = onBack) { Text("←", color = RusMorphColors.CarbonBlack) } }, colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas)) }) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item {
+                Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) {
+                    Column(
+                        Modifier.fillMaxWidth().padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Text("关于", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+                        Text("RusMorph ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})", color = RusMorphColors.TextSecondary)
+                        if (BuildConfig.FLAVOR == "production") {
+                            OutlinedButton(
+                                onClick = updateCoordinator::checkManually,
+                                enabled = updateStatus !is ManualUpdateStatus.Checking,
+                            ) {
+                                Text(if (updateStatus is ManualUpdateStatus.Checking) "正在检查…" else "检查更新")
+                            }
+                            when (val status = updateStatus) {
+                                ManualUpdateStatus.UpToDate -> Text("已是最新版本", color = RusMorphColors.TextSecondary)
+                                is ManualUpdateStatus.Failed -> Text(status.message, color = RusMorphColors.TextSecondary)
+                                else -> Unit
+                            }
+                        } else {
+                            Text("本地构建不连接正式更新服务。", color = RusMorphColors.TextTertiary)
+                        }
+                        TextButton(onClick = { uriHandler.openUri("https://github.com/himentpear/RusMorph") }) {
+                            Text("GitHub · 查看源代码")
+                        }
+                        if (BuildConfig.DEBUG) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                TextButton(onClick = { updateCoordinator.simulateAvailable(false) }) { Text("模拟发现更新") }
+                                TextButton(onClick = { updateCoordinator.simulateAvailable(true) }) { Text("模拟强制更新") }
+                            }
+                        }
+                    }
+                }
+            }
             item {
                 Card(colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) {
                     Column(
