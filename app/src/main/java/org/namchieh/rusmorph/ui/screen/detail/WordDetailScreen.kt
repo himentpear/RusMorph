@@ -919,7 +919,7 @@ private fun MorphologySectionCard(title: String, rows: List<Pair<String, String>
 }
 
 @Composable
-private fun WordAiStationCard(
+internal fun WordAiStationCard(
     detail: WordDetailUiState,
     onAgentClick: (String, AgentQuestionType) -> Unit,
 ) {

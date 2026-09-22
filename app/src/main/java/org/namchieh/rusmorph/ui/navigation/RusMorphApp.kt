@@ -36,6 +36,7 @@ import org.namchieh.rusmorph.ui.learning.CoursesViewModel
 import org.namchieh.rusmorph.ui.learning.DialogueViewModel
 import org.namchieh.rusmorph.ui.learning.LearningSummaryViewModel
 import org.namchieh.rusmorph.ui.learning.LessonDetailViewModel
+import org.namchieh.rusmorph.ui.learning.TextDetailViewModel
 import org.namchieh.rusmorph.ui.learning.VocabularyViewModel
 import org.namchieh.rusmorph.ui.screen.agent.AgentScreen
 import org.namchieh.rusmorph.ui.screen.cards.CommandScreen
@@ -52,6 +53,7 @@ import org.namchieh.rusmorph.ui.screen.learning.ReviewScreen
 import org.namchieh.rusmorph.ui.screen.learning.ReviewQueueScreen
 import org.namchieh.rusmorph.ui.screen.learning.VocabularyScreen
 import org.namchieh.rusmorph.ui.screen.learning.UnavailableContentScreen
+import org.namchieh.rusmorph.ui.screen.learning.text.TextDetailScreen
 import org.namchieh.rusmorph.ui.screen.placeholder.PlaceholderScreen
 import org.namchieh.rusmorph.ui.screen.pronunciation.PronunciationScreen
 import org.namchieh.rusmorph.ui.screen.search.SearchScreen
@@ -107,7 +109,6 @@ fun RusMorphApp(application: RusMorphApplication) {
                     stats = stats,
                     progress = progress,
                     selectedCourseId = activeCourseId,
-                    onSelectCourse = { summaryVm.selectCourse(it) },
                     onCourse = { navController.navigate(Routes.course(it)) },
                     onContinue = { course, lesson -> navController.navigate(Routes.lesson(course, lesson)) },
                     onDictionary = { selectBottom(BottomDestination.Dictionary) },
@@ -120,9 +121,15 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.Tools) {
                 val vm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
+                val summaryVm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val state by vm.state.collectAsState()
+                val activeCourseId by summaryVm.activeCourseId.collectAsState()
+                val progress by summaryVm.progress.collectAsState()
                 org.namchieh.rusmorph.ui.screen.tools.ToolsScreen(
                     coursesState = state,
+                    activeCourseId = activeCourseId,
+                    progress = progress,
+                    onSelectCourse = summaryVm::selectCourse,
                     onCourse = { navController.navigate(Routes.course(it)) },
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
@@ -133,9 +140,15 @@ fun RusMorphApp(application: RusMorphApplication) {
             }
             composable(Routes.Courses) {
                 val vm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
+                val summaryVm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val state by vm.state.collectAsState()
+                val activeCourseId by summaryVm.activeCourseId.collectAsState()
+                val progress by summaryVm.progress.collectAsState()
                 org.namchieh.rusmorph.ui.screen.tools.ToolsScreen(
                     coursesState = state,
+                    activeCourseId = activeCourseId,
+                    progress = progress,
+                    onSelectCourse = summaryVm::selectCourse,
                     onCourse = { navController.navigate(Routes.course(it)) },
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
@@ -191,6 +204,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                     when (type) {
                         LearningUnitType.VOCABULARY -> navController.navigate(Routes.vocabulary(lesson.id))
                         LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-${lesson.id}"))
+                        LearningUnitType.TEXT -> navController.navigate(Routes.text("text-${lesson.id}"))
                         LearningUnitType.REVIEW -> selectBottom(BottomDestination.Review)
                         else -> Unit
                     }
@@ -230,7 +244,15 @@ fun RusMorphApp(application: RusMorphApplication) {
                 DialogueScreen(state, { text, source -> navController.navigate(Routes.pronunciation(text, "DIALOGUE_LINE", source)) }, navController::navigateUp, { navController.navigate(Routes.commands("解释这段教材对话")) })
             }
             composable(Routes.GrammarPattern, listOf(navArgument("grammarId") { type = NavType.StringType })) { UnavailableContentScreen("语法", navController::navigateUp) }
-            composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { UnavailableContentScreen("课文", navController::navigateUp) }
+            composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { entry ->
+                val id = checkNotNull(entry.arguments?.getString("textId"))
+                val vm: TextDetailViewModel = viewModel(
+                    key = id,
+                    factory = remember(application, id) { viewModelFactory { initializer { TextDetailViewModel(application.courseRepository, id) } } },
+                )
+                val state by vm.state.collectAsState()
+                TextDetailScreen(state, navController::navigateUp, { navController.navigate(Routes.commands("解释这篇教材课文")) })
+            }
             composable(Routes.Settings) {
                 SettingsScreen(
                     application.apiDiagnostics,

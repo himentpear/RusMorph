@@ -11,6 +11,9 @@ import org.namchieh.rusmorph.domain.learning.DialogueLine
 import org.namchieh.rusmorph.domain.learning.LearningUnit
 import org.namchieh.rusmorph.domain.learning.LearningUnitType
 import org.namchieh.rusmorph.domain.learning.Lesson
+import org.namchieh.rusmorph.domain.learning.TextContent
+import org.namchieh.rusmorph.domain.learning.TextParagraph
+import org.namchieh.rusmorph.domain.learning.TextSentence
 
 class CourseRepository(
     private val context: Context,
@@ -40,6 +43,7 @@ class CourseRepository(
     suspend fun lessons(courseId: String): List<Lesson> = withContext(Dispatchers.IO) {
         val targetCourse = course(courseId) ?: return@withContext emptyList()
         val dialogues = dialogues().associateBy { it.lessonId }
+        val texts = texts().associateBy { it.lessonId }
         val isBook2 = (courseId == COURSE_2_ID)
 
         (1..targetCourse.lessonCount).map { number ->
@@ -56,6 +60,9 @@ class CourseRepository(
                     add(unit(lessonId, LearningUnitType.DIALOGUE, 0))
                 } else {
                     dialogues[lessonId]?.let { add(unit(lessonId, LearningUnitType.DIALOGUE, it.lines.size)) }
+                    texts[lessonId]?.let { text ->
+                        add(unit(lessonId, LearningUnitType.TEXT, text.paragraphs.sumOf { it.sentences.size }))
+                    }
                 }
                 if (!isBook2 && number == 8) add(unit(lessonId, LearningUnitType.REVIEW, 0))
             }
@@ -99,6 +106,14 @@ class CourseRepository(
         return dialogues().firstOrNull { it.lessonId == lessonId }
     }
 
+    suspend fun text(textId: String): TextContent? = withContext(Dispatchers.IO) {
+        texts().firstOrNull { it.id == textId || it.lessonId == textId }
+    }
+
+    suspend fun textForLesson(lessonId: String): TextContent? = withContext(Dispatchers.IO) {
+        texts().firstOrNull { it.lessonId == lessonId }
+    }
+
     private fun placeholderDialogue(courseId: String, lessonNumber: Int): Dialogue {
         val lessonId = lessonId(courseId, lessonNumber)
         return Dialogue(
@@ -126,17 +141,53 @@ class CourseRepository(
         }
     }.getOrDefault(emptyList())
 
+    private fun texts(): List<TextContent> = runCatching {
+        context.assets.open("database/textbook_texts.json").bufferedReader().use { reader ->
+            val type = object : TypeToken<List<TextAsset>>() {}.type
+            gson.fromJson<List<TextAsset>>(reader, type).map { asset ->
+                val lessonId = lessonId(asset.lessonNumber)
+                TextContent(
+                    id = "text-$lessonId",
+                    lessonId = lessonId,
+                    title = asset.title?.takeIf { it.isNotBlank() } ?: "ТЕКСТ · УРОК ${asset.lessonNumber}",
+                    translationTitle = null,
+                    paragraphs = asset.paragraphs.mapIndexed { paragraphIndex, paragraph ->
+                        val paragraphId = "text-$lessonId-paragraph-${paragraphIndex + 1}"
+                        TextParagraph(
+                            id = paragraphId,
+                            order = paragraphIndex + 1,
+                            sentences = splitSentences(paragraph).mapIndexed { sentenceIndex, sentence ->
+                                TextSentence(
+                                    id = "$paragraphId-sentence-${sentenceIndex + 1}",
+                                    order = sentenceIndex + 1,
+                                    text = sentence,
+                                )
+                            },
+                        )
+                    },
+                )
+            }
+        }
+    }.getOrDefault(emptyList())
+
+    private fun splitSentences(paragraph: String): List<String> =
+        paragraph.trim().split(Regex("(?<=[.!?…])\\s+(?=[А-ЯЁ–—])"))
+            .map(String::trim)
+            .filter(String::isNotBlank)
+
     private fun unit(lessonId: String, type: LearningUnitType, count: Int): LearningUnit {
         val titles = when (type) {
             LearningUnitType.VOCABULARY -> "СЛОВА" to "词汇"
             LearningUnitType.DIALOGUE -> "ДИАЛОГ" to "对话"
             LearningUnitType.REVIEW -> "ПОВТОРЕНИЕ" to "复习"
+            LearningUnitType.TEXT -> "ТЕКСТ" to "课文"
             else -> type.name to type.name
         }
         return LearningUnit("$lessonId-${type.name.lowercase()}", lessonId, type, titles.first, titles.second, count)
     }
 
     private data class DialogueAsset(val lessonNumber: Int, val lines: List<String>)
+    private data class TextAsset(val lessonNumber: Int, val title: String?, val paragraphs: List<String>)
 
     companion object {
         const val COURSE_ID = "university-russian-1"

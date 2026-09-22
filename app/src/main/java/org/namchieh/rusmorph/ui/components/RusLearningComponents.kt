@@ -280,7 +280,21 @@ fun RusLearningUnitCard(index: Int, unit: LearningUnit, onClick: () -> Unit, mod
                     color = RusMorphColors.TextTertiary,
                 )
             }
-            RusStatusDot(unit.status)
+            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    RusStatusDot(unit.status)
+                    Text(
+                        when (unit.status) {
+                            LearningStatus.COMPLETED -> "已完成"
+                            LearningStatus.IN_PROGRESS -> "学习中"
+                            LearningStatus.NOT_STARTED -> "未开始"
+                        },
+                        style = RusMorphTechTypography.MicroPill,
+                        color = RusMorphColors.TextTertiary,
+                    )
+                }
+                Text("›", style = androidx.compose.material3.MaterialTheme.typography.titleLarge, color = RusMorphColors.TextTertiary)
+            }
         }
     }
 }

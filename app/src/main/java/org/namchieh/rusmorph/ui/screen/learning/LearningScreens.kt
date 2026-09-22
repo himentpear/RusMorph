@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -79,6 +80,7 @@ fun LearningScaffold(
     onBottom: (BottomDestination) -> Unit = {},
     onBack: (() -> Unit)? = null,
     onAI: (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
     content: @Composable (Modifier) -> Unit,
 ) {
     val density = LocalDensity.current
@@ -167,6 +169,7 @@ fun LearningScaffold(
                 TopAppBar(
                     title = { Text(title, fontWeight = FontWeight.SemiBold) },
                     navigationIcon = { if (onBack != null) TextButton(onClick = onBack) { Text("←", color = RusMorphColors.CarbonBlack) } },
+                    actions = actions,
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas),
                 )
             },
@@ -181,7 +184,6 @@ fun HomeScreen(
     stats: LearningStats,
     progress: List<LearningProgress>,
     selectedCourseId: String? = null,
-    onSelectCourse: (String) -> Unit = {},
     onCourse: (String) -> Unit,
     onContinue: (String, String) -> Unit,
     onDictionary: () -> Unit,
@@ -308,7 +310,7 @@ fun HomeScreen(
                 }
             }
 
-            // Continue learning course card with course selector
+            // Continue learning always follows the active course selected in 我的教材.
             when (coursesState) {
                 Loadable.Loading -> Box(Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = RusMorphColors.CarbonBlack) }
                 is Loadable.Error -> RusEmptyState("课程暂不可用", coursesState.message)
@@ -322,38 +324,6 @@ fun HomeScreen(
                     if (currentCourse != null) {
                         val latest = progress.firstOrNull { it.courseId == currentCourse.id && it.lessonId != null }
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            // 课程选择切换胶囊
-                            if (allCourses.size > 1) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .horizontalScroll(rememberScrollState()),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    allCourses.forEach { c ->
-                                        val isSelected = c.id == currentCourse.id
-                                        Surface(
-                                            shape = RoundedCornerShape(16.dp),
-                                            color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.Surface,
-                                            contentColor = if (isSelected) RusMorphColors.WarmCream else RusMorphColors.TextSecondary,
-                                            border = androidx.compose.foundation.BorderStroke(
-                                                1.dp,
-                                                if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
-                                            ),
-                                            modifier = Modifier.clickable { onSelectCourse(c.id) },
-                                        ) {
-                                            Text(
-                                                text = c.title,
-                                                style = RusMorphTechTypography.MicroPill,
-                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-
                             RusCard(
                                 Modifier.fillMaxWidth(),
                                 onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it) } ?: onCourse(currentCourse.id) },

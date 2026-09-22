@@ -43,11 +43,14 @@ val requiredDatabaseAssets = listOf(
 val generatedCourseAssets = layout.buildDirectory.dir("generated/course-assets")
 val generateCourseAssets by tasks.registering {
     group = "data build"
-    description = "Package the existing textbook dialogue corpus as a shared Android asset."
+    description = "Package the existing dialogue corpus and verified textbook transcriptions as Android assets."
     val source = rootProject.layout.projectDirectory.file("agent-proxy/src/TextbookDialogueCorpus.ts")
     val output = generatedCourseAssets.map { it.file("database/textbook_dialogues.json") }
+    val textOutput = generatedCourseAssets.map { it.file("database/textbook_texts.json") }
+    val transcriptionSources = rootProject.fileTree("data-source/transcriptions") { include("urok_*.json") }
     inputs.file(source)
-    outputs.file(output)
+    inputs.files(transcriptionSources)
+    outputs.files(output, textOutput)
     doLast {
         val windows1252 = Charset.forName("windows-1252")
         fun repairEncoding(value: String): String = if (value.contains('Ð') || value.contains('Ñ')) {
@@ -65,6 +68,38 @@ val generateCourseAssets by tasks.registering {
         output.get().asFile.apply {
             parentFile.mkdirs()
             writeText(JsonOutput.prettyPrint(JsonOutput.toJson(records)))
+        }
+
+        val texts = transcriptionSources.files.sortedBy { it.name }.flatMap fileLoop@{ file ->
+            val pages = parser.parse(file) as? List<*> ?: emptyList<Any>()
+            pages.flatMap pageLoop@{ pageValue ->
+                val page = pageValue as? Map<*, *> ?: return@pageLoop emptyList<Map<String, Any?>>()
+                val lesson = (page["lesson"] as? Number)?.toInt() ?: return@pageLoop emptyList<Map<String, Any?>>()
+                val sections = page["sections"] as? List<*> ?: emptyList<Any>()
+                sections.mapNotNull { sectionValue ->
+                    val section = sectionValue as? Map<*, *> ?: return@mapNotNull null
+                    if (section["type"] != "TEXT" || section["status"] != "CONFIDENT") return@mapNotNull null
+                    val paragraphs = (section["paragraphs"] as? List<*>)
+                        ?.mapNotNull { it?.toString()?.trim()?.takeIf(String::isNotBlank) }
+                        .orEmpty()
+                    if (paragraphs.isEmpty()) null else mapOf(
+                        "lessonNumber" to lesson,
+                        "title" to section["title"]?.toString(),
+                        "paragraphs" to paragraphs,
+                    )
+                }
+            }
+        }.groupBy { it["lessonNumber"] }.map { (lesson, sections) ->
+            mapOf(
+                "lessonNumber" to lesson,
+                "title" to sections.mapNotNull { it["title"] as? String }.firstOrNull(),
+                "paragraphs" to sections.flatMap { it["paragraphs"] as List<*> },
+            )
+        }.sortedBy { (it["lessonNumber"] as Number).toInt() }
+        check(texts.isNotEmpty()) { "No verified textbook TEXT sections found in data-source/transcriptions" }
+        textOutput.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText(JsonOutput.prettyPrint(JsonOutput.toJson(texts)))
         }
     }
 }
@@ -395,6 +430,37 @@ tasks.withType<Test>().configureEach {
     // Keep test process state isolated while reusing the already downloaded
     // Robolectric Android runtime across forked Room suites.
     systemProperty("maven.repo.local", robolectricMavenRepository.absolutePath)
+}
+
+// Gradle 8.11's test application classloader cannot resolve compiled tests from this Windows
+// workspace's non-ASCII path. Stage only the rebuildable local-debug test classes under an ASCII
+// temp path; app classes and dependencies stay on the normal runtime classpath.
+val stagedLocalDebugTestClasses = File(System.getProperty("java.io.tmpdir"), "rusmorph-test-home/classes/testLocalDebugUnitTest")
+val stagedLocalDebugAppJar = File(stagedLocalDebugTestClasses, "app/classes.jar")
+val stagedLocalDebugTestConfig = File(stagedLocalDebugTestClasses, "config")
+val stageLocalDebugUnitTestClasses by tasks.registering(Sync::class) {
+    dependsOn(
+        "compileLocalDebugUnitTestKotlin",
+        "compileLocalDebugUnitTestJavaWithJavac",
+        "bundleLocalDebugClassesToRuntimeJar",
+        "generateLocalDebugUnitTestConfig",
+    )
+    from(layout.buildDirectory.dir("tmp/kotlin-classes/localDebugUnitTest"))
+    from(layout.buildDirectory.dir("intermediates/javac/localDebugUnitTest/compileLocalDebugUnitTestJavaWithJavac/classes"))
+    from(layout.buildDirectory.file("intermediates/runtime_app_classes_jar/localDebug/bundleLocalDebugClassesToRuntimeJar/classes.jar")) {
+        into("app")
+    }
+    from(layout.buildDirectory.dir("intermediates/unit_test_config_directory/localDebugUnitTest/generateLocalDebugUnitTestConfig/out")) {
+        into("config")
+    }
+    into(stagedLocalDebugTestClasses)
+}
+afterEvaluate {
+    tasks.named<Test>("testLocalDebugUnitTest") {
+        dependsOn(stageLocalDebugUnitTestClasses)
+        testClassesDirs = files(stagedLocalDebugTestClasses)
+        classpath = files(stagedLocalDebugTestClasses, stagedLocalDebugAppJar, stagedLocalDebugTestConfig) + classpath
+    }
 }
 
 val productionReleaseTaskNames = setOf(

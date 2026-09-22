@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.domain.learning.Course
+import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.ui.components.RusCard
 import org.namchieh.rusmorph.ui.components.RusPillBadge
 import org.namchieh.rusmorph.ui.components.RusSectionTitle
@@ -29,6 +30,9 @@ import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 @Composable
 fun ToolsScreen(
     coursesState: Loadable<List<Course>>,
+    activeCourseId: String,
+    progress: List<LearningProgress>,
+    onSelectCourse: (String) -> Unit,
     onCourse: (String) -> Unit,
     onPronunciation: () -> Unit,
     onAiCommands: () -> Unit,
@@ -129,26 +133,40 @@ fun ToolsScreen(
                 }
             }
 
-            // 4. 📚 完整课程目录库索引 (所有册次)
+            // 4. 📚 教材选择与目录入口
             if (coursesState is Loadable.Content && coursesState.value.isNotEmpty()) {
-                RusSectionTitle("教材课程总库", "查看各册次完整课文、对话与词汇目录")
+                RusSectionTitle("我的教材", "选择当前教材并进入完整课次目录")
                 coursesState.value.forEach { course ->
+                    val isActive = course.id == activeCourseId
+                    val courseProgress = progress.filter { it.courseId == course.id }
+                    val latest = courseProgress.firstOrNull { it.lessonId != null }
+                    val progressValue = latest?.progress ?: course.progress
                     RusCard(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { onCourse(course.id) },
-                        backgroundColor = RusMorphColors.Surface,
+                        onClick = { onSelectCourse(course.id); onCourse(course.id) },
+                        backgroundColor = if (isActive) RusMorphColors.WarmCream.copy(alpha = .55f) else RusMorphColors.Surface,
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                RusPillBadge("教材册次", containerColor = RusMorphColors.SurfaceMuted, contentColor = RusMorphColors.CarbonBlack)
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                                RusPillBadge(
+                                    if (isActive) "当前教材" else "教材册次",
+                                    containerColor = if (isActive) RusMorphColors.CarbonBlack else RusMorphColors.SurfaceMuted,
+                                    contentColor = if (isActive) RusMorphColors.WarmCream else RusMorphColors.CarbonBlack,
+                                )
                                 Text(course.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                Text("${course.lessonCount} 个标准课次", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                                Text(course.subtitle, style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                                Text(
+                                    latest?.lessonId?.substringAfterLast('-')?.let { "学习中 · 第 $it 课" } ?: "尚未开始 · ${course.lessonCount} 个课次",
+                                    style = RusMorphTechTypography.MicroPill,
+                                    color = RusMorphColors.TextTertiary,
+                                )
+                                org.namchieh.rusmorph.ui.components.RusProgressBar(progressValue)
                             }
-                            Text("查看目录 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
+                            Text(if (isActive) "继续 ›" else "选用 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
                         }
                     }
                 }
