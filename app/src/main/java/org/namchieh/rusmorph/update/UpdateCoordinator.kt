@@ -58,14 +58,14 @@ class UpdateCoordinator(
 
     init {
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // DownloadManager is a system service outside this process. The download ID,
-            // status and digest are verified before downloaded content is trusted.
-            context.registerReceiver(downloadReceiver, filter, Context.RECEIVER_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            context.registerReceiver(downloadReceiver, filter)
-        }
+        // DownloadManager is a system service outside this process. The download ID,
+        // status and digest are verified before downloaded content is trusted.
+        androidx.core.content.ContextCompat.registerReceiver(
+            context,
+            downloadReceiver,
+            filter,
+            androidx.core.content.ContextCompat.RECEIVER_EXPORTED,
+        )
     }
 
     fun checkAutomatically() {
