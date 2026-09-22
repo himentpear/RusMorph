@@ -218,8 +218,8 @@ android {
         applicationId = "org.namchieh.rusmorph"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.003"
+        versionCode = 4
+        versionName = "0.004"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "AGENT_PROXY_BASE_URL", "".asBuildConfigString())

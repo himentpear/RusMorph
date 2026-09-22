@@ -55,6 +55,22 @@ class AppSettings(context: Context) {
         preferences.edit().putString(LAST_AUTO_ADVANCE_DATE_KEY, date).apply()
     }
 
+    fun getLastUpdateCheckTimestamp(): Long = preferences.getLong(LAST_UPDATE_CHECK_KEY, 0L)
+
+    fun setLastUpdateCheckTimestamp(value: Long) {
+        preferences.edit().putLong(LAST_UPDATE_CHECK_KEY, value.coerceAtLeast(0L)).apply()
+    }
+
+    fun getSkippedUpdateVersionCode(): Int = preferences.getInt(SKIPPED_UPDATE_VERSION_KEY, 0)
+
+    fun setSkippedUpdateVersionCode(value: Int) {
+        preferences.edit().putInt(SKIPPED_UPDATE_VERSION_KEY, value.coerceAtLeast(0)).apply()
+    }
+
+    fun clearSkippedUpdateVersion() {
+        preferences.edit().remove(SKIPPED_UPDATE_VERSION_KEY).apply()
+    }
+
     companion object {
         const val DEFAULT_DECK_LIMIT = 50
         const val MAX_DECK_LIMIT = 200
@@ -73,7 +89,8 @@ class AppSettings(context: Context) {
         private const val DAILY_NEW_WORD_KEY = "daily_new_word_target"
         private const val AUTO_ADVANCE_KEY = "auto_advance_enabled"
         private const val LAST_AUTO_ADVANCE_DATE_KEY = "last_auto_advance_date"
-
+        private const val LAST_UPDATE_CHECK_KEY = "last_update_check_timestamp"
+        private const val SKIPPED_UPDATE_VERSION_KEY = "skipped_update_version_code"
         fun sanitizeDeckLimit(value: Int): Int =
             DECK_LIMIT_OPTIONS.firstOrNull { it == value } ?: DEFAULT_DECK_LIMIT
     }
