@@ -48,23 +48,25 @@ jobs:
           VERSION_NAME="${RELEASE_TAG#v}"
           mapfile -t APKS < <(find app/build/outputs/apk/production/release -maxdepth 1 -type f -name '*.apk')
           test "${#APKS[@]}" -eq 1
-          RELEASE_APK="release/RusMorph-${VERSION_NAME}-production.apk"
-          cp "${APKS[0]}" "$RELEASE_APK"
+          RELEASE_FILENAME="RusMorph-${VERSION_NAME}-production.apk"
+          mkdir -p release
+          cp "${APKS[0]}" "release/${RELEASE_FILENAME}"
           python tools/generate_update_manifest.py \
-            --apk "$RELEASE_APK" \
+            --apk "release/${RELEASE_FILENAME}" \
             --tag "$RELEASE_TAG" \
             --output release/android-stable.json
-          (cd release && sha256sum "RusMorph-${VERSION_NAME}-production.apk" > "RusMorph-${VERSION_NAME}-production.apk.sha256")
+          (cd release && sha256sum "${RELEASE_FILENAME}" > "${RELEASE_FILENAME}.sha256")
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           VERSION_NAME="${RELEASE_TAG#v}"
+          RELEASE_FILENAME="RusMorph-${VERSION_NAME}-production.apk"
           gh release create "$RELEASE_TAG" \
             --verify-tag \
             --title "RusMorph ${VERSION_NAME}" \
             --generate-notes \
-            "release/RusMorph-${VERSION_NAME}-production.apk" \
-            "release/RusMorph-${VERSION_NAME}-production.apk.sha256" \
+            "release/${RELEASE_FILENAME}" \
+            "release/${RELEASE_FILENAME}.sha256" \
             "release/android-stable.json"

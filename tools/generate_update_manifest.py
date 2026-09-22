@@ -30,6 +30,10 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def release_apk_filename(version_name: str) -> str:
+    return f"RusMorph-{version_name}-production.apk"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--gradle", type=Path, default=Path("app/build.gradle.kts"))
@@ -61,8 +65,9 @@ def main() -> None:
     if not isinstance(release_notes, list) or not all(isinstance(note, str) for note in release_notes):
         raise ValueError("releaseNotes must be an array of strings")
 
+    release_filename = release_apk_filename(version_name)
     encoded_tag = quote(args.tag, safe="")
-    encoded_apk = quote(args.apk.name, safe="")
+    encoded_apk = quote(release_filename, safe="")
     manifest = {
         "platform": "android",
         "channel": "stable",
