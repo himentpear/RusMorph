@@ -183,8 +183,12 @@ class DefaultAgentRepository(
     }
 
     companion object {
-        fun create(baseUrl: String, diagnostics: AgentDiagnostics = NoopAgentDiagnostics): DefaultAgentRepository {
-            val normalized = EndpointPolicy.normalized(baseUrl, BuildConfig.ALLOW_CLEARTEXT_ENDPOINTS).orEmpty()
+        fun create(
+            baseUrl: String,
+            diagnostics: AgentDiagnostics = NoopAgentDiagnostics,
+            allowCleartextEndpoints: Boolean = BuildConfig.ALLOW_CLEARTEXT_ENDPOINTS,
+        ): DefaultAgentRepository {
+            val normalized = EndpointPolicy.normalized(baseUrl, allowCleartextEndpoints).orEmpty()
             if (normalized.isBlank()) return DefaultAgentRepository(null, AgentAvailability.NOT_CONFIGURED, diagnostics)
             val gson = GsonBuilder().serializeNulls().create()
             val client = OkHttpClient.Builder()
