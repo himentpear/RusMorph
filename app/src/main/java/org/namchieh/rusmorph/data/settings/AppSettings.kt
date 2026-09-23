@@ -27,6 +27,11 @@ class AppSettings(context: Context) {
     )
     val autoAdvanceEnabled: StateFlow<Boolean> = mutableAutoAdvanceEnabled.asStateFlow()
 
+    private val mutableDeveloperMode = MutableStateFlow(
+        preferences.getBoolean(DEVELOPER_MODE_KEY, false),
+    )
+    val developerMode: StateFlow<Boolean> = mutableDeveloperMode.asStateFlow()
+
     fun setDeckLimit(value: Int) {
         val sanitized = sanitizeDeckLimit(value)
         preferences.edit().putInt(DECK_LIMIT_KEY, sanitized).apply()
@@ -47,6 +52,11 @@ class AppSettings(context: Context) {
     fun setAutoAdvanceEnabled(enabled: Boolean) {
         preferences.edit().putBoolean(AUTO_ADVANCE_KEY, enabled).apply()
         mutableAutoAdvanceEnabled.value = enabled
+    }
+
+    fun setDeveloperMode(enabled: Boolean) {
+        preferences.edit().putBoolean(DEVELOPER_MODE_KEY, enabled).apply()
+        mutableDeveloperMode.value = enabled
     }
 
     fun getLastAutoAdvanceDate(): String = preferences.getString(LAST_AUTO_ADVANCE_DATE_KEY, "") ?: ""
@@ -88,6 +98,7 @@ class AppSettings(context: Context) {
         private const val ACTIVE_COURSE_KEY = "active_course_id"
         private const val DAILY_NEW_WORD_KEY = "daily_new_word_target"
         private const val AUTO_ADVANCE_KEY = "auto_advance_enabled"
+        private const val DEVELOPER_MODE_KEY = "developer_mode"
         private const val LAST_AUTO_ADVANCE_DATE_KEY = "last_auto_advance_date"
         private const val LAST_UPDATE_CHECK_KEY = "last_update_check_timestamp"
         private const val SKIPPED_UPDATE_VERSION_KEY = "skipped_update_version_code"
