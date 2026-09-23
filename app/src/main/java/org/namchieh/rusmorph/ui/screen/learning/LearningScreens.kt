@@ -403,7 +403,7 @@ fun HomeScreen(
 
 @Composable
 fun CoursesScreen(state: Loadable<List<Course>>, onCourse: (String) -> Unit, onBottom: (BottomDestination) -> Unit) {
-    LearningScaffold("课程", BottomDestination.Tools, onBottom) { root ->
+    LearningScaffold("教材", BottomDestination.Learning, onBottom) { root ->
         ContentColumn(root) {
             RusSectionTitle("我的课程", "按课程与课次组织长期学习")
             when (state) {

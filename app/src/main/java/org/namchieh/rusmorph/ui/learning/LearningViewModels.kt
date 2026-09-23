@@ -21,6 +21,7 @@ import org.namchieh.rusmorph.domain.learning.LearningProgress
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.Lesson
 import org.namchieh.rusmorph.domain.learning.ReviewItem
+import org.namchieh.rusmorph.domain.learning.TextContent
 
 sealed interface Loadable<out T> {
     data object Loading : Loadable<Nothing>
@@ -91,6 +92,16 @@ class VocabularyViewModel(
 class DialogueViewModel(private val repository: CourseRepository, private val dialogueId: String) : ViewModel() {
     val state = MutableStateFlow<Loadable<Dialogue>>(Loadable.Loading)
     init { viewModelScope.launch { state.value = runCatching { requireNotNull(repository.dialogue(dialogueId)) }.fold({ Loadable.Content(it) }, { Loadable.Error("对话加载失败") }) } }
+}
+
+class TextDetailViewModel(private val repository: CourseRepository, private val textId: String) : ViewModel() {
+    val state = MutableStateFlow<Loadable<TextContent>>(Loadable.Loading)
+    init {
+        viewModelScope.launch {
+            state.value = runCatching { requireNotNull(repository.text(textId)) }
+                .fold({ Loadable.Content(it) }, { Loadable.Error("课文加载失败") })
+        }
+    }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

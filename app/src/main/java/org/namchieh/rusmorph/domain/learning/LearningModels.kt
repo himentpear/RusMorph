@@ -62,7 +62,16 @@ data class DialogueLine(
     val audio: String?, val order: Int, val pronunciationMetadata: Map<String, String> = emptyMap(),
 )
 data class TextContent(val id: String, val lessonId: String, val title: String, val translationTitle: String?, val paragraphs: List<TextParagraph>)
-data class TextParagraph(val id: String, val order: Int, val text: String, val translation: String?, val audio: String?, val sentences: List<String> = emptyList())
+data class TextParagraph(val id: String, val order: Int, val sentences: List<TextSentence>)
+data class TextSentence(
+    val id: String,
+    val order: Int,
+    val text: String,
+    val translation: String? = null,
+    val grammar: List<String> = emptyList(),
+    val notes: List<String> = emptyList(),
+    val audio: String? = null,
+)
 data class Exercise(val id: String, val lessonId: String, val title: String, val kind: String)
 data class LearningProgress(val sourceId: String, val courseId: String?, val lessonId: String?, val unitType: LearningUnitType?, val progress: Float, val status: LearningStatus, val updatedAt: Long)
 data class ReviewItem(val id: String, val type: ReviewItemType, val sourceId: String, val lessonId: String?, val dueAt: Long?, val interval: Int?, val difficulty: Double?, val mistakeCount: Int, val lastResult: Double?)

@@ -5,7 +5,8 @@ import android.net.Uri
 object Routes {
     const val Initialization = "initialization"
     const val Home = "home"
-    const val Tools = "tools"
+    const val Learning = "learning"
+    @Deprecated("Legacy internal route; never expose as primary navigation") const val Tools = "tools"
     const val Courses = "courses"
     const val Dictionary = "dictionary"
     const val Review = "review"
