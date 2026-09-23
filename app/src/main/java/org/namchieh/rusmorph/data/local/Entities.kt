@@ -342,3 +342,117 @@ data class PronunciationSessionEntity(
     val completedAt: Long?,
     val intelligibilityScore: Double?,
 )
+
+@Entity(
+    tableName = "grammar_points",
+    indices = [Index("parentPointId"), Index("category"), Index("sortOrder")],
+    foreignKeys = [
+        ForeignKey(
+            entity = GrammarPointEntity::class,
+            parentColumns = ["pointId"],
+            childColumns = ["parentPointId"],
+        ),
+    ],
+)
+data class GrammarPointEntity(
+    @androidx.room.PrimaryKey val pointId: String,
+    val titleZh: String,
+    val titleRu: String,
+    val explanation: String,
+    val exampleRu: String?,
+    val exampleZh: String?,
+    val parentPointId: String?,
+    val category: String?,
+    val sortOrder: Int,
+    val contentVersion: Int,
+)
+
+@Entity(
+    tableName = "questions",
+    indices = [Index("sourceType"), Index("examYear"), Index("sourceQuestionId")],
+)
+data class QuestionEntity(
+    @androidx.room.PrimaryKey val questionId: String,
+    val sourceQuestionId: Int?,
+    val sourceType: String,
+    val examYear: Int?,
+    val examYearLabel: String?,
+    val stem: String,
+    val optionA: String,
+    val optionB: String,
+    val optionC: String,
+    val optionD: String,
+    val answer: String,
+    val analysis: String?,
+    val difficulty: Double?,
+    val createdAt: Long?,
+)
+
+@Entity(
+    tableName = "grammar_question_cross_ref",
+    primaryKeys = ["questionId", "pointId"],
+    indices = [Index("pointId"), Index("questionId"), Index("role")],
+    foreignKeys = [
+        ForeignKey(entity = QuestionEntity::class, parentColumns = ["questionId"], childColumns = ["questionId"]),
+        ForeignKey(entity = GrammarPointEntity::class, parentColumns = ["pointId"], childColumns = ["pointId"]),
+    ],
+)
+data class GrammarQuestionCrossRefEntity(
+    val questionId: String,
+    val pointId: String,
+    val role: String,
+    val weight: Double,
+    val confidence: Double,
+    val relationSource: String,
+    val verified: Boolean,
+)
+
+@Entity(
+    tableName = "question_attempts",
+    indices = [Index("questionId"), Index("mode"), Index("createdAt"), Index("correct")],
+    foreignKeys = [
+        ForeignKey(entity = QuestionEntity::class, parentColumns = ["questionId"], childColumns = ["questionId"]),
+    ],
+)
+data class QuestionAttemptEntity(
+    @androidx.room.PrimaryKey val attemptId: String,
+    val questionId: String,
+    val selectedAnswer: String,
+    val correct: Boolean,
+    val mode: String,
+    val durationMs: Long?,
+    val createdAt: Long,
+)
+
+@Entity(
+    tableName = "grammar_mastery",
+    foreignKeys = [
+        ForeignKey(entity = GrammarPointEntity::class, parentColumns = ["pointId"], childColumns = ["pointId"]),
+    ],
+)
+data class GrammarMasteryEntity(
+    @androidx.room.PrimaryKey val pointId: String,
+    val mastery: Double,
+    val realQuestionAttempts: Int,
+    val realQuestionCorrect: Int,
+    val aiQuestionAttempts: Int,
+    val aiQuestionCorrect: Int,
+    val lastReviewedAt: Long?,
+)
+
+@Entity(
+    tableName = "question_lineage",
+    indices = [Index("derivedFromQuestionId"), Index("targetPointId"), Index("generationId")],
+    foreignKeys = [
+        ForeignKey(entity = QuestionEntity::class, parentColumns = ["questionId"], childColumns = ["questionId"]),
+        ForeignKey(entity = QuestionEntity::class, parentColumns = ["questionId"], childColumns = ["derivedFromQuestionId"]),
+        ForeignKey(entity = GrammarPointEntity::class, parentColumns = ["pointId"], childColumns = ["targetPointId"]),
+    ],
+)
+data class QuestionLineageEntity(
+    @androidx.room.PrimaryKey val questionId: String,
+    val derivedFromQuestionId: String?,
+    val targetPointId: String?,
+    val generationId: String?,
+    val modelMetadata: String?,
+)

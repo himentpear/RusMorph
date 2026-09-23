@@ -34,6 +34,7 @@ data class Lesson(
     val status: LearningStatus = LearningStatus.NOT_STARTED,
     val latestScore: Double? = null,
     val isReviewLesson: Boolean = false,
+    val grammarPointIds: List<String> = emptyList(),
 )
 
 data class LearningUnit(

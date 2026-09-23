@@ -26,6 +26,9 @@ interface AgentRepository {
         difficulty: String,
         topic: String?,
     ): PronunciationExampleResult = PronunciationExampleResult.Failure(AgentError.ServiceNotConfigured)
+    suspend fun generateVariantQuestion(
+        request: VariantQuestionRequestDto,
+    ): VariantQuestionResult = VariantQuestionResult.Failure(AgentError.ServiceNotConfigured)
     suspend fun checkWorkerConnection(): Boolean = false
     suspend fun routeCommand(command: String, session: AgentSessionContext): MultiAgentResult = MultiAgentResult.Failure(AgentError.NoNetwork)
     suspend fun orchestrate(request: OrchestrateRequest): MultiAgentResult = MultiAgentResult.Failure(AgentError.NoNetwork)
@@ -93,6 +96,31 @@ class DefaultAgentRepository(
             PronunciationExampleResult.Failure(AgentError.NoNetwork)
         } catch (_: Exception) {
             PronunciationExampleResult.Failure(AgentError.InvalidResponse)
+        }
+    }
+
+    override suspend fun generateVariantQuestion(request: VariantQuestionRequestDto): VariantQuestionResult {
+        if (api == null) return VariantQuestionResult.Failure(AgentError.ServiceNotConfigured)
+        return try {
+            val response = traced("/v1/grammar-variant", "variant-${UUID.randomUUID()}") {
+                api.grammarVariant(request)
+            }
+            if (!response.isSuccessful) {
+                VariantQuestionResult.Failure(errorFor(response))
+            } else {
+                response.body()
+                    ?.let { VariantQuestionValidator.validate(it, request.targetGrammarPointId) }
+                    ?.let(VariantQuestionResult::Success)
+                    ?: VariantQuestionResult.Failure(AgentError.InvalidResponse)
+            }
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (_: SocketTimeoutException) {
+            VariantQuestionResult.Failure(AgentError.Timeout)
+        } catch (_: IOException) {
+            VariantQuestionResult.Failure(AgentError.NoNetwork)
+        } catch (_: Exception) {
+            VariantQuestionResult.Failure(AgentError.InvalidResponse)
         }
     }
 
@@ -206,6 +234,22 @@ class DefaultAgentRepository(
 sealed interface PronunciationExampleResult {
     data class Success(val example: PronunciationExampleDto) : PronunciationExampleResult
     data class Failure(val error: AgentError) : PronunciationExampleResult
+}
+
+sealed interface VariantQuestionResult {
+    data class Success(val question: VariantQuestionResponseDto) : VariantQuestionResult
+    data class Failure(val error: AgentError) : VariantQuestionResult
+}
+
+object VariantQuestionValidator {
+    fun validate(response: VariantQuestionResponseDto, requestedPointId: String): VariantQuestionResponseDto? {
+        if (response.stem.isBlank() || response.analysis.isBlank()) return null
+        if (response.answer !in setOf("A", "B", "C", "D")) return null
+        if (response.targetPointId != requestedPointId) return null
+        if (response.options.keys != setOf("A", "B", "C", "D")) return null
+        if (response.options.values.any(String::isBlank)) return null
+        return response
+    }
 }
 
 object AgentNetworkErrorMapper {
@@ -411,7 +455,11 @@ private fun localAction(request: OrchestrateRequest): LocalAction? = when (reque
     else -> null
 }
 
-class FakeAgentRepository(private val response: AgentResult = AgentResult.Success(AgentResponse("fake", "fake", "Mock Agent 回答"))) : AgentRepository {
+class FakeAgentRepository(
+    private val response: AgentResult = AgentResult.Success(AgentResponse("fake", "fake", "Mock Agent 回答")),
+    private val variantResponse: VariantQuestionResult = VariantQuestionResult.Failure(AgentError.ServiceNotConfigured),
+) : AgentRepository {
     override val availability = AgentAvailability.AVAILABLE
     override suspend fun ask(request: AgentRequest): AgentResult = response
+    override suspend fun generateVariantQuestion(request: VariantQuestionRequestDto): VariantQuestionResult = variantResponse
 }

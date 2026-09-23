@@ -2,6 +2,11 @@
   "schemaVersion": 2,
   "sourceFiles": [
     {
+      "name": "grammar_tem4_source.xlsx",
+      "sha256": "123b700d8107fd45a651c37a85406bc0244b3dc7d3c4d21e9625d2d15fdc56d6",
+      "size": 307573
+    },
+    {
       "name": "大学俄语（一）单词表3.20.xlsx",
       "sha256": "3a8c80c385d592ddce0f775e1108026bebc3838004d41a009b298e2c6cf2f389",
       "size": 225564
@@ -39,10 +44,10 @@
       "size": 53
     }
   ],
-  "generatedAt": "2026-09-04T07:55:44.329121+00:00",
+  "generatedAt": "2026-09-22T23:47:50.682717+00:00",
   "generatorVersion": "1.0.0",
   "normalizationVersion": "1",
-  "dataVersion": "570b090b71c249791e611ed10dd3e64b82b7a57a7febcc53de842b8eb205519e",
+  "dataVersion": "f90aaa28debaae1c090f58d06cc64a92102c8bcc99eae510b656f44fcea9dbc3",
   "counts": {
     "entries": 1929,
     "searchForms": 2138,
@@ -51,7 +56,11 @@
     "provenanceRecords": 1929,
     "declensionRules": 234,
     "knowledgeChunks": 5,
-    "crossRefs": 84
+    "crossRefs": 84,
+    "grammarPoints": 16,
+    "questions": 48,
+    "grammarQuestionLinks": 51,
+    "multiLinkQuestions": 3
   },
   "morphologyCoverage": {
     "partsOfSpeech": 1875,
@@ -63,5 +72,10 @@
     "conjugationClass": 522,
     "phoneticAlternation": 208
   },
-  "warnings": 14
+  "warnings": 14,
+  "grammarTem4AssetHashes": {
+    "grammar_points.json": "604ceea3f901a8de73f2577f43beaa6d84e1eb21d9d0b55314cf6c60cd713211",
+    "tem4_questions.json": "e495ff08c0495cbb29c5b4f250af442b8455cccb61b7d2936223c390aa143b64",
+    "grammar_question_links.json": "8fea369dafaac65672520e996484448b1d2dfdf4eb06be13107e3c1b9950ffe7"
+  }
 }

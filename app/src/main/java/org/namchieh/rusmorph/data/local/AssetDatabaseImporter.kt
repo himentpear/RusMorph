@@ -95,6 +95,9 @@ class AssetDatabaseImporter(
             bundle.crossRefs.chunked(BATCH_SIZE).forEach {
                 dao.insertEntryKnowledgeCrossRefs(it)
             }
+            bundle.grammarPoints.chunked(BATCH_SIZE).forEach { dao.upsertGrammarPoints(it) }
+            bundle.questions.chunked(BATCH_SIZE).forEach { dao.upsertQuestions(it) }
+            bundle.grammarQuestionLinks.chunked(BATCH_SIZE).forEach { dao.upsertGrammarQuestionLinks(it) }
             verifyImportedData(dao, bundle)
             dao.upsertMetadata(AppMetadataEntity(DATA_VERSION_KEY, version))
         }
@@ -113,7 +116,10 @@ class AssetDatabaseImporter(
             dao.sourceCount() == bundle.sources.size &&
             dao.declensionRuleCount() == bundle.declensionRules.size &&
             dao.knowledgeChunkCount() == bundle.knowledgeChunks.size &&
-            dao.crossRefCount() == bundle.crossRefs.size
+            dao.crossRefCount() == bundle.crossRefs.size &&
+            dao.grammarPointCount() == bundle.grammarPoints.size &&
+            dao.realQuestionCount() == bundle.questions.count { it.sourceType == "TEM4_REAL" } &&
+            dao.sourceGrammarQuestionLinkCount() == bundle.grammarQuestionLinks.count { it.relationSource == "SOURCE_SPREADSHEET" }
         if (!countsMatch) throw SQLiteException("Imported data count mismatch")
         database.query("PRAGMA foreign_key_check", emptyArray()).use { cursor ->
             if (cursor.moveToFirst()) throw SQLiteException("Imported data violates foreign keys")
@@ -133,6 +139,9 @@ class AssetDatabaseImporter(
     private fun parseBundle(assets: Map<String, ByteArray>): ImportBundle {
         val lexiconType = object : TypeToken<List<AssetLexiconEntry>>() {}.type
         val knowledgeType = object : TypeToken<List<AssetKnowledgeChunk>>() {}.type
+        val grammarType = object : TypeToken<List<AssetGrammarPoint>>() {}.type
+        val questionType = object : TypeToken<List<AssetQuestion>>() {}.type
+        val grammarQuestionLinkType = object : TypeToken<List<AssetGrammarQuestionLink>>() {}.type
         val lexicon: List<AssetLexiconEntry> = gson.fromJson(
             assets.getValue("lexicon.json").toString(StandardCharsets.UTF_8),
             lexiconType,
@@ -144,6 +153,18 @@ class AssetDatabaseImporter(
         val knowledge: List<AssetKnowledgeChunk> = gson.fromJson(
             assets.getValue("knowledge_chunks.json").toString(StandardCharsets.UTF_8),
             knowledgeType,
+        )
+        val grammarPoints: List<AssetGrammarPoint> = gson.fromJson(
+            assets.getValue("grammar_points.json").toString(StandardCharsets.UTF_8),
+            grammarType,
+        )
+        val questions: List<AssetQuestion> = gson.fromJson(
+            assets.getValue("tem4_questions.json").toString(StandardCharsets.UTF_8),
+            questionType,
+        )
+        val grammarQuestionLinks: List<AssetGrammarQuestionLink> = gson.fromJson(
+            assets.getValue("grammar_question_links.json").toString(StandardCharsets.UTF_8),
+            grammarQuestionLinkType,
         )
         val knownChunkIds = knowledge.mapTo(mutableSetOf()) { it.id }
 
@@ -176,6 +197,9 @@ class AssetDatabaseImporter(
                     .distinct()
                     .map { EntryKnowledgeCrossRef(item.id, it) }
             },
+            grammarPoints = grammarPoints.map(AssetGrammarPoint::toEntity),
+            questions = questions.map(AssetQuestion::toEntity),
+            grammarQuestionLinks = grammarQuestionLinks.map(AssetGrammarQuestionLink::toEntity),
         )
     }
 
@@ -184,6 +208,9 @@ class AssetDatabaseImporter(
             "lexicon.json",
             "declension_rules.json",
             "knowledge_chunks.json",
+            "grammar_points.json",
+            "tem4_questions.json",
+            "grammar_question_links.json",
         )
     }
 }
@@ -204,6 +231,9 @@ private data class ImportBundle(
     val declensionRules: List<DeclensionRuleEntity>,
     val knowledgeChunks: List<KnowledgeChunkEntity>,
     val crossRefs: List<EntryKnowledgeCrossRef>,
+    val grammarPoints: List<GrammarPointEntity>,
+    val questions: List<QuestionEntity>,
+    val grammarQuestionLinks: List<GrammarQuestionCrossRefEntity>,
 )
 
 private data class AssetLexiconEntry(
@@ -314,5 +344,59 @@ private data class AssetKnowledgeChunk(
         examplesJson = gson.toJson(examples),
         sourceDocument = sourceDocument,
         sectionPathJson = gson.toJson(sectionPath),
+    )
+}
+
+private data class AssetGrammarPoint(
+    val pointId: String,
+    val titleZh: String,
+    val titleRu: String,
+    val explanation: String,
+    val exampleRu: String?,
+    val exampleZh: String?,
+    val parentPointId: String?,
+    val category: String?,
+    val sortOrder: Int,
+    val contentVersion: Int,
+) {
+    fun toEntity() = GrammarPointEntity(
+        pointId, titleZh, titleRu, explanation, exampleRu, exampleZh,
+        parentPointId, category, sortOrder, contentVersion,
+    )
+}
+
+private data class AssetQuestion(
+    val questionId: String,
+    val sourceQuestionId: Int?,
+    val sourceType: String,
+    val examYear: Int?,
+    val examYearLabel: String?,
+    val stem: String,
+    val optionA: String,
+    val optionB: String,
+    val optionC: String,
+    val optionD: String,
+    val answer: String,
+    val analysis: String?,
+    val difficulty: Double?,
+    val createdAt: Long?,
+) {
+    fun toEntity() = QuestionEntity(
+        questionId, sourceQuestionId, sourceType, examYear, examYearLabel, stem,
+        optionA, optionB, optionC, optionD, answer, analysis, difficulty, createdAt,
+    )
+}
+
+private data class AssetGrammarQuestionLink(
+    val questionId: String,
+    val pointId: String,
+    val role: String,
+    val weight: Double,
+    val confidence: Double,
+    val relationSource: String,
+    val verified: Boolean,
+) {
+    fun toEntity() = GrammarQuestionCrossRefEntity(
+        questionId, pointId, role, weight, confidence, relationSource, verified,
     )
 }

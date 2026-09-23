@@ -35,6 +35,8 @@ fun LearningScreen(
     onPronunciation: () -> Unit,
     onAiCommands: () -> Unit,
     onReview: () -> Unit,
+    onGrammar: () -> Unit = {},
+    onTem4: () -> Unit = {},
     onBottom: (BottomDestination) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -70,6 +72,8 @@ fun LearningScreen(
             }
 
             RusSectionTitle("专项学习", "练习与辅助能力跟随教材学习流程")
+            LearningEntryCard("Г", "语法学习", "语法规则、掌握度与关联真题", onGrammar)
+            LearningEntryCard("Т", "专四练习", "按年份、语法点、错题或随机练习", onTem4)
             LearningEntryCard("🎧", "发音训练", "跟读、录音与发音反馈", onPronunciation)
             LearningEntryCard("✦", "AI 学习辅助", "围绕当前教材解释、练习与总结", onAiCommands)
             LearningEntryCard("↻", "今日复习", "复习到期词汇与学习内容", onReview)

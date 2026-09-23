@@ -40,6 +40,15 @@ interface DataImportDao {
     @Query("SELECT COUNT(*) FROM entry_knowledge_cross_ref")
     suspend fun crossRefCount(): Int
 
+    @Query("SELECT COUNT(*) FROM grammar_points")
+    suspend fun grammarPointCount(): Int
+
+    @Query("SELECT COUNT(*) FROM questions WHERE sourceType = 'TEM4_REAL'")
+    suspend fun realQuestionCount(): Int
+
+    @Query("SELECT COUNT(*) FROM grammar_question_cross_ref WHERE relationSource = 'SOURCE_SPREADSHEET'")
+    suspend fun sourceGrammarQuestionLinkCount(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLexiconEntries(items: List<LexiconEntryEntity>)
 
@@ -63,6 +72,15 @@ interface DataImportDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEntryKnowledgeCrossRefs(items: List<EntryKnowledgeCrossRef>)
+
+    @Upsert
+    suspend fun upsertGrammarPoints(items: List<GrammarPointEntity>)
+
+    @Upsert
+    suspend fun upsertQuestions(items: List<QuestionEntity>)
+
+    @Upsert
+    suspend fun upsertGrammarQuestionLinks(items: List<GrammarQuestionCrossRefEntity>)
 
     @Query("DELETE FROM entry_knowledge_cross_ref")
     suspend fun clearCrossRefs()
@@ -428,3 +446,150 @@ interface LearningDao {
 }
 
 data class LegacyReviewItemRow(val id: String, val sourceId: String, val lessonNumber: Int?, val dueAt: Long?)
+
+data class GrammarPointStatsRow(
+    val pointId: String,
+    val realQuestionCount: Int,
+    val completedQuestionCount: Int,
+)
+
+data class GrammarAttemptEvidenceRow(
+    val sourceType: String,
+    val correct: Boolean,
+    val createdAt: Long,
+)
+
+@Dao
+interface GrammarExamDao {
+    @Query("SELECT * FROM grammar_points ORDER BY sortOrder, pointId")
+    fun observeAllGrammarPoints(): Flow<List<GrammarPointEntity>>
+
+    @Query("SELECT * FROM grammar_points ORDER BY sortOrder, pointId")
+    suspend fun getAllGrammarPoints(): List<GrammarPointEntity>
+
+    @Query("SELECT * FROM grammar_points WHERE pointId = :pointId LIMIT 1")
+    fun observeGrammarPoint(pointId: String): Flow<GrammarPointEntity?>
+
+    @Query("SELECT * FROM grammar_points WHERE pointId = :pointId LIMIT 1")
+    suspend fun getGrammarPoint(pointId: String): GrammarPointEntity?
+
+    @Query(
+        """
+        SELECT q.* FROM questions q
+        INNER JOIN grammar_question_cross_ref link ON link.questionId = q.questionId
+        WHERE link.pointId = :pointId
+        ORDER BY CASE WHEN link.verified = 1 AND link.role = 'PRIMARY' THEN 0
+                      WHEN link.role = 'PRIMARY' THEN 1
+                      WHEN link.role = 'RELATED' THEN 2 ELSE 3 END,
+                 q.examYear, q.sourceQuestionId, q.questionId
+        """,
+    )
+    fun observeQuestionsForGrammarPoint(pointId: String): Flow<List<QuestionEntity>>
+
+    @Query(
+        """
+        SELECT q.* FROM questions q
+        INNER JOIN grammar_question_cross_ref link ON link.questionId = q.questionId
+        WHERE link.pointId = :pointId
+        ORDER BY CASE WHEN link.verified = 1 AND link.role = 'PRIMARY' THEN 0
+                      WHEN link.role = 'PRIMARY' THEN 1
+                      WHEN link.role = 'RELATED' THEN 2 ELSE 3 END,
+                 q.examYear, q.sourceQuestionId, q.questionId
+        """,
+    )
+    suspend fun getQuestionsForGrammarPoint(pointId: String): List<QuestionEntity>
+
+    @Query(
+        """
+        SELECT gp.* FROM grammar_points gp
+        INNER JOIN grammar_question_cross_ref link ON link.pointId = gp.pointId
+        WHERE link.questionId = :questionId
+        ORDER BY CASE WHEN link.verified = 1 AND link.role = 'PRIMARY' THEN 0
+                      WHEN link.role = 'PRIMARY' THEN 1
+                      WHEN link.role = 'RELATED' THEN 2 ELSE 3 END,
+                 gp.sortOrder, gp.pointId
+        """,
+    )
+    suspend fun getGrammarPointsForQuestion(questionId: String): List<GrammarPointEntity>
+
+    @Query("SELECT * FROM grammar_question_cross_ref WHERE questionId = :questionId")
+    suspend fun getLinksForQuestion(questionId: String): List<GrammarQuestionCrossRefEntity>
+
+    @Query("SELECT * FROM questions WHERE sourceType = 'TEM4_REAL' ORDER BY examYear, sourceQuestionId, questionId")
+    fun observeTem4Questions(): Flow<List<QuestionEntity>>
+
+    @Query("SELECT * FROM questions WHERE sourceType = 'TEM4_REAL' ORDER BY examYear, sourceQuestionId, questionId")
+    suspend fun getTem4Questions(): List<QuestionEntity>
+
+    @Query("SELECT * FROM questions WHERE questionId = :questionId LIMIT 1")
+    fun observeQuestion(questionId: String): Flow<QuestionEntity?>
+
+    @Query("SELECT * FROM questions WHERE questionId = :questionId LIMIT 1")
+    suspend fun getQuestion(questionId: String): QuestionEntity?
+
+    @Query("SELECT * FROM question_attempts WHERE questionId = :questionId ORDER BY createdAt DESC")
+    fun observeAttempts(questionId: String): Flow<List<QuestionAttemptEntity>>
+
+    @Query("SELECT * FROM question_attempts WHERE questionId = :questionId ORDER BY createdAt DESC")
+    suspend fun getAttempts(questionId: String): List<QuestionAttemptEntity>
+
+    @Query(
+        """
+        SELECT q.sourceType AS sourceType, attempt.correct AS correct, attempt.createdAt AS createdAt
+        FROM question_attempts attempt
+        INNER JOIN questions q ON q.questionId = attempt.questionId
+        INNER JOIN grammar_question_cross_ref link ON link.questionId = q.questionId
+        WHERE link.pointId = :pointId
+        ORDER BY attempt.createdAt
+        """,
+    )
+    suspend fun getAttemptEvidenceForGrammarPoint(pointId: String): List<GrammarAttemptEvidenceRow>
+
+    @Query(
+        """
+        SELECT DISTINCT q.* FROM questions q
+        INNER JOIN question_attempts attempt ON attempt.questionId = q.questionId
+        WHERE attempt.correct = 0
+        ORDER BY attempt.createdAt DESC
+        """,
+    )
+    fun observeWrongQuestions(): Flow<List<QuestionEntity>>
+
+    @Query(
+        """
+        SELECT gp.pointId AS pointId,
+               COUNT(DISTINCT CASE WHEN q.sourceType = 'TEM4_REAL' THEN q.questionId END) AS realQuestionCount,
+               COUNT(DISTINCT CASE WHEN q.sourceType = 'TEM4_REAL' AND attempt.attemptId IS NOT NULL THEN q.questionId END) AS completedQuestionCount
+        FROM grammar_points gp
+        LEFT JOIN grammar_question_cross_ref link ON link.pointId = gp.pointId
+        LEFT JOIN questions q ON q.questionId = link.questionId
+        LEFT JOIN question_attempts attempt ON attempt.questionId = q.questionId
+        GROUP BY gp.pointId
+        """,
+    )
+    fun observeGrammarPointStats(): Flow<List<GrammarPointStatsRow>>
+
+    @Query("SELECT * FROM grammar_mastery WHERE pointId = :pointId LIMIT 1")
+    fun observeGrammarMastery(pointId: String): Flow<GrammarMasteryEntity?>
+
+    @Query("SELECT * FROM grammar_mastery")
+    fun observeAllGrammarMastery(): Flow<List<GrammarMasteryEntity>>
+
+    @Upsert
+    suspend fun upsertQuestion(question: QuestionEntity)
+
+    @Upsert
+    suspend fun upsertGrammarQuestionLink(link: GrammarQuestionCrossRefEntity)
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertAttempt(attempt: QuestionAttemptEntity)
+
+    @Upsert
+    suspend fun upsertMastery(mastery: GrammarMasteryEntity)
+
+    @Upsert
+    suspend fun upsertLineage(lineage: QuestionLineageEntity)
+
+    @Query("SELECT * FROM question_lineage WHERE questionId = :questionId LIMIT 1")
+    suspend fun getLineage(questionId: String): QuestionLineageEntity?
+}

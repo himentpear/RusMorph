@@ -25,6 +25,8 @@ import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.RusMorphApplication
 import org.namchieh.rusmorph.data.local.InitializationState
 import org.namchieh.rusmorph.domain.learning.LearningUnitType
+import org.namchieh.rusmorph.domain.grammar.QuestionEntryContextType
+import org.namchieh.rusmorph.domain.grammar.QuestionRunnerMode
 import org.namchieh.rusmorph.ui.AgentViewModel
 import org.namchieh.rusmorph.ui.CommandViewModel
 import org.namchieh.rusmorph.ui.LocalExplanationViewModel
@@ -38,6 +40,10 @@ import org.namchieh.rusmorph.ui.learning.LearningSummaryViewModel
 import org.namchieh.rusmorph.ui.learning.LessonDetailViewModel
 import org.namchieh.rusmorph.ui.learning.TextDetailViewModel
 import org.namchieh.rusmorph.ui.learning.VocabularyViewModel
+import org.namchieh.rusmorph.ui.grammar.GrammarHomeViewModel
+import org.namchieh.rusmorph.ui.grammar.GrammarDetailViewModel
+import org.namchieh.rusmorph.ui.grammar.Tem4PracticeViewModel
+import org.namchieh.rusmorph.ui.grammar.QuestionRunnerViewModel
 import org.namchieh.rusmorph.ui.screen.agent.AgentScreen
 import org.namchieh.rusmorph.ui.screen.cards.CommandScreen
 import org.namchieh.rusmorph.ui.screen.detail.WordDetailScreen
@@ -58,6 +64,10 @@ import org.namchieh.rusmorph.ui.screen.placeholder.PlaceholderScreen
 import org.namchieh.rusmorph.ui.screen.pronunciation.PronunciationScreen
 import org.namchieh.rusmorph.ui.screen.search.SearchScreen
 import org.namchieh.rusmorph.ui.screen.settings.SettingsScreen
+import org.namchieh.rusmorph.ui.screen.grammar.GrammarHomeScreen
+import org.namchieh.rusmorph.ui.screen.grammar.GrammarDetailScreen
+import org.namchieh.rusmorph.ui.screen.grammar.Tem4PracticeScreen
+import org.namchieh.rusmorph.ui.screen.grammar.QuestionRunnerScreen
 import org.namchieh.rusmorph.update.ui.AppUpdateDialog
 
 @Composable
@@ -135,6 +145,8 @@ fun RusMorphApp(application: RusMorphApplication) {
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
                     onReview = { selectBottom(BottomDestination.Review) },
+                    onGrammar = { navController.navigate(Routes.Grammar) },
+                    onTem4 = { navController.navigate(Routes.Tem4) },
                     onBottom = ::selectBottom,
                 )
             }
@@ -229,7 +241,78 @@ fun RusMorphApp(application: RusMorphApplication) {
                 val state by vm.state.collectAsState()
                 DialogueScreen(state, { text, source -> navController.navigate(Routes.pronunciation(text, "DIALOGUE_LINE", source)) }, navController::navigateUp, { navController.navigate(Routes.commands("解释这段教材对话")) })
             }
-            composable(Routes.GrammarPattern, listOf(navArgument("grammarId") { type = NavType.StringType })) { UnavailableContentScreen("语法", navController::navigateUp) }
+            composable(Routes.Grammar) {
+                val vm: GrammarHomeViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { GrammarHomeViewModel(application.grammarRepository) } } })
+                val points by vm.points.collectAsState()
+                GrammarHomeScreen(points, { navController.navigate(Routes.grammar(it)) }, { navController.navigate(Routes.Tem4) }, ::selectBottom)
+            }
+            composable(Routes.GrammarPattern, listOf(navArgument("pointId") { type = NavType.StringType })) { entry ->
+                val pointId = checkNotNull(entry.arguments?.getString("pointId"))
+                val vm: GrammarDetailViewModel = viewModel(
+                    key = "grammar-$pointId",
+                    factory = remember(application, pointId) { viewModelFactory { initializer { GrammarDetailViewModel(application.grammarRepository, pointId) } } },
+                )
+                val state by vm.state.collectAsState()
+                GrammarDetailScreen(state) { questionId, targetPointId ->
+                    navController.navigate(Routes.question(questionId, QuestionRunnerMode.LEARNING, QuestionEntryContextType.GRAMMAR, targetPointId))
+                }
+            }
+            composable(Routes.Tem4) {
+                val vm: Tem4PracticeViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { Tem4PracticeViewModel(application.examPracticeRepository, application.grammarRepository) } } })
+                val questions by vm.questions.collectAsState()
+                val wrongQuestions by vm.wrongQuestions.collectAsState()
+                val grammarPoints by vm.grammarPoints.collectAsState()
+                Tem4PracticeScreen(
+                    questions, wrongQuestions, grammarPoints,
+                    { questionId, pointId -> navController.navigate(Routes.question(questionId, QuestionRunnerMode.PRACTICE, QuestionEntryContextType.TEM4, pointId)) },
+                    { navController.navigate(Routes.grammar(it)) },
+                    ::selectBottom,
+                )
+            }
+            composable(
+                Routes.QuestionPattern,
+                listOf(
+                    navArgument("questionId") { type = NavType.StringType },
+                    navArgument("mode") { type = NavType.StringType; defaultValue = QuestionRunnerMode.PRACTICE.name },
+                    navArgument("context") { type = NavType.StringType; defaultValue = QuestionEntryContextType.TEM4.name },
+                    navArgument("pointId") { type = NavType.StringType; nullable = true; defaultValue = null },
+                ),
+            ) { entry ->
+                val questionId = checkNotNull(entry.arguments?.getString("questionId"))
+                val mode = runCatching { QuestionRunnerMode.valueOf(entry.arguments?.getString("mode").orEmpty()) }.getOrDefault(QuestionRunnerMode.PRACTICE)
+                val context = runCatching { QuestionEntryContextType.valueOf(entry.arguments?.getString("context").orEmpty()) }.getOrDefault(QuestionEntryContextType.TEM4)
+                val pointId = entry.arguments?.getString("pointId")?.takeIf(String::isNotBlank)
+                val vm: QuestionRunnerViewModel = viewModel(
+                    key = "question-$questionId-$mode-$pointId",
+                    factory = remember(application, questionId, mode, context, pointId) { viewModelFactory { initializer {
+                        QuestionRunnerViewModel(
+                            createSavedStateHandle(), application.examPracticeRepository, application.grammarRepository,
+                            application.agentRepository, questionId, mode, context, pointId,
+                        )
+                    } } },
+                )
+                val state by vm.state.collectAsState()
+                QuestionRunnerScreen(
+                    state = state,
+                    mode = mode,
+                    onSelect = vm::selectAnswer,
+                    onSubmit = vm::submit,
+                    onPeek = vm::openGrammarPeek,
+                    onClosePeek = vm::closeGrammarPeek,
+                    onFullGrammar = { navController.navigate(Routes.grammar(it)) },
+                    onNext = { target -> coroutineScope.launch {
+                        application.examPracticeRepository.getNextQuestion(questionId, target)?.let { next ->
+                            navController.navigate(Routes.question(next.questionId, mode, if (target != null) QuestionEntryContextType.GRAMMAR else context, target))
+                        }
+                    } },
+                    onGenerateVariant = vm::generateVariant,
+                    onGeneratedQuestion = { generatedId ->
+                        vm.consumeGeneratedQuestion()
+                        val generatedPointId = state.grammarPoints.firstOrNull()?.pointId ?: pointId
+                        navController.navigate(Routes.question(generatedId, QuestionRunnerMode.AI_VARIANT, QuestionEntryContextType.AI_VARIANT, generatedPointId))
+                    },
+                )
+            }
             composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { entry ->
                 val id = checkNotNull(entry.arguments?.getString("textId"))
                 val vm: TextDetailViewModel = viewModel(

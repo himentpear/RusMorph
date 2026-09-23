@@ -37,6 +37,9 @@ val requiredDatabaseAssets = listOf(
     "lexicon.json",
     "declension_rules.json",
     "knowledge_chunks.json",
+    "grammar_points.json",
+    "tem4_questions.json",
+    "grammar_question_links.json",
     "data_manifest.json",
 )
 
@@ -136,6 +139,9 @@ val buildLexiconAssets by tasks.registering {
         include("*.xlsx", "*.XLSX", "*.csv", "*.CSV", "*.docx", "*.DOCX", "knowledge_overrides.json")
     })
     inputs.files(rootProject.fileTree("tools/xlsx_builder") { include("**/*.py", "config/*.json") })
+    inputs.files(rootProject.fileTree("tools/grammar_exam_importer") { include("**/*.py") })
+    inputs.file(rootProject.layout.projectDirectory.file("data-source/grammar-tem4/grammar_tem4_source.xlsx"))
+    inputs.file(rootProject.layout.projectDirectory.file("data-source/grammar-tem4/grammar_question_relation_overrides.json"))
     outputs.files(requiredDatabaseAssets.map(dataAssetsDirectory::file))
     outputs.file(rootProject.layout.projectDirectory.file("build/generated/agent/lexicon_agent.jsonl"))
     outputs.file(rootProject.layout.projectDirectory.file("build/reports/data/xlsx_audit_report.json"))
@@ -143,6 +149,7 @@ val buildLexiconAssets by tasks.registering {
     outputs.file(rootProject.layout.projectDirectory.file("build/reports/data/knowledge_association_report.json"))
     outputs.file(rootProject.layout.projectDirectory.file("build/reports/data/manual_review_candidates.json"))
     outputs.file(rootProject.layout.projectDirectory.file("build/reports/data/real_asset_test_fixtures.json"))
+    outputs.file(rootProject.layout.projectDirectory.file("build/reports/data/grammar_tem4_audit_report.json"))
     doLast {
         val tabularSources = rootProject.fileTree("data-source") {
             include("*.xlsx", "*.XLSX", "*.csv", "*.CSV")
@@ -175,6 +182,32 @@ val buildLexiconAssets by tasks.registering {
                 ),
             )
         }.result.get().assertNormalExitValue()
+        providers.exec {
+            workingDir(rootProject.projectDir)
+            commandLine(
+                python + listOf(
+                    "tools/grammar_exam_importer/import_grammar_tem4.py",
+                    "--source", "data-source/grammar-tem4/grammar_tem4_source.xlsx",
+                    "--output", "app/src/main/assets/database",
+                    "--report-output", "build/reports/data",
+                ),
+            )
+        }.result.get().assertNormalExitValue()
+    }
+}
+
+val testGrammarTem4Importer by tasks.registering {
+    group = "verification"
+    description = "Run normalized GrammarPoint/TEM4 importer tests."
+    inputs.files(rootProject.fileTree("tools/grammar_exam_importer") { include("**/*.py") })
+    inputs.file(rootProject.layout.projectDirectory.file("data-source/grammar-tem4/grammar_tem4_source.xlsx"))
+    doLast {
+        val python = availablePythonCommand()
+            ?: throw GradleException("Python 3 is required for Grammar/TEM4 importer tests.")
+        providers.exec {
+            workingDir(rootProject.projectDir)
+            commandLine(python + listOf("-m", "pytest", "tools/grammar_exam_importer/tests", "-q"))
+        }.result.get().assertNormalExitValue()
     }
 }
 
@@ -192,6 +225,12 @@ val verifyLexiconAssets by tasks.registering {
             ?: throw GradleException("lexicon.json must contain a JSON array")
         val knowledge = parser.parse(files.getValue("knowledge_chunks.json")) as? List<*>
             ?: throw GradleException("knowledge_chunks.json must contain a JSON array")
+        val grammar = parser.parse(files.getValue("grammar_points.json")) as? List<*>
+            ?: throw GradleException("grammar_points.json must contain a JSON array")
+        val questions = parser.parse(files.getValue("tem4_questions.json")) as? List<*>
+            ?: throw GradleException("tem4_questions.json must contain a JSON array")
+        val grammarLinks = parser.parse(files.getValue("grammar_question_links.json")) as? List<*>
+            ?: throw GradleException("grammar_question_links.json must contain a JSON array")
         val declension = parser.parse(files.getValue("declension_rules.json")) as? Map<*, *>
             ?: throw GradleException("declension_rules.json must contain a JSON object")
         val manifest = parser.parse(files.getValue("data_manifest.json")) as? Map<*, *>
@@ -219,6 +258,13 @@ val verifyLexiconAssets by tasks.registering {
                 }
         }
         val counts = manifest["counts"] as? Map<*, *> ?: throw GradleException("Manifest counts missing")
+        if (grammar.size != 16 || questions.size != 48 || grammarLinks.size != 51) {
+            throw GradleException("Grammar/TEM4 asset counts are invalid")
+        }
+        if ((counts["grammarPoints"] as? Number)?.toInt() != grammar.size ||
+            (counts["questions"] as? Number)?.toInt() != questions.size ||
+            (counts["grammarQuestionLinks"] as? Number)?.toInt() != grammarLinks.size
+        ) throw GradleException("Manifest Grammar/TEM4 counts do not match generated assets")
         val rules = declension["rules"] as? List<*> ?: throw GradleException("Declension rules missing")
         val actualCounts = mapOf(
             "entries" to entries.size,
@@ -351,6 +397,8 @@ android {
     sourceSets {
         getByName("main").assets.srcDir(generatedCourseAssets)
         getByName("debug").assets.srcDir("schemas")
+        getByName("release").assets.srcDir("schemas")
+        getByName("test").assets.srcDir("schemas")
         getByName("androidTest").assets.srcDir("schemas")
     }
 }
@@ -418,6 +466,7 @@ tasks.named("preBuild") {
 }
 
 tasks.withType<Test>().configureEach {
+    dependsOn(testGrammarTem4Importer)
     // Robolectric native SQLite can crash the Windows JVM when several Room suites share one process.
     forkEvery = 1
     maxParallelForks = 1
