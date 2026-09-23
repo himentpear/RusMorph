@@ -20,6 +20,7 @@ class CourseRepository(
     private val searchRepository: SearchRepository,
     private val gson: Gson = Gson(),
 ) {
+    private val textbook2 by lazy { UniversityRussian2Assets(context) }
     private val course1 = Course(
         id = COURSE_1_ID,
         title = "大学俄语 1",
@@ -32,7 +33,7 @@ class CourseRepository(
         id = COURSE_2_ID,
         title = "大学俄语 2",
         subtitle = "Русский язык · Том 2",
-        description = "第二册教材课程，收录全册 947 个词汇及课文对话占位。",
+        description = "第二册教材课程，收录词汇和已校验的课文正文。",
         lessonCount = 12,
     )
 
@@ -42,9 +43,10 @@ class CourseRepository(
 
     suspend fun lessons(courseId: String): List<Lesson> = withContext(Dispatchers.IO) {
         val targetCourse = course(courseId) ?: return@withContext emptyList()
-        val dialogues = dialogues().associateBy { it.lessonId }
-        val texts = texts().associateBy { it.lessonId }
         val isBook2 = (courseId == COURSE_2_ID)
+        val dialogues = if (isBook2) emptyMap() else dialogues().associateBy { it.lessonId }
+        val texts = if (isBook2) emptyMap() else texts().associateBy { it.lessonId }
+        val textbookLessons = if (isBook2) textbook2.lessons.associateBy { it.lessonNumber } else emptyMap()
 
         (1..targetCourse.lessonCount).map { number ->
             val lessonId = lessonId(courseId, number)
@@ -57,7 +59,10 @@ class CourseRepository(
             val units = buildList {
                 if (vocabularyCount > 0) add(unit(lessonId, LearningUnitType.VOCABULARY, vocabularyCount))
                 if (isBook2) {
-                    add(unit(lessonId, LearningUnitType.DIALOGUE, 0))
+                    val dialogueCount = textbook2.dialogueCount(number)
+                    if (dialogueCount > 0) add(unit(lessonId, LearningUnitType.DIALOGUE, dialogueCount))
+                    val readingCount = textbook2.readingCount(number)
+                    if (readingCount > 0) add(unit(lessonId, LearningUnitType.TEXT, readingCount))
                 } else {
                     dialogues[lessonId]?.let { add(unit(lessonId, LearningUnitType.DIALOGUE, it.lines.size)) }
                     texts[lessonId]?.let { text ->
@@ -70,8 +75,8 @@ class CourseRepository(
                 id = lessonId,
                 courseId = courseId,
                 number = number,
-                titleRu = if (!isBook2 && number == 8) "ПОВТОРЕНИЕ" else "УРОК $number",
-                titleZh = if (!isBook2 && number == 8) "复习" else "第 $number 课",
+                titleRu = textbookLessons[number]?.titleRu ?: if (!isBook2 && number == 8) "ПОВТОРЕНИЕ" else "УРОК $number",
+                titleZh = textbookLessons[number]?.titleZh ?: if (!isBook2 && number == 8) "复习" else "第 $number 课",
                 units = units,
                 isReviewLesson = (!isBook2 && number == 8),
             )
@@ -89,40 +94,35 @@ class CourseRepository(
         }
     }
 
-    suspend fun dialogue(dialogueId: String): Dialogue? {
+    suspend fun dialogue(dialogueId: String): Dialogue? = withContext(Dispatchers.IO) {
         if (dialogueId.contains("ur2") || dialogueId.contains(COURSE_2_ID)) {
-            val lessonNumber = dialogueId.substringAfterLast('-').toIntOrNull() ?: 1
-            return placeholderDialogue(COURSE_2_ID, lessonNumber)
+            val number = dialogueId.substringAfterLast('-').toIntOrNull() ?: return@withContext null
+            return@withContext textbook2.dialogue(number, lessonId(COURSE_2_ID, number))
         }
         val number = dialogueId.substringAfterLast('-').toIntOrNull()
-        return dialogues().firstOrNull { it.id == dialogueId || (number != null && it.id == "dialogue-$number") }
+        dialogues().firstOrNull { it.id == dialogueId || (number != null && it.id == "dialogue-$number") }
     }
 
-    suspend fun dialogueForLesson(lessonId: String): Dialogue? {
+    suspend fun dialogueForLesson(lessonId: String): Dialogue? = withContext(Dispatchers.IO) {
         if (lessonId.startsWith("ur2-")) {
-            val lessonNumber = lessonNumber(lessonId) ?: 1
-            return placeholderDialogue(COURSE_2_ID, lessonNumber)
+            val number = lessonNumber(lessonId) ?: return@withContext null
+            return@withContext textbook2.dialogue(number, lessonId)
         }
-        return dialogues().firstOrNull { it.lessonId == lessonId }
+        dialogues().firstOrNull { it.lessonId == lessonId }
     }
 
     suspend fun text(textId: String): TextContent? = withContext(Dispatchers.IO) {
-        texts().firstOrNull { it.id == textId || it.lessonId == textId }
+        if (textId.contains("ur2-")) {
+            val number = textId.substringAfterLast('-').toIntOrNull() ?: return@withContext null
+            textbook2.reading(number, lessonId(COURSE_2_ID, number))
+        } else texts().firstOrNull { it.id == textId || it.lessonId == textId }
     }
 
     suspend fun textForLesson(lessonId: String): TextContent? = withContext(Dispatchers.IO) {
-        texts().firstOrNull { it.lessonId == lessonId }
-    }
-
-    private fun placeholderDialogue(courseId: String, lessonNumber: Int): Dialogue {
-        val lessonId = lessonId(courseId, lessonNumber)
-        return Dialogue(
-            id = "dialogue-$lessonId",
-            lessonId = lessonId,
-            title = "Диалог · Урок $lessonNumber",
-            description = "第二册课文对话正在整理录入中",
-            lines = emptyList(),
-        )
+        if (lessonId.startsWith("ur2-")) {
+            val number = lessonNumber(lessonId) ?: return@withContext null
+            textbook2.reading(number, lessonId)
+        } else texts().firstOrNull { it.lessonId == lessonId }
     }
 
     private fun dialogues(): List<Dialogue> = runCatching {

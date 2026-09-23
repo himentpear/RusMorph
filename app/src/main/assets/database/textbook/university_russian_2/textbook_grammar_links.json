@@ -1,0 +1,345 @@
+[
+  {
+    "id": "ur2_gmlink_0001",
+    "grammarMentionId": "ur2_l01_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0002",
+    "grammarMentionId": "ur2_l01_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0003",
+    "grammarMentionId": "ur2_l01_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0004",
+    "grammarMentionId": "ur2_l02_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0005",
+    "grammarMentionId": "ur2_l02_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0006",
+    "grammarMentionId": "ur2_l02_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0007",
+    "grammarMentionId": "ur2_l03_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.42,
+    "resolutionStatus": "AMBIGUOUS",
+    "candidateIds": [
+      "knowledge_dfbabd02abed4637f627",
+      "knowledge_c02881bef78f3f6ca7d7"
+    ],
+    "matchReason": "候选分别涉及名词词干扩充和 -j- 集合名词后缀，与“常见名词后缀”主题有局部关联，但覆盖范围不等价；需人工核对教材本页后才能建立正式链接。"
+  },
+  {
+    "id": "ur2_gmlink_0008",
+    "grammarMentionId": "ur2_l03_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0009",
+    "grammarMentionId": "ur2_l03_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0010",
+    "grammarMentionId": "ur2_l04_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0011",
+    "grammarMentionId": "ur2_l04_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0012",
+    "grammarMentionId": "ur2_l04_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0013",
+    "grammarMentionId": "ur2_l05_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0014",
+    "grammarMentionId": "ur2_l05_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0015",
+    "grammarMentionId": "ur2_l05_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0016",
+    "grammarMentionId": "ur2_l06_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0017",
+    "grammarMentionId": "ur2_l06_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0018",
+    "grammarMentionId": "ur2_l06_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0019",
+    "grammarMentionId": "ur2_l07_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0020",
+    "grammarMentionId": "ur2_l07_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0021",
+    "grammarMentionId": "ur2_l07_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0022",
+    "grammarMentionId": "ur2_l08_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0023",
+    "grammarMentionId": "ur2_l08_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0024",
+    "grammarMentionId": "ur2_l08_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0025",
+    "grammarMentionId": "ur2_l09_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0026",
+    "grammarMentionId": "ur2_l09_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0027",
+    "grammarMentionId": "ur2_l09_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0028",
+    "grammarMentionId": "ur2_l10_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0029",
+    "grammarMentionId": "ur2_l10_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0030",
+    "grammarMentionId": "ur2_l10_gm_03",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0031",
+    "grammarMentionId": "ur2_l11_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0032",
+    "grammarMentionId": "ur2_l11_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0033",
+    "grammarMentionId": "ur2_l12_gm_01",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  },
+  {
+    "id": "ur2_gmlink_0034",
+    "grammarMentionId": "ur2_l12_gm_02",
+    "knowledgeChunkId": null,
+    "declensionRuleId": null,
+    "confidence": 0.0,
+    "resolutionStatus": "UNRESOLVED",
+    "candidateIds": [],
+    "matchReason": "现有知识库未提供与该教材主题语义等价的知识节点；现有 declension_rules 是词尾/格位规则记录，不能代表完整语法主题。保留未解析状态，避免按词面相似度误连。"
+  }
+]

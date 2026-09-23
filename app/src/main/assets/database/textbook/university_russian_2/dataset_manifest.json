@@ -1,0 +1,61 @@
+{
+  "datasetId": "university_russian_2",
+  "textbookId": "textbook_university_russian_2",
+  "schemaVersion": 1,
+  "datasetCount": 17,
+  "counts": {
+    "textbooks.json": 1,
+    "lessons.json": 12,
+    "textbook_pages.json": 297,
+    "sections.json": 49,
+    "paragraphs.json": 102,
+    "sentences.json": 378,
+    "translations.json": 61,
+    "speakers.json": 35,
+    "exercises.json": 151,
+    "exercise_options.json": 2,
+    "exercise_answers.json": 23,
+    "textbook_tokens.json": 3401,
+    "textbook_lexicon_links.json": 1835,
+    "grammar_mentions.json": 34,
+    "textbook_grammar_links.json": 34,
+    "textbook_media.json": 297,
+    "manual_review.json": 129
+  },
+  "datasetHash": "f952fba7cfb9d128542dcc9ae365343280e2a815648d3e10dab788fc3d70cfed",
+  "capabilities": {
+    "reading": "ENABLED",
+    "lessonNavigation": "ENABLED",
+    "sectionNavigation": "ENABLED",
+    "tokenInteraction": "ENABLED",
+    "lexiconLinks": "PARTIAL",
+    "exercises": "ENABLED",
+    "exerciseAnswers": "PARTIAL",
+    "lessonTranslations": "ENABLED",
+    "sectionTranslations": "ENABLED",
+    "sentenceTranslations": "DISABLED",
+    "grammarMentions": "ENABLED",
+    "resolvedGrammarLinks": "UNRESOLVED",
+    "speakerData": "DATA_PRESENT",
+    "speakerBindings": "UNRESOLVED",
+    "media": "DISABLED"
+  },
+  "validation": {
+    "allJsonParseable": true,
+    "uniqueIdsVerified": true,
+    "internalReferentialIntegrity": true,
+    "manifestCountsMatch": true,
+    "invalidTokenOffsets": 0,
+    "unresolvedExternalLexiconReferences": 0,
+    "unresolvedExternalGrammarReferences": 0,
+    "grammarLinksResolved": 0,
+    "speakerBindings": 0,
+    "ocrSuspects": 1,
+    "mediaPlaceholders": 297,
+    "manualReviewCount": 129,
+    "provisionalExerciseTypes": {
+      "DECLENSION": 140,
+      "TRANSFORM": 11
+    }
+  }
+}

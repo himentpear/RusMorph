@@ -1,0 +1,490 @@
+[
+  {
+    "id": "ur2_trans_lesson_01_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_01",
+    "language": "zh-CN",
+    "text": "第1课：会面，相遇与结识",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_02_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_02",
+    "language": "zh-CN",
+    "text": "第2课：家庭",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_03_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_03",
+    "language": "zh-CN",
+    "text": "第3课：我的大学生活",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_04_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_04",
+    "language": "zh-CN",
+    "text": "第4课：工作日",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_05_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_05",
+    "language": "zh-CN",
+    "text": "第5课：做客",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_06_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_06",
+    "language": "zh-CN",
+    "text": "第6课：体育运动",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_07_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_07",
+    "language": "zh-CN",
+    "text": "第7课：城市与交通",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_08_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_08",
+    "language": "zh-CN",
+    "text": "第8课：气候与天气",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_09_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_09",
+    "language": "zh-CN",
+    "text": "第9课：休息与休闲",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_10_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_10",
+    "language": "zh-CN",
+    "text": "第10课：电话通讯",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_11_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_11",
+    "language": "zh-CN",
+    "text": "第11课：就医与健康",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_lesson_12_zh",
+    "targetType": "LESSON",
+    "targetId": "ur2_lesson_12",
+    "language": "zh-CN",
+    "text": "第12课：购物与商店",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l01_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l01_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：会面，相遇与结识",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l01_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l01_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：略谈自己",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l01_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l01_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l01_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l01_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第1课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l02_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l02_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：家庭",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l02_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l02_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：我的家庭——七个我",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l02_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l02_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l02_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l02_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第2课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l03_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l03_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：我的大学生活",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l03_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l03_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：我的大学生活",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l03_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l03_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l03_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l03_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第3课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l04_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l04_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：工作日",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l04_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l04_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：我的工作日",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l04_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l04_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l04_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l04_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第4课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l05_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l05_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：做客",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l05_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l05_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：在朋友家做客",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l05_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l05_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l05_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l05_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第5课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l06_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l06_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：体育运动",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l06_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l06_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：学习打网球",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l06_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l06_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l06_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l06_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第6课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l07_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l07_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：城市与交通",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l07_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l07_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：安娜去上班",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l07_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l07_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l07_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l07_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第7课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l08_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l08_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：气候与天气",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l08_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l08_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：俄罗斯的四季",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l08_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l08_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l08_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l08_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第8课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l09_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l09_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：休息与休闲",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l09_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l09_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：什么是休息？",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l09_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l09_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l09_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l09_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第9课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l10_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l10_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：电话通讯",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l10_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l10_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：俄罗斯的电话服务",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l10_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l10_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l10_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l10_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第10课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l11_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l11_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：就医与健康",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l11_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l11_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：我是怎样得各种病的",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l11_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l11_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l11_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l11_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第11课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l12_sec_dialogue_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l12_sec_dialogue_01",
+    "language": "zh-CN",
+    "text": "对话：购物与商店",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l12_sec_reading_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l12_sec_reading_01",
+    "language": "zh-CN",
+    "text": "课文：莫斯科人与购物",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l12_sec_exercise_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l12_sec_exercise_01",
+    "language": "zh-CN",
+    "text": "言语训练与课文练习",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_l12_sec_grammar_01_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_l12_sec_grammar_01",
+    "language": "zh-CN",
+    "text": "第12课语法",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur2_trans_sec_ur2_sec_vocab_appendix_zh",
+    "targetType": "SECTION",
+    "targetId": "ur2_sec_vocab_appendix",
+    "language": "zh-CN",
+    "text": "生词总表",
+    "source": "TEXTBOOK"
+  }
+]
