@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.Image
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -28,14 +29,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Velocity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.namchieh.rusmorph.R
 import org.namchieh.rusmorph.data.local.LexiconEntryWithDetails
 import org.namchieh.rusmorph.data.repository.LearningStats
 import org.namchieh.rusmorph.domain.learning.Course
@@ -63,7 +67,6 @@ import org.namchieh.rusmorph.ui.learning.Loadable
 import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.navigation.RusMorphBottomBar
 import org.namchieh.rusmorph.ui.design.WerusColors
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
@@ -172,7 +175,6 @@ fun HomeScreen(
     stats: LearningStats,
     progress: List<LearningProgress>,
     selectedCourseId: String? = null,
-    onSelectCourse: (String) -> Unit = {},
     onCourse: (String) -> Unit,
     onContinue: (String, String) -> Unit,
     onDictionary: () -> Unit,
@@ -182,212 +184,137 @@ fun HomeScreen(
     onBottom: (BottomDestination) -> Unit,
     onAI: () -> Unit,
 ) {
-    LearningScaffold("学习首页", BottomDestination.Home, onBottom, onAI = onAI) { root ->
-        Column(
-            root.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 14.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            // 顶部微标状态栏
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+    LearningScaffold("首页", BottomDestination.Home, onBottom, onAI = onAI) { root ->
+        Box(root) {
+            Image(
+                painter = painterResource(R.drawable.werus_home_background),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.TopCenter,
+                alpha = .78f,
+            )
+            Box(Modifier.matchParentSize().background(WerusColors.Paper.copy(alpha = .32f)))
+            Column(
+                Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 14.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Column {
-                    Text("全员俄人 WeRus", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextPrimary, fontWeight = FontWeight.Bold)
-                    Text("研学 · 朗读 · 复习", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                }
-                RusPillBadge("WeRus", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
-            }
-
-            // 中央核心看板
-            RusCard(
-                modifier = Modifier.fillMaxWidth(),
-                backgroundColor = RusMorphColors.Surface,
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.Top,
-                    ) {
-                        Column {
-                            RusStat(
-                                value = stats.dueReviewCount.toString().padStart(2, '0'),
-                                label = "今日待复习",
-                                hasDot = true,
-                                isLarge = true,
-                            )
-                            val retentionPercent = (stats.averageRetention * 100).toInt()
-                            val badge = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.getRetentionBadge(stats.averageRetention)
-                            Text(
-                                text = "留存率 $retentionPercent% · ${badge.first}",
-                                style = RusMorphTechTypography.MicroPill,
-                                color = RusMorphColors.TextSecondary,
-                                modifier = Modifier.padding(top = 4.dp),
-                            )
-                        }
-                        Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text("快速复习", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                            RusCircleActionButton(
-                                onClick = if (stats.dueReviewCount > 0) onReview else onDictionary,
-                                symbol = "+",
-                            )
-                        }
-                    }
-
-                    // 艾宾浩斯科学记忆留存率曲线
-                    RusNeedleCurve(progress = stats.averageRetention)
-                    Text(
-                        text = "已收纳 ${stats.totalWordsInReview} 词 · 艾宾浩斯记忆模型生效中",
-                        style = RusMorphTechTypography.MicroPill,
-                        color = RusMorphColors.TextTertiary,
-                    )
-                }
-            }
-
-            // 双列模块状态卡片
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                // 卡片 1: 朗读记录
-                RusCard(
-                    modifier = Modifier.weight(1f),
-                    onClick = onPronunciation,
-                    backgroundColor = RusMorphColors.Surface,
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        RusPillBadge("朗读训练", containerColor = RusMorphColors.PillBackground, contentColor = RusMorphColors.TextSecondary)
-                        Row(verticalAlignment = Alignment.Top) {
-                            Text(
-                                text = stats.pronunciationCount.toString().padStart(2, '0'),
-                                style = RusMorphTechTypography.StatDigit,
-                                color = RusMorphColors.TextPrimary,
-                            )
-                            Text(
-                                text = " ▴",
-                                fontSize = 12.sp,
-                                color = RusMorphColors.AccentOrange,
-                                modifier = Modifier.padding(top = 4.dp),
-                            )
-                        }
-                        Text("朗读跟读记录", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                    Column {
+                        Text("全员俄人 WeRus", style = RusMorphTechTypography.MicroPill, color = WerusColors.Ink, fontWeight = FontWeight.Bold)
+                        Text("研学 · 朗读 · 复习", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                     }
+                    RusPillBadge("WeRus", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                 }
 
-                // 卡片 2: 研习状态
                 RusCard(
-                    modifier = Modifier.weight(1f),
-                    onClick = onReview,
-                    backgroundColor = RusMorphColors.Surface,
+                    modifier = Modifier.fillMaxWidth(),
+                    backgroundColor = WerusColors.Paper.copy(alpha = .94f),
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        RusPillBadge("研习状态", containerColor = RusMorphColors.PillBackground, contentColor = RusMorphColors.TextSecondary)
-                        Row(verticalAlignment = Alignment.Top) {
-                            Text(
-                                text = (stats.studySeconds / 60).toString().padStart(2, '0'),
-                                style = RusMorphTechTypography.StatDigit,
-                                color = RusMorphColors.TextPrimary,
-                            )
-                            Text(
-                                text = " m",
-                                fontSize = 12.sp,
-                                color = RusMorphColors.TextTertiary,
-                                modifier = Modifier.padding(top = 4.dp),
-                            )
+                    Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Top,
+                        ) {
+                            Column {
+                                RusStat(
+                                    value = stats.dueReviewCount.toString().padStart(2, '0'),
+                                    label = "今日待复习",
+                                    hasDot = true,
+                                    isLarge = true,
+                                )
+                                val retentionPercent = (stats.averageRetention * 100).toInt()
+                                val badge = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.getRetentionBadge(stats.averageRetention)
+                                Text(
+                                    text = "留存率 $retentionPercent% · ${badge.first}",
+                                    style = RusMorphTechTypography.MicroPill,
+                                    color = WerusColors.InkMuted,
+                                    modifier = Modifier.padding(top = 4.dp),
+                                )
+                            }
+                            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Text("快速复习", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                                RusCircleActionButton(
+                                    onClick = if (stats.dueReviewCount > 0) onReview else onDictionary,
+                                    symbol = "+",
+                                )
+                            }
                         }
-                        Text("累计研习时长", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+
+                        RusNeedleCurve(progress = stats.averageRetention)
+                        Text(
+                            text = "已收纳 ${stats.totalWordsInReview} 词 · 艾宾浩斯记忆模型生效中",
+                            style = RusMorphTechTypography.MicroPill,
+                            color = WerusColors.InkFaint,
+                        )
                     }
                 }
-            }
 
-            // Continue learning course card with course selector
-            when (coursesState) {
-                Loadable.Loading -> Box(Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = RusMorphColors.CarbonBlack) }
-                is Loadable.Error -> RusEmptyState("课程暂不可用", coursesState.message)
-                is Loadable.Content -> {
-                    val allCourses = coursesState.value
-                    val latestActive = progress.firstOrNull { it.lessonId != null }
-                    val currentCourse = allCourses.firstOrNull { it.id == selectedCourseId }
-                        ?: allCourses.firstOrNull { it.id == latestActive?.courseId }
-                        ?: allCourses.firstOrNull()
+                RusSectionTitle("继续课程", "当前教材与上次学习进度")
+                when (coursesState) {
+                    Loadable.Loading -> Box(Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = WerusColors.Ink) }
+                    is Loadable.Error -> RusEmptyState("课程暂不可用", coursesState.message)
+                    is Loadable.Content -> {
+                        val allCourses = coursesState.value
+                        val latestActive = progress.firstOrNull { it.lessonId != null }
+                        val currentCourse = allCourses.firstOrNull { it.id == selectedCourseId }
+                            ?: allCourses.firstOrNull { it.id == latestActive?.courseId }
+                            ?: allCourses.firstOrNull()
 
-                    if (currentCourse != null) {
-                        val latest = progress.firstOrNull { it.courseId == currentCourse.id && it.lessonId != null }
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            // 课程选择切换胶囊
-                            if (allCourses.size > 1) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .horizontalScroll(rememberScrollState()),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
+                        if (currentCourse != null) {
+                            val latest = progress.firstOrNull { it.courseId == currentCourse.id && it.lessonId != null }
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                RusCard(
+                                    Modifier.fillMaxWidth(),
+                                    onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it) } ?: onCourse(currentCourse.id) },
                                 ) {
-                                    allCourses.forEach { c ->
-                                        val isSelected = c.id == currentCourse.id
-                                        Surface(
-                                            shape = RoundedCornerShape(16.dp),
-                                            color = if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.Surface,
-                                            contentColor = if (isSelected) RusMorphColors.WarmCream else RusMorphColors.TextSecondary,
-                                            border = androidx.compose.foundation.BorderStroke(
-                                                1.dp,
-                                                if (isSelected) RusMorphColors.CarbonBlack else RusMorphColors.OutlineSoft,
-                                            ),
-                                            modifier = Modifier.clickable { onSelectCourse(c.id) },
+                                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        Row(
+                                            Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically,
                                         ) {
+                                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                                RusPillBadge("当前课次", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
+                                                Text(
+                                                    latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
+                                                    style = RusMorphTechTypography.SmallDigit,
+                                                    color = WerusColors.Red,
+                                                )
+                                            }
                                             Text(
-                                                text = c.title,
+                                                "课次目录 ›",
                                                 style = RusMorphTechTypography.MicroPill,
-                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                                color = WerusColors.InkFaint,
+                                                modifier = Modifier.clickable { onCourse(currentCourse.id) },
                                             )
                                         }
-                                    }
-                                }
-                            }
-
-                            RusCard(
-                                Modifier.fillMaxWidth(),
-                                onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it) } ?: onCourse(currentCourse.id) },
-                            ) {
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    Row(
-                                        Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically,
-                                    ) {
-                                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                                            RusPillBadge("当前课次", containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                                        Text(currentCourse.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                                        RusProgressBar(latest?.progress ?: 0f)
+                                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                                             Text(
-                                                latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
-                                                style = RusMorphTechTypography.SmallDigit,
-                                                color = RusMorphColors.AccentOrange,
+                                                text = if ((latest?.progress ?: 0f) > 0f) "已研习 ${((latest?.progress ?: 0f) * 100).toInt()}% · 继续课次" else "尚未开始 · 进入学习",
+                                                style = RusMorphTechTypography.MicroPill,
+                                                color = WerusColors.InkMuted,
                                             )
+                                            Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = WerusColors.Ink)
                                         }
-                                        Text(
-                                            "课次目录 ›",
-                                            style = RusMorphTechTypography.MicroPill,
-                                            color = RusMorphColors.TextTertiary,
-                                            modifier = Modifier.clickable { onCourse(currentCourse.id) },
-                                        )
-                                    }
-                                    Text(currentCourse.title, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                    RusProgressBar(latest?.progress ?: 0f)
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                        Text(
-                                            text = if ((latest?.progress ?: 0f) > 0f) "已研习 ${((latest?.progress ?: 0f) * 100).toInt()}% · 继续课次" else "尚未开始 · 进入学习",
-                                            style = RusMorphTechTypography.MicroPill,
-                                            color = RusMorphColors.TextSecondary,
-                                        )
-                                        Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = RusMorphColors.CarbonBlack)
                                     }
                                 }
                             }
                         }
                     }
                 }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    RusButton("快速查词", onDictionary, Modifier.weight(1f), isSecondary = true)
+                    RusButton("发音训练", onPronunciation, Modifier.weight(1f), isSecondary = true)
+                }
             }
-
-
         }
     }
 }

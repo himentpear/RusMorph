@@ -119,7 +119,6 @@ fun RusMorphApp(application: RusMorphApplication) {
                     stats = stats,
                     progress = progress,
                     selectedCourseId = activeCourseId,
-                    onSelectCourse = { summaryVm.selectCourse(it) },
                     onCourse = { navController.navigate(Routes.course(it)) },
                     onContinue = { course, lesson -> navController.navigate(Routes.lesson(course, lesson)) },
                     onDictionary = { selectBottom(BottomDestination.Dictionary) },
