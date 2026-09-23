@@ -98,7 +98,7 @@ fun UpdateManifest.toValidatedUpdate(): AppUpdate? {
         versionName = normalizedVersionName,
         minSupportedVersionCode = minSupportedVersionCode,
         forceUpdate = forceUpdate,
-        title = title?.trim()?.takeIf { it.isNotEmpty() }?.take(160) ?: "RusMorph $normalizedVersionName",
+        title = title?.trim()?.takeIf { it.isNotEmpty() }?.take(160) ?: "全员俄人 WeRus $normalizedVersionName",
         releaseNotes = notes,
         apkUrl = url,
         apkSha256 = hash,

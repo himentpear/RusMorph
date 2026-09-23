@@ -135,7 +135,7 @@ class UpdateCoordinator(
                     ?.takeIf { it.isFile }
                     ?.delete()
                 val request = DownloadManager.Request(Uri.parse(update.apkUrl))
-                    .setTitle("正在下载 RusMorph ${update.versionName}")
+                    .setTitle("正在下载全员俄人 WeRus ${update.versionName}")
                     .setDescription("下载完成后即可安装")
                     .setMimeType(APK_MIME)
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
@@ -253,7 +253,7 @@ class UpdateCoordinator(
                 versionName = "${BuildConfig.VERSION_NAME}-test",
                 minSupportedVersionCode = if (mandatory) BuildConfig.VERSION_CODE + 1 else 1,
                 forceUpdate = mandatory,
-                title = "RusMorph 测试更新",
+                title = "全员俄人 WeRus 测试更新",
                 releaseNotes = listOf("用于检查更新弹窗布局", "不会自动安装任何内容"),
                 apkUrl = "https://example.com/rusmorph-test.apk",
                 apkSha256 = "0".repeat(64),

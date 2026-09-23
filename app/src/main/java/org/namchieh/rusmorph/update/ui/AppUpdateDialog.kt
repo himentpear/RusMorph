@@ -58,7 +58,7 @@ fun AppUpdateDialog(
         )
         is UpdateUiState.Downloading -> ProgressDialog(
             title = "正在下载更新",
-            message = "RusMorph ${state.update.versionName}\n下载完成后即可安装。",
+            message = "全员俄人 WeRus ${state.update.versionName}\n下载完成后即可安装。",
             mandatory = state.mandatory,
             onLater = onLater,
             onExit = { activity?.finishAffinity() },
@@ -73,7 +73,7 @@ fun AppUpdateDialog(
         is UpdateUiState.Downloaded -> AlertDialog(
             onDismissRequest = { if (!state.mandatory) onLater() },
             title = { Text("更新已下载") },
-            text = { Text("RusMorph ${state.update.versionName} 已准备好，可以开始安装。") },
+            text = { Text("全员俄人 WeRus ${state.update.versionName} 已准备好，可以开始安装。") },
             confirmButton = { TextButton(onClick = { onInstall(context) }) { Text("安装更新") } },
             dismissButton = {
                 TextButton(onClick = {
@@ -84,7 +84,7 @@ fun AppUpdateDialog(
         is UpdateUiState.PermissionRequired -> AlertDialog(
             onDismissRequest = { if (!state.mandatory) onLater() },
             title = { Text("允许安装更新") },
-            text = { Text("为了安装从 RusMorph 官方发布渠道下载的更新，需要允许此应用安装未知来源应用。") },
+            text = { Text("为了安装从全员俄人 WeRus 官方发布渠道下载的更新，需要允许此应用安装未知来源应用。") },
             confirmButton = { TextButton(onClick = { onOpenPermission(context) }) { Text("前往设置") } },
             dismissButton = {
                 Row {
@@ -116,8 +116,8 @@ fun AppUpdateDialog(
 private fun UpdateDetails(update: AppUpdate, mandatory: Boolean) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
-            if (mandatory) "当前版本已停止支持。更新至 RusMorph ${update.versionName} 后才能继续使用。"
-            else "RusMorph ${update.versionName} 已发布",
+            if (mandatory) "当前版本已停止支持。更新至全员俄人 WeRus ${update.versionName} 后才能继续使用。"
+            else "全员俄人 WeRus ${update.versionName} 已发布",
             style = MaterialTheme.typography.bodyLarge,
         )
         Text("当前版本：${BuildConfig.VERSION_NAME}")
