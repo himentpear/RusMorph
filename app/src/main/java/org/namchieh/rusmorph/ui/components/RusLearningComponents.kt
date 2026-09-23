@@ -33,7 +33,7 @@ import org.namchieh.rusmorph.domain.learning.Course
 import org.namchieh.rusmorph.domain.learning.LearningStatus
 import org.namchieh.rusmorph.domain.learning.LearningUnit
 import org.namchieh.rusmorph.domain.learning.Lesson
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.ui.theme.TechCardShape
 import org.namchieh.rusmorph.ui.theme.PillShape
@@ -52,8 +52,8 @@ fun RusButton(
         enabled = enabled,
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSecondary) RusMorphColors.PillBackground else RusMorphColors.CarbonBlack,
-            contentColor = if (isSecondary) RusMorphColors.TextPrimary else RusMorphColors.TextOnDark,
+            containerColor = if (isSecondary) WerusColors.Beige else WerusColors.Ink,
+            contentColor = if (isSecondary) WerusColors.Ink else WerusColors.OnDark,
         ),
     ) {
         Text(text, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
@@ -71,8 +71,8 @@ fun RusCircleActionButton(
         onClick = onClick,
         modifier = modifier.size(44.dp),
         shape = CircleShape,
-        color = RusMorphColors.CarbonBlack,
-        contentColor = RusMorphColors.TextOnDark,
+        color = WerusColors.Ink,
+        contentColor = WerusColors.OnDark,
         shadowElevation = 2.dp,
     ) {
         Box(contentAlignment = Alignment.Center) {
@@ -80,7 +80,7 @@ fun RusCircleActionButton(
                 text = symbol,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Light,
-                color = RusMorphColors.TextOnDark,
+                color = WerusColors.OnDark,
             )
         }
     }
@@ -90,8 +90,8 @@ fun RusCircleActionButton(
 fun RusCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    backgroundColor: Color = RusMorphColors.Surface,
-    border: BorderStroke = BorderStroke(1.dp, RusMorphColors.Outline),
+    backgroundColor: Color = WerusColors.Paper,
+    border: BorderStroke = BorderStroke(1.dp, WerusColors.Border),
     content: @Composable () -> Unit,
 ) {
     Card(
@@ -108,8 +108,8 @@ fun RusCard(
 fun RusPillBadge(
     text: String,
     modifier: Modifier = Modifier,
-    containerColor: Color = RusMorphColors.PillBackground,
-    contentColor: Color = RusMorphColors.TextSecondary,
+    containerColor: Color = WerusColors.Beige,
+    contentColor: Color = WerusColors.InkMuted,
 ) {
     Surface(
         modifier = modifier,
@@ -132,13 +132,13 @@ fun RusSectionTitle(title: String, subtitle: String? = null, modifier: Modifier 
             title,
             style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
-            color = RusMorphColors.TextPrimary,
+            color = WerusColors.Ink,
         )
         subtitle?.let {
             Text(
                 it,
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-                color = RusMorphColors.TextSecondary,
+                color = WerusColors.InkMuted,
             )
         }
     }
@@ -149,8 +149,8 @@ fun RusProgressBar(progress: Float, modifier: Modifier = Modifier) {
     LinearProgressIndicator(
         progress = { progress.coerceIn(0f, 1f) },
         modifier = modifier.fillMaxWidth().height(4.dp),
-        color = RusMorphColors.AccentOrange,
-        trackColor = RusMorphColors.OutlineSoft,
+        color = WerusColors.Red,
+        trackColor = WerusColors.BorderSoft,
     )
 }
 
@@ -162,8 +162,8 @@ fun RusNeedleCurve(
     progress: Float = 0.65f,
     modifier: Modifier = Modifier,
     lineCount: Int = 46,
-    color: Color = RusMorphColors.Outline.copy(alpha = 0.85f),
-    highlightColor: Color = RusMorphColors.AccentOrange,
+    color: Color = WerusColors.Border.copy(alpha = 0.85f),
+    highlightColor: Color = WerusColors.Red,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Canvas(modifier = Modifier.fillMaxWidth().height(110.dp)) {
@@ -198,7 +198,7 @@ fun RusNeedleCurve(
                 Text(
                     text = step,
                     style = RusMorphTechTypography.MicroPill,
-                    color = RusMorphColors.TextTertiary,
+                    color = WerusColors.InkFaint,
                 )
             }
         }
@@ -214,19 +214,19 @@ fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modi
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                RusPillBadge(course.subtitle.lowercase(), containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                RusPillBadge(course.subtitle.lowercase(), containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                 Text(
                     "${(course.progress * 100).toInt()}%",
                     style = RusMorphTechTypography.SmallDigit,
-                    color = RusMorphColors.AccentOrange,
+                    color = WerusColors.Red,
                 )
             }
             Text(course.title, style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
-            Text(course.description, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+            Text(course.description, color = WerusColors.InkMuted, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
             RusProgressBar(course.progress)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("${course.completedLessonCount} / ${course.lessonCount} 课", color = RusMorphColors.TextTertiary, style = RusMorphTechTypography.MicroPill)
-                Text("继续 →", color = RusMorphColors.CarbonBlack, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                Text("${course.completedLessonCount} / ${course.lessonCount} 课", color = WerusColors.InkFaint, style = RusMorphTechTypography.MicroPill)
+                Text("继续 →", color = WerusColors.Ink, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
             }
         }
     }
@@ -234,11 +234,11 @@ fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modi
 
 @Composable
 fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val accent = if (lesson.isReviewLesson) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack
+    val accent = if (lesson.isReviewLesson) WerusColors.Red else WerusColors.Ink
     RusCard(modifier.fillMaxWidth(), onClick) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Box(
-                Modifier.size(46.dp).background(if (lesson.isReviewLesson) RusMorphColors.WarmCream else RusMorphColors.PillBackground, RoundedCornerShape(14.dp)),
+                Modifier.size(46.dp).background(if (lesson.isReviewLesson) WerusColors.Beige else WerusColors.Beige, RoundedCornerShape(14.dp)),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -249,15 +249,15 @@ fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modi
                 )
             }
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                Text(lesson.titleRu, fontWeight = FontWeight.SemiBold, color = RusMorphColors.TextPrimary)
-                Text(lesson.titleZh, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+                Text(lesson.titleRu, fontWeight = FontWeight.SemiBold, color = WerusColors.Ink)
+                Text(lesson.titleZh, color = WerusColors.InkMuted, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
                 Text(
                     "${lesson.units.size} 个学习单元",
                     style = RusMorphTechTypography.MicroPill,
-                    color = RusMorphColors.TextTertiary,
+                    color = WerusColors.InkFaint,
                 )
             }
-            Text("›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = RusMorphColors.TextTertiary)
+            Text("›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = WerusColors.InkFaint)
         }
     }
 }
@@ -269,18 +269,32 @@ fun RusLearningUnitCard(index: Int, unit: LearningUnit, onClick: () -> Unit, mod
             Text(
                 index.toString().padStart(2, '0'),
                 style = RusMorphTechTypography.SmallDigit,
-                color = RusMorphColors.AccentOrange,
+                color = WerusColors.Red,
             )
             Column(Modifier.weight(1f)) {
-                Text(unit.titleRu, fontWeight = FontWeight.Bold, color = RusMorphColors.TextPrimary)
-                Text(unit.titleZh, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+                Text(unit.titleRu, fontWeight = FontWeight.Bold, color = WerusColors.Ink)
+                Text(unit.titleZh, color = WerusColors.InkMuted, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
                 if (unit.itemCount > 0) Text(
                     "${unit.itemCount} 项内容",
                     style = RusMorphTechTypography.MicroPill,
-                    color = RusMorphColors.TextTertiary,
+                    color = WerusColors.InkFaint,
                 )
             }
-            RusStatusDot(unit.status)
+            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    RusStatusDot(unit.status)
+                    Text(
+                        when (unit.status) {
+                            LearningStatus.COMPLETED -> "已完成"
+                            LearningStatus.IN_PROGRESS -> "学习中"
+                            LearningStatus.NOT_STARTED -> "未开始"
+                        },
+                        style = RusMorphTechTypography.MicroPill,
+                        color = WerusColors.InkFaint,
+                    )
+                }
+                Text("›", style = androidx.compose.material3.MaterialTheme.typography.titleLarge, color = WerusColors.InkFaint)
+            }
         }
     }
 }
@@ -288,9 +302,9 @@ fun RusLearningUnitCard(index: Int, unit: LearningUnit, onClick: () -> Unit, mod
 @Composable
 private fun RusStatusDot(status: LearningStatus) {
     val color = when (status) {
-        LearningStatus.COMPLETED -> RusMorphColors.Success
-        LearningStatus.IN_PROGRESS -> RusMorphColors.AccentOrange
-        LearningStatus.NOT_STARTED -> RusMorphColors.Outline
+        LearningStatus.COMPLETED -> WerusColors.Success
+        LearningStatus.IN_PROGRESS -> WerusColors.Red
+        LearningStatus.NOT_STARTED -> WerusColors.Border
     }
     Box(Modifier.size(8.dp).background(color, CircleShape))
 }
@@ -308,8 +322,8 @@ fun RusWordChip(
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        color = if (isHighlighted) RusMorphColors.WarmCream.copy(alpha = 0.4f) else RusMorphColors.Surface,
-        border = BorderStroke(1.dp, if (isHighlighted) RusMorphColors.AccentOrange.copy(alpha = 0.5f) else RusMorphColors.Outline),
+        color = if (isHighlighted) WerusColors.Beige.copy(alpha = 0.4f) else WerusColors.Paper,
+        border = BorderStroke(1.dp, if (isHighlighted) WerusColors.Red.copy(alpha = 0.5f) else WerusColors.Border),
     ) {
         Row(
             modifier = Modifier.padding(14.dp),
@@ -318,13 +332,13 @@ fun RusWordChip(
         ) {
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text(text, style = androidx.compose.material3.MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium) }
+                meaning?.let { Text(it, maxLines = 2, overflow = TextOverflow.Ellipsis, color = WerusColors.InkMuted, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium) }
             }
             if (badgeText != null) {
                 RusPillBadge(
                     badgeText,
-                    containerColor = if (isHighlighted) RusMorphColors.AccentOrange.copy(alpha = 0.15f) else RusMorphColors.SurfaceMuted,
-                    contentColor = if (isHighlighted) RusMorphColors.AccentOrange else RusMorphColors.TextTertiary,
+                    containerColor = if (isHighlighted) WerusColors.Red.copy(alpha = 0.15f) else WerusColors.BeigeMuted,
+                    contentColor = if (isHighlighted) WerusColors.Red else WerusColors.InkFaint,
                 )
             }
         }
@@ -340,12 +354,12 @@ fun RusContextChip(text: String, onClick: () -> Unit, modifier: Modifier = Modif
         onClick = onClick,
         modifier = modifier,
         shape = PillShape,
-        color = RusMorphColors.WarmCream,
+        color = WerusColors.Beige,
     ) {
         Text(
             text = text,
             Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
-            color = RusMorphColors.CarbonBlack,
+            color = WerusColors.Ink,
             style = RusMorphTechTypography.MicroPill,
             fontWeight = FontWeight.SemiBold,
         )
@@ -371,20 +385,20 @@ fun RusStat(
             Text(
                 text = value,
                 style = if (isLarge) RusMorphTechTypography.HeroDigit else RusMorphTechTypography.StatDigit,
-                color = RusMorphColors.TextPrimary,
+                color = WerusColors.Ink,
             )
             if (hasDot) {
                 Box(
                     modifier = Modifier
                         .padding(start = 4.dp, top = if (isLarge) 10.dp else 4.dp)
                         .size(if (isLarge) 8.dp else 6.dp)
-                        .background(RusMorphColors.AccentOrange, CircleShape),
+                        .background(WerusColors.Red, CircleShape),
                 )
             } else if (indicatorSymbol != null) {
                 Text(
                     text = indicatorSymbol,
                     fontSize = if (isLarge) 14.sp else 11.sp,
-                    color = RusMorphColors.AccentOrange,
+                    color = WerusColors.Red,
                     modifier = Modifier.padding(start = 3.dp, top = if (isLarge) 8.dp else 3.dp),
                 )
             }
@@ -393,7 +407,7 @@ fun RusStat(
         Text(
             text = label.lowercase(),
             style = RusMorphTechTypography.MicroPill,
-            color = RusMorphColors.TextSecondary,
+            color = WerusColors.InkMuted,
         )
     }
 }
@@ -406,10 +420,10 @@ fun RusEmptyState(title: String, message: String, modifier: Modifier = Modifier)
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Box(
-            modifier = Modifier.size(6.dp).background(RusMorphColors.AccentOrange, CircleShape),
+            modifier = Modifier.size(6.dp).background(WerusColors.Red, CircleShape),
         )
-        Text(title, fontWeight = FontWeight.SemiBold, color = RusMorphColors.TextPrimary)
-        Text(message, color = RusMorphColors.TextSecondary, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+        Text(title, fontWeight = FontWeight.SemiBold, color = WerusColors.Ink)
+        Text(message, color = WerusColors.InkMuted, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -423,16 +437,16 @@ fun RusSearchBar(value: String, onValueChange: (String) -> Unit, onSearch: () ->
         singleLine = true,
         shape = PillShape,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = RusMorphColors.Surface,
-            unfocusedContainerColor = RusMorphColors.Surface,
-            focusedBorderColor = RusMorphColors.CarbonBlack,
-            unfocusedBorderColor = RusMorphColors.Outline,
+            focusedContainerColor = WerusColors.Paper,
+            unfocusedContainerColor = WerusColors.Paper,
+            focusedBorderColor = WerusColors.Ink,
+            unfocusedBorderColor = WerusColors.Border,
         ),
         trailingIcon = {
             Text(
                 "搜索",
                 Modifier.clickable(onClick = onSearch).padding(end = 8.dp),
-                color = RusMorphColors.CarbonBlack,
+                color = WerusColors.Ink,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 13.sp,
             )
@@ -445,7 +459,7 @@ fun RusSearchBar(value: String, onValueChange: (String) -> Unit, onSearch: () ->
 fun RusBottomSheet(onDismiss: () -> Unit, content: @Composable () -> Unit) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        containerColor = RusMorphColors.Surface,
+        containerColor = WerusColors.Paper,
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
     ) {
         Box(Modifier.padding(20.dp)) { content() }
@@ -459,7 +473,7 @@ fun RusBottomSheet(onDismiss: () -> Unit, content: @Composable () -> Unit) {
         modifier = modifier
             .fillMaxWidth()
             .height(32.dp)
-            .background(RusMorphColors.Surface, RoundedCornerShape(10.dp))
-            .border(1.dp, if (active) RusMorphColors.AccentOrange else RusMorphColors.Outline, RoundedCornerShape(10.dp)),
+            .background(WerusColors.Paper, RoundedCornerShape(10.dp))
+            .border(1.dp, if (active) WerusColors.Red else WerusColors.Border, RoundedCornerShape(10.dp)),
     )
 }

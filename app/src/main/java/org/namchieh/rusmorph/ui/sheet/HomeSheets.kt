@@ -2,6 +2,8 @@
 
 package org.namchieh.rusmorph.ui.sheet
 
+import org.namchieh.rusmorph.ui.design.WerusColors
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,11 +26,11 @@ fun FilterBottomSheet(
 ) {
     var lesson by remember(selectedLesson) { mutableStateOf(selectedLesson) }
     var part by remember(selectedPartOfSpeech) { mutableStateOf(selectedPartOfSpeech) }
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = RusMorphColors.SurfaceElevated, dragHandle = { BottomSheetDefaults.DragHandle(color = RusMorphColors.OutlineStrong) }) {
+    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = WerusColors.Paper, dragHandle = { BottomSheetDefaults.DragHandle(color = WerusColors.BorderStrong) }) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).navigationBarsPadding(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("筛选本地词库", style = MaterialTheme.typography.headlineMedium)
-            Text("当前筛选：${listOfNotNull(lesson?.let { "第 $it 课" }, part).ifEmpty { listOf("全部词条") }.joinToString(" · ")}", color = RusMorphColors.TextSecondary)
-            HorizontalDivider(color = RusMorphColors.Divider)
+            Text("当前筛选：${listOfNotNull(lesson?.let { "第 $it 课" }, part).ifEmpty { listOf("全部词条") }.joinToString(" · ")}", color = WerusColors.InkMuted)
+            HorizontalDivider(color = WerusColors.BorderSoft)
             TerminalLabel("课号")
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(selected = lesson == null, onClick = { lesson = null }, label = { Text("全部课号") })
@@ -57,17 +59,17 @@ fun MoreActionsSheet(onDismiss: () -> Unit, onSmartCommand: () -> Unit, onFilter
         Triple("错题本", "即将开放", {}), Triple("单词抽背", "即将开放", {}), Triple("数据状态", "947 条真实词条", {}), Triple("设置与关于", "即将开放", {}),
     )
     val allActions = actions + Triple("设置", "AI 请求诊断", onSettings)
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = RusMorphColors.SurfaceElevated) {
+    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = WerusColors.Paper) {
         LazyColumn(Modifier.fillMaxWidth().navigationBarsPadding(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             item { Text("更多", style = MaterialTheme.typography.headlineMedium); Spacer(Modifier.height(12.dp)) }
             items(allActions) { (title, description, action) ->
-                Surface(onClick = { if (!description.contains("即将开放")) { onDismiss(); action() } }, color = RusMorphColors.SurfaceElevated) {
+                Surface(onClick = { if (!description.contains("即将开放")) { onDismiss(); action() } }, color = WerusColors.Paper) {
                     Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(title, style = MaterialTheme.typography.titleMedium)
-                        if (description == "即将开放") Text(description, style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextTertiary)
+                        if (description == "即将开放") Text(description, style = MaterialTheme.typography.labelMedium, color = WerusColors.InkFaint)
                     }
                 }
-                HorizontalDivider(color = RusMorphColors.Divider)
+                HorizontalDivider(color = WerusColors.BorderSoft)
             }
         }
     }

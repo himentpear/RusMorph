@@ -32,6 +32,7 @@ import org.namchieh.rusmorph.agent.EvidenceType
 import org.namchieh.rusmorph.agent.WordCard
 import org.namchieh.rusmorph.data.local.LexiconEntryWithDetails
 import org.namchieh.rusmorph.ui.common.TerminalLabel
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.*
 
 data class TerminalCardData(
@@ -93,15 +94,15 @@ fun WordCard.toTerminalCardData(): TerminalCardData = TerminalCardData(
 
 @Composable
 fun MorphologyTag(text: String, modifier: Modifier = Modifier) {
-    Text(text, modifier.border(1.dp, RusMorphColors.OutlineSoft, MaterialTheme.shapes.small).background(RusMorphColors.SurfaceMuted.copy(alpha = .5f), MaterialTheme.shapes.small).padding(horizontal = 9.dp, vertical = 5.dp), style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextSecondary)
+    Text(text, modifier.border(1.dp, WerusColors.BorderSoft, MaterialTheme.shapes.small).background(WerusColors.BeigeMuted.copy(alpha = .5f), MaterialTheme.shapes.small).padding(horizontal = 9.dp, vertical = 5.dp), style = MaterialTheme.typography.labelMedium, color = WerusColors.InkMuted)
 }
 
 @Composable
 fun PhysicalCardSurface(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier
-            .background(RusMorphColors.Surface, WordCardShape)
-            .border(1.dp, RusMorphColors.Outline, WordCardShape)
+            .background(WerusColors.Paper, WordCardShape)
+            .border(1.dp, WerusColors.Border, WordCardShape)
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
         content = content,
@@ -112,22 +113,22 @@ fun PhysicalCardSurface(modifier: Modifier = Modifier, content: @Composable Colu
 fun WordCardFront(data: TerminalCardData, onOpen: (() -> Unit)? = null, onSave: (() -> Unit)? = null, onFlip: (() -> Unit)? = null, modifier: Modifier = Modifier) {
     PhysicalCardSurface(modifier) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            TerminalLabel(data.partsOfSpeech.firstOrNull() ?: "词条", color = RusMorphColors.CarbonBlack)
-            TerminalLabel(data.lesson?.let { "第 $it 课" } ?: data.id.takeLast(6), color = RusMorphColors.AccentOrange)
+            TerminalLabel(data.partsOfSpeech.firstOrNull() ?: "词条", color = WerusColors.Ink)
+            TerminalLabel(data.lesson?.let { "第 $it 课" } ?: data.id.takeLast(6), color = WerusColors.Red)
         }
-        Box(Modifier.fillMaxWidth().height(2.dp).background(RusMorphColors.AccentOrange))
-        Text(data.word, style = MaterialTheme.typography.displayMedium.copy(fontFamily = FontFamily.Serif), color = RusMorphColors.TextPrimary, maxLines = 2, overflow = TextOverflow.Visible)
-        data.meaning?.let { Text(it, style = MaterialTheme.typography.titleLarge, color = RusMorphColors.TextSecondary) }
+        Box(Modifier.fillMaxWidth().height(2.dp).background(WerusColors.Red))
+        Text(data.word, style = MaterialTheme.typography.displayMedium.copy(fontFamily = FontFamily.Serif), color = WerusColors.Ink, maxLines = 2, overflow = TextOverflow.Visible)
+        data.meaning?.let { Text(it, style = MaterialTheme.typography.titleLarge, color = WerusColors.InkMuted) }
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             (data.partsOfSpeech + data.morphology).distinct().take(6).forEach { MorphologyTag(it) }
         }
-        if (data.analysis.isNotEmpty()) Text(data.analysis.take(2).joinToString(" · ") { "${it.first} ${it.second}" }, style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextSecondary)
-        HorizontalDivider(color = RusMorphColors.Divider, thickness = 1.dp)
+        if (data.analysis.isNotEmpty()) Text(data.analysis.take(2).joinToString(" · ") { "${it.first} ${it.second}" }, style = MaterialTheme.typography.bodyMedium, color = WerusColors.InkMuted)
+        HorizontalDivider(color = WerusColors.BorderSoft, thickness = 1.dp)
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            if (onSave != null) TextButton(onClick = onSave, modifier = Modifier.heightIn(min = 48.dp)) { Text("收藏", color = RusMorphColors.CarbonBlack) }
-            if (onOpen != null) TextButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) { Text("详情", color = RusMorphColors.CarbonBlack) }
+            if (onSave != null) TextButton(onClick = onSave, modifier = Modifier.heightIn(min = 48.dp)) { Text("收藏", color = WerusColors.Ink) }
+            if (onOpen != null) TextButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) { Text("详情", color = WerusColors.Ink) }
             Spacer(Modifier.weight(1f))
-            if (onFlip != null) TextButton(onClick = onFlip, modifier = Modifier.heightIn(min = 48.dp).semantics { contentDescription = "查看卡片背面" }) { Text("翻面  ↻", color = RusMorphColors.CarbonBlack) }
+            if (onFlip != null) TextButton(onClick = onFlip, modifier = Modifier.heightIn(min = 48.dp).semantics { contentDescription = "查看卡片背面" }) { Text("翻面  ↻", color = WerusColors.Ink) }
         }
     }
 }
@@ -135,17 +136,17 @@ fun WordCardFront(data: TerminalCardData, onOpen: (() -> Unit)? = null, onSave: 
 @Composable
 fun WordCardBack(data: TerminalCardData, onFlip: () -> Unit, modifier: Modifier = Modifier) {
     PhysicalCardSurface(modifier) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { TerminalLabel("形态分析", color = RusMorphColors.CarbonBlack); TerminalLabel(data.word, color = RusMorphColors.AccentOrange) }
-        if (data.analysis.isEmpty()) Text("暂无扩展资料", style = MaterialTheme.typography.bodyLarge, color = RusMorphColors.TextSecondary)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { TerminalLabel("形态分析", color = WerusColors.Ink); TerminalLabel(data.word, color = WerusColors.Red) }
+        if (data.analysis.isEmpty()) Text("暂无扩展资料", style = MaterialTheme.typography.bodyLarge, color = WerusColors.InkMuted)
         data.analysis.forEach { (label, value) ->
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) { TerminalLabel(label); Text(value, style = MaterialTheme.typography.bodyMedium) }
-            HorizontalDivider(color = RusMorphColors.Divider)
+            HorizontalDivider(color = WerusColors.BorderSoft)
         }
         if (data.sourceLabels.isNotEmpty()) {
             TerminalLabel("来源")
-            data.sourceLabels.take(4).forEach { Text(it, style = MaterialTheme.typography.labelMedium, color = RusMorphColors.Tertiary) }
+            data.sourceLabels.take(4).forEach { Text(it, style = MaterialTheme.typography.labelMedium, color = WerusColors.InkMuted) }
         }
-        data.warnings.forEach { Text(it, style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.Error) }
+        data.warnings.forEach { Text(it, style = MaterialTheme.typography.bodyMedium, color = WerusColors.Error) }
         TextButton(onClick = onFlip, modifier = Modifier.align(Alignment.End).heightIn(min = 48.dp).semantics { contentDescription = "返回卡片正面" }) { Text("↻  返回正面") }
     }
 }
@@ -168,8 +169,8 @@ fun FlippableWordCard(data: TerminalCardData, modifier: Modifier = Modifier, onO
 @Composable
 fun CardPageIndicator(current: Int, total: Int, modifier: Modifier = Modifier) {
     Row(modifier.semantics { contentDescription = "第 ${current + 1} 张，共 $total 张" }, horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (total <= 10) repeat(total) { index -> Box(Modifier.size(width = if (index == current) 20.dp else 6.dp, height = 6.dp).background(if (index == current) RusMorphColors.AccentOrange else RusMorphColors.Outline, MaterialTheme.shapes.small)) }
-        Text("${current + 1} / $total", style = MaterialTheme.typography.labelMedium, color = RusMorphColors.TextSecondary)
+        if (total <= 10) repeat(total) { index -> Box(Modifier.size(width = if (index == current) 20.dp else 6.dp, height = 6.dp).background(if (index == current) WerusColors.Red else WerusColors.Border, MaterialTheme.shapes.small)) }
+        Text("${current + 1} / $total", style = MaterialTheme.typography.labelMedium, color = WerusColors.InkMuted)
     }
 }
 

@@ -17,6 +17,7 @@ import org.namchieh.rusmorph.ui.CommandViewModel
 import org.namchieh.rusmorph.ui.card.*
 import org.namchieh.rusmorph.ui.common.*
 import org.namchieh.rusmorph.ui.home.AiSearchHero
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
@@ -26,12 +27,6 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
     TerminalBackground(Modifier.fillMaxSize()) {
         Scaffold(
             containerColor = androidx.compose.ui.graphics.Color.Transparent,
-            topBar = {
-                Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    TextButton(onClick = onBack, modifier = Modifier.heightIn(min = 48.dp)) { Text("←  返回") }
-                    Text("词卡助手", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(start = 8.dp))
-                }
-            },
         ) { padding ->
             Column(
                 Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp).widthIn(max = RusMorphComponentTokens.ContentMaxWidth).align(Alignment.TopCenter),
@@ -43,7 +38,7 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                     CommandUiState.Sending -> TerminalLoadingState("正在理解命令、检索本地词库并整理卡片", Modifier.fillMaxWidth())
                     is CommandUiState.Error -> TerminalMessageState("AI 暂不可用", commandErrorMessage(current.error), Modifier.fillMaxWidth())
                     is CommandUiState.Content -> {
-                        current.localMessage?.let { TerminalPanel(Modifier.fillMaxWidth()) { TerminalLabel("本地操作", color = RusMorphColors.AccentOrange); Text(it, color = RusMorphColors.CarbonBlack) } }
+                        current.localMessage?.let { TerminalPanel(Modifier.fillMaxWidth()) { TerminalLabel("本地操作", color = WerusColors.Red); Text(it, color = WerusColors.Ink) } }
                         AiThoughtAndReplyPanel(
                             thinking = current.response.thinkingSummary,
                             reply = current.response.plainAnswer ?: current.response.clarification,
@@ -52,7 +47,7 @@ fun CommandScreen(viewModel: CommandViewModel, onBack: () -> Unit) {
                         current.response.card?.let { card -> WordCardView(card, { viewModel.saveCard(card) }, Modifier.align(Alignment.CenterHorizontally).widthIn(max = RusMorphComponentTokens.CardMaxWidth)) }
                         current.response.deck?.let { deck ->
                             TerminalPanel(Modifier.fillMaxWidth()) {
-                                TerminalLabel("${deck.cards.size} 张", color = RusMorphColors.AccentOrange)
+                                TerminalLabel("${deck.cards.size} 张", color = WerusColors.Red)
                                 Text(deck.title, style = MaterialTheme.typography.headlineMedium)
                                 RusMorphPrimaryButton("保存卡组", { viewModel.saveDeck(deck) })
                             }
@@ -75,12 +70,12 @@ private fun AiThoughtAndReplyPanel(
     if (thinking.isNullOrBlank() && reply.isNullOrBlank()) return
     TerminalPanel(modifier) {
         thinking?.takeIf(String::isNotBlank)?.let {
-            TerminalLabel("AI 思考摘要", color = RusMorphColors.Secondary)
-            Text(it, color = RusMorphColors.TextSecondary)
+            TerminalLabel("AI 思考摘要", color = WerusColors.Gold)
+            Text(it, color = WerusColors.InkMuted)
         }
         reply?.takeIf(String::isNotBlank)?.let {
-            TerminalLabel("AI 回复", color = RusMorphColors.Primary)
-            Text(it, color = RusMorphColors.TextPrimary)
+            TerminalLabel("AI 回复", color = WerusColors.Red)
+            Text(it, color = WerusColors.Ink)
         }
     }
 }

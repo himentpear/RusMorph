@@ -30,7 +30,7 @@ import org.namchieh.rusmorph.ui.components.RusWordChip
 import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.navigation.RusMorphBottomBar
 import org.namchieh.rusmorph.ui.sheet.FilterBottomSheet
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 
 @Composable
 fun SearchScreen(
@@ -66,18 +66,24 @@ fun SearchScreen(
 
     Scaffold(
         modifier = modifier,
-        containerColor = RusMorphColors.Canvas,
-        topBar = { TopAppBar(title = { Text("词典", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) }, actions = {
-            TextButton(onClick = { showFilters = true }) { Text("筛选", color = RusMorphColors.CarbonBlack) }
-            TextButton(onClick = onSettingsClick) { Text("设置", color = RusMorphColors.TextSecondary) }
-        }, colors = TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas)) },
+        containerColor = WerusColors.Canvas,
         bottomBar = { RusMorphBottomBar(selectedDestination, onBottomDestination) },
     ) { padding ->
         Column(
             Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            RusSectionTitle("本地词典", "离线可用 · 收录大学俄语一、二册")
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RusSectionTitle("本地词典", "离线可用 · 收录大学俄语一、二册", Modifier.weight(1f))
+                Row {
+                    TextButton(onClick = { showFilters = true }) { Text("筛选", color = WerusColors.Ink) }
+                    TextButton(onClick = onSettingsClick) { Text("设置", color = WerusColors.InkMuted) }
+                }
+            }
             RusSearchBar(controls.query, viewModel::setQuery, { if (controls.query.isCommand()) onCommandClick(controls.query) })
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(
@@ -86,19 +92,19 @@ fun SearchScreen(
                         else permission.launch(Manifest.permission.RECORD_AUDIO)
                     },
                     colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = if (voice.status == VoiceInputStatus.Recording) RusMorphColors.AccentOrange else RusMorphColors.CarbonBlack,
+                        contentColor = if (voice.status == VoiceInputStatus.Recording) WerusColors.Red else WerusColors.Ink,
                     ),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, if (voice.status == VoiceInputStatus.Recording) RusMorphColors.AccentOrange else RusMorphColors.Outline),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, if (voice.status == VoiceInputStatus.Recording) WerusColors.Red else WerusColors.Border),
                 ) { Text(if (voice.status == VoiceInputStatus.Recording) "停止录音" else "语音输入") }
                 OutlinedButton(
                     onClick = onPronunciationClick,
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = RusMorphColors.CarbonBlack),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = WerusColors.Ink),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border),
                 ) { Text("自由朗读") }
                 OutlinedButton(
                     onClick = { onCommandClick(null) },
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = RusMorphColors.CarbonBlack),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = WerusColors.Ink),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border),
                 ) { Text("✦ AI 问答") }
             }
             VoiceStatus(voice.status, voice.candidate, voice.message, viewModel::confirmVoiceCandidate, viewModel::cancelVoiceRecording)
@@ -110,7 +116,7 @@ fun SearchScreen(
 @Composable
 private fun VoiceStatus(status: VoiceInputStatus, candidate: String?, message: String?, onConfirm: () -> Unit, onDismiss: () -> Unit) {
     if (status == VoiceInputStatus.Idle) return
-    Surface(color = RusMorphColors.SurfaceMuted, shape = MaterialTheme.shapes.medium) {
+    Surface(color = WerusColors.BeigeMuted, shape = MaterialTheme.shapes.medium) {
         Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(when (status) {
                 VoiceInputStatus.Recording -> "正在录音，再次点击停止"
@@ -121,7 +127,7 @@ private fun VoiceStatus(status: VoiceInputStatus, candidate: String?, message: S
                 VoiceInputStatus.Idle -> ""
             })
             candidate?.let { Text(it, style = MaterialTheme.typography.titleMedium) }
-            message?.let { Text(it, color = RusMorphColors.TextSecondary) }
+            message?.let { Text(it, color = WerusColors.InkMuted) }
             if (status == VoiceInputStatus.LowConfidence) Row { TextButton(onClick = onConfirm) { Text("确认") }; TextButton(onClick = onDismiss) { Text("重录") } }
             else if (status == VoiceInputStatus.Success || status == VoiceInputStatus.Error) TextButton(onClick = onDismiss) { Text("关闭") }
         }
@@ -141,12 +147,12 @@ private fun SearchUiState.visibleEntries(): List<LexiconEntryWithDetails> = when
 internal fun SearchContent(state: SearchUiState, onEntryClick: (String) -> Unit, onRetry: () -> Unit, modifier: Modifier = Modifier) {
     val entries = state.visibleEntries()
     when {
-        state.isLoading -> Box(modifier.padding(36.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = RusMorphColors.CarbonBlack) }
-        state.hasSearchError || state.browseInconsistent -> Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) { RusEmptyState("本地词典暂不可用", "数据仍保留在设备中，请重试"); TextButton(onClick = onRetry) { Text("重试", color = RusMorphColors.CarbonBlack) } }
+        state.isLoading -> Box(modifier.padding(36.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = WerusColors.Ink) }
+        state.hasSearchError || state.browseInconsistent -> Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) { RusEmptyState("本地词典暂不可用", "数据仍保留在设备中，请重试"); TextButton(onClick = onRetry) { Text("重试", color = WerusColors.Ink) } }
         state.controls.query.isNotBlank() && entries.isEmpty() -> RusEmptyState("未找到匹配词条", "可以更换拼写、词形或中文释义")
         entries.isEmpty() -> RusEmptyState("开始查词", "输入俄语词形或中文释义")
         else -> Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(if (state.controls.query.isBlank()) "最近与推荐" else "${entries.size} 条结果", color = RusMorphColors.TextSecondary)
+            Text(if (state.controls.query.isBlank()) "最近与推荐" else "${entries.size} 条结果", color = WerusColors.InkMuted)
             entries.take(50).forEach { item -> RusWordChip(item.entry.displayForm, item.entry.chineseMeaning, { onEntryClick(item.entry.id) }, Modifier.fillMaxWidth()) }
         }
     }

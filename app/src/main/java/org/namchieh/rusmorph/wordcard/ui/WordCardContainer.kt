@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.wordcard.model.*
 
 /**
@@ -139,7 +139,7 @@ fun WordCardContainer(
         if (kotlin.math.abs(offsetX.value) > 20f) {
             val isGood = offsetX.value > 0
             Surface(
-                color = if (isGood) RusMorphColors.AccentGreen else RusMorphColors.AccentOrange,
+                color = if (isGood) WerusColors.Success else WerusColors.Red,
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .align(if (isGood) Alignment.CenterEnd else Alignment.CenterStart)
