@@ -4,6 +4,9 @@
   "compatibility_date": "2026-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
+  "routes": [
+    { "pattern": "api.namchieh.org/api/conversation*", "zone_name": "namchieh.org" }
+  ],
   "ai": { "binding": "AI" },
   "observability": { "enabled": true, "head_sampling_rate": 1 }
 }

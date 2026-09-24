@@ -5,3 +5,10 @@
 -keep class com.google.gson.reflect.TypeToken { *; }
 -keep class * extends com.google.gson.reflect.TypeToken { *; }
 
+# The tutor request, correction, and saved messages use Gson field names as
+# their wire and saved-state format in the minified production build.
+-keep class org.namchieh.rusmorph.data.repository.ConversationHistory { *; }
+-keep class org.namchieh.rusmorph.data.repository.ConversationRequest { *; }
+-keep class org.namchieh.rusmorph.data.repository.ConversationCorrection { *; }
+-keep class org.namchieh.rusmorph.ui.conversation.ConversationMessage { *; }
+
