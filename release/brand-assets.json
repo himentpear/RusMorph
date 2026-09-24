@@ -16,11 +16,11 @@
     },
     {
       "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
-      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122"
+      "sha256": "32715ff646f6b9fef7c321138e4a14556c4a1f98a87b06070b56f41643dad718"
     },
     {
       "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
-      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122"
+      "sha256": "32715ff646f6b9fef7c321138e4a14556c4a1f98a87b06070b56f41643dad718"
     },
     {
       "path": "app/src/main/res/mipmap-mdpi/ic_launcher.png",
@@ -64,7 +64,7 @@
     },
     {
       "path": "app/src/main/res/values/ic_launcher_background.xml",
-      "sha256": "b09ffe06f722ad155c647f3091617ee0c558afbd0a7189f9345e526ed49e262f"
+      "sha256": "22b3bed6e3328701ab01db2616a2d05e077fbbef0a69e1e2cccbf72d046b225b"
     }
   ]
 }

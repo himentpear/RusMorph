@@ -37,7 +37,12 @@ BRAND_ASSETS = [
 
 
 def sha256(relative_path: str) -> str:
-    return hashlib.sha256((ROOT / relative_path).read_bytes()).hexdigest()
+    data = (ROOT / relative_path).read_bytes()
+    # Git may check out XML as CRLF on Windows and LF on CI. Preserve the
+    # approved XML content hash across those equivalent line endings.
+    if relative_path.endswith(".xml"):
+        data = data.replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
 
 
 def generated_brand_manifest() -> dict[str, object]:
