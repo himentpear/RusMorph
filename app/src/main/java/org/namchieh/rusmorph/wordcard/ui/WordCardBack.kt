@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.ui.components.RusPillBadge
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.wordcard.model.*
 
@@ -40,10 +40,10 @@ fun WordCardBack(
     var isMoreExamplesExpanded by remember { mutableStateOf(false) }
 
     Surface(
-        color = RusMorphColors.Surface,
+        color = WerusColors.Paper,
         shape = RoundedCornerShape(20.dp),
         shadowElevation = 4.dp,
-        border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+        border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.BorderSoft),
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 360.dp),
@@ -67,7 +67,7 @@ fun WordCardBack(
                             style = MaterialTheme.typography.headlineMedium,
                             fontFamily = FontFamily.Serif,
                             fontWeight = FontWeight.Bold,
-                            color = RusMorphColors.CarbonBlack,
+                            color = WerusColors.Ink,
                         )
                         IconButton(onClick = onPlayAudio, modifier = Modifier.size(28.dp)) {
                             Text("🔊", fontSize = 16.sp)
@@ -82,31 +82,31 @@ fun WordCardBack(
                         null -> null
                     }
                     val tags = listOfNotNull(posLabel, genderLabel, animacyLabel).joinToString(" · ")
-                    Text(tags, style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                    Text(tags, style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                 }
 
                 // 翻面按键
                 TextButton(onClick = onFlip) {
-                    Text("↻ 正面", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.AccentBlue)
+                    Text("↻ 正面", style = MaterialTheme.typography.labelSmall, color = WerusColors.Info)
                 }
             }
 
-            HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.8.dp)
+            HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.8.dp)
 
             // 2. 当前形式分析 (Current Form Analysis)
             Surface(
-                color = RusMorphColors.SurfaceMuted,
+                color = WerusColors.BeigeMuted,
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("当前词形解析", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                    Text("当前词形解析", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                     Text(
                         text = if (form.isLemma) "原形形式 (${form.displayForm})" else "检索词形: ${form.displayForm}",
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.SemiBold,
-                        color = RusMorphColors.CarbonBlack,
+                        color = WerusColors.Ink,
                     )
 
                     if (form.analyses.isNotEmpty()) {
@@ -115,19 +115,19 @@ fun WordCardBack(
                             Text(
                                 text = if (form.analyses.size > 1) "${index + 1}. $desc" else desc,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = RusMorphColors.AccentBlue,
+                                color = WerusColors.Info,
                                 fontWeight = FontWeight.Medium,
                             )
                         }
                     } else if (form.explanationZh.isNotBlank()) {
-                        Text(form.explanationZh, style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                        Text(form.explanationZh, style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                     }
                 }
             }
 
             // 3. 形态概览 (Morphology Summary)
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("形态特征与分类", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                Text("形态特征与分类", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                 when (val m = lexeme.morphology) {
                     is Lexeme.MorphologyInfo.Noun -> {
                         val (ruleId, ruleLabel) = determineNounRuleTarget(lexeme.lemma, lexeme.basic.gender)
@@ -140,18 +140,18 @@ fun WordCardBack(
                             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text("类型: $ruleLabel", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
                                 if (animacyText != null) {
-                                    Text("· $animacyText", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextSecondary)
+                                    Text("· $animacyText", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
                                 }
                             }
                             if (m.declensionType.isNotBlank()) {
-                                Text(m.declensionType, style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
+                                Text(m.declensionType, style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
                             }
                         }
                         if (onNavigateToRule != null) {
                             Text(
                                 text = "查看 $ruleLabel 变格规则 →",
                                 style = RusMorphTechTypography.MicroPill,
-                                color = RusMorphColors.AccentOrange,
+                                color = WerusColors.Red,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.clickable { onNavigateToRule("NOUN", ruleId) }.padding(vertical = 2.dp),
                             )
@@ -164,14 +164,14 @@ fun WordCardBack(
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                             Text("变位: $verbRuleLabel", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
                             if (m.aspectPair != null) {
-                                Text("对应体: → ${m.aspectPair}", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentBlue)
+                                Text("对应体: → ${m.aspectPair}", style = RusMorphTechTypography.MicroPill, color = WerusColors.Info)
                             }
                         }
                         if (onNavigateToRule != null) {
                             Text(
                                 text = "查看 $verbRuleLabel 规则 →",
                                 style = RusMorphTechTypography.MicroPill,
-                                color = RusMorphColors.AccentOrange,
+                                color = WerusColors.Red,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.clickable { onNavigateToRule("VERB", verbRuleId) }.padding(vertical = 2.dp),
                             )
@@ -182,7 +182,7 @@ fun WordCardBack(
                             Text(
                                 text = "查看形容词变格规则 →",
                                 style = RusMorphTechTypography.MicroPill,
-                                color = RusMorphColors.AccentOrange,
+                                color = WerusColors.Red,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.clickable { onNavigateToRule("ADJECTIVE", "adj_hard") }.padding(vertical = 2.dp),
                             )
@@ -193,7 +193,7 @@ fun WordCardBack(
 
                 // 重音特征
                 if (lexeme.pronunciation.stressPattern.isNotBlank()) {
-                    Text("重音规律: ${lexeme.pronunciation.stressPattern}", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                    Text("重音规律: ${lexeme.pronunciation.stressPattern}", style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                 }
             }
 
@@ -208,7 +208,7 @@ fun WordCardBack(
                     is Lexeme.MorphologyInfo.Verb -> if (isMorphologyExpanded) "收起动词变位表 ▲" else "查看完整动词变位表 ▼"
                     else -> if (isMorphologyExpanded) "收起形态表 ▲" else "查看完整形态数据 ▼"
                 }
-                Text(buttonLabel, style = MaterialTheme.typography.bodySmall, color = RusMorphColors.AccentBlue)
+                Text(buttonLabel, style = MaterialTheme.typography.bodySmall, color = WerusColors.Info)
             }
 
             MorphologyPanel(morphology = lexeme.morphology, isExpanded = isMorphologyExpanded)
@@ -216,15 +216,15 @@ fun WordCardBack(
             // 4. 典型例句 (Example)
             if (lexeme.usage.exampleRu.isNotBlank()) {
                 Surface(
-                    color = RusMorphColors.Canvas,
+                    color = WerusColors.Canvas,
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("典型例句", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.TextTertiary)
-                        Text(lexeme.usage.exampleRu, style = MaterialTheme.typography.bodyMedium, fontFamily = FontFamily.Serif, color = RusMorphColors.CarbonBlack)
+                        Text("典型例句", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                        Text(lexeme.usage.exampleRu, style = MaterialTheme.typography.bodyMedium, fontFamily = FontFamily.Serif, color = WerusColors.Ink)
                         if (lexeme.usage.exampleZh.isNotBlank()) {
-                            Text(lexeme.usage.exampleZh, style = MaterialTheme.typography.bodySmall, color = RusMorphColors.TextSecondary)
+                            Text(lexeme.usage.exampleZh, style = MaterialTheme.typography.bodySmall, color = WerusColors.InkMuted)
                         }
                     }
                 }
@@ -233,14 +233,14 @@ fun WordCardBack(
             // 5. 易错警示 (Common Errors)
             if (lexeme.learning.commonErrors.isNotEmpty()) {
                 Surface(
-                    color = RusMorphColors.WarmCream.copy(alpha = 0.5f),
+                    color = WerusColors.Beige.copy(alpha = 0.5f),
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("易错点警示", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentOrange)
+                        Text("易错点警示", style = RusMorphTechTypography.MicroPill, color = WerusColors.Red)
                         lexeme.learning.commonErrors.forEach { err ->
-                            Text("• $err", style = MaterialTheme.typography.bodySmall, color = RusMorphColors.CarbonBlack)
+                            Text("• $err", style = MaterialTheme.typography.bodySmall, color = WerusColors.Ink)
                         }
                     }
                 }
@@ -249,15 +249,15 @@ fun WordCardBack(
             // 6. 展开式行动按键行：AI 分析
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 TextButton(onClick = onOpenAiWorkspace) {
-                    Text("⚡ AI 深度形态工作区 →", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.AccentBlue)
+                    Text("⚡ AI 深度形态工作区 →", style = MaterialTheme.typography.labelSmall, color = WerusColors.Info)
                 }
             }
 
             // 6.5 艾宾浩斯复习计划与留存率状态
             Surface(
-                color = if (reviewState.isEnrolled) RusMorphColors.WarmCream.copy(alpha = 0.5f) else RusMorphColors.SurfaceMuted,
+                color = if (reviewState.isEnrolled) WerusColors.Beige.copy(alpha = 0.5f) else WerusColors.BeigeMuted,
                 shape = RoundedCornerShape(8.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, if (reviewState.isEnrolled) RusMorphColors.AccentOrange.copy(alpha = 0.4f) else RusMorphColors.OutlineSoft),
+                border = androidx.compose.foundation.BorderStroke(1.dp, if (reviewState.isEnrolled) WerusColors.Red.copy(alpha = 0.4f) else WerusColors.BorderSoft),
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Row(
@@ -271,18 +271,18 @@ fun WordCardBack(
                                 text = if (reviewState.isEnrolled) "✓ 艾宾浩斯复习中" else "未收纳至复习计划",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.SemiBold,
-                                color = if (reviewState.isEnrolled) RusMorphColors.CarbonBlack else RusMorphColors.TextSecondary,
+                                color = if (reviewState.isEnrolled) WerusColors.Ink else WerusColors.InkMuted,
                             )
                             if (reviewState.isEnrolled) {
                                 val (pct, badgeText) = reviewState.retentionBadge
-                                Text("留存率 $pct · $badgeText", style = RusMorphTechTypography.MicroPill, color = RusMorphColors.AccentOrange)
+                                Text("留存率 $pct · $badgeText", style = RusMorphTechTypography.MicroPill, color = WerusColors.Red)
                             }
                         }
                         if (reviewState.reviewCount > 0) {
                             Text(
                                 text = "已复习 ${reviewState.reviewCount} 次 · 掌握度 ${reviewState.mastery}%",
                                 style = RusMorphTechTypography.MicroPill,
-                                color = RusMorphColors.TextTertiary,
+                                color = WerusColors.InkFaint,
                             )
                         }
                     }
@@ -296,14 +296,14 @@ fun WordCardBack(
                                 text = if (reviewState.isEnrolled) "移出计划" else "+ 加入复习",
                                 style = RusMorphTechTypography.MicroPill,
                                 fontWeight = FontWeight.Bold,
-                                color = if (reviewState.isEnrolled) RusMorphColors.TextSecondary else RusMorphColors.AccentOrange,
+                                color = if (reviewState.isEnrolled) WerusColors.InkMuted else WerusColors.Red,
                             )
                         }
                     }
                 }
             }
 
-            HorizontalDivider(color = RusMorphColors.OutlineSoft, thickness = 0.8.dp)
+            HorizontalDivider(color = WerusColors.BorderSoft, thickness = 0.8.dp)
 
             // 7. 复习动作提交行 (Review Actions)
             ReviewActionBar(onReviewResult = onReviewResult)
@@ -328,8 +328,8 @@ fun ReviewActionBar(
         Button(
             onClick = { onReviewResult(ReviewResult.AGAIN) },
             colors = ButtonDefaults.buttonColors(
-                containerColor = RusMorphColors.AccentOrange.copy(alpha = 0.15f),
-                contentColor = RusMorphColors.AccentOrange,
+                containerColor = WerusColors.Red.copy(alpha = 0.15f),
+                contentColor = WerusColors.Red,
             ),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.weight(1f),
@@ -341,8 +341,8 @@ fun ReviewActionBar(
         Button(
             onClick = { onReviewResult(ReviewResult.HARD) },
             colors = ButtonDefaults.buttonColors(
-                containerColor = RusMorphColors.SurfaceMuted,
-                contentColor = RusMorphColors.CarbonBlack,
+                containerColor = WerusColors.BeigeMuted,
+                contentColor = WerusColors.Ink,
             ),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.weight(1f),
@@ -354,8 +354,8 @@ fun ReviewActionBar(
         Button(
             onClick = { onReviewResult(ReviewResult.GOOD) },
             colors = ButtonDefaults.buttonColors(
-                containerColor = RusMorphColors.AccentGreen.copy(alpha = 0.15f),
-                contentColor = RusMorphColors.AccentGreen,
+                containerColor = WerusColors.Success.copy(alpha = 0.15f),
+                contentColor = WerusColors.Success,
             ),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.weight(1f),

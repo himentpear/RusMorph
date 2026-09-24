@@ -71,6 +71,9 @@ class AssetDatabaseImporterTest {
         assertEquals(counts["declensionRules"].asInt, dao.declensionRuleCount())
         assertEquals(counts["knowledgeChunks"].asInt, dao.knowledgeChunkCount())
         assertEquals(counts["crossRefs"].asInt, dao.crossRefCount())
+        assertEquals(counts["grammarPoints"].asInt, dao.grammarPointCount())
+        assertEquals(counts["questions"].asInt, dao.realQuestionCount())
+        assertEquals(counts["grammarQuestionLinks"].asInt, dao.sourceGrammarQuestionLinkCount())
 
         val details = database.searchDao().observeEntry(firstEntry["id"].asString).first()
         assertNotNull(details)
@@ -86,7 +89,10 @@ class AssetDatabaseImporterTest {
         val dao = database.dataImportDao()
         val initialCount = dao.lexiconEntryCount()
         val initialVersion = dao.metadataValue("database_asset_version")
-        val assets = listOf("lexicon.json", "declension_rules.json", "knowledge_chunks.json")
+        val assets = listOf(
+            "lexicon.json", "declension_rules.json", "knowledge_chunks.json",
+            "grammar_points.json", "tem4_questions.json", "grammar_question_links.json",
+        )
             .associateWith { name -> context.assets.open("database/$name").use { it.readBytes() } }
             .toMutableMap()
         assets["knowledge_chunks.json"] = assets.getValue("knowledge_chunks.json") + '\n'.code.toByte()
@@ -126,6 +132,18 @@ class AssetDatabaseImporterTest {
                   "content":"明确说明","examples":[],"sourceDocument":"test.docx","sectionPath":[]
                 }
             ]""".trimIndent().encodeToByteArray(),
+            "grammar_points.json" to """[{
+              "pointId":"SYN_TEST","titleZh":"测试语法","titleRu":"Тест","explanation":"解释",
+              "exampleRu":null,"exampleZh":null,"parentPointId":null,"category":null,"sortOrder":1,"contentVersion":1
+            }]""".trimIndent().encodeToByteArray(),
+            "tem4_questions.json" to """[{
+              "questionId":"TEM4_TEST_1","sourceQuestionId":1,"sourceType":"TEM4_REAL","examYear":2024,"examYearLabel":"2024",
+              "stem":"Test ___","optionA":"a","optionB":"b","optionC":"c","optionD":"d","answer":"A","analysis":"analysis","difficulty":null,"createdAt":null
+            }]""".trimIndent().encodeToByteArray(),
+            "grammar_question_links.json" to """[{
+              "questionId":"TEM4_TEST_1","pointId":"SYN_TEST","role":"UNVERIFIED","weight":1.0,"confidence":0.6,
+              "relationSource":"SOURCE_SPREADSHEET","verified":false
+            }]""".trimIndent().encodeToByteArray(),
         )
         val importer = AssetDatabaseImporter(context, database, assetReader = assets::getValue)
 

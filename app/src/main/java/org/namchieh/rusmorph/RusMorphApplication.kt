@@ -18,7 +18,10 @@ import org.namchieh.rusmorph.agent.MultiAgentCoordinator
 import org.namchieh.rusmorph.data.settings.AppSettings
 import org.namchieh.rusmorph.data.repository.SpeechRepository
 import org.namchieh.rusmorph.data.repository.CourseRepository
+import org.namchieh.rusmorph.data.repository.ConversationRepository
 import org.namchieh.rusmorph.data.repository.LearningRepository
+import org.namchieh.rusmorph.data.repository.GrammarRepository
+import org.namchieh.rusmorph.data.repository.ExamPracticeRepository
 import org.namchieh.rusmorph.update.UpdateCoordinator
 import org.namchieh.rusmorph.update.data.UpdateRepository
 
@@ -44,12 +47,15 @@ class RusMorphApplication : Application() {
     val localLibraryRepository by lazy { LocalLibraryRepository(database.localLibraryDao()) }
     val courseRepository by lazy { CourseRepository(this, searchRepository) }
     val learningRepository by lazy { LearningRepository(database.learningDao()) }
+    val grammarRepository by lazy { GrammarRepository(database.grammarExamDao()) }
+    val examPracticeRepository by lazy { ExamPracticeRepository(database) }
     val multiAgentCoordinator by lazy { MultiAgentCoordinator(agentRepository, searchRepository) }
     val speechRepository by lazy {
         SpeechRepository.create(
             BuildConfig.SPEECH_BACKEND_BASE_URL,
         )
     }
+    val conversationRepository by lazy { ConversationRepository(BuildConfig.WERUS_AI_BASE_URL) }
     private val updateRepository by lazy { UpdateRepository.create("https://namchieh.org/") }
     val updateCoordinator by lazy { UpdateCoordinator(this, appSettings, updateRepository) }
 

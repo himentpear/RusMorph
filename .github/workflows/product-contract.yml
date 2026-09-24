@@ -1,0 +1,29 @@
+name: Product Contract
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published, edited]
+
+jobs:
+  verify-product-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify frozen UI, navigation, branding, and launcher assets
+        run: python tools/verify_product_contract.py
+      - name: Verify canonical app identity and release guard
+        run: python tools/check_app_baseline.py
+      - name: Report protected product-surface changes
+        shell: bash
+        run: |
+          git diff --name-only "${{ github.event.before || 'HEAD^' }}" HEAD 2>/dev/null \
+            | grep -E '^(app/src/main/java/.*/ui/(design|theme|navigation)/|app/src/main/res/.*/ic_launcher|docs/ui-contract.md|release/(ui-baseline|brand-assets).json)$' \
+            && echo '::warning::Frozen product-surface files changed; contract verification passed but reviewer approval is required.' \
+            || true

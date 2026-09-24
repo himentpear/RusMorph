@@ -1,0 +1,177 @@
+[
+  {
+    "id": "ur2_l01_spk_petr_vasilievich",
+    "lessonId": "ur2_lesson_01",
+    "displayName": "Пётр Васильевич"
+  },
+  {
+    "id": "ur2_l01_spk_nikolay",
+    "lessonId": "ur2_lesson_01",
+    "displayName": "Николай"
+  },
+  {
+    "id": "ur2_l01_spk_sergey",
+    "lessonId": "ur2_lesson_01",
+    "displayName": "Сергей"
+  },
+  {
+    "id": "ur2_l01_spk_oleg",
+    "lessonId": "ur2_lesson_01",
+    "displayName": "Олег"
+  },
+  {
+    "id": "ur2_l01_spk_tamara",
+    "lessonId": "ur2_lesson_01",
+    "displayName": "Тамара"
+  },
+  {
+    "id": "ur2_l01_spk_olya",
+    "lessonId": "ur2_lesson_01",
+    "displayName": "Оля"
+  },
+  {
+    "id": "ur2_l02_spk_vasya",
+    "lessonId": "ur2_lesson_02",
+    "displayName": "Вася"
+  },
+  {
+    "id": "ur2_l02_spk_sergey",
+    "lessonId": "ur2_lesson_02",
+    "displayName": "Сергей"
+  },
+  {
+    "id": "ur2_l02_spk_olya",
+    "lessonId": "ur2_lesson_02",
+    "displayName": "Оля"
+  },
+  {
+    "id": "ur2_l02_spk_tatyana",
+    "lessonId": "ur2_lesson_02",
+    "displayName": "Татьяна"
+  },
+  {
+    "id": "ur2_l02_spk_viktor",
+    "lessonId": "ur2_lesson_02",
+    "displayName": "Виктор"
+  },
+  {
+    "id": "ur2_l03_spk_anton",
+    "lessonId": "ur2_lesson_03",
+    "displayName": "Антон"
+  },
+  {
+    "id": "ur2_l03_spk_anna",
+    "lessonId": "ur2_lesson_03",
+    "displayName": "Анна"
+  },
+  {
+    "id": "ur2_l04_spk_anna",
+    "lessonId": "ur2_lesson_04",
+    "displayName": "Анна"
+  },
+  {
+    "id": "ur2_l04_spk_pavel",
+    "lessonId": "ur2_lesson_04",
+    "displayName": "Павел"
+  },
+  {
+    "id": "ur2_l05_spk_aleksandr",
+    "lessonId": "ur2_lesson_05",
+    "displayName": "Александр Петрович"
+  },
+  {
+    "id": "ur2_l05_spk_kirill",
+    "lessonId": "ur2_lesson_05",
+    "displayName": "Кирилл Николаевич"
+  },
+  {
+    "id": "ur2_l05_spk_olga",
+    "lessonId": "ur2_lesson_05",
+    "displayName": "Ольга"
+  },
+  {
+    "id": "ur2_l06_spk_anatoliy",
+    "lessonId": "ur2_lesson_06",
+    "displayName": "Анатолий"
+  },
+  {
+    "id": "ur2_l06_spk_dasha",
+    "lessonId": "ur2_lesson_06",
+    "displayName": "Даша"
+  },
+  {
+    "id": "ur2_l06_spk_kolya",
+    "lessonId": "ur2_lesson_06",
+    "displayName": "Коля"
+  },
+  {
+    "id": "ur2_l07_spk_anna",
+    "lessonId": "ur2_lesson_07",
+    "displayName": "Анна"
+  },
+  {
+    "id": "ur2_l07_spk_prokhozhiy",
+    "lessonId": "ur2_lesson_07",
+    "displayName": "Прохожий"
+  },
+  {
+    "id": "ur2_l08_spk_andrey",
+    "lessonId": "ur2_lesson_08",
+    "displayName": "Андрей"
+  },
+  {
+    "id": "ur2_l08_spk_lena",
+    "lessonId": "ur2_lesson_08",
+    "displayName": "Лена"
+  },
+  {
+    "id": "ur2_l09_spk_xiaohua",
+    "lessonId": "ur2_lesson_09",
+    "displayName": "Сяохуа"
+  },
+  {
+    "id": "ur2_l09_spk_lili",
+    "lessonId": "ur2_lesson_09",
+    "displayName": "Лили"
+  },
+  {
+    "id": "ur2_l10_spk_vadim",
+    "lessonId": "ur2_lesson_10",
+    "displayName": "Вадим"
+  },
+  {
+    "id": "ur2_l10_spk_nina",
+    "lessonId": "ur2_lesson_10",
+    "displayName": "Нина"
+  },
+  {
+    "id": "ur2_l10_spk_operator",
+    "lessonId": "ur2_lesson_10",
+    "displayName": "Оператор"
+  },
+  {
+    "id": "ur2_l11_spk_vrach",
+    "lessonId": "ur2_lesson_11",
+    "displayName": "Врач"
+  },
+  {
+    "id": "ur2_l11_spk_patsient",
+    "lessonId": "ur2_lesson_11",
+    "displayName": "Пациент"
+  },
+  {
+    "id": "ur2_l12_spk_kostya",
+    "lessonId": "ur2_lesson_12",
+    "displayName": "Костя"
+  },
+  {
+    "id": "ur2_l12_spk_larisa",
+    "lessonId": "ur2_lesson_12",
+    "displayName": "Лариса"
+  },
+  {
+    "id": "ur2_l12_spk_prodavets",
+    "lessonId": "ur2_lesson_12",
+    "displayName": "Продавец"
+  }
+]

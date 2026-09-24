@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "navigation": [
+    "home",
+    "learning",
+    "dictionary",
+    "review",
+    "profile"
+  ],
+  "theme": "werus-red-beige-v1",
+  "launcherIcon": "werus-brand-v1",
+  "developerTools": "hidden-by-default",
+  "legacyToolsDestinationAllowed": false
+}

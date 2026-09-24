@@ -1,0 +1,3863 @@
+[
+  {
+    "id": "ur2_media_0001",
+    "pageId": "ur2_page_0001",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 1 (xref 4)"
+  },
+  {
+    "id": "ur2_media_0002",
+    "pageId": "ur2_page_0002",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 2 (xref 9)"
+  },
+  {
+    "id": "ur2_media_0003",
+    "pageId": "ur2_page_0003",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 3 (xref 14)"
+  },
+  {
+    "id": "ur2_media_0004",
+    "pageId": "ur2_page_0004",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 4 (xref 19)"
+  },
+  {
+    "id": "ur2_media_0005",
+    "pageId": "ur2_page_0005",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 5 (xref 24)"
+  },
+  {
+    "id": "ur2_media_0006",
+    "pageId": "ur2_page_0006",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 6 (xref 29)"
+  },
+  {
+    "id": "ur2_media_0007",
+    "pageId": "ur2_page_0007",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 7 (xref 34)"
+  },
+  {
+    "id": "ur2_media_0008",
+    "pageId": "ur2_page_0008",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 8 (xref 39)"
+  },
+  {
+    "id": "ur2_media_0009",
+    "pageId": "ur2_page_0009",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 9 (xref 44)"
+  },
+  {
+    "id": "ur2_media_0010",
+    "pageId": "ur2_page_0010",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 10 (xref 49)"
+  },
+  {
+    "id": "ur2_media_0011",
+    "pageId": "ur2_page_0011",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 11 (xref 54)"
+  },
+  {
+    "id": "ur2_media_0012",
+    "pageId": "ur2_page_0012",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 12 (xref 59)"
+  },
+  {
+    "id": "ur2_media_0013",
+    "pageId": "ur2_page_0013",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 13 (xref 64)"
+  },
+  {
+    "id": "ur2_media_0014",
+    "pageId": "ur2_page_0014",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 14 (xref 69)"
+  },
+  {
+    "id": "ur2_media_0015",
+    "pageId": "ur2_page_0015",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 15 (xref 74)"
+  },
+  {
+    "id": "ur2_media_0016",
+    "pageId": "ur2_page_0016",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 16 (xref 79)"
+  },
+  {
+    "id": "ur2_media_0017",
+    "pageId": "ur2_page_0017",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 17 (xref 84)"
+  },
+  {
+    "id": "ur2_media_0018",
+    "pageId": "ur2_page_0018",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 18 (xref 89)"
+  },
+  {
+    "id": "ur2_media_0019",
+    "pageId": "ur2_page_0019",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 19 (xref 94)"
+  },
+  {
+    "id": "ur2_media_0020",
+    "pageId": "ur2_page_0020",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 20 (xref 99)"
+  },
+  {
+    "id": "ur2_media_0021",
+    "pageId": "ur2_page_0021",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 21 (xref 104)"
+  },
+  {
+    "id": "ur2_media_0022",
+    "pageId": "ur2_page_0022",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 22 (xref 109)"
+  },
+  {
+    "id": "ur2_media_0023",
+    "pageId": "ur2_page_0023",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 23 (xref 114)"
+  },
+  {
+    "id": "ur2_media_0024",
+    "pageId": "ur2_page_0024",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 24 (xref 119)"
+  },
+  {
+    "id": "ur2_media_0025",
+    "pageId": "ur2_page_0025",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 25 (xref 124)"
+  },
+  {
+    "id": "ur2_media_0026",
+    "pageId": "ur2_page_0026",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 26 (xref 129)"
+  },
+  {
+    "id": "ur2_media_0027",
+    "pageId": "ur2_page_0027",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 27 (xref 134)"
+  },
+  {
+    "id": "ur2_media_0028",
+    "pageId": "ur2_page_0028",
+    "lessonId": "ur2_lesson_01",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 28 (xref 139)"
+  },
+  {
+    "id": "ur2_media_0029",
+    "pageId": "ur2_page_0029",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 29 (xref 144)"
+  },
+  {
+    "id": "ur2_media_0030",
+    "pageId": "ur2_page_0030",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 30 (xref 149)"
+  },
+  {
+    "id": "ur2_media_0031",
+    "pageId": "ur2_page_0031",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 31 (xref 154)"
+  },
+  {
+    "id": "ur2_media_0032",
+    "pageId": "ur2_page_0032",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 32 (xref 159)"
+  },
+  {
+    "id": "ur2_media_0033",
+    "pageId": "ur2_page_0033",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 33 (xref 164)"
+  },
+  {
+    "id": "ur2_media_0034",
+    "pageId": "ur2_page_0034",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 34 (xref 169)"
+  },
+  {
+    "id": "ur2_media_0035",
+    "pageId": "ur2_page_0035",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 35 (xref 174)"
+  },
+  {
+    "id": "ur2_media_0036",
+    "pageId": "ur2_page_0036",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 36 (xref 179)"
+  },
+  {
+    "id": "ur2_media_0037",
+    "pageId": "ur2_page_0037",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 37 (xref 184)"
+  },
+  {
+    "id": "ur2_media_0038",
+    "pageId": "ur2_page_0038",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 38 (xref 189)"
+  },
+  {
+    "id": "ur2_media_0039",
+    "pageId": "ur2_page_0039",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 39 (xref 194)"
+  },
+  {
+    "id": "ur2_media_0040",
+    "pageId": "ur2_page_0040",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 40 (xref 199)"
+  },
+  {
+    "id": "ur2_media_0041",
+    "pageId": "ur2_page_0041",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 41 (xref 204)"
+  },
+  {
+    "id": "ur2_media_0042",
+    "pageId": "ur2_page_0042",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 42 (xref 209)"
+  },
+  {
+    "id": "ur2_media_0043",
+    "pageId": "ur2_page_0043",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 43 (xref 214)"
+  },
+  {
+    "id": "ur2_media_0044",
+    "pageId": "ur2_page_0044",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 44 (xref 219)"
+  },
+  {
+    "id": "ur2_media_0045",
+    "pageId": "ur2_page_0045",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 45 (xref 224)"
+  },
+  {
+    "id": "ur2_media_0046",
+    "pageId": "ur2_page_0046",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 46 (xref 229)"
+  },
+  {
+    "id": "ur2_media_0047",
+    "pageId": "ur2_page_0047",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 47 (xref 234)"
+  },
+  {
+    "id": "ur2_media_0048",
+    "pageId": "ur2_page_0048",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 48 (xref 239)"
+  },
+  {
+    "id": "ur2_media_0049",
+    "pageId": "ur2_page_0049",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 49 (xref 244)"
+  },
+  {
+    "id": "ur2_media_0050",
+    "pageId": "ur2_page_0050",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 50 (xref 249)"
+  },
+  {
+    "id": "ur2_media_0051",
+    "pageId": "ur2_page_0051",
+    "lessonId": "ur2_lesson_02",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 51 (xref 254)"
+  },
+  {
+    "id": "ur2_media_0052",
+    "pageId": "ur2_page_0052",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 52 (xref 259)"
+  },
+  {
+    "id": "ur2_media_0053",
+    "pageId": "ur2_page_0053",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 53 (xref 264)"
+  },
+  {
+    "id": "ur2_media_0054",
+    "pageId": "ur2_page_0054",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 54 (xref 269)"
+  },
+  {
+    "id": "ur2_media_0055",
+    "pageId": "ur2_page_0055",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 55 (xref 274)"
+  },
+  {
+    "id": "ur2_media_0056",
+    "pageId": "ur2_page_0056",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 56 (xref 279)"
+  },
+  {
+    "id": "ur2_media_0057",
+    "pageId": "ur2_page_0057",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 57 (xref 284)"
+  },
+  {
+    "id": "ur2_media_0058",
+    "pageId": "ur2_page_0058",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 58 (xref 289)"
+  },
+  {
+    "id": "ur2_media_0059",
+    "pageId": "ur2_page_0059",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 59 (xref 294)"
+  },
+  {
+    "id": "ur2_media_0060",
+    "pageId": "ur2_page_0060",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 60 (xref 299)"
+  },
+  {
+    "id": "ur2_media_0061",
+    "pageId": "ur2_page_0061",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 61 (xref 304)"
+  },
+  {
+    "id": "ur2_media_0062",
+    "pageId": "ur2_page_0062",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 62 (xref 309)"
+  },
+  {
+    "id": "ur2_media_0063",
+    "pageId": "ur2_page_0063",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 63 (xref 314)"
+  },
+  {
+    "id": "ur2_media_0064",
+    "pageId": "ur2_page_0064",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 64 (xref 319)"
+  },
+  {
+    "id": "ur2_media_0065",
+    "pageId": "ur2_page_0065",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 65 (xref 324)"
+  },
+  {
+    "id": "ur2_media_0066",
+    "pageId": "ur2_page_0066",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 66 (xref 329)"
+  },
+  {
+    "id": "ur2_media_0067",
+    "pageId": "ur2_page_0067",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 67 (xref 334)"
+  },
+  {
+    "id": "ur2_media_0068",
+    "pageId": "ur2_page_0068",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 68 (xref 339)"
+  },
+  {
+    "id": "ur2_media_0069",
+    "pageId": "ur2_page_0069",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 69 (xref 344)"
+  },
+  {
+    "id": "ur2_media_0070",
+    "pageId": "ur2_page_0070",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 70 (xref 349)"
+  },
+  {
+    "id": "ur2_media_0071",
+    "pageId": "ur2_page_0071",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 71 (xref 354)"
+  },
+  {
+    "id": "ur2_media_0072",
+    "pageId": "ur2_page_0072",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 72 (xref 359)"
+  },
+  {
+    "id": "ur2_media_0073",
+    "pageId": "ur2_page_0073",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 73 (xref 364)"
+  },
+  {
+    "id": "ur2_media_0074",
+    "pageId": "ur2_page_0074",
+    "lessonId": "ur2_lesson_03",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 74 (xref 369)"
+  },
+  {
+    "id": "ur2_media_0075",
+    "pageId": "ur2_page_0075",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 75 (xref 374)"
+  },
+  {
+    "id": "ur2_media_0076",
+    "pageId": "ur2_page_0076",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 76 (xref 379)"
+  },
+  {
+    "id": "ur2_media_0077",
+    "pageId": "ur2_page_0077",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 77 (xref 384)"
+  },
+  {
+    "id": "ur2_media_0078",
+    "pageId": "ur2_page_0078",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 78 (xref 389)"
+  },
+  {
+    "id": "ur2_media_0079",
+    "pageId": "ur2_page_0079",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 79 (xref 394)"
+  },
+  {
+    "id": "ur2_media_0080",
+    "pageId": "ur2_page_0080",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 80 (xref 399)"
+  },
+  {
+    "id": "ur2_media_0081",
+    "pageId": "ur2_page_0081",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 81 (xref 404)"
+  },
+  {
+    "id": "ur2_media_0082",
+    "pageId": "ur2_page_0082",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 82 (xref 409)"
+  },
+  {
+    "id": "ur2_media_0083",
+    "pageId": "ur2_page_0083",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 83 (xref 414)"
+  },
+  {
+    "id": "ur2_media_0084",
+    "pageId": "ur2_page_0084",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 84 (xref 419)"
+  },
+  {
+    "id": "ur2_media_0085",
+    "pageId": "ur2_page_0085",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 85 (xref 424)"
+  },
+  {
+    "id": "ur2_media_0086",
+    "pageId": "ur2_page_0086",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 86 (xref 429)"
+  },
+  {
+    "id": "ur2_media_0087",
+    "pageId": "ur2_page_0087",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 87 (xref 434)"
+  },
+  {
+    "id": "ur2_media_0088",
+    "pageId": "ur2_page_0088",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 88 (xref 439)"
+  },
+  {
+    "id": "ur2_media_0089",
+    "pageId": "ur2_page_0089",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 89 (xref 444)"
+  },
+  {
+    "id": "ur2_media_0090",
+    "pageId": "ur2_page_0090",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 90 (xref 449)"
+  },
+  {
+    "id": "ur2_media_0091",
+    "pageId": "ur2_page_0091",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 91 (xref 454)"
+  },
+  {
+    "id": "ur2_media_0092",
+    "pageId": "ur2_page_0092",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 92 (xref 459)"
+  },
+  {
+    "id": "ur2_media_0093",
+    "pageId": "ur2_page_0093",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 93 (xref 464)"
+  },
+  {
+    "id": "ur2_media_0094",
+    "pageId": "ur2_page_0094",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 94 (xref 469)"
+  },
+  {
+    "id": "ur2_media_0095",
+    "pageId": "ur2_page_0095",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 95 (xref 474)"
+  },
+  {
+    "id": "ur2_media_0096",
+    "pageId": "ur2_page_0096",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 96 (xref 479)"
+  },
+  {
+    "id": "ur2_media_0097",
+    "pageId": "ur2_page_0097",
+    "lessonId": "ur2_lesson_04",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 97 (xref 484)"
+  },
+  {
+    "id": "ur2_media_0098",
+    "pageId": "ur2_page_0098",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 98 (xref 489)"
+  },
+  {
+    "id": "ur2_media_0099",
+    "pageId": "ur2_page_0099",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 99 (xref 494)"
+  },
+  {
+    "id": "ur2_media_0100",
+    "pageId": "ur2_page_0100",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 100 (xref 499)"
+  },
+  {
+    "id": "ur2_media_0101",
+    "pageId": "ur2_page_0101",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 101 (xref 504)"
+  },
+  {
+    "id": "ur2_media_0102",
+    "pageId": "ur2_page_0102",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 102 (xref 509)"
+  },
+  {
+    "id": "ur2_media_0103",
+    "pageId": "ur2_page_0103",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 103 (xref 514)"
+  },
+  {
+    "id": "ur2_media_0104",
+    "pageId": "ur2_page_0104",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 104 (xref 519)"
+  },
+  {
+    "id": "ur2_media_0105",
+    "pageId": "ur2_page_0105",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 105 (xref 524)"
+  },
+  {
+    "id": "ur2_media_0106",
+    "pageId": "ur2_page_0106",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 106 (xref 529)"
+  },
+  {
+    "id": "ur2_media_0107",
+    "pageId": "ur2_page_0107",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 107 (xref 534)"
+  },
+  {
+    "id": "ur2_media_0108",
+    "pageId": "ur2_page_0108",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 108 (xref 539)"
+  },
+  {
+    "id": "ur2_media_0109",
+    "pageId": "ur2_page_0109",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 109 (xref 544)"
+  },
+  {
+    "id": "ur2_media_0110",
+    "pageId": "ur2_page_0110",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 110 (xref 549)"
+  },
+  {
+    "id": "ur2_media_0111",
+    "pageId": "ur2_page_0111",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 111 (xref 554)"
+  },
+  {
+    "id": "ur2_media_0112",
+    "pageId": "ur2_page_0112",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 112 (xref 559)"
+  },
+  {
+    "id": "ur2_media_0113",
+    "pageId": "ur2_page_0113",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 113 (xref 564)"
+  },
+  {
+    "id": "ur2_media_0114",
+    "pageId": "ur2_page_0114",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 114 (xref 569)"
+  },
+  {
+    "id": "ur2_media_0115",
+    "pageId": "ur2_page_0115",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 115 (xref 574)"
+  },
+  {
+    "id": "ur2_media_0116",
+    "pageId": "ur2_page_0116",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 116 (xref 579)"
+  },
+  {
+    "id": "ur2_media_0117",
+    "pageId": "ur2_page_0117",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 117 (xref 584)"
+  },
+  {
+    "id": "ur2_media_0118",
+    "pageId": "ur2_page_0118",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 118 (xref 589)"
+  },
+  {
+    "id": "ur2_media_0119",
+    "pageId": "ur2_page_0119",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 119 (xref 594)"
+  },
+  {
+    "id": "ur2_media_0120",
+    "pageId": "ur2_page_0120",
+    "lessonId": "ur2_lesson_05",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 120 (xref 599)"
+  },
+  {
+    "id": "ur2_media_0121",
+    "pageId": "ur2_page_0121",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 121 (xref 604)"
+  },
+  {
+    "id": "ur2_media_0122",
+    "pageId": "ur2_page_0122",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 122 (xref 609)"
+  },
+  {
+    "id": "ur2_media_0123",
+    "pageId": "ur2_page_0123",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 123 (xref 614)"
+  },
+  {
+    "id": "ur2_media_0124",
+    "pageId": "ur2_page_0124",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 124 (xref 619)"
+  },
+  {
+    "id": "ur2_media_0125",
+    "pageId": "ur2_page_0125",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 125 (xref 624)"
+  },
+  {
+    "id": "ur2_media_0126",
+    "pageId": "ur2_page_0126",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 126 (xref 629)"
+  },
+  {
+    "id": "ur2_media_0127",
+    "pageId": "ur2_page_0127",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 127 (xref 634)"
+  },
+  {
+    "id": "ur2_media_0128",
+    "pageId": "ur2_page_0128",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 128 (xref 639)"
+  },
+  {
+    "id": "ur2_media_0129",
+    "pageId": "ur2_page_0129",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 129 (xref 644)"
+  },
+  {
+    "id": "ur2_media_0130",
+    "pageId": "ur2_page_0130",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 130 (xref 649)"
+  },
+  {
+    "id": "ur2_media_0131",
+    "pageId": "ur2_page_0131",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 131 (xref 654)"
+  },
+  {
+    "id": "ur2_media_0132",
+    "pageId": "ur2_page_0132",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 132 (xref 659)"
+  },
+  {
+    "id": "ur2_media_0133",
+    "pageId": "ur2_page_0133",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 133 (xref 664)"
+  },
+  {
+    "id": "ur2_media_0134",
+    "pageId": "ur2_page_0134",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 134 (xref 669)"
+  },
+  {
+    "id": "ur2_media_0135",
+    "pageId": "ur2_page_0135",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 135 (xref 674)"
+  },
+  {
+    "id": "ur2_media_0136",
+    "pageId": "ur2_page_0136",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 136 (xref 679)"
+  },
+  {
+    "id": "ur2_media_0137",
+    "pageId": "ur2_page_0137",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 137 (xref 684)"
+  },
+  {
+    "id": "ur2_media_0138",
+    "pageId": "ur2_page_0138",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 138 (xref 689)"
+  },
+  {
+    "id": "ur2_media_0139",
+    "pageId": "ur2_page_0139",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 139 (xref 694)"
+  },
+  {
+    "id": "ur2_media_0140",
+    "pageId": "ur2_page_0140",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 140 (xref 699)"
+  },
+  {
+    "id": "ur2_media_0141",
+    "pageId": "ur2_page_0141",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 141 (xref 704)"
+  },
+  {
+    "id": "ur2_media_0142",
+    "pageId": "ur2_page_0142",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 142 (xref 709)"
+  },
+  {
+    "id": "ur2_media_0143",
+    "pageId": "ur2_page_0143",
+    "lessonId": "ur2_lesson_06",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 143 (xref 714)"
+  },
+  {
+    "id": "ur2_media_0144",
+    "pageId": "ur2_page_0144",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 144 (xref 719)"
+  },
+  {
+    "id": "ur2_media_0145",
+    "pageId": "ur2_page_0145",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 145 (xref 724)"
+  },
+  {
+    "id": "ur2_media_0146",
+    "pageId": "ur2_page_0146",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 146 (xref 729)"
+  },
+  {
+    "id": "ur2_media_0147",
+    "pageId": "ur2_page_0147",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 147 (xref 734)"
+  },
+  {
+    "id": "ur2_media_0148",
+    "pageId": "ur2_page_0148",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 148 (xref 739)"
+  },
+  {
+    "id": "ur2_media_0149",
+    "pageId": "ur2_page_0149",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 149 (xref 744)"
+  },
+  {
+    "id": "ur2_media_0150",
+    "pageId": "ur2_page_0150",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 150 (xref 749)"
+  },
+  {
+    "id": "ur2_media_0151",
+    "pageId": "ur2_page_0151",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 151 (xref 754)"
+  },
+  {
+    "id": "ur2_media_0152",
+    "pageId": "ur2_page_0152",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 152 (xref 759)"
+  },
+  {
+    "id": "ur2_media_0153",
+    "pageId": "ur2_page_0153",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 153 (xref 764)"
+  },
+  {
+    "id": "ur2_media_0154",
+    "pageId": "ur2_page_0154",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 154 (xref 769)"
+  },
+  {
+    "id": "ur2_media_0155",
+    "pageId": "ur2_page_0155",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 155 (xref 774)"
+  },
+  {
+    "id": "ur2_media_0156",
+    "pageId": "ur2_page_0156",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 156 (xref 779)"
+  },
+  {
+    "id": "ur2_media_0157",
+    "pageId": "ur2_page_0157",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 157 (xref 784)"
+  },
+  {
+    "id": "ur2_media_0158",
+    "pageId": "ur2_page_0158",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 158 (xref 789)"
+  },
+  {
+    "id": "ur2_media_0159",
+    "pageId": "ur2_page_0159",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 159 (xref 794)"
+  },
+  {
+    "id": "ur2_media_0160",
+    "pageId": "ur2_page_0160",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 160 (xref 799)"
+  },
+  {
+    "id": "ur2_media_0161",
+    "pageId": "ur2_page_0161",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 161 (xref 804)"
+  },
+  {
+    "id": "ur2_media_0162",
+    "pageId": "ur2_page_0162",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 162 (xref 809)"
+  },
+  {
+    "id": "ur2_media_0163",
+    "pageId": "ur2_page_0163",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 163 (xref 814)"
+  },
+  {
+    "id": "ur2_media_0164",
+    "pageId": "ur2_page_0164",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 164 (xref 819)"
+  },
+  {
+    "id": "ur2_media_0165",
+    "pageId": "ur2_page_0165",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 165 (xref 824)"
+  },
+  {
+    "id": "ur2_media_0166",
+    "pageId": "ur2_page_0166",
+    "lessonId": "ur2_lesson_07",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 166 (xref 829)"
+  },
+  {
+    "id": "ur2_media_0167",
+    "pageId": "ur2_page_0167",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 167 (xref 834)"
+  },
+  {
+    "id": "ur2_media_0168",
+    "pageId": "ur2_page_0168",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 168 (xref 839)"
+  },
+  {
+    "id": "ur2_media_0169",
+    "pageId": "ur2_page_0169",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 169 (xref 844)"
+  },
+  {
+    "id": "ur2_media_0170",
+    "pageId": "ur2_page_0170",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 170 (xref 849)"
+  },
+  {
+    "id": "ur2_media_0171",
+    "pageId": "ur2_page_0171",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 171 (xref 854)"
+  },
+  {
+    "id": "ur2_media_0172",
+    "pageId": "ur2_page_0172",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 172 (xref 859)"
+  },
+  {
+    "id": "ur2_media_0173",
+    "pageId": "ur2_page_0173",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 173 (xref 864)"
+  },
+  {
+    "id": "ur2_media_0174",
+    "pageId": "ur2_page_0174",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 174 (xref 869)"
+  },
+  {
+    "id": "ur2_media_0175",
+    "pageId": "ur2_page_0175",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 175 (xref 874)"
+  },
+  {
+    "id": "ur2_media_0176",
+    "pageId": "ur2_page_0176",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 176 (xref 879)"
+  },
+  {
+    "id": "ur2_media_0177",
+    "pageId": "ur2_page_0177",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 177 (xref 884)"
+  },
+  {
+    "id": "ur2_media_0178",
+    "pageId": "ur2_page_0178",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 178 (xref 889)"
+  },
+  {
+    "id": "ur2_media_0179",
+    "pageId": "ur2_page_0179",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 179 (xref 894)"
+  },
+  {
+    "id": "ur2_media_0180",
+    "pageId": "ur2_page_0180",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 180 (xref 899)"
+  },
+  {
+    "id": "ur2_media_0181",
+    "pageId": "ur2_page_0181",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 181 (xref 904)"
+  },
+  {
+    "id": "ur2_media_0182",
+    "pageId": "ur2_page_0182",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 182 (xref 909)"
+  },
+  {
+    "id": "ur2_media_0183",
+    "pageId": "ur2_page_0183",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 183 (xref 914)"
+  },
+  {
+    "id": "ur2_media_0184",
+    "pageId": "ur2_page_0184",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 184 (xref 919)"
+  },
+  {
+    "id": "ur2_media_0185",
+    "pageId": "ur2_page_0185",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 185 (xref 924)"
+  },
+  {
+    "id": "ur2_media_0186",
+    "pageId": "ur2_page_0186",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 186 (xref 929)"
+  },
+  {
+    "id": "ur2_media_0187",
+    "pageId": "ur2_page_0187",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 187 (xref 934)"
+  },
+  {
+    "id": "ur2_media_0188",
+    "pageId": "ur2_page_0188",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 188 (xref 939)"
+  },
+  {
+    "id": "ur2_media_0189",
+    "pageId": "ur2_page_0189",
+    "lessonId": "ur2_lesson_08",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 189 (xref 944)"
+  },
+  {
+    "id": "ur2_media_0190",
+    "pageId": "ur2_page_0190",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 190 (xref 949)"
+  },
+  {
+    "id": "ur2_media_0191",
+    "pageId": "ur2_page_0191",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 191 (xref 954)"
+  },
+  {
+    "id": "ur2_media_0192",
+    "pageId": "ur2_page_0192",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 192 (xref 959)"
+  },
+  {
+    "id": "ur2_media_0193",
+    "pageId": "ur2_page_0193",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 193 (xref 964)"
+  },
+  {
+    "id": "ur2_media_0194",
+    "pageId": "ur2_page_0194",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 194 (xref 969)"
+  },
+  {
+    "id": "ur2_media_0195",
+    "pageId": "ur2_page_0195",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 195 (xref 974)"
+  },
+  {
+    "id": "ur2_media_0196",
+    "pageId": "ur2_page_0196",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 196 (xref 979)"
+  },
+  {
+    "id": "ur2_media_0197",
+    "pageId": "ur2_page_0197",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 197 (xref 984)"
+  },
+  {
+    "id": "ur2_media_0198",
+    "pageId": "ur2_page_0198",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 198 (xref 989)"
+  },
+  {
+    "id": "ur2_media_0199",
+    "pageId": "ur2_page_0199",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 199 (xref 994)"
+  },
+  {
+    "id": "ur2_media_0200",
+    "pageId": "ur2_page_0200",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 200 (xref 999)"
+  },
+  {
+    "id": "ur2_media_0201",
+    "pageId": "ur2_page_0201",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 201 (xref 1004)"
+  },
+  {
+    "id": "ur2_media_0202",
+    "pageId": "ur2_page_0202",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 202 (xref 1009)"
+  },
+  {
+    "id": "ur2_media_0203",
+    "pageId": "ur2_page_0203",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 203 (xref 1014)"
+  },
+  {
+    "id": "ur2_media_0204",
+    "pageId": "ur2_page_0204",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 204 (xref 1019)"
+  },
+  {
+    "id": "ur2_media_0205",
+    "pageId": "ur2_page_0205",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 205 (xref 1024)"
+  },
+  {
+    "id": "ur2_media_0206",
+    "pageId": "ur2_page_0206",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 206 (xref 1029)"
+  },
+  {
+    "id": "ur2_media_0207",
+    "pageId": "ur2_page_0207",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 207 (xref 1034)"
+  },
+  {
+    "id": "ur2_media_0208",
+    "pageId": "ur2_page_0208",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 208 (xref 1039)"
+  },
+  {
+    "id": "ur2_media_0209",
+    "pageId": "ur2_page_0209",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 209 (xref 1044)"
+  },
+  {
+    "id": "ur2_media_0210",
+    "pageId": "ur2_page_0210",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 210 (xref 1049)"
+  },
+  {
+    "id": "ur2_media_0211",
+    "pageId": "ur2_page_0211",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 211 (xref 1054)"
+  },
+  {
+    "id": "ur2_media_0212",
+    "pageId": "ur2_page_0212",
+    "lessonId": "ur2_lesson_09",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 212 (xref 1059)"
+  },
+  {
+    "id": "ur2_media_0213",
+    "pageId": "ur2_page_0213",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 213 (xref 1064)"
+  },
+  {
+    "id": "ur2_media_0214",
+    "pageId": "ur2_page_0214",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 214 (xref 1069)"
+  },
+  {
+    "id": "ur2_media_0215",
+    "pageId": "ur2_page_0215",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 215 (xref 1074)"
+  },
+  {
+    "id": "ur2_media_0216",
+    "pageId": "ur2_page_0216",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 216 (xref 1079)"
+  },
+  {
+    "id": "ur2_media_0217",
+    "pageId": "ur2_page_0217",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 217 (xref 1084)"
+  },
+  {
+    "id": "ur2_media_0218",
+    "pageId": "ur2_page_0218",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 218 (xref 1089)"
+  },
+  {
+    "id": "ur2_media_0219",
+    "pageId": "ur2_page_0219",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 219 (xref 1094)"
+  },
+  {
+    "id": "ur2_media_0220",
+    "pageId": "ur2_page_0220",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 220 (xref 1099)"
+  },
+  {
+    "id": "ur2_media_0221",
+    "pageId": "ur2_page_0221",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 221 (xref 1104)"
+  },
+  {
+    "id": "ur2_media_0222",
+    "pageId": "ur2_page_0222",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 222 (xref 1109)"
+  },
+  {
+    "id": "ur2_media_0223",
+    "pageId": "ur2_page_0223",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 223 (xref 1114)"
+  },
+  {
+    "id": "ur2_media_0224",
+    "pageId": "ur2_page_0224",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 224 (xref 1119)"
+  },
+  {
+    "id": "ur2_media_0225",
+    "pageId": "ur2_page_0225",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 225 (xref 1124)"
+  },
+  {
+    "id": "ur2_media_0226",
+    "pageId": "ur2_page_0226",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 226 (xref 1129)"
+  },
+  {
+    "id": "ur2_media_0227",
+    "pageId": "ur2_page_0227",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 227 (xref 1134)"
+  },
+  {
+    "id": "ur2_media_0228",
+    "pageId": "ur2_page_0228",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 228 (xref 1139)"
+  },
+  {
+    "id": "ur2_media_0229",
+    "pageId": "ur2_page_0229",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 229 (xref 1144)"
+  },
+  {
+    "id": "ur2_media_0230",
+    "pageId": "ur2_page_0230",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 230 (xref 1149)"
+  },
+  {
+    "id": "ur2_media_0231",
+    "pageId": "ur2_page_0231",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 231 (xref 1154)"
+  },
+  {
+    "id": "ur2_media_0232",
+    "pageId": "ur2_page_0232",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 232 (xref 1159)"
+  },
+  {
+    "id": "ur2_media_0233",
+    "pageId": "ur2_page_0233",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 233 (xref 1164)"
+  },
+  {
+    "id": "ur2_media_0234",
+    "pageId": "ur2_page_0234",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 234 (xref 1169)"
+  },
+  {
+    "id": "ur2_media_0235",
+    "pageId": "ur2_page_0235",
+    "lessonId": "ur2_lesson_10",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 235 (xref 1174)"
+  },
+  {
+    "id": "ur2_media_0236",
+    "pageId": "ur2_page_0236",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 236 (xref 1179)"
+  },
+  {
+    "id": "ur2_media_0237",
+    "pageId": "ur2_page_0237",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 237 (xref 1184)"
+  },
+  {
+    "id": "ur2_media_0238",
+    "pageId": "ur2_page_0238",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 238 (xref 1189)"
+  },
+  {
+    "id": "ur2_media_0239",
+    "pageId": "ur2_page_0239",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 239 (xref 1194)"
+  },
+  {
+    "id": "ur2_media_0240",
+    "pageId": "ur2_page_0240",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 240 (xref 1199)"
+  },
+  {
+    "id": "ur2_media_0241",
+    "pageId": "ur2_page_0241",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 241 (xref 1204)"
+  },
+  {
+    "id": "ur2_media_0242",
+    "pageId": "ur2_page_0242",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 242 (xref 1209)"
+  },
+  {
+    "id": "ur2_media_0243",
+    "pageId": "ur2_page_0243",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 243 (xref 1214)"
+  },
+  {
+    "id": "ur2_media_0244",
+    "pageId": "ur2_page_0244",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 244 (xref 1219)"
+  },
+  {
+    "id": "ur2_media_0245",
+    "pageId": "ur2_page_0245",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 245 (xref 1224)"
+  },
+  {
+    "id": "ur2_media_0246",
+    "pageId": "ur2_page_0246",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 246 (xref 1229)"
+  },
+  {
+    "id": "ur2_media_0247",
+    "pageId": "ur2_page_0247",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 247 (xref 1234)"
+  },
+  {
+    "id": "ur2_media_0248",
+    "pageId": "ur2_page_0248",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 248 (xref 1239)"
+  },
+  {
+    "id": "ur2_media_0249",
+    "pageId": "ur2_page_0249",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 249 (xref 1244)"
+  },
+  {
+    "id": "ur2_media_0250",
+    "pageId": "ur2_page_0250",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 250 (xref 1249)"
+  },
+  {
+    "id": "ur2_media_0251",
+    "pageId": "ur2_page_0251",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 251 (xref 1254)"
+  },
+  {
+    "id": "ur2_media_0252",
+    "pageId": "ur2_page_0252",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 252 (xref 1259)"
+  },
+  {
+    "id": "ur2_media_0253",
+    "pageId": "ur2_page_0253",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 253 (xref 1264)"
+  },
+  {
+    "id": "ur2_media_0254",
+    "pageId": "ur2_page_0254",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 254 (xref 1269)"
+  },
+  {
+    "id": "ur2_media_0255",
+    "pageId": "ur2_page_0255",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 255 (xref 1274)"
+  },
+  {
+    "id": "ur2_media_0256",
+    "pageId": "ur2_page_0256",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 256 (xref 1279)"
+  },
+  {
+    "id": "ur2_media_0257",
+    "pageId": "ur2_page_0257",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 257 (xref 1284)"
+  },
+  {
+    "id": "ur2_media_0258",
+    "pageId": "ur2_page_0258",
+    "lessonId": "ur2_lesson_11",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 258 (xref 1289)"
+  },
+  {
+    "id": "ur2_media_0259",
+    "pageId": "ur2_page_0259",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 259 (xref 1294)"
+  },
+  {
+    "id": "ur2_media_0260",
+    "pageId": "ur2_page_0260",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 260 (xref 1299)"
+  },
+  {
+    "id": "ur2_media_0261",
+    "pageId": "ur2_page_0261",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 261 (xref 1304)"
+  },
+  {
+    "id": "ur2_media_0262",
+    "pageId": "ur2_page_0262",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 262 (xref 1309)"
+  },
+  {
+    "id": "ur2_media_0263",
+    "pageId": "ur2_page_0263",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 263 (xref 1314)"
+  },
+  {
+    "id": "ur2_media_0264",
+    "pageId": "ur2_page_0264",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 264 (xref 1319)"
+  },
+  {
+    "id": "ur2_media_0265",
+    "pageId": "ur2_page_0265",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 265 (xref 1324)"
+  },
+  {
+    "id": "ur2_media_0266",
+    "pageId": "ur2_page_0266",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 266 (xref 1329)"
+  },
+  {
+    "id": "ur2_media_0267",
+    "pageId": "ur2_page_0267",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 267 (xref 1334)"
+  },
+  {
+    "id": "ur2_media_0268",
+    "pageId": "ur2_page_0268",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 268 (xref 1339)"
+  },
+  {
+    "id": "ur2_media_0269",
+    "pageId": "ur2_page_0269",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 269 (xref 1344)"
+  },
+  {
+    "id": "ur2_media_0270",
+    "pageId": "ur2_page_0270",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 270 (xref 1349)"
+  },
+  {
+    "id": "ur2_media_0271",
+    "pageId": "ur2_page_0271",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 271 (xref 1354)"
+  },
+  {
+    "id": "ur2_media_0272",
+    "pageId": "ur2_page_0272",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 272 (xref 1359)"
+  },
+  {
+    "id": "ur2_media_0273",
+    "pageId": "ur2_page_0273",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 273 (xref 1364)"
+  },
+  {
+    "id": "ur2_media_0274",
+    "pageId": "ur2_page_0274",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 274 (xref 1369)"
+  },
+  {
+    "id": "ur2_media_0275",
+    "pageId": "ur2_page_0275",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 275 (xref 1374)"
+  },
+  {
+    "id": "ur2_media_0276",
+    "pageId": "ur2_page_0276",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 276 (xref 1379)"
+  },
+  {
+    "id": "ur2_media_0277",
+    "pageId": "ur2_page_0277",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 277 (xref 1384)"
+  },
+  {
+    "id": "ur2_media_0278",
+    "pageId": "ur2_page_0278",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 278 (xref 1389)"
+  },
+  {
+    "id": "ur2_media_0279",
+    "pageId": "ur2_page_0279",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 279 (xref 1394)"
+  },
+  {
+    "id": "ur2_media_0280",
+    "pageId": "ur2_page_0280",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 280 (xref 1399)"
+  },
+  {
+    "id": "ur2_media_0281",
+    "pageId": "ur2_page_0281",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 281 (xref 1404)"
+  },
+  {
+    "id": "ur2_media_0282",
+    "pageId": "ur2_page_0282",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 282 (xref 1409)"
+  },
+  {
+    "id": "ur2_media_0283",
+    "pageId": "ur2_page_0283",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 283 (xref 1414)"
+  },
+  {
+    "id": "ur2_media_0284",
+    "pageId": "ur2_page_0284",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 284 (xref 1419)"
+  },
+  {
+    "id": "ur2_media_0285",
+    "pageId": "ur2_page_0285",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 285 (xref 1424)"
+  },
+  {
+    "id": "ur2_media_0286",
+    "pageId": "ur2_page_0286",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 286 (xref 1429)"
+  },
+  {
+    "id": "ur2_media_0287",
+    "pageId": "ur2_page_0287",
+    "lessonId": "ur2_lesson_12",
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 287 (xref 1434)"
+  },
+  {
+    "id": "ur2_media_0288",
+    "pageId": "ur2_page_0288",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 288 (xref 1439)"
+  },
+  {
+    "id": "ur2_media_0289",
+    "pageId": "ur2_page_0289",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 289 (xref 1444)"
+  },
+  {
+    "id": "ur2_media_0290",
+    "pageId": "ur2_page_0290",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 290 (xref 1449)"
+  },
+  {
+    "id": "ur2_media_0291",
+    "pageId": "ur2_page_0291",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 291 (xref 1454)"
+  },
+  {
+    "id": "ur2_media_0292",
+    "pageId": "ur2_page_0292",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 292 (xref 1459)"
+  },
+  {
+    "id": "ur2_media_0293",
+    "pageId": "ur2_page_0293",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 293 (xref 1464)"
+  },
+  {
+    "id": "ur2_media_0294",
+    "pageId": "ur2_page_0294",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 294 (xref 1469)"
+  },
+  {
+    "id": "ur2_media_0295",
+    "pageId": "ur2_page_0295",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 295 (xref 1474)"
+  },
+  {
+    "id": "ur2_media_0296",
+    "pageId": "ur2_page_0296",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 296 (xref 1479)"
+  },
+  {
+    "id": "ur2_media_0297",
+    "pageId": "ur2_page_0297",
+    "lessonId": null,
+    "type": "ILLUSTRATION",
+    "bbox": [
+      0,
+      0,
+      2024,
+      1433
+    ],
+    "caption": "Иллюстрация на странице 297 (xref 1484)"
+  }
+]

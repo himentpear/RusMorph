@@ -18,6 +18,7 @@ import {
 } from "./WordCardService";
 import { analyzePronunciation, transcribeSpeech } from "./SpeechService";
 import { handleReviewRequest } from "./ReviewService";
+import { generateVariantQuestion, variantQuestionRequestSchema } from "./VariantQuestionService";
 
 const ipLimiter = new MemoryRateLimiter(30, 60_000);
 const conversationLimiter = new MemoryRateLimiter(8, 30_000);
@@ -102,6 +103,13 @@ async function routeInternal(
       pronunciationExampleRequestSchema.parse(raw);
       await enforceRates(request, raw, rates, env);
       return Response.json(await generatePronunciationExample(raw, providerFor(env), env));
+    }
+    if (url.pathname === "/v1/grammar-variant") {
+      if (request.method !== "POST") throw new HttpError(405, "METHOD_NOT_ALLOWED", "Method not allowed");
+      const raw = await readJson(request, env);
+      variantQuestionRequestSchema.parse(raw);
+      await enforceRates(request, raw, rates, env);
+      return Response.json(await generateVariantQuestion(raw, providerFor(env), env));
     }
     if (url.pathname === "/v1/wordcard" || url.pathname === "/api/agent/wordcard") {
       if (request.method !== "POST") throw new HttpError(405, "METHOD_NOT_ALLOWED", "Method not allowed");

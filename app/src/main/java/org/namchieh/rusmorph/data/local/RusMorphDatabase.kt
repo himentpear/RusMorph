@@ -30,8 +30,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         GenericReviewItemEntity::class,
         MistakeItemV2Entity::class,
         PronunciationSessionEntity::class,
+        GrammarPointEntity::class,
+        QuestionEntity::class,
+        GrammarQuestionCrossRefEntity::class,
+        QuestionAttemptEntity::class,
+        GrammarMasteryEntity::class,
+        QuestionLineageEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
 )
 abstract class RusMorphDatabase : RoomDatabase() {
@@ -39,6 +45,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
     abstract fun searchDao(): SearchDao
     abstract fun localLibraryDao(): LocalLibraryDao
     abstract fun learningDao(): LearningDao
+    abstract fun grammarExamDao(): GrammarExamDao
 
     companion object {
         fun create(context: Context): RusMorphDatabase =
@@ -47,7 +54,7 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 RusMorphDatabase::class.java,
                 "rusmorph.db",
             )
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                 .build()
 
         val MIGRATION_2_3 = object : Migration(2, 3) {
@@ -125,6 +132,38 @@ abstract class RusMorphDatabase : RoomDatabase() {
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_sourceId` ON `pronunciation_sessions` (`sourceId`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_lessonId` ON `pronunciation_sessions` (`lessonId`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_pronunciation_sessions_startedAt` ON `pronunciation_sessions` (`startedAt`)")
+            }
+        }
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `grammar_points` (`pointId` TEXT NOT NULL, `titleZh` TEXT NOT NULL, `titleRu` TEXT NOT NULL, `explanation` TEXT NOT NULL, `exampleRu` TEXT, `exampleZh` TEXT, `parentPointId` TEXT, `category` TEXT, `sortOrder` INTEGER NOT NULL, `contentVersion` INTEGER NOT NULL, PRIMARY KEY(`pointId`), FOREIGN KEY(`parentPointId`) REFERENCES `grammar_points`(`pointId`) ON UPDATE NO ACTION ON DELETE NO ACTION)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_grammar_points_parentPointId` ON `grammar_points` (`parentPointId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_grammar_points_category` ON `grammar_points` (`category`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_grammar_points_sortOrder` ON `grammar_points` (`sortOrder`)")
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS `questions` (`questionId` TEXT NOT NULL, `sourceQuestionId` INTEGER, `sourceType` TEXT NOT NULL, `examYear` INTEGER, `examYearLabel` TEXT, `stem` TEXT NOT NULL, `optionA` TEXT NOT NULL, `optionB` TEXT NOT NULL, `optionC` TEXT NOT NULL, `optionD` TEXT NOT NULL, `answer` TEXT NOT NULL, `analysis` TEXT, `difficulty` REAL, `createdAt` INTEGER, PRIMARY KEY(`questionId`))")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_questions_sourceType` ON `questions` (`sourceType`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_questions_examYear` ON `questions` (`examYear`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_questions_sourceQuestionId` ON `questions` (`sourceQuestionId`)")
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS `grammar_question_cross_ref` (`questionId` TEXT NOT NULL, `pointId` TEXT NOT NULL, `role` TEXT NOT NULL, `weight` REAL NOT NULL, `confidence` REAL NOT NULL, `relationSource` TEXT NOT NULL, `verified` INTEGER NOT NULL, PRIMARY KEY(`questionId`, `pointId`), FOREIGN KEY(`questionId`) REFERENCES `questions`(`questionId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY(`pointId`) REFERENCES `grammar_points`(`pointId`) ON UPDATE NO ACTION ON DELETE NO ACTION)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_grammar_question_cross_ref_pointId` ON `grammar_question_cross_ref` (`pointId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_grammar_question_cross_ref_questionId` ON `grammar_question_cross_ref` (`questionId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_grammar_question_cross_ref_role` ON `grammar_question_cross_ref` (`role`)")
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS `question_attempts` (`attemptId` TEXT NOT NULL, `questionId` TEXT NOT NULL, `selectedAnswer` TEXT NOT NULL, `correct` INTEGER NOT NULL, `mode` TEXT NOT NULL, `durationMs` INTEGER, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`attemptId`), FOREIGN KEY(`questionId`) REFERENCES `questions`(`questionId`) ON UPDATE NO ACTION ON DELETE NO ACTION)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_attempts_questionId` ON `question_attempts` (`questionId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_attempts_mode` ON `question_attempts` (`mode`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_attempts_createdAt` ON `question_attempts` (`createdAt`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_attempts_correct` ON `question_attempts` (`correct`)")
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS `grammar_mastery` (`pointId` TEXT NOT NULL, `mastery` REAL NOT NULL, `realQuestionAttempts` INTEGER NOT NULL, `realQuestionCorrect` INTEGER NOT NULL, `aiQuestionAttempts` INTEGER NOT NULL, `aiQuestionCorrect` INTEGER NOT NULL, `lastReviewedAt` INTEGER, PRIMARY KEY(`pointId`), FOREIGN KEY(`pointId`) REFERENCES `grammar_points`(`pointId`) ON UPDATE NO ACTION ON DELETE NO ACTION)")
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS `question_lineage` (`questionId` TEXT NOT NULL, `derivedFromQuestionId` TEXT, `targetPointId` TEXT, `generationId` TEXT, `modelMetadata` TEXT, PRIMARY KEY(`questionId`), FOREIGN KEY(`questionId`) REFERENCES `questions`(`questionId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY(`derivedFromQuestionId`) REFERENCES `questions`(`questionId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY(`targetPointId`) REFERENCES `grammar_points`(`pointId`) ON UPDATE NO ACTION ON DELETE NO ACTION)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_lineage_derivedFromQuestionId` ON `question_lineage` (`derivedFromQuestionId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_lineage_targetPointId` ON `question_lineage` (`targetPointId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_question_lineage_generationId` ON `question_lineage` (`generationId`)")
             }
         }
     }

@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.namchieh.rusmorph.ui.components.RusPillBadge
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import org.namchieh.rusmorph.wordcard.model.CardMode
 import org.namchieh.rusmorph.wordcard.model.Lexeme
@@ -39,10 +39,10 @@ fun WordCardFront(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        color = RusMorphColors.Surface,
+        color = WerusColors.Paper,
         shape = RoundedCornerShape(20.dp),
         shadowElevation = 4.dp,
-        border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineSoft),
+        border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.BorderSoft),
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 360.dp),
@@ -63,14 +63,14 @@ fun WordCardFront(
                     val posLabel = lexeme.basic.partOfSpeech
                     val genderLabel = lexeme.basic.gender?.labelZh
                     val tagText = listOfNotNull(posLabel, genderLabel).joinToString(" · ")
-                    RusPillBadge(tagText.ifBlank { "词汇" }, containerColor = RusMorphColors.Canvas, contentColor = RusMorphColors.CarbonBlack)
+                    RusPillBadge(tagText.ifBlank { "词汇" }, containerColor = WerusColors.Canvas, contentColor = WerusColors.Ink)
 
                     lexeme.basic.cefr?.let { cefr ->
-                        RusPillBadge(cefr, containerColor = RusMorphColors.WarmCream, contentColor = RusMorphColors.CarbonBlack)
+                        RusPillBadge(cefr, containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
                     }
 
                     if (cardMode != CardMode.RECOGNITION) {
-                        RusPillBadge(cardMode.labelZh, containerColor = RusMorphColors.SurfaceMuted, contentColor = RusMorphColors.AccentBlue)
+                        RusPillBadge(cardMode.labelZh, containerColor = WerusColors.BeigeMuted, contentColor = WerusColors.Info)
                     }
                 }
 
@@ -82,7 +82,7 @@ fun WordCardFront(
                     Text(
                         text = if (isFavorite) "★" else "☆",
                         fontSize = 22.sp,
-                        color = if (isFavorite) RusMorphColors.AccentOrange else RusMorphColors.TextTertiary,
+                        color = if (isFavorite) WerusColors.Red else WerusColors.InkFaint,
                     )
                 }
             }
@@ -104,13 +104,13 @@ fun WordCardFront(
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            color = RusMorphColors.CarbonBlack,
+                            color = WerusColors.Ink,
                         )
                         Spacer(Modifier.height(14.dp))
                         Text(
                             text = "思考俄语原形与重音位置后翻面",
                             style = MaterialTheme.typography.bodySmall,
-                            color = RusMorphColors.TextTertiary,
+                            color = WerusColors.InkFaint,
                         )
                     }
                     CardMode.STRESS -> {
@@ -122,20 +122,20 @@ fun WordCardFront(
                             fontFamily = FontFamily.Serif,
                             fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center,
-                            color = RusMorphColors.CarbonBlack,
+                            color = WerusColors.Ink,
                         )
                         Spacer(Modifier.height(14.dp))
                         Text(
                             text = lexeme.basic.primaryTranslation,
                             style = MaterialTheme.typography.titleMedium,
-                            color = RusMorphColors.TextSecondary,
+                            color = WerusColors.InkMuted,
                             textAlign = TextAlign.Center,
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
                             text = "标出正确重音音节后翻面核验",
                             style = RusMorphTechTypography.MicroPill,
-                            color = RusMorphColors.AccentBlue,
+                            color = WerusColors.Info,
                         )
                     }
                     CardMode.MORPHOLOGY -> {
@@ -146,13 +146,13 @@ fun WordCardFront(
                             fontFamily = FontFamily.Serif,
                             fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center,
-                            color = RusMorphColors.CarbonBlack,
+                            color = WerusColors.Ink,
                         )
                         Spacer(Modifier.height(14.dp))
                         Text(
                             text = "其原形是？当前充当什么语法格位 / 时态？",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = RusMorphColors.AccentOrange,
+                            color = WerusColors.Red,
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -165,7 +165,7 @@ fun WordCardFront(
                             fontFamily = FontFamily.Serif,
                             fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center,
-                            color = RusMorphColors.CarbonBlack,
+                            color = WerusColors.Ink,
                         )
 
                         Spacer(Modifier.height(16.dp))
@@ -176,7 +176,7 @@ fun WordCardFront(
                                 text = meaningText,
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Normal,
-                                color = RusMorphColors.TextSecondary,
+                                color = WerusColors.InkMuted,
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -186,7 +186,7 @@ fun WordCardFront(
                             Text(
                                 text = "原形: ${lexeme.lemma}",
                                 style = RusMorphTechTypography.MicroPill,
-                                color = RusMorphColors.TextTertiary,
+                                color = WerusColors.InkFaint,
                             )
                         }
                     }
@@ -208,7 +208,7 @@ fun WordCardFront(
                 ) {
                     Text(if (isSpeaking) "🔊" else "🔈", fontSize = 24.sp)
                     Spacer(Modifier.height(4.dp))
-                    Text("发音", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.TextSecondary)
+                    Text("发音", style = MaterialTheme.typography.labelSmall, color = WerusColors.InkMuted)
                 }
 
                 // 🎙 跟读
@@ -218,7 +218,7 @@ fun WordCardFront(
                 ) {
                     Text("🎙", fontSize = 24.sp)
                     Spacer(Modifier.height(4.dp))
-                    Text("跟读", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.TextSecondary)
+                    Text("跟读", style = MaterialTheme.typography.labelSmall, color = WerusColors.InkMuted)
                 }
 
                 // ↻ 翻面
@@ -226,9 +226,9 @@ fun WordCardFront(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.clickable(onClick = onFlip).padding(8.dp)
                 ) {
-                    Text("↻", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = RusMorphColors.AccentBlue)
+                    Text("↻", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = WerusColors.Info)
                     Spacer(Modifier.height(4.dp))
-                    Text("翻面", style = MaterialTheme.typography.labelSmall, color = RusMorphColors.AccentBlue)
+                    Text("翻面", style = MaterialTheme.typography.labelSmall, color = WerusColors.Info)
                 }
             }
         }

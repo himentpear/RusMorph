@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ur2_lesson_01",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 1,
+    "titleRu": "УРОК 1. ВСТРЕЧА, ЗНАКОМСТВО",
+    "titleZh": "第1课：会面，相遇与结识",
+    "startPage": 1,
+    "endPage": 22,
+    "order": 1
+  },
+  {
+    "id": "ur2_lesson_02",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 2,
+    "titleRu": "УРОК 2. СЕМЬЯ",
+    "titleZh": "第2课：家庭",
+    "startPage": 23,
+    "endPage": 46,
+    "order": 2
+  },
+  {
+    "id": "ur2_lesson_03",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 3,
+    "titleRu": "УРОК 3. МОЯ СТУДЕНЧЕСКАЯ ЖИЗНЬ",
+    "titleZh": "第3课：我的大学生活",
+    "startPage": 47,
+    "endPage": 70,
+    "order": 3
+  },
+  {
+    "id": "ur2_lesson_04",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 4,
+    "titleRu": "УРОК 4. РАБОЧИЙ ДЕНЬ",
+    "titleZh": "第4课：工作日",
+    "startPage": 71,
+    "endPage": 94,
+    "order": 4
+  },
+  {
+    "id": "ur2_lesson_05",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 5,
+    "titleRu": "УРОК 5. В ГОСТЯХ",
+    "titleZh": "第5课：做客",
+    "startPage": 95,
+    "endPage": 118,
+    "order": 5
+  },
+  {
+    "id": "ur2_lesson_06",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 6,
+    "titleRu": "УРОК 6. СПОРТ",
+    "titleZh": "第6课：体育运动",
+    "startPage": 119,
+    "endPage": 140,
+    "order": 6
+  },
+  {
+    "id": "ur2_lesson_07",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 7,
+    "titleRu": "УРОК 7. ГОРОД, ТРАНСПОРТ",
+    "titleZh": "第7课：城市与交通",
+    "startPage": 141,
+    "endPage": 164,
+    "order": 7
+  },
+  {
+    "id": "ur2_lesson_08",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 8,
+    "titleRu": "УРОК 8. КЛИМАТ, ПОГОДА",
+    "titleZh": "第8课：气候与天气",
+    "startPage": 165,
+    "endPage": 186,
+    "order": 8
+  },
+  {
+    "id": "ur2_lesson_09",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 9,
+    "titleRu": "УРОК 9. ОТДЫХ",
+    "titleZh": "第9课：休息与休闲",
+    "startPage": 187,
+    "endPage": 210,
+    "order": 9
+  },
+  {
+    "id": "ur2_lesson_10",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 10,
+    "titleRu": "УРОК 10. РАЗГОВОР ПО ТЕЛЕФОНУ",
+    "titleZh": "第10课：电话通讯",
+    "startPage": 211,
+    "endPage": 232,
+    "order": 10
+  },
+  {
+    "id": "ur2_lesson_11",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 11,
+    "titleRu": "УРОК 11. У ВРАЧА",
+    "titleZh": "第11课：就医与健康",
+    "startPage": 233,
+    "endPage": 258,
+    "order": 11
+  },
+  {
+    "id": "ur2_lesson_12",
+    "textbookId": "textbook_university_russian_2",
+    "lessonNumber": 12,
+    "titleRu": "УРОК 12. МАГАЗИНЫ, ПОКУПКИ",
+    "titleZh": "第12课：购物与商店",
+    "startPage": 259,
+    "endPage": 282,
+    "order": 12
+  }
+]

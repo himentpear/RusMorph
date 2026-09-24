@@ -19,7 +19,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,18 +32,12 @@ import org.namchieh.rusmorph.agent.AgentQuestionType
 import org.namchieh.rusmorph.ui.AgentPreparedData
 import org.namchieh.rusmorph.ui.AgentUiState
 import org.namchieh.rusmorph.ui.AgentViewModel
-import org.namchieh.rusmorph.ui.theme.RusMorphColors
+import org.namchieh.rusmorph.ui.design.WerusColors
 
 @Composable
 fun AgentScreen(viewModel: AgentViewModel, onBack: () -> Unit) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    Scaffold(containerColor = RusMorphColors.Canvas, topBar = {
-        TopAppBar(
-            title = { Text(stringResource(R.string.agent_title), fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold) },
-            navigationIcon = { TextButton(onClick = onBack) { Text("←", color = RusMorphColors.CarbonBlack) } },
-            colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = RusMorphColors.Canvas),
-        )
-    }) { padding ->
+    Scaffold(containerColor = WerusColors.Canvas) { padding ->
         when (val current = state) {
             AgentUiState.Preparing -> CenterMessage(stringResource(R.string.agent_preparing), padding)
             AgentUiState.NotFound -> CenterMessage(stringResource(R.string.word_not_found), padding)
@@ -76,10 +69,10 @@ internal fun AgentContent(
         item {
             Text(data.detail.displayForm, style = MaterialTheme.typography.headlineMedium)
             data.detail.chineseMeaning?.takeIf(String::isNotBlank)?.let { Text(it) }
-            Text(questionTypeLabel(data.questionType), color = RusMorphColors.AccentOrange)
+            Text(questionTypeLabel(data.questionType), color = WerusColors.Red)
         }
         if (data.defaultQuestion.isNotBlank()) item {
-            Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = RusMorphColors.Surface), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.Outline)) { Text(questionTemplate(data), Modifier.padding(16.dp)) }
+            Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = WerusColors.Paper), border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border)) { Text(questionTemplate(data), Modifier.padding(16.dp)) }
         }
         item {
             OutlinedTextField(
@@ -143,7 +136,7 @@ private fun ContextSummary(data: AgentPreparedData) {
         detail.gender, detail.declensionClass, detail.endingType, detail.aspect,
         detail.conjugationClass, detail.phoneticAlternation, detail.pluralStressPattern,
     ).filter(String::isNotBlank)
-    Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = RusMorphColors.SurfaceElevated), border = androidx.compose.foundation.BorderStroke(1.dp, RusMorphColors.OutlineSoft)) {
+    Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = WerusColors.Paper), border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.BorderSoft)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(stringResource(R.string.agent_context_summary), style = MaterialTheme.typography.titleMedium)
             rows.forEach { Text(it) }

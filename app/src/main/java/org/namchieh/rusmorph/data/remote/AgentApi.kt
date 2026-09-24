@@ -25,6 +25,11 @@ interface AgentApi {
         @Body request: PronunciationExampleRequestDto,
     ): Response<PronunciationExampleDto>
 
+    @POST("v1/grammar-variant")
+    suspend fun grammarVariant(
+        @Body request: VariantQuestionRequestDto,
+    ): Response<VariantQuestionResponseDto>
+
     @POST("v1/wordcard")
     suspend fun generateWordCard(
         @Body request: WordCardRequestDto,
@@ -48,4 +53,36 @@ data class PronunciationExampleDto(
     val russian: String,
     val chinese: String,
     val evidenceType: String,
+)
+
+data class VariantQuestionRequestDto(
+    val conversationId: String,
+    val sourceQuestionId: String,
+    val targetGrammarPointId: String,
+    val grammar: VariantGrammarContextDto,
+    val referenceQuestion: VariantReferenceQuestionDto,
+)
+
+data class VariantGrammarContextDto(
+    val titleZh: String,
+    val titleRu: String,
+    val explanation: String,
+)
+
+data class VariantReferenceQuestionDto(
+    val source: String = "TEM4",
+    val year: String,
+    val stem: String,
+    val options: Map<String, String>,
+    val correctAnswer: String,
+    val analysis: String,
+)
+
+data class VariantQuestionResponseDto(
+    val stem: String,
+    val options: Map<String, String>,
+    val answer: String,
+    val analysis: String,
+    @com.google.gson.annotations.SerializedName("target_point_id")
+    val targetPointId: String,
 )

@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,10 +26,14 @@ import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.RusMorphApplication
 import org.namchieh.rusmorph.data.local.InitializationState
 import org.namchieh.rusmorph.domain.learning.LearningUnitType
+import org.namchieh.rusmorph.domain.grammar.QuestionEntryContextType
+import org.namchieh.rusmorph.domain.grammar.QuestionRunnerMode
 import org.namchieh.rusmorph.ui.AgentViewModel
 import org.namchieh.rusmorph.ui.CommandViewModel
 import org.namchieh.rusmorph.ui.LocalExplanationViewModel
 import org.namchieh.rusmorph.ui.PronunciationViewModel
+import org.namchieh.rusmorph.ui.conversation.ConversationViewModel
+import org.namchieh.rusmorph.ui.screen.conversation.ConversationScreen
 import org.namchieh.rusmorph.ui.SearchViewModel
 import org.namchieh.rusmorph.ui.WordDetailViewModel
 import org.namchieh.rusmorph.ui.learning.CourseDetailViewModel
@@ -36,7 +41,12 @@ import org.namchieh.rusmorph.ui.learning.CoursesViewModel
 import org.namchieh.rusmorph.ui.learning.DialogueViewModel
 import org.namchieh.rusmorph.ui.learning.LearningSummaryViewModel
 import org.namchieh.rusmorph.ui.learning.LessonDetailViewModel
+import org.namchieh.rusmorph.ui.learning.TextDetailViewModel
 import org.namchieh.rusmorph.ui.learning.VocabularyViewModel
+import org.namchieh.rusmorph.ui.grammar.GrammarHomeViewModel
+import org.namchieh.rusmorph.ui.grammar.GrammarDetailViewModel
+import org.namchieh.rusmorph.ui.grammar.Tem4PracticeViewModel
+import org.namchieh.rusmorph.ui.grammar.QuestionRunnerViewModel
 import org.namchieh.rusmorph.ui.screen.agent.AgentScreen
 import org.namchieh.rusmorph.ui.screen.cards.CommandScreen
 import org.namchieh.rusmorph.ui.screen.detail.WordDetailScreen
@@ -46,16 +56,24 @@ import org.namchieh.rusmorph.ui.screen.learning.CourseDetailScreen
 import org.namchieh.rusmorph.ui.screen.learning.CoursesScreen
 import org.namchieh.rusmorph.ui.screen.learning.DialogueScreen
 import org.namchieh.rusmorph.ui.screen.learning.HomeScreen
+import org.namchieh.rusmorph.ui.screen.learning.LearningQuickNavigation
+import org.namchieh.rusmorph.ui.screen.learning.LocalLearningQuickNavigation
 import org.namchieh.rusmorph.ui.screen.learning.LessonDetailScreen
 import org.namchieh.rusmorph.ui.screen.learning.ProfileScreen
 import org.namchieh.rusmorph.ui.screen.learning.ReviewScreen
 import org.namchieh.rusmorph.ui.screen.learning.ReviewQueueScreen
 import org.namchieh.rusmorph.ui.screen.learning.VocabularyScreen
 import org.namchieh.rusmorph.ui.screen.learning.UnavailableContentScreen
+import org.namchieh.rusmorph.ui.screen.learning.text.TextDetailScreen
 import org.namchieh.rusmorph.ui.screen.placeholder.PlaceholderScreen
 import org.namchieh.rusmorph.ui.screen.pronunciation.PronunciationScreen
 import org.namchieh.rusmorph.ui.screen.search.SearchScreen
 import org.namchieh.rusmorph.ui.screen.settings.SettingsScreen
+import org.namchieh.rusmorph.ui.screen.settings.WallpaperScreen
+import org.namchieh.rusmorph.ui.screen.grammar.GrammarHomeScreen
+import org.namchieh.rusmorph.ui.screen.grammar.GrammarDetailScreen
+import org.namchieh.rusmorph.ui.screen.grammar.Tem4PracticeScreen
+import org.namchieh.rusmorph.ui.screen.grammar.QuestionRunnerScreen
 import org.namchieh.rusmorph.update.ui.AppUpdateDialog
 
 @Composable
@@ -71,6 +89,28 @@ fun RusMorphApp(application: RusMorphApplication) {
             restoreState = true
         }
     }
+    fun openUnit(lesson: org.namchieh.rusmorph.domain.learning.Lesson, type: LearningUnitType) {
+        coroutineScope.launch {
+            application.learningRepository.saveProgress(
+                org.namchieh.rusmorph.domain.learning.LearningProgress(
+                    sourceId = "${lesson.id}-${type.name.lowercase()}",
+                    courseId = lesson.courseId,
+                    lessonId = lesson.id,
+                    unitType = type,
+                    progress = 0f,
+                    status = org.namchieh.rusmorph.domain.learning.LearningStatus.IN_PROGRESS,
+                    updatedAt = System.currentTimeMillis(),
+                ),
+            )
+        }
+        when (type) {
+            LearningUnitType.VOCABULARY -> navController.navigate(Routes.vocabulary(lesson.id))
+            LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-${lesson.id}"))
+            LearningUnitType.TEXT -> navController.navigate(Routes.text("text-${lesson.id}"))
+            LearningUnitType.REVIEW -> selectBottom(BottomDestination.Review)
+            else -> Unit
+        }
+    }
 
     LaunchedEffect(initializationState) {
         if (initializationState is InitializationState.Ready) {
@@ -81,6 +121,23 @@ fun RusMorphApp(application: RusMorphApplication) {
 
     Surface {
         Box {
+            CompositionLocalProvider(
+                LocalLearningQuickNavigation provides LearningQuickNavigation(
+                    back = { navController.navigateUp() },
+                    learning = {
+                        navController.navigate(Routes.Learning) {
+                            popUpTo(Routes.Home)
+                            launchSingleTop = true
+                        }
+                    },
+                    home = {
+                        navController.navigate(Routes.Home) {
+                            popUpTo(Routes.Home)
+                            launchSingleTop = true
+                        }
+                    },
+                ),
+            ) {
             NavHost(navController, startDestination = Routes.Initialization) {
             composable(Routes.Initialization) {
                 LaunchedEffect(initializationState) {
@@ -91,6 +148,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                 InitializationScreen(initializationState, { coroutineScope.launch { application.dataInitializer.initialize() } })
             }
             composable(Routes.Home) {
+                val wallpaper by application.appSettings.wallpaper.collectAsState()
                 val coursesVm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
                 val summaryVm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val courses by coursesVm.state.collectAsState()
@@ -107,42 +165,46 @@ fun RusMorphApp(application: RusMorphApplication) {
                     stats = stats,
                     progress = progress,
                     selectedCourseId = activeCourseId,
-                    onSelectCourse = { summaryVm.selectCourse(it) },
                     onCourse = { navController.navigate(Routes.course(it)) },
-                    onContinue = { course, lesson -> navController.navigate(Routes.lesson(course, lesson)) },
-                    onDictionary = { selectBottom(BottomDestination.Dictionary) },
-                    onPronunciation = { navController.navigate(Routes.Pronunciation) },
-                    onCourses = { selectBottom(BottomDestination.Tools) },
-                    onReview = { selectBottom(BottomDestination.Review) },
+                    onContinue = { course, lesson, unitType ->
+                        when (unitType) {
+                            LearningUnitType.VOCABULARY -> navController.navigate(Routes.vocabulary(lesson))
+                            LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-$lesson"))
+                            LearningUnitType.TEXT -> navController.navigate(Routes.text("text-$lesson"))
+                            else -> navController.navigate(Routes.lesson(course, lesson))
+                        }
+                    },
+                    onReview = { navController.navigate(Routes.ReviewSession) },
                     onBottom = ::selectBottom,
                     onAI = { navController.navigate(Routes.Commands) },
+                    wallpaper = wallpaper,
                 )
             }
-            composable(Routes.Tools) {
+            composable(Routes.Learning) {
                 val vm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
+                val summaryVm: LearningSummaryViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { LearningSummaryViewModel(application.learningRepository, application.appSettings, application.courseRepository) } } })
                 val state by vm.state.collectAsState()
-                org.namchieh.rusmorph.ui.screen.tools.ToolsScreen(
+                val activeCourseId by summaryVm.activeCourseId.collectAsState()
+                val progress by summaryVm.progress.collectAsState()
+                org.namchieh.rusmorph.ui.screen.learning.LearningScreen(
                     coursesState = state,
+                    activeCourseId = activeCourseId,
+                    progress = progress,
+                    onSelectCourse = summaryVm::selectCourse,
                     onCourse = { navController.navigate(Routes.course(it)) },
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
-                    onSettings = { navController.navigate(Routes.Settings) },
-                    onNavigateToRules = { navController.navigate(Routes.MorphologyRules) },
+                    onConversation = { navController.navigate(Routes.Conversation) },
+                    conversationAvailable = org.namchieh.rusmorph.BuildConfig.WERUS_AI_BASE_URL.isNotBlank(),
+                    onGrammar = { navController.navigate(Routes.Grammar) },
+                    onTem4 = { navController.navigate(Routes.Tem4) },
                     onBottom = ::selectBottom,
                 )
             }
             composable(Routes.Courses) {
-                val vm: CoursesViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { CoursesViewModel(application.courseRepository) } } })
-                val state by vm.state.collectAsState()
-                org.namchieh.rusmorph.ui.screen.tools.ToolsScreen(
-                    coursesState = state,
-                    onCourse = { navController.navigate(Routes.course(it)) },
-                    onPronunciation = { navController.navigate(Routes.Pronunciation) },
-                    onAiCommands = { navController.navigate(Routes.Commands) },
-                    onSettings = { navController.navigate(Routes.Settings) },
-                    onNavigateToRules = { navController.navigate(Routes.MorphologyRules) },
-                    onBottom = ::selectBottom,
-                )
+                androidx.compose.runtime.LaunchedEffect(Unit) {
+                    navController.navigate(Routes.Learning) { popUpTo(Routes.Courses) { inclusive = true } }
+                }
             }
             composable(Routes.Dictionary) {
                 val factory = remember(application) { viewModelFactory { initializer { SearchViewModel(application.searchRepository, application.dataInitializer, createSavedStateHandle(), application.speechRepository) } } }
@@ -172,7 +234,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                 val id = checkNotNull(entry.arguments?.getString("courseId"))
                 val vm: CourseDetailViewModel = viewModel(key = "course-$id", factory = remember(application, id) { viewModelFactory { initializer { CourseDetailViewModel(application.courseRepository, id) } } })
                 val course by vm.course.collectAsState(); val lessons by vm.lessons.collectAsState()
-                CourseDetailScreen(course, lessons, { courseId, lessonId -> navController.navigate(Routes.lesson(courseId, lessonId)) }, navController::navigateUp)
+                CourseDetailScreen(course, lessons, ::openUnit, navController::navigateUp)
             }
             composable(Routes.LessonPattern, listOf(navArgument("courseId") { type = NavType.StringType }, navArgument("lessonId") { type = NavType.StringType })) { entry ->
                 val courseId = checkNotNull(entry.arguments?.getString("courseId")); val lessonId = checkNotNull(entry.arguments?.getString("lessonId"))
@@ -187,14 +249,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                         ),
                     )
                 }
-                LessonDetailScreen(state, { lesson, type ->
-                    when (type) {
-                        LearningUnitType.VOCABULARY -> navController.navigate(Routes.vocabulary(lesson.id))
-                        LearningUnitType.DIALOGUE -> navController.navigate(Routes.dialogue("dialogue-${lesson.id}"))
-                        LearningUnitType.REVIEW -> selectBottom(BottomDestination.Review)
-                        else -> Unit
-                    }
-                }, navController::navigateUp, { navController.navigate(Routes.commands("总结本课 ${lessonId.substringAfterLast('-')}")) })
+                LessonDetailScreen(state, ::openUnit, navController::navigateUp, { navController.navigate(Routes.commands("总结本课 ${lessonId.substringAfterLast('-')}")) })
             }
             composable(Routes.VocabularyPattern, listOf(navArgument("lessonId") { type = NavType.StringType })) { entry ->
                 val lessonId = checkNotNull(entry.arguments?.getString("lessonId"))
@@ -229,8 +284,89 @@ fun RusMorphApp(application: RusMorphApplication) {
                 val state by vm.state.collectAsState()
                 DialogueScreen(state, { text, source -> navController.navigate(Routes.pronunciation(text, "DIALOGUE_LINE", source)) }, navController::navigateUp, { navController.navigate(Routes.commands("解释这段教材对话")) })
             }
-            composable(Routes.GrammarPattern, listOf(navArgument("grammarId") { type = NavType.StringType })) { UnavailableContentScreen("语法", navController::navigateUp) }
-            composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { UnavailableContentScreen("课文", navController::navigateUp) }
+            composable(Routes.Grammar) {
+                val vm: GrammarHomeViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { GrammarHomeViewModel(application.grammarRepository) } } })
+                val points by vm.points.collectAsState()
+                GrammarHomeScreen(points, { navController.navigate(Routes.grammar(it)) }, { navController.navigate(Routes.Tem4) }, navController::navigateUp)
+            }
+            composable(Routes.GrammarPattern, listOf(navArgument("pointId") { type = NavType.StringType })) { entry ->
+                val pointId = checkNotNull(entry.arguments?.getString("pointId"))
+                val vm: GrammarDetailViewModel = viewModel(
+                    key = "grammar-$pointId",
+                    factory = remember(application, pointId) { viewModelFactory { initializer { GrammarDetailViewModel(application.grammarRepository, pointId) } } },
+                )
+                val state by vm.state.collectAsState()
+                GrammarDetailScreen(state) { questionId, targetPointId ->
+                    navController.navigate(Routes.question(questionId, QuestionRunnerMode.LEARNING, QuestionEntryContextType.GRAMMAR, targetPointId))
+                }
+            }
+            composable(Routes.Tem4) {
+                val vm: Tem4PracticeViewModel = viewModel(factory = remember(application) { viewModelFactory { initializer { Tem4PracticeViewModel(application.examPracticeRepository, application.grammarRepository) } } })
+                val questions by vm.questions.collectAsState()
+                val wrongQuestions by vm.wrongQuestions.collectAsState()
+                val grammarPoints by vm.grammarPoints.collectAsState()
+                Tem4PracticeScreen(
+                    questions, wrongQuestions, grammarPoints,
+                    { questionId, pointId -> navController.navigate(Routes.question(questionId, QuestionRunnerMode.PRACTICE, QuestionEntryContextType.TEM4, pointId)) },
+                    { navController.navigate(Routes.grammar(it)) },
+                    navController::navigateUp,
+                )
+            }
+            composable(
+                Routes.QuestionPattern,
+                listOf(
+                    navArgument("questionId") { type = NavType.StringType },
+                    navArgument("mode") { type = NavType.StringType; defaultValue = QuestionRunnerMode.PRACTICE.name },
+                    navArgument("context") { type = NavType.StringType; defaultValue = QuestionEntryContextType.TEM4.name },
+                    navArgument("pointId") { type = NavType.StringType; nullable = true; defaultValue = null },
+                ),
+            ) { entry ->
+                val questionId = checkNotNull(entry.arguments?.getString("questionId"))
+                val mode = runCatching { QuestionRunnerMode.valueOf(entry.arguments?.getString("mode").orEmpty()) }.getOrDefault(QuestionRunnerMode.PRACTICE)
+                val context = runCatching { QuestionEntryContextType.valueOf(entry.arguments?.getString("context").orEmpty()) }.getOrDefault(QuestionEntryContextType.TEM4)
+                val pointId = entry.arguments?.getString("pointId")?.takeIf(String::isNotBlank)
+                val vm: QuestionRunnerViewModel = viewModel(
+                    key = "question-$questionId-$mode-$pointId",
+                    factory = remember(application, questionId, mode, context, pointId) { viewModelFactory { initializer {
+                        QuestionRunnerViewModel(
+                            createSavedStateHandle(), application.examPracticeRepository, application.grammarRepository,
+                            application.agentRepository, questionId, mode, context, pointId,
+                        )
+                    } } },
+                )
+                val state by vm.state.collectAsState()
+                QuestionRunnerScreen(
+                    state = state,
+                    mode = mode,
+                    onSelect = vm::selectAnswer,
+                    onSubmit = vm::submit,
+                    onPeek = vm::openGrammarPeek,
+                    onClosePeek = vm::closeGrammarPeek,
+                    onFullGrammar = { navController.navigate(Routes.grammar(it)) },
+                    onNext = { target -> coroutineScope.launch {
+                        application.examPracticeRepository.getNextQuestion(questionId, target)?.let { next ->
+                            navController.navigate(Routes.question(next.questionId, mode, if (target != null) QuestionEntryContextType.GRAMMAR else context, target))
+                        }
+                    } },
+                    onGenerateVariant = vm::generateVariant,
+                    onGeneratedQuestion = { generatedId ->
+                        vm.consumeGeneratedQuestion()
+                        val generatedPointId = state.grammarPoints.firstOrNull()?.pointId ?: pointId
+                        navController.navigate(Routes.question(generatedId, QuestionRunnerMode.AI_VARIANT, QuestionEntryContextType.AI_VARIANT, generatedPointId))
+                    },
+                )
+            }
+            composable(Routes.TextPattern, listOf(navArgument("textId") { type = NavType.StringType })) { entry ->
+                val id = checkNotNull(entry.arguments?.getString("textId"))
+                val vm: TextDetailViewModel = viewModel(
+                    key = id,
+                    factory = remember(application, id) { viewModelFactory { initializer { TextDetailViewModel(application.courseRepository, id) } } },
+                )
+                val state by vm.state.collectAsState()
+                TextDetailScreen(state, navController::navigateUp) {
+                    navController.navigate(Routes.commands("解释这篇教材课文"))
+                }
+            }
             composable(Routes.Settings) {
                 SettingsScreen(
                     application.apiDiagnostics,
@@ -238,7 +374,21 @@ fun RusMorphApp(application: RusMorphApplication) {
                     application.appSettings,
                     application.updateCoordinator,
                     navController::navigateUp,
+                    { navController.navigate(Routes.Wallpaper) },
                 )
+            }
+            composable(Routes.Conversation) {
+                if (org.namchieh.rusmorph.BuildConfig.WERUS_AI_BASE_URL.isBlank()) {
+                    org.namchieh.rusmorph.ui.screen.learning.UnavailableContentScreen("AI 对话练习暂未开放", navController::navigateUp)
+                } else {
+                    val vm: ConversationViewModel = viewModel(factory = remember(application) {
+                        viewModelFactory { initializer { ConversationViewModel(createSavedStateHandle(), application.conversationRepository) } }
+                    })
+                    ConversationScreen(vm, navController::navigateUp)
+                }
+            }
+            composable(Routes.Wallpaper) {
+                WallpaperScreen(application.appSettings, navController::navigateUp)
             }
             composable(
                 Routes.PronunciationPattern,
@@ -326,6 +476,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                 LocalExplanationScreen(vm, navController::navigateUp)
             }
             listOf(Routes.Decks, Routes.Favorites).forEach { route -> composable(route) { PlaceholderScreen(BottomDestination.Profile, { selectBottom(it) }) } }
+            }
             }
             AppUpdateDialog(
                 state = updateState,

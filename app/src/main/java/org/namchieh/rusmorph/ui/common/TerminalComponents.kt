@@ -18,15 +18,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.theme.*
 
 @Composable
 fun TerminalBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
-    val gradient = remember { Brush.verticalGradient(listOf(RusMorphColors.Surface, RusMorphColors.Canvas, RusMorphColors.BackgroundSecondary)) }
+    val gradient = remember { Brush.verticalGradient(listOf(WerusColors.Paper, WerusColors.Canvas, WerusColors.BeigeMuted)) }
     Box(modifier.background(gradient)) {
         Canvas(Modifier.matchParentSize()) {
             val step = 32.dp.toPx()
-            val line = RusMorphColors.Primary.copy(alpha = 0.03f)
+            val line = WerusColors.Red.copy(alpha = 0.03f)
             var x = 0f
             while (x < size.width) { drawLine(line, Offset(x, 0f), Offset(x, size.height), 1f); x += step }
             var y = 0f
@@ -37,7 +38,7 @@ fun TerminalBackground(modifier: Modifier = Modifier, content: @Composable BoxSc
 }
 
 @Composable
-fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = RusMorphColors.TextTertiary) {
+fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = WerusColors.InkFaint) {
     Text(text.uppercase(), modifier, style = RusMorphTechTypography.MicroPill, color = color)
 }
 
@@ -45,8 +46,8 @@ fun TerminalLabel(text: String, modifier: Modifier = Modifier, color: Color = Ru
 fun TerminalPanel(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = modifier
-            .background(RusMorphColors.Surface, TechCardShape)
-            .border(1.dp, RusMorphColors.Outline, TechCardShape)
+            .background(WerusColors.Paper, TechCardShape)
+            .border(1.dp, WerusColors.Border, TechCardShape)
             .padding(18.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         content = content,
@@ -60,7 +61,7 @@ fun RusMorphPrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier 
         modifier = modifier.heightIn(min = 48.dp),
         enabled = enabled,
         shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = RusMorphColors.CarbonBlack, contentColor = RusMorphColors.TextOnDark),
+        colors = ButtonDefaults.buttonColors(containerColor = WerusColors.Ink, contentColor = WerusColors.OnDark),
         contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp),
     ) { Text(text, style = MaterialTheme.typography.labelLarge) }
 }
@@ -69,9 +70,9 @@ fun RusMorphPrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier 
 fun TerminalLoadingState(label: String, modifier: Modifier = Modifier) {
     Column(modifier.padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            repeat(3) { index -> Box(Modifier.size(width = 22.dp, height = 4.dp).background(if (index == 0) RusMorphColors.AccentOrange else RusMorphColors.OutlineSoft, CircleShape)) }
+            repeat(3) { index -> Box(Modifier.size(width = 22.dp, height = 4.dp).background(if (index == 0) WerusColors.Red else WerusColors.BorderSoft, CircleShape)) }
         }
-        TerminalLabel(label, color = RusMorphColors.TextSecondary)
+        TerminalLabel(label, color = WerusColors.InkMuted)
     }
 }
 
@@ -85,8 +86,8 @@ fun TerminalMessageState(
 ) {
     TerminalPanel(modifier) {
         TerminalLabel("STATUS / RM-01")
-        Text(title, style = MaterialTheme.typography.titleLarge, color = RusMorphColors.Primary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-        Text(detail, style = MaterialTheme.typography.bodyMedium, color = RusMorphColors.TextSecondary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+        Text(title, style = MaterialTheme.typography.titleLarge, color = WerusColors.Red, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+        Text(detail, style = MaterialTheme.typography.bodyMedium, color = WerusColors.InkMuted, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
         if (action != null && onAction != null) RusMorphPrimaryButton(action, onAction, Modifier.align(Alignment.CenterHorizontally))
     }
 }
