@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "launcherIcon": "werus-brand-v1",
+  "launcherSource": {
+    "path": "tools/werus_brand_icon_source.png",
+    "sha256": "e1884e470a9f72d0c930e044237c555860d10729f6ab2ac34ad52705f77b179a"
+  },
+  "assets": [
+    {
+      "path": "app/src/main/res/drawable/ic_launcher.png",
+      "sha256": "706ea2f695efaa6685f6196b211446f60dc4e1fa6f7d5ea70bf4fb03c9fa965e"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_foreground.png",
+      "sha256": "3ece89e24c84ba53c5937886622159c4dfa88de7b6b08c7e013c0c092c95736d"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "sha256": "8e05f1b8541e8c90deeae34657e7415bd2bd686d7e39c807b3f5a3af750cb3b6"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+      "sha256": "8457b570a9f0344d47404bd367c9eada20db704645b92d6ebb82f823d9cf02c2"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "sha256": "c1ae578c9f1e30a47846084e62dbdfc91adce1789f3daaec828b744c8cf55875"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+      "sha256": "43f0b938e6373f5925d7ad8dc2a0e07aea44ab9c053e32fa42fd925d34fce6fd"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "sha256": "b63277826b1ea0e22ec4b1ce58a9c2529496423dc09db7bcdd67d1b94b85168c"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+      "sha256": "d6469e0555f3396559dfb4c3a82b37e1a3a298a631b4a6a1a38bdbb1e1d7c63b"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "sha256": "951e50f42b822e1092dcc0a344ee5134e3bd16f4e62de580aa995409d7a4e88c"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+      "sha256": "3a988beb4775c8c08ceabcfbc13a4a1468038c4a9b82800e124b0799e68162c2"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "sha256": "d577b06c378c071c0df81098c9c85124ad0c8ea736bd1ec45e6e626bbff539b2"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+      "sha256": "509ee320e48f29b59514884bc3ac13c1288ab8d7781390f7c8f787f92b0520a6"
+    },
+    {
+      "path": "app/src/main/res/values/ic_launcher_background.xml",
+      "sha256": "b09ffe06f722ad155c647f3091617ee0c558afbd0a7189f9345e526ed49e262f"
+    }
+  ]
+}

@@ -32,6 +32,8 @@ release/
 !release/
 release/*
 !release/update-policy.json
+!release/ui-baseline.json
+!release/brand-assets.json
 .electron-binaries/
 **/.electron-binaries/
 
