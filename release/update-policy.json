@@ -1,5 +1,5 @@
 {
   "minSupportedVersionCode": 1,
   "forceUpdate": false,
-  "releaseNotes": ["修复正式版首次启动时本地词库初始化失败"]
+  "releaseNotes": ["开放 AI 俄语对话练习入口"]
 }

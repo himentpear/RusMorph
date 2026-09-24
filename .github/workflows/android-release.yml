@@ -39,11 +39,13 @@ jobs:
           printf '%s' "$RUSMORPH_RELEASE_STORE_BASE64" | base64 --decode > "$RUNNER_TEMP/rusmorph-release.jks"
       - name: Test and build production release
         env:
+          WERUS_AI_BASE_URL: https://api.namchieh.org
           RUSMORPH_RELEASE_STORE_FILE: ${{ runner.temp }}/rusmorph-release.jks
           RUSMORPH_RELEASE_STORE_PASSWORD: ${{ secrets.RUSMORPH_RELEASE_STORE_PASSWORD }}
           RUSMORPH_RELEASE_KEY_ALIAS: ${{ secrets.RUSMORPH_RELEASE_KEY_ALIAS }}
           RUSMORPH_RELEASE_KEY_PASSWORD: ${{ secrets.RUSMORPH_RELEASE_KEY_PASSWORD }}
         run: |
+          test -n "$WERUS_AI_BASE_URL"
           ./gradlew buildLexiconAssets verifyLexiconAssets
           ./gradlew testLocalDebugUnitTest
           ./gradlew assembleProductionRelease
