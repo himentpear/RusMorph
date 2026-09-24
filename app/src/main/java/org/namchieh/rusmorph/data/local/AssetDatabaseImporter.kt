@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import org.namchieh.rusmorph.BuildConfig
 
 private const val DATA_VERSION_KEY = "database_asset_version"
 private const val BATCH_SIZE = 500
@@ -60,7 +59,7 @@ class AssetDatabaseImporter(
                 val imported = importIfNeeded()
                 mutableState.value = InitializationState.Ready(imported)
             } catch (exception: Exception) {
-                if (BuildConfig.DEBUG) Log.e("RusMorphImporter", "Local data import failed", exception)
+                Log.e("RusMorphImporter", "Local data import failed", exception)
                 mutableState.value = InitializationState.Failed(exception.toFailureReason())
             }
         }
@@ -137,11 +136,11 @@ class AssetDatabaseImporter(
     }
 
     private fun parseBundle(assets: Map<String, ByteArray>): ImportBundle {
-        val lexiconType = object : TypeToken<List<AssetLexiconEntry>>() {}.type
-        val knowledgeType = object : TypeToken<List<AssetKnowledgeChunk>>() {}.type
-        val grammarType = object : TypeToken<List<AssetGrammarPoint>>() {}.type
-        val questionType = object : TypeToken<List<AssetQuestion>>() {}.type
-        val grammarQuestionLinkType = object : TypeToken<List<AssetGrammarQuestionLink>>() {}.type
+        val lexiconType = TypeToken.getParameterized(List::class.java, AssetLexiconEntry::class.java).type
+        val knowledgeType = TypeToken.getParameterized(List::class.java, AssetKnowledgeChunk::class.java).type
+        val grammarType = TypeToken.getParameterized(List::class.java, AssetGrammarPoint::class.java).type
+        val questionType = TypeToken.getParameterized(List::class.java, AssetQuestion::class.java).type
+        val grammarQuestionLinkType = TypeToken.getParameterized(List::class.java, AssetGrammarQuestionLink::class.java).type
         val lexicon: List<AssetLexiconEntry> = gson.fromJson(
             assets.getValue("lexicon.json").toString(StandardCharsets.UTF_8),
             lexiconType,

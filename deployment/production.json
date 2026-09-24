@@ -1,8 +1,8 @@
 {
   "product": "RusMorph / WeRus",
   "applicationId": "org.namchieh.rusmorph",
-  "versionName": "0.006",
-  "versionCode": 6,
+  "versionName": "0.007",
+  "versionCode": 7,
   "androidFlavor": "production",
   "releaseBranch": "main",
   "updateChannel": "stable",

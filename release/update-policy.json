@@ -1,5 +1,5 @@
 {
   "minSupportedVersionCode": 1,
   "forceUpdate": false,
-  "releaseNotes": []
+  "releaseNotes": ["修复正式版首次启动时本地词库初始化失败"]
 }
