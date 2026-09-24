@@ -310,14 +310,32 @@ def build_assets(input_dir: Path, output_dir: Path, agent_output: Path, report_d
         "declensionRules": len(declension.rules), "knowledgeChunks": len(knowledge_assets),
         "crossRefs": len(association.associations),
     }
+    source_files = [{"name": path.name, "sha256": source_sha256(path), "size": path.stat().st_size} for path in source_paths]
+    configuration_files = [
+        {"name": path.name, "sha256": _configuration_sha(path), "size": path.stat().st_size if path.is_file() else 0}
+        for path in configuration_paths
+    ]
+    # Rebuilding unchanged inputs must not dirty a tracked runtime asset just
+    # because the wall clock advanced. The content version still detects data changes.
+    previous_manifest_path = output_dir / "data_manifest.json"
+    try:
+        previous_manifest = json.loads(previous_manifest_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        previous_manifest = {}
+    same_sources = (
+        isinstance(previous_manifest, dict)
+        and all(record in previous_manifest.get("sourceFiles", []) for record in source_files)
+        and previous_manifest.get("configurationFiles") == configuration_files
+        and previous_manifest.get("generatorVersion") == GENERATOR_VERSION
+    )
+    generated_at = previous_manifest.get("generatedAt") if same_sources else None
+    if not isinstance(generated_at, str):
+        generated_at = datetime.now(timezone.utc).isoformat()
     manifest = {
         "schemaVersion": SCHEMA_VERSION,
-        "sourceFiles": [{"name": path.name, "sha256": source_sha256(path), "size": path.stat().st_size} for path in source_paths],
-        "configurationFiles": [
-            {"name": path.name, "sha256": _configuration_sha(path), "size": path.stat().st_size if path.is_file() else 0}
-            for path in configuration_paths
-        ],
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "sourceFiles": source_files,
+        "configurationFiles": configuration_files,
+        "generatedAt": generated_at,
         "generatorVersion": GENERATOR_VERSION,
         "normalizationVersion": NORMALIZATION_VERSION,
         "dataVersion": version, "counts": counts,

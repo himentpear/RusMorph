@@ -113,33 +113,12 @@ async function stableUpdateManifest(env: Env, head: boolean): Promise<Response> 
       }
     }
   } catch {
-    // A GitHub Release may not exist yet; serve the currently published R2 build.
+    // No verified release manifest is available. Never offer a historical APK as stable.
   }
 
-  let metadata = await env.DOWNLOADS.head(APK_KEY);
-  if (!metadata) metadata = await env.DOWNLOADS.head(LEGACY_APK_KEY);
-  if (!metadata) return new Response("Not Found", { status: 404 });
-
-  const manifest = {
-    platform: "android",
-    channel: "stable",
-    versionCode: VERSION_CODE,
-    versionName: VERSION,
-    minSupportedVersionCode: 1,
-    forceUpdate: false,
-    publishedAt: "2026-09-19T12:26:34Z",
-    title: `RusMorph ${VERSION}`,
-    releaseNotes: [],
-    apk: {
-      url: `https://namchieh.org${DOWNLOAD_PATH}`,
-      sha256: APK_SHA256,
-      size: metadata.size,
-    },
-    releasePageUrl: "https://github.com/himentpear/RusMorph",
-  };
   const headers = securityHeaders("application/json; charset=utf-8");
-  headers.set("cache-control", "public, max-age=300, s-maxage=300");
-  return new Response(head ? null : JSON.stringify(manifest), { headers });
+  headers.set("cache-control", "no-store");
+  return new Response(head ? null : JSON.stringify({ error: "stable_manifest_unavailable" }), { status: 503, headers });
 }
 
 async function apkResponse(request: Request, env: Env): Promise<Response> {

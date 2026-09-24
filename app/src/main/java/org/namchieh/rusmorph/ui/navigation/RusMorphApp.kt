@@ -195,6 +195,7 @@ fun RusMorphApp(application: RusMorphApplication) {
                     onPronunciation = { navController.navigate(Routes.Pronunciation) },
                     onAiCommands = { navController.navigate(Routes.Commands) },
                     onConversation = { navController.navigate(Routes.Conversation) },
+                    conversationAvailable = org.namchieh.rusmorph.BuildConfig.WERUS_AI_BASE_URL.isNotBlank(),
                     onGrammar = { navController.navigate(Routes.Grammar) },
                     onTem4 = { navController.navigate(Routes.Tem4) },
                     onBottom = ::selectBottom,
@@ -377,10 +378,14 @@ fun RusMorphApp(application: RusMorphApplication) {
                 )
             }
             composable(Routes.Conversation) {
-                val vm: ConversationViewModel = viewModel(factory = remember(application) {
-                    viewModelFactory { initializer { ConversationViewModel(createSavedStateHandle(), application.conversationRepository) } }
-                })
-                ConversationScreen(vm, navController::navigateUp)
+                if (org.namchieh.rusmorph.BuildConfig.WERUS_AI_BASE_URL.isBlank()) {
+                    org.namchieh.rusmorph.ui.screen.learning.UnavailableContentScreen("AI 对话练习暂未开放", navController::navigateUp)
+                } else {
+                    val vm: ConversationViewModel = viewModel(factory = remember(application) {
+                        viewModelFactory { initializer { ConversationViewModel(createSavedStateHandle(), application.conversationRepository) } }
+                    })
+                    ConversationScreen(vm, navController::navigateUp)
+                }
             }
             composable(Routes.Wallpaper) {
                 WallpaperScreen(application.appSettings, navController::navigateUp)

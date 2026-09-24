@@ -1,0 +1,11 @@
+{
+  "product": "RusMorph / WeRus",
+  "applicationId": "org.namchieh.rusmorph",
+  "versionName": "0.006",
+  "versionCode": 6,
+  "androidFlavor": "production",
+  "releaseBranch": "main",
+  "updateChannel": "stable",
+  "updateEndpoint": "/update/android/stable",
+  "uiBaseline": "werus-red-beige-v1"
+}

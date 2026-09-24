@@ -18,6 +18,8 @@ jobs:
           python-version: "3.12"
       - name: Verify frozen UI, navigation, branding, and launcher assets
         run: python tools/verify_product_contract.py
+      - name: Verify canonical app identity and release guard
+        run: python tools/check_app_baseline.py
       - name: Report protected product-surface changes
         shell: bash
         run: |

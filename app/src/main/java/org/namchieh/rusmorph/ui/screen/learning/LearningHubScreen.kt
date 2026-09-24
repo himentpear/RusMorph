@@ -35,6 +35,7 @@ fun LearningScreen(
     onPronunciation: () -> Unit,
     onAiCommands: () -> Unit,
     onConversation: () -> Unit,
+    conversationAvailable: Boolean = true,
     onGrammar: () -> Unit = {},
     onTem4: () -> Unit = {},
     onBottom: (BottomDestination) -> Unit,
@@ -73,7 +74,7 @@ fun LearningScreen(
             LearningEntryCard("Т", "专四练习", onTem4)
             LearningEntryCard("🎧", "发音训练", onPronunciation)
             LearningEntryCard("✦", "AI 学习辅助", onAiCommands)
-            LearningEntryCard("●", "AI 对话练习", onConversation)
+            if (conversationAvailable) LearningEntryCard("●", "AI 对话练习", onConversation)
         }
     }
 }
