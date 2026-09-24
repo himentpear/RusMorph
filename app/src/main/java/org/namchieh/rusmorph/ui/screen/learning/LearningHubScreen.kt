@@ -34,7 +34,7 @@ fun LearningScreen(
     onCourse: (String) -> Unit,
     onPronunciation: () -> Unit,
     onAiCommands: () -> Unit,
-    onReview: () -> Unit,
+    onConversation: () -> Unit,
     onGrammar: () -> Unit = {},
     onTem4: () -> Unit = {},
     onBottom: (BottomDestination) -> Unit,
@@ -45,12 +45,9 @@ fun LearningScreen(
             modifier = root.then(modifier).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text("学习", style = WerusTypography.Display, color = WerusColors.Ink)
-                Text("围绕当前教材，继续今天的俄语学习。", style = WerusTypography.Body, color = WerusColors.InkMuted)
-            }
+            Text("学习", style = WerusTypography.Display, color = WerusColors.Ink)
 
-            RusSectionTitle("我的教材", "选择当前教材并进入课次、课文、词汇与对话")
+            RusSectionTitle("我的教材")
             when (coursesState) {
                 Loadable.Loading -> LearningStatusCard("正在整理教材", "请稍候")
                 is Loadable.Error -> LearningStatusCard("教材暂不可用", coursesState.message)
@@ -71,12 +68,12 @@ fun LearningScreen(
                 }
             }
 
-            RusSectionTitle("专项学习", "练习与辅助能力跟随教材学习流程")
-            LearningEntryCard("Г", "语法学习", "语法规则、掌握度与关联真题", onGrammar)
-            LearningEntryCard("Т", "专四练习", "按年份、语法点、错题或随机练习", onTem4)
-            LearningEntryCard("🎧", "发音训练", "跟读、录音与发音反馈", onPronunciation)
-            LearningEntryCard("✦", "AI 学习辅助", "围绕当前教材解释、练习与总结", onAiCommands)
-            LearningEntryCard("↻", "今日复习", "复习到期词汇与学习内容", onReview)
+            RusSectionTitle("专项学习")
+            LearningEntryCard("Г", "语法学习", onGrammar)
+            LearningEntryCard("Т", "专四练习", onTem4)
+            LearningEntryCard("🎧", "发音训练", onPronunciation)
+            LearningEntryCard("✦", "AI 学习辅助", onAiCommands)
+            LearningEntryCard("●", "AI 对话练习", onConversation)
         }
     }
 }
@@ -96,7 +93,7 @@ private fun CourseFlowCard(course: Course, active: Boolean, progress: LearningPr
                     containerColor = if (active) WerusColors.Red else WerusColors.Beige,
                     contentColor = if (active) WerusColors.OnDark else WerusColors.RedDark,
                 )
-                Text(if (active) "继续 ›" else "选用 ›", style = WerusTypography.Metadata, color = WerusColors.RedDark)
+                Text(if (active) "查看课次 ›" else "选用 ›", style = WerusTypography.Metadata, color = WerusColors.RedDark)
             }
             Text(course.title, style = WerusTypography.Title, color = WerusColors.Ink, fontWeight = FontWeight.SemiBold)
             Text(course.subtitle, style = WerusTypography.Caption, color = WerusColors.InkMuted)
@@ -112,14 +109,11 @@ private fun CourseFlowCard(course: Course, active: Boolean, progress: LearningPr
 }
 
 @Composable
-private fun LearningEntryCard(icon: String, title: String, subtitle: String, onClick: () -> Unit) {
+private fun LearningEntryCard(icon: String, title: String, onClick: () -> Unit) {
     RusCard(Modifier.fillMaxWidth(), onClick = onClick, backgroundColor = WerusColors.Paper) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(icon, style = WerusTypography.Title)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                Text(title, style = WerusTypography.Title, color = WerusColors.Ink)
-                Text(subtitle, style = WerusTypography.Caption, color = WerusColors.InkMuted)
-            }
+            Text(title, Modifier.weight(1f), style = WerusTypography.Title, color = WerusColors.Ink)
             Text("›", style = WerusTypography.Title, color = WerusColors.Red)
         }
     }

@@ -58,7 +58,7 @@ fun TextDetailScreen(state: Loadable<TextContent>, onBack: () -> Unit, onAI: () 
                 Loadable.Loading -> CircularProgressIndicator(color = WerusColors.Red)
                 is Loadable.Error -> RusEmptyState("课文加载失败", state.message)
                 is Loadable.Content -> {
-                    RusSectionTitle(state.value.title, state.value.translationTitle ?: "逐句阅读 · 点击原文查看批注")
+                    RusSectionTitle(state.value.title, state.value.translationTitle)
                     state.value.paragraphs.sortedBy { it.order }.forEachIndexed { index, paragraph ->
                         TextSection(index + 1, paragraph, showTranslation, expandedSentenceId) { sentenceId ->
                             expandedSentenceId = if (expandedSentenceId == sentenceId) null else sentenceId

@@ -36,7 +36,6 @@ import org.namchieh.rusmorph.ui.design.WerusColors
 import org.namchieh.rusmorph.ui.design.WerusTypography
 import org.namchieh.rusmorph.ui.grammar.GrammarDetailState
 import org.namchieh.rusmorph.ui.grammar.QuestionRunnerUiState
-import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.screen.learning.LearningScaffold
 
 @Composable
@@ -44,11 +43,11 @@ fun GrammarHomeScreen(
     points: List<GrammarPointOverview>,
     onPoint: (String) -> Unit,
     onTem4: () -> Unit,
-    onBottom: (BottomDestination) -> Unit,
+    onBack: () -> Unit,
 ) {
-    LearningScaffold("语法学习", BottomDestination.Learning, onBottom) { root ->
+    LearningScaffold("语法学习", onBack = onBack) { root ->
         Column(root.verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            RusSectionTitle("语法学习", "语法点与专四真题共用同一学习记录")
+            RusSectionTitle("语法学习")
             val continuing = points.filter { it.completedQuestionCount > 0 && it.completedQuestionCount < it.realQuestionCount }
                 .maxByOrNull { it.completedQuestionCount }
             RusSectionTitle("继续学习")
@@ -59,7 +58,7 @@ fun GrammarHomeScreen(
             } else GrammarPointCard(continuing, onPoint)
 
             val weak = points.filter { it.completedQuestionCount > 0 }.sortedBy { it.mastery }.take(3)
-            RusSectionTitle("薄弱语法", "仅依据已提交的题目证据计算")
+            RusSectionTitle("薄弱语法")
             if (weak.isEmpty()) Text("完成真题后将在这里显示薄弱项。", color = WerusColors.InkMuted)
             weak.forEach { GrammarPointCard(it, onPoint) }
 
@@ -106,7 +105,7 @@ fun GrammarDetailScreen(
             Text(point.explanation, style = WerusTypography.Body, color = WerusColors.Ink)
             point.exampleRu?.let { RusCard(Modifier.fillMaxWidth()) { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) { Text("俄语例句", color = WerusColors.InkFaint); Text(it, style = WerusTypography.Title) } } }
             point.exampleZh?.let { RusCard(Modifier.fillMaxWidth()) { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) { Text("中文释义", color = WerusColors.InkFaint); Text(it) } } }
-            RusSectionTitle("专四怎么考", "原始映射未审核时仍保留展示")
+            RusSectionTitle("专四怎么考")
             if (state.questions.isEmpty()) Text("关联真题 0，仍可继续学习本语法点。", color = WerusColors.InkMuted)
             state.questions.take(5).forEach { question -> QuestionPreview(question) { onQuestion(question.questionId, point.pointId) } }
             if (state.questions.isNotEmpty()) {
@@ -126,11 +125,11 @@ fun Tem4PracticeScreen(
     grammarPoints: List<GrammarPointOverview>,
     onQuestion: (String, String?) -> Unit,
     onGrammar: (String) -> Unit,
-    onBottom: (BottomDestination) -> Unit,
+    onBack: () -> Unit,
 ) {
-    LearningScaffold("专四练习", BottomDestination.Learning, onBottom) { root ->
+    LearningScaffold("专四练习", onBack = onBack) { root ->
         Column(root.verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            RusSectionTitle("专四语法", "真题、语法点与作答记录双向关联")
+            RusSectionTitle("推荐真题")
             questions.firstOrNull()?.let { QuestionPreview(it) { onQuestion(it.questionId, null) } }
             RusSectionTitle("按年份练习")
             questions.groupBy { it.examYearLabel ?: it.examYear?.toString().orEmpty() }.forEach { (year, items) ->

@@ -12,6 +12,8 @@ val configuredDebugAgentProxyUrl = providers.gradleProperty("AGENT_PROXY_DEBUG_B
     .orElse(providers.environmentVariable("AGENT_PROXY_DEBUG_BASE_URL"))
 val configuredSpeechBackendUrl = providers.gradleProperty("SPEECH_BACKEND_BASE_URL")
     .orElse(providers.environmentVariable("SPEECH_BACKEND_BASE_URL"))
+val configuredWerusAiUrl = providers.gradleProperty("WERUS_AI_BASE_URL")
+    .orElse(providers.environmentVariable("WERUS_AI_BASE_URL"))
 val productionApiUrl = "https://api.namchieh.org/"
 val releaseStoreFile = providers.gradleProperty("RUSMORPH_RELEASE_STORE_FILE")
     .orElse(providers.environmentVariable("RUSMORPH_RELEASE_STORE_FILE"))
@@ -307,6 +309,7 @@ android {
         buildConfigField("String", "AGENT_PROXY_DEVICE_BASE_URL", "".asBuildConfigString())
         buildConfigField("String", "SPEECH_BACKEND_BASE_URL", "".asBuildConfigString())
         buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
+        buildConfigField("String", "WERUS_AI_BASE_URL", "".asBuildConfigString())
         buildConfigField("String", "REVIEW_WORKBENCH_URL", "https://api.namchieh.org/review/".asBuildConfigString())
     }
 
@@ -314,6 +317,8 @@ android {
     productFlavors {
         create("local") {
             dimension = "environment"
+            applicationIdSuffix = ".preview"
+            versionNameSuffix = "-preview"
             // Local builds may explicitly point at an emulator/LAN development gateway.
             buildConfigField("boolean", "ALLOW_CLEARTEXT_ENDPOINTS", "true")
             resValue("bool", "allow_cleartext", "true")
@@ -338,6 +343,7 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField("String", "WERUS_AI_BASE_URL", (configuredWerusAiUrl.orNull ?: "").asBuildConfigString())
             val url = configuredDebugAgentProxyUrl.orNull
                 ?.takeIf { it.startsWith("http://") || it.startsWith("https://") }
                 ?: configuredAgentProxyUrl.orNull?.takeIf { it.startsWith("http://") || it.startsWith("https://") }
@@ -351,6 +357,7 @@ android {
             buildConfigField("String", "SPEECH_BACKEND_DEVICE_BASE_URL", "".asBuildConfigString())
         }
         release {
+            buildConfigField("String", "WERUS_AI_BASE_URL", (configuredWerusAiUrl.orNull?.takeIf { it.startsWith("https://") } ?: "").asBuildConfigString())
             val safeUrl = configuredAgentProxyUrl.orNull
                 ?.takeIf { it.startsWith("https://") }
                 ?: productionApiUrl

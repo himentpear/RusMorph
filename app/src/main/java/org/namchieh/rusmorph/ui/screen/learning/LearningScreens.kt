@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.Image
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -23,23 +24,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Velocity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.namchieh.rusmorph.R
 import org.namchieh.rusmorph.data.local.LexiconEntryWithDetails
 import org.namchieh.rusmorph.data.repository.LearningStats
 import org.namchieh.rusmorph.domain.learning.Course
@@ -67,6 +70,8 @@ import org.namchieh.rusmorph.ui.learning.Loadable
 import org.namchieh.rusmorph.ui.navigation.BottomDestination
 import org.namchieh.rusmorph.ui.navigation.RusMorphBottomBar
 import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
+import org.namchieh.rusmorph.ui.screen.settings.WallpaperImage
 import org.namchieh.rusmorph.ui.theme.RusMorphTechTypography
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
@@ -82,6 +87,7 @@ fun LearningScaffold(
     onAI: (() -> Unit)? = null,
     content: @Composable (Modifier) -> Unit,
 ) {
+    val quickNavigation = LocalLearningQuickNavigation.current
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
     val threshold = with(density) { 132.dp.toPx() }
@@ -164,6 +170,34 @@ fun LearningScaffold(
                     shadowElevation = if (reveal > 0f) 18.dp.toPx() else 0f
                 },
             containerColor = WerusColors.Canvas,
+            topBar = {
+                if (selected == null && (onBack != null || quickNavigation != null)) {
+                    Column(Modifier.fillMaxWidth().background(WerusColors.Paper)) {
+                        Row(
+                            Modifier.fillMaxWidth().statusBarsPadding().heightIn(min = 54.dp).padding(horizontal = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            IconButton(
+                                onClick = { (onBack ?: quickNavigation?.back)?.invoke() },
+                                modifier = Modifier.semantics { contentDescription = "返回上一级" },
+                            ) { Text("←", style = WerusTypography.Title, color = WerusColors.Ink) }
+                            Text(
+                                title,
+                                modifier = Modifier.weight(1f),
+                                style = WerusTypography.Subtitle,
+                                color = WerusColors.Ink,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            quickNavigation?.let { actions ->
+                                TextButton(onClick = actions.learning) { Text("学习", color = WerusColors.RedDark) }
+                                TextButton(onClick = actions.home) { Text("首页", color = WerusColors.InkMuted) }
+                            }
+                        }
+                        HorizontalDivider(color = WerusColors.BorderSoft)
+                    }
+                }
+            },
             bottomBar = { if (selected != null) RusMorphBottomBar(selected, onBottom) },
         ) { padding -> content(Modifier.fillMaxSize().padding(padding)) }
     }
@@ -176,143 +210,83 @@ fun HomeScreen(
     progress: List<LearningProgress>,
     selectedCourseId: String? = null,
     onCourse: (String) -> Unit,
-    onContinue: (String, String) -> Unit,
-    onDictionary: () -> Unit,
-    onPronunciation: () -> Unit,
-    onCourses: () -> Unit = {},
+    onContinue: (String, String, LearningUnitType?) -> Unit,
     onReview: () -> Unit,
     onBottom: (BottomDestination) -> Unit,
     onAI: () -> Unit,
+    wallpaper: String,
 ) {
     LearningScaffold("首页", BottomDestination.Home, onBottom, onAI = onAI) { root ->
         Box(root) {
-            Image(
-                painter = painterResource(R.drawable.werus_home_background),
-                contentDescription = null,
-                modifier = Modifier.matchParentSize(),
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.TopCenter,
-                alpha = .78f,
+            WallpaperImage(wallpaper, Modifier.matchParentSize())
+            Box(
+                Modifier.matchParentSize().background(
+                    Brush.verticalGradient(
+                        listOf(WerusColors.Paper.copy(alpha = .91f), WerusColors.Canvas.copy(alpha = .77f)),
+                    ),
+                ),
             )
-            Box(Modifier.matchParentSize().background(WerusColors.Paper.copy(alpha = .32f)))
             Column(
-                Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 14.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(22.dp),
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column {
-                        Text("全员俄人 WeRus", style = RusMorphTechTypography.MicroPill, color = WerusColors.Ink, fontWeight = FontWeight.Bold)
-                        Text("研学 · 朗读 · 复习", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
+                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Text("WERUS  /  DAILY STUDY", style = WerusTypography.Metadata, color = WerusColors.RedDark)
+                        TextButton(onClick = onAI) { Text("AI 答疑 ✦", color = WerusColors.RedDark) }
                     }
-                    RusPillBadge("WeRus", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
+                    Text("今天，从一课开始", style = WerusTypography.Display, color = WerusColors.Ink)
                 }
-
-                RusCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    backgroundColor = WerusColors.Paper.copy(alpha = .94f),
-                ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Top,
-                        ) {
-                            Column {
-                                RusStat(
-                                    value = stats.dueReviewCount.toString().padStart(2, '0'),
-                                    label = "今日待复习",
-                                    hasDot = true,
-                                    isLarge = true,
-                                )
-                                val retentionPercent = (stats.averageRetention * 100).toInt()
-                                val badge = org.namchieh.rusmorph.domain.learning.EbbinghausRetention.getRetentionBadge(stats.averageRetention)
-                                Text(
-                                    text = "留存率 $retentionPercent% · ${badge.first}",
-                                    style = RusMorphTechTypography.MicroPill,
-                                    color = WerusColors.InkMuted,
-                                    modifier = Modifier.padding(top = 4.dp),
-                                )
-                            }
-                            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text("快速复习", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkFaint)
-                                RusCircleActionButton(
-                                    onClick = if (stats.dueReviewCount > 0) onReview else onDictionary,
-                                    symbol = "+",
-                                )
-                            }
-                        }
-
-                        RusNeedleCurve(progress = stats.averageRetention)
-                        Text(
-                            text = "已收纳 ${stats.totalWordsInReview} 词 · 艾宾浩斯记忆模型生效中",
-                            style = RusMorphTechTypography.MicroPill,
-                            color = WerusColors.InkFaint,
-                        )
-                    }
-                }
-
-                RusSectionTitle("继续课程", "当前教材与上次学习进度")
+                RusSectionTitle("继续学习")
                 when (coursesState) {
                     Loadable.Loading -> Box(Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = WerusColors.Ink) }
                     is Loadable.Error -> RusEmptyState("课程暂不可用", coursesState.message)
                     is Loadable.Content -> {
                         val allCourses = coursesState.value
-                        val latestActive = progress.firstOrNull { it.lessonId != null }
+                        val latestActive = progress.filter { it.lessonId != null }.maxByOrNull { it.updatedAt }
                         val currentCourse = allCourses.firstOrNull { it.id == selectedCourseId }
                             ?: allCourses.firstOrNull { it.id == latestActive?.courseId }
                             ?: allCourses.firstOrNull()
 
                         if (currentCourse != null) {
-                            val latest = progress.firstOrNull { it.courseId == currentCourse.id && it.lessonId != null }
-                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                RusCard(
-                                    Modifier.fillMaxWidth(),
-                                    onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it) } ?: onCourse(currentCourse.id) },
-                                ) {
-                                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                        Row(
-                                            Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.SpaceBetween,
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
-                                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                                                RusPillBadge("当前课次", containerColor = WerusColors.Beige, contentColor = WerusColors.Ink)
-                                                Text(
-                                                    latest?.lessonId?.substringAfterLast('-')?.let { "Урок $it" } ?: "Урок 01",
-                                                    style = RusMorphTechTypography.SmallDigit,
-                                                    color = WerusColors.Red,
-                                                )
-                                            }
-                                            Text(
-                                                "课次目录 ›",
-                                                style = RusMorphTechTypography.MicroPill,
-                                                color = WerusColors.InkFaint,
-                                                modifier = Modifier.clickable { onCourse(currentCourse.id) },
-                                            )
-                                        }
-                                        Text(currentCourse.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                        RusProgressBar(latest?.progress ?: 0f)
-                                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                            Text(
-                                                text = if ((latest?.progress ?: 0f) > 0f) "已研习 ${((latest?.progress ?: 0f) * 100).toInt()}% · 继续课次" else "尚未开始 · 进入学习",
-                                                style = RusMorphTechTypography.MicroPill,
-                                                color = WerusColors.InkMuted,
-                                            )
-                                            Text("进入 ›", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = WerusColors.Ink)
-                                        }
+                            val latest = progress.filter { it.courseId == currentCourse.id && it.lessonId != null }
+                                .maxByOrNull { it.updatedAt }
+                            RusCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { latest?.lessonId?.let { onContinue(currentCourse.id, it, latest?.unitType) } ?: onCourse(currentCourse.id) },
+                                backgroundColor = WerusColors.Paper,
+                                border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.RedSoft),
+                            ) {
+                                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                                        RusPillBadge(
+                                            latest?.lessonId?.substringAfterLast('-')?.let { "第 $it 课" } ?: "我的教材",
+                                            containerColor = WerusColors.RedSoft,
+                                            contentColor = WerusColors.RedDark,
+                                        )
+                                        Text("继续  →", style = WerusTypography.Subtitle, color = WerusColors.RedDark)
                                     }
+                                    Text(currentCourse.title, style = WerusTypography.Title, color = WerusColors.Ink)
+                                    if (latest != null && latest.progress > 0f) RusProgressBar(latest.progress)
                                 }
                             }
-                        }
+                        } else RusEmptyState("暂无教材", "前往学习页选择教材")
                     }
                 }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    RusButton("快速查词", onDictionary, Modifier.weight(1f), isSecondary = true)
-                    RusButton("发音训练", onPronunciation, Modifier.weight(1f), isSecondary = true)
+
+                RusSectionTitle("今日复习")
+                RusCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = onReview.takeIf { stats.dueReviewCount > 0 },
+                    backgroundColor = WerusColors.BeigeMuted,
+                ) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("${stats.dueReviewCount} 项待复习", style = WerusTypography.Title, color = WerusColors.Ink)
+                            if (stats.dueReviewCount == 0) Text("今日已完成", style = WerusTypography.Caption, color = WerusColors.InkMuted)
+                        }
+                        if (stats.dueReviewCount > 0) Text("开始  →", style = WerusTypography.Subtitle, color = WerusColors.RedDark)
+                    }
                 }
             }
         }
@@ -323,7 +297,7 @@ fun HomeScreen(
 fun CoursesScreen(state: Loadable<List<Course>>, onCourse: (String) -> Unit, onBottom: (BottomDestination) -> Unit) {
     LearningScaffold("教材", BottomDestination.Learning, onBottom) { root ->
         ContentColumn(root) {
-            RusSectionTitle("我的课程", "按课程与课次组织长期学习")
+            RusSectionTitle("我的课程")
             when (state) {
                 Loadable.Loading -> CircularProgressIndicator()
                 is Loadable.Error -> RusEmptyState("课程加载失败", state.message)
@@ -334,15 +308,25 @@ fun CoursesScreen(state: Loadable<List<Course>>, onCourse: (String) -> Unit, onB
 }
 
 @Composable
-fun CourseDetailScreen(course: Course?, lessons: Loadable<List<Lesson>>, onLesson: (String, String) -> Unit, onBack: () -> Unit) {
+fun CourseDetailScreen(course: Course?, lessons: Loadable<List<Lesson>>, onUnit: (Lesson, LearningUnitType) -> Unit, onBack: () -> Unit) {
+    var expandedLessonId by rememberSaveable { mutableStateOf<String?>(null) }
     LearningScaffold(course?.title ?: "课程", onBack = onBack) { root ->
         ContentColumn(root) {
-            course?.let { RusSectionTitle(it.subtitle, it.description); RusProgressBar(it.progress) }
-            RusSectionTitle("课次内容", "按真实内容展示学习单元")
+            RusSectionTitle("课次")
             when (lessons) {
                 Loadable.Loading -> Box(Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = WerusColors.Ink) }
                 is Loadable.Error -> RusEmptyState("课次加载失败", lessons.message)
-                is Loadable.Content -> lessons.value.forEach { lesson -> RusLessonCard(lesson, { onLesson(lesson.courseId, lesson.id) }) }
+                is Loadable.Content -> lessons.value.forEach { lesson ->
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        val expanded = expandedLessonId == lesson.id
+                        RusLessonCard(lesson, { expandedLessonId = if (expanded) null else lesson.id }, expanded = expanded)
+                        if (expanded) {
+                            lesson.units.forEachIndexed { index, unit ->
+                                RusLearningUnitCard(index + 1, unit, { onUnit(lesson, unit.type) }, Modifier.padding(start = 12.dp))
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -361,11 +345,7 @@ fun LessonDetailScreen(state: Loadable<Lesson>, onUnit: (Lesson, LearningUnitTyp
                 is Loadable.Error -> RusEmptyState("无法打开课程", state.message)
                 is Loadable.Content -> {
                     val lesson = state.value
-                    Text(lesson.titleRu, color = WerusColors.Ink, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
-                    RusSectionTitle(lesson.titleRu, lesson.titleZh)
-                    RusProgressBar(lesson.progress)
-                    Spacer(Modifier.height(4.dp))
-                    RusSectionTitle("学习单元", "点击进入专项练习与跟读")
+                    RusSectionTitle("学习单元")
                     lesson.units.forEachIndexed { index, unit -> RusLearningUnitCard(index + 1, unit, { onUnit(lesson, unit.type) }) }
                 }
             }
@@ -406,10 +386,8 @@ fun VocabularyScreen(
             }
         }
     }
-    LearningScaffold("СЛОВА · 词汇", onBack = onBack, onAI = onAI) { root ->
+    LearningScaffold("第 ${lessonId.substringAfterLast('-')} 课 · 词汇", onBack = onBack, onAI = onAI) { root ->
         ContentColumn(root) {
-            RusContextChip("${lessonId.substringAfterLast('-')} 课", {})
-            RusSectionTitle("本课生词", "点击词语查看本地词典详情")
             when (state) {
                 Loadable.Loading -> CircularProgressIndicator()
                 is Loadable.Error -> RusEmptyState("词汇加载失败", state.message)
@@ -432,11 +410,6 @@ fun VocabularyScreen(
                                         style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.SemiBold,
                                         color = WerusColors.Ink,
-                                    )
-                                    Text(
-                                        "艾宾浩斯复习计划",
-                                        style = RusMorphTechTypography.MicroPill,
-                                        color = WerusColors.InkFaint,
                                     )
                                 }
                                 if (unenrolled.isNotEmpty()) {
@@ -476,13 +449,13 @@ fun DialogueScreen(state: Loadable<Dialogue>, onPractice: (String, String) -> Un
                 is Loadable.Content -> {
                     val dialogue = state.value
                     if (dialogue.lines.isEmpty()) {
-                        RusSectionTitle(dialogue.title, "第二册教材对话 · 录入准备中")
+                        RusSectionTitle(dialogue.title)
                         RusEmptyState(
-                            "第二册课文对话录入中",
-                            "本课对话语料正在整理录入中；本课词汇表已全量就绪，支持完整的发音跟读与词法检索。",
+                            "本课暂无对话正文",
+                            "教材数据仍在补全",
                         )
                     } else {
-                        RusSectionTitle(dialogue.title, "教材对话 · ${dialogue.lines.size} 句")
+                        RusSectionTitle(dialogue.title)
                         dialogue.lines.forEach { line ->
                             RusCard(Modifier.fillMaxWidth()) {
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -505,7 +478,7 @@ fun DialogueScreen(state: Loadable<Dialogue>, onPractice: (String, String) -> Un
 fun ReviewScreen(stats: LearningStats, onStart: () -> Unit, onBottom: (BottomDestination) -> Unit) {
     LearningScaffold("复习", BottomDestination.Review, onBottom) { root ->
         ContentColumn(root) {
-            RusSectionTitle("今日待复习", "艾宾浩斯记忆模型智能排程")
+            RusSectionTitle("今日待复习")
             RusCard(Modifier.fillMaxWidth()) {
                 Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                     Row(
@@ -529,11 +502,6 @@ fun ReviewScreen(stats: LearningStats, onStart: () -> Unit, onBottom: (BottomDes
 
                     // 艾宾浩斯科学记忆留存率曲线
                     RusNeedleCurve(progress = stats.averageRetention)
-                    Text(
-                        text = "已收纳 ${stats.totalWordsInReview} 词 · 艾宾浩斯记忆模型生效中",
-                        style = RusMorphTechTypography.MicroPill,
-                        color = WerusColors.InkFaint,
-                    )
 
                     RusButton("开始复习", onStart, Modifier.fillMaxWidth(), enabled = stats.dueReviewCount > 0)
                 }
@@ -559,7 +527,7 @@ fun ReviewScreen(stats: LearningStats, onStart: () -> Unit, onBottom: (BottomDes
 fun ReviewQueueScreen(items: List<ReviewItem>, onWord: (String) -> Unit, onBack: () -> Unit) {
     LearningScaffold("今日复习", onBack = onBack) { root ->
         ContentColumn(root) {
-            RusSectionTitle("复习队列", "旧词卡 SRS 与通用复习项统一呈现")
+            RusSectionTitle("复习队列")
             if (items.isEmpty()) RusEmptyState("今日已完成", "当前没有到期项目")
             else items.forEachIndexed { index, item ->
                 val typeLabel = when (item.type) {
@@ -570,14 +538,15 @@ fun ReviewQueueScreen(items: List<ReviewItem>, onWord: (String) -> Unit, onBack:
                     org.namchieh.rusmorph.domain.learning.ReviewItemType.DIALOGUE -> "对话复习"
                     org.namchieh.rusmorph.domain.learning.ReviewItemType.EXERCISE -> "练习复习"
                 }
-                RusCard(Modifier.fillMaxWidth(), onClick = { if (item.type == org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD) onWord(item.sourceId) }) {
+                val canOpen = item.type == org.namchieh.rusmorph.domain.learning.ReviewItemType.WORD
+                RusCard(Modifier.fillMaxWidth(), onClick = if (canOpen) ({ onWord(item.sourceId) }) else null) {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                         Text((index + 1).toString().padStart(2, '0'), style = RusMorphTechTypography.SmallDigit, color = WerusColors.Red)
                         Column(Modifier.weight(1f)) {
                             Text(typeLabel, color = WerusColors.Ink, fontWeight = FontWeight.SemiBold)
                             Text(item.lessonId?.substringAfterLast('-')?.let { "第 $it 课" } ?: "跨课程复习", style = RusMorphTechTypography.MicroPill, color = WerusColors.InkMuted)
                         }
-                        Text("开始 ›", color = WerusColors.Ink, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                        if (canOpen) Text("打开 ›", color = WerusColors.Ink, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                     }
                 }
             }
@@ -614,7 +583,7 @@ fun ProfileScreen(stats: LearningStats, onSettings: () -> Unit, onBottom: (Botto
                     )
                 }
             }
-            RusButton("系统设置与教学工具", onSettings, Modifier.fillMaxWidth())
+            RusButton("设置", onSettings, Modifier.fillMaxWidth())
         }
     }
 }

@@ -11,6 +11,10 @@ class AppSettings(context: Context) {
         sanitizeDeckLimit(preferences.getInt(DECK_LIMIT_KEY, DEFAULT_DECK_LIMIT)),
     )
     val deckLimit: StateFlow<Int> = mutableDeckLimit.asStateFlow()
+    private val mutableWallpaper = MutableStateFlow(
+        preferences.getString(WALLPAPER_KEY, DEFAULT_WALLPAPER) ?: DEFAULT_WALLPAPER,
+    )
+    val wallpaper: StateFlow<String> = mutableWallpaper.asStateFlow()
 
     private val mutableActiveCourseId = MutableStateFlow(
         preferences.getString(ACTIVE_COURSE_KEY, DEFAULT_COURSE_ID) ?: DEFAULT_COURSE_ID
@@ -36,6 +40,11 @@ class AppSettings(context: Context) {
         val sanitized = sanitizeDeckLimit(value)
         preferences.edit().putInt(DECK_LIMIT_KEY, sanitized).apply()
         mutableDeckLimit.value = sanitized
+    }
+
+    fun setWallpaper(value: String) {
+        preferences.edit().putString(WALLPAPER_KEY, value).apply()
+        mutableWallpaper.value = value
     }
 
     fun setActiveCourseId(courseId: String) {
@@ -84,6 +93,8 @@ class AppSettings(context: Context) {
     companion object {
         const val DEFAULT_DECK_LIMIT = 50
         const val MAX_DECK_LIMIT = 200
+        const val DEFAULT_WALLPAPER = "default"
+        const val NO_WALLPAPER = "none"
         val DECK_LIMIT_OPTIONS = listOf(50, 100, 150, 200)
 
         const val DEFAULT_COURSE_ID = "university-russian-1"
@@ -95,6 +106,7 @@ class AppSettings(context: Context) {
 
         private const val PREFERENCES_NAME = "app_settings"
         private const val DECK_LIMIT_KEY = "deck_card_limit"
+        private const val WALLPAPER_KEY = "home_wallpaper"
         private const val ACTIVE_COURSE_KEY = "active_course_id"
         private const val DAILY_NEW_WORD_KEY = "daily_new_word_target"
         private const val AUTO_ADVANCE_KEY = "auto_advance_enabled"

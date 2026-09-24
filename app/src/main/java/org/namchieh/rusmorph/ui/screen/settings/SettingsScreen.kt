@@ -13,6 +13,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.OutlinedButton
@@ -21,10 +22,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,6 +37,7 @@ import org.namchieh.rusmorph.data.repository.AgentRepository
 import org.namchieh.rusmorph.data.settings.AppSettings
 import kotlinx.coroutines.launch
 import org.namchieh.rusmorph.ui.design.WerusColors
+import org.namchieh.rusmorph.ui.design.WerusTypography
 import org.namchieh.rusmorph.BuildConfig
 import org.namchieh.rusmorph.update.UpdateCoordinator
 import org.namchieh.rusmorph.update.model.ManualUpdateStatus
@@ -45,6 +50,7 @@ fun SettingsScreen(
     appSettings: AppSettings,
     updateCoordinator: UpdateCoordinator,
     onBack: () -> Unit,
+    onWallpaper: () -> Unit,
 ) {
     val enabled by diagnostics.enabled.collectAsStateWithLifecycle()
     val events by diagnostics.events.collectAsStateWithLifecycle()
@@ -52,10 +58,32 @@ fun SettingsScreen(
     val updateStatus by updateCoordinator.manualStatus.collectAsStateWithLifecycle()
     val developerMode by appSettings.developerMode.collectAsStateWithLifecycle()
     var versionTaps by remember { mutableIntStateOf(0) }
+    var debugExpanded by rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     Scaffold(containerColor = WerusColors.Canvas) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    TextButton(onClick = onBack) { Text("‹ 返回", color = WerusColors.RedDark) }
+                    Text("设置", style = WerusTypography.Title, color = WerusColors.Ink)
+                }
+            }
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth().clickable(onClick = onWallpaper),
+                    colors = CardDefaults.cardColors(containerColor = WerusColors.Paper),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border),
+                ) {
+                    Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("首页背景", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+                            Text("选择喜欢的阅读氛围", style = WerusTypography.Caption, color = WerusColors.InkMuted)
+                        }
+                        Text("›", style = WerusTypography.Title, color = WerusColors.RedDark)
+                    }
+                }
+            }
             item {
                 Card(colors = CardDefaults.cardColors(containerColor = WerusColors.Paper), border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border)) {
                     Column(
@@ -89,33 +117,6 @@ fun SettingsScreen(
                         TextButton(onClick = { uriHandler.openUri("https://github.com/himentpear/RusMorph") }) {
                             Text("GitHub · 查看源代码")
                         }
-                        if (developerMode && BuildConfig.DEBUG) {
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                TextButton(onClick = { updateCoordinator.simulateAvailable(false) }) { Text("模拟发现更新") }
-                                TextButton(onClick = { updateCoordinator.simulateAvailable(true) }) { Text("模拟强制更新") }
-                            }
-                        }
-                    }
-                }
-            }
-            if (developerMode) item {
-                Card(colors = CardDefaults.cardColors(containerColor = WerusColors.Paper), border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border)) {
-                    Column(
-                        Modifier.fillMaxWidth().padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Text("朗读样本工作台", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
-                        Text(
-                            "按教材课号生成对话任务，录音、回放并提交人工评分。",
-                            color = WerusColors.InkMuted,
-                        )
-                        Text(
-                            "将在系统浏览器中打开，以获得更稳定的麦克风与音频播放支持。",
-                            color = WerusColors.InkFaint,
-                        )
-                        OutlinedButton(onClick = { uriHandler.openUri(BuildConfig.REVIEW_WORKBENCH_URL) }) {
-                            Text("打开工作台")
-                        }
                     }
                 }
             }
@@ -141,22 +142,58 @@ fun SettingsScreen(
                     }
                 }
             }
-            if (developerMode) item { Card(colors = CardDefaults.cardColors(containerColor = WerusColors.Paper), border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border)) { Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Column(Modifier.weight(1f)) { Text("AI 请求诊断", fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold); Text("记录接口阶段、状态码、耗时和安全错误码", color = WerusColors.InkMuted) }; Switch(checked = enabled, onCheckedChange = diagnostics::setEnabled) }
-                Text("默认关闭；开启后仅保留本机当前会话数据，不含问题、回答或密钥。", color = WerusColors.InkFaint)
-                if (enabled) OutlinedButton(onClick = { scope.launch { agentRepository.checkWorkerConnection() } }) { Text("测试 Worker 连接") }
-            } } }
-            if (developerMode && enabled) {
-                item { Text("最近反馈") }
-                if (events.isEmpty()) item { Text("尚无 AI 请求。", color = WerusColors.InkMuted) }
-                items(events.size) { index -> val event = events[index]; Card(colors = CardDefaults.cardColors(containerColor = WerusColors.Paper)) { Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                    Text("${event.operation} · ${event.outcome}")
-                    Text(listOfNotNull(event.httpStatus?.let { "HTTP $it" }, event.elapsedMs?.let { "${it}ms" }, event.errorCode).joinToString(" · ").ifBlank { "正在等待响应" }, color = WerusColors.InkMuted)
-                    Text("请求 ${event.requestId.take(8)}", color = WerusColors.InkFaint)
-                } } }
-            }
             if (developerMode) item {
-                TextButton(onClick = { appSettings.setDeveloperMode(false) }) { Text("关闭开发者模式") }
+                Card(colors = CardDefaults.cardColors(containerColor = WerusColors.Paper), border = androidx.compose.foundation.BorderStroke(1.dp, WerusColors.Border)) {
+                    Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        Row(
+                            Modifier.fillMaxWidth().clickable { debugExpanded = !debugExpanded },
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                                Text("Debug · 测试系统", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+                                Text("仅供开发与诊断", style = WerusTypography.Caption, color = WerusColors.InkMuted)
+                            }
+                            Text(if (debugExpanded) "⌃" else "⌄", style = WerusTypography.Title, color = WerusColors.RedDark)
+                        }
+                        if (debugExpanded) {
+                            HorizontalDivider(color = WerusColors.BorderSoft)
+                            Text("朗读样本工作台", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+                            Text("按教材课号生成任务，录音并提交人工评分。", style = WerusTypography.Caption, color = WerusColors.InkMuted)
+                            OutlinedButton(onClick = { uriHandler.openUri(BuildConfig.REVIEW_WORKBENCH_URL) }) { Text("打开测试工作台") }
+
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text("AI 请求诊断", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+                                    Text("仅记录本机会话状态", style = WerusTypography.Caption, color = WerusColors.InkMuted)
+                                }
+                                Switch(checked = enabled, onCheckedChange = diagnostics::setEnabled)
+                            }
+                            if (enabled) {
+                                OutlinedButton(onClick = { scope.launch { agentRepository.checkWorkerConnection() } }) { Text("测试 Worker 连接") }
+                                Text("最近反馈", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+                                if (events.isEmpty()) Text("尚无 AI 请求。", style = WerusTypography.Caption, color = WerusColors.InkMuted)
+                                events.take(5).forEach { event ->
+                                    Text(
+                                        "${event.operation} · ${event.outcome} · " +
+                                            listOfNotNull(event.httpStatus?.let { "HTTP $it" }, event.elapsedMs?.let { "${it}ms" }, event.errorCode).joinToString(" · "),
+                                        style = WerusTypography.Caption,
+                                        color = WerusColors.InkMuted,
+                                    )
+                                }
+                            }
+                            if (BuildConfig.DEBUG) {
+                                HorizontalDivider(color = WerusColors.BorderSoft)
+                                Text("更新流程模拟", style = WerusTypography.Subtitle, color = WerusColors.Ink)
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    TextButton(onClick = { updateCoordinator.simulateAvailable(false) }) { Text("普通更新") }
+                                    TextButton(onClick = { updateCoordinator.simulateAvailable(true) }) { Text("强制更新") }
+                                }
+                            }
+                            TextButton(onClick = { appSettings.setDeveloperMode(false); debugExpanded = false }) { Text("退出 Debug") }
+                        }
+                    }
+                }
             }
         }
     }

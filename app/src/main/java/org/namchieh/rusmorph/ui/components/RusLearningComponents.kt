@@ -233,7 +233,7 @@ fun RusCourseCard(course: Course, onClick: () -> Unit, modifier: Modifier = Modi
 }
 
 @Composable
-fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modifier, expanded: Boolean = false) {
     val accent = if (lesson.isReviewLesson) WerusColors.Red else WerusColors.Ink
     RusCard(modifier.fillMaxWidth(), onClick) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -257,7 +257,7 @@ fun RusLessonCard(lesson: Lesson, onClick: () -> Unit, modifier: Modifier = Modi
                     color = WerusColors.InkFaint,
                 )
             }
-            Text("›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = WerusColors.InkFaint)
+            Text(if (expanded) "⌄" else "›", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, color = WerusColors.InkFaint)
         }
     }
 }
