@@ -1,0 +1,97 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "werus-admin",
+  "main": "worker/index.ts",
+  "account_id": "f969744f6b1b6276e1fec7df747ba9e4",
+  "compatibility_date": "2026-10-10",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "werus-admin.namchieh.org",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "single-page-application"
+  },
+  "vars": {
+    "ADMIN_ORIGIN": "https://werus-admin.namchieh.org",
+    "ACCESS_ISSUER": "https://namchieh-pages.cloudflareaccess.com",
+    "ACCESS_AUD": "2a8264fb9e23e08b5151725d23fede0193a167af91936e3e153473fbaad41cb7",
+    "ADMIN_EMAILS": "himentpear@gmail.com",
+    "GITHUB_REPOSITORY": "himentpear/RusMorph",
+    "GITHUB_BASE_BRANCH": "main"
+  },
+  "d1_databases": [
+    {
+      "binding": "ADMIN_DB",
+      "database_name": "werus-admin",
+      "database_id": "d7b730db-c48f-4293-bcc2-5fbc0c301c02",
+      "migrations_dir": "migrations"
+    },
+    {
+      "binding": "USER_DB",
+      "database_name": "rusmorph-user-state",
+      "database_id": "ca4048d4-b8fd-4ad7-b0e3-248496fb761f"
+    },
+    {
+      "binding": "REVIEW_DB",
+      "database_name": "rusmorph-review-calibration",
+      "database_id": "ab77b5f5-cfd5-486e-8cf8-0881ed6e9c03"
+    },
+    {
+      "binding": "CONTENT_DB",
+      "database_name": "rusmorph-content",
+      "database_id": "c73a341f-9ca9-4852-8687-05b12499c852"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "CONTENT_BUCKET",
+      "bucket_name": "rusmorph-content"
+    },
+    {
+      "binding": "REVIEW_AUDIO",
+      "bucket_name": "rusmorph-review-audio"
+    }
+  ],
+  "services": [
+    {
+      "binding": "AGENT_ADMIN",
+      "service": "rusmorph-agent-proxy",
+      "entrypoint": "OperationsRpc"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PUBLISHER",
+        "class_name": "ReleaseCoordinator"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "admin-v1",
+      "new_sqlite_classes": [
+        "ReleaseCoordinator"
+      ]
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "17 3 * * *"
+    ]
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": false
+    }
+  }
+}
