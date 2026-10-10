@@ -1,4 +1,4 @@
-import importlib.util,json,shutil,tempfile,unittest
+import importlib.util,json,shutil,subprocess,sys,tempfile,unittest
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('compiler',Path(__file__).resolve().parents[1]/'scripts/compile-release.py');compiler=importlib.util.module_from_spec(spec);spec.loader.exec_module(compiler)
 class CompilerTests(unittest.TestCase):
@@ -25,13 +25,16 @@ class CompilerTests(unittest.TestCase):
   data={base+'/sentences':[dict(old[0],textRu='Я люблю кофе.')],base+'/paragraphs':[{'id':'p','textRu':old[0]['textRu']}],base+'/textbook_tokens':compiler.tokens('s',old[0]['textRu']),base+'/textbook_lexicon_links':[{'id':'l','tokenId':'tok_s_0003'}]}
   with self.assertRaises(ValueError):compiler.regenerate(data,base+'/sentences',old)
  def test_private_facts_must_reproduce_online_baseline_before_editing(self):
-  real=compiler.ROOT;dataset=real/'app/src/main/assets/database/textbook/university_russian_2'
-  self.assertTrue(dataset.is_dir(),'Run in the authoritative C checkout')
+  real=compiler.ROOT
   with tempfile.TemporaryDirectory() as folder:
-   root=Path(folder);canonical=root/'app/src/main/assets/database/textbook'/dataset.name;canonical.mkdir(parents=True)
-   for name in ('manual_review.json','exercise_answers.json'):shutil.copyfile(dataset/name,canonical/name)
-   (root/'tools/textbook_dataset').mkdir(parents=True);shutil.copyfile(real/'tools/textbook_dataset/validate_dataset.py',root/'tools/textbook_dataset/validate_dataset.py')
-   unchanged={'textbook/'+dataset.name+'/'+p.stem:p.read_bytes() for p in dataset.glob('*.json') if p.name not in ('manual_review.json','exercise_answers.json')}
+   root=Path(folder);canonical=root/'app/src/main/assets/database/textbook/university_russian_2';canonical.mkdir(parents=True)
+   (root/'tools/textbook_dataset').mkdir(parents=True);validator=root/'tools/textbook_dataset/validate_dataset.py';shutil.copyfile(real/'tools/textbook_dataset/validate_dataset.py',validator)
+   spec=importlib.util.spec_from_file_location('dataset_validator',validator);dataset_validator=importlib.util.module_from_spec(spec);spec.loader.exec_module(dataset_validator)
+   rows={name:[] for name in dataset_validator.FILES.values()}
+   rows.update({'textbooks.json':[{'id':'textbook_university_russian_2'}],'lessons.json':[{'id':'lesson','textbookId':'textbook_university_russian_2'}],'paragraphs.json':[{'id':'p','lessonId':'lesson','type':'TEXT','textRu':'Привет.'}],'sentences.json':[{'id':'s','paragraphId':'p','lessonId':'lesson','textRu':'Привет.'}],'manual_review.json':[{'id':'review','notes':'Synthetic review fixture'}]})
+   for name,value in rows.items():(canonical/name).write_bytes(compiler.raw(value))
+   subprocess.run([sys.executable,str(validator),str(canonical),'--update-manifest'],check=True,capture_output=True)
+   unchanged={'textbook/'+canonical.name+'/'+p.stem:p.read_bytes() for p in canonical.glob('*.json') if p.name not in ('manual_review.json','exercise_answers.json')}
    compiler.ROOT=root
    try:
     compiler.verify_private_sources(unchanged,root/'baseline-valid')
