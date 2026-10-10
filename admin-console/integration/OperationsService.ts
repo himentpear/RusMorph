@@ -1,0 +1,13 @@
+import type { Env } from './providers/AgentProvider';
+import { HttpError } from './errors';
+export type OperationsBinding={controls():Promise<Record<string,boolean>>;activeVersions():Promise<{contentVersion:string;dictionaryVersion:string}>;recordEvent(value:unknown):Promise<unknown>};
+export async function controls(env:Env){if(!env.OPERATIONS)return null;try{return await env.OPERATIONS.controls();}catch{throw new HttpError(503,'OPERATIONS_UNAVAILABLE','服务状态暂不可用，请稍后重试。',true);}}
+export async function requireService(env:Env,name:string){const state=await controls(env);if(state&&(!state.conversation||state[name]!==true))throw new HttpError(503,'SERVICE_DISABLED','对话服务暂时停用。',true);}
+export async function operationalLive(env:Env){if(env.LIVE_VOICE_ENABLED!=='true')return false;const state=await controls(env);return state?state.conversation===true&&state.live===true&&env.LIVE_VOICE_VERIFIED==='true':true;}
+export async function registryVersions(env:Env){if(!env.OPERATIONS)return null;try{return await env.OPERATIONS.activeVersions();}catch{throw new HttpError(503,'RELEASE_REGISTRY_UNAVAILABLE','学习资源版本登记暂不可用。',true);}}
+export function accountHash(userId:string){return crypto.subtle.digest('SHA-256',new TextEncoder().encode('werus-account:'+userId)).then(d=>Array.from(new Uint8Array(d),b=>b.toString(16).padStart(2,'0')).join(''));}
+type Usage={inputUnits:number|null;outputUnits:number|null;unit:string|null;calls?:number};
+type Metadata=Usage&{elapsedMs:number;result:string;fallbackReason:string|null};
+export function rpcUsage(value:{modelUsage?:Usage}){return value.modelUsage||{inputUnits:null,outputUnits:null,unit:null};}
+export async function reportInvocation(env:Env,userId:string|null,feature:string,model:string,metadata:Metadata){if(!env.OPERATIONS||metadata.calls===0)return;const {calls,...safe}=metadata;try{await env.OPERATIONS.recordEvent({id:crypto.randomUUID(),model,feature,accountHash:userId?await accountHash(userId):null,...safe,occurredAt:new Date().toISOString()});}catch{console.warn('operations_event_unavailable');}}
+export async function observed<T>(env:Env,userId:string|null,feature:string,model:string,work:()=>Promise<T>,usage?:(value:T)=>Usage,options:{ctx?:{waitUntil(promise:Promise<unknown>):void};classify?:(value:T)=>string}={}){const start=Date.now();let result='failure',units:Usage={inputUnits:null,outputUnits:null,unit:null};try{const value=await work();result=options.classify?.(value)||'success';if(usage)units=usage(value);return value;}finally{if(env.OPERATIONS){const pending=reportInvocation(env,userId,feature,model,{elapsedMs:Date.now()-start,result,...units,fallbackReason:null});if(options.ctx)options.ctx.waitUntil(pending);else await pending;}}}

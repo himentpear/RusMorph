@@ -1,0 +1,9 @@
+{
+ "name":"WeRus Content Operations",
+ "url":"https://werus-admin.namchieh.org",
+ "description":"WeRus 教材与词典的受限源码、PR、CI 校验及不可变资源发布。仅安装到 himentpear/RusMorph。",
+ "public":false,
+ "hook_attributes":{"active":false},
+ "default_permissions":{"contents":"write","pull_requests":"write","checks":"read","actions":"read","metadata":"read"},
+ "default_events":[]
+}

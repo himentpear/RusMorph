@@ -1,0 +1,20 @@
+import { beforeAll,beforeEach,afterEach,describe,it,expect,vi } from 'vitest';
+import { generateKeyPair,exportJWK,createLocalJWKSet,SignJWT } from 'jose';
+import { readFileSync } from 'node:fs';
+import { TestDatabase } from './sqlite';
+import type { Env } from '../worker/env';
+const keys=vi.hoisted(()=>({get:undefined as any}));
+vi.mock('jose',async importOriginal=>{const original=await importOriginal<typeof import('jose')>();return {...original,createRemoteJWKSet:()=>keys.get};});
+import { handle } from '../worker/index';
+let privateKey:CryptoKey;
+beforeAll(async()=>{const p=await generateKeyPair('RS256');privateKey=p.privateKey;keys.get=createLocalJWKSet({keys:[{...await exportJWK(p.publicKey),kid:'test',alg:'RS256'}]});});
+describe('all-domain protection',()=>{let db:TestDatabase,env:Env,assets:any;beforeEach(()=>{db=new TestDatabase();db.exec(readFileSync(new URL('../migrations/0001_admin.sql',import.meta.url),'utf8'));assets={fetch:vi.fn(async()=>new Response('private html'))};env={ADMIN_DB:db,ASSETS:assets,ADMIN_ORIGIN:'https://werus-admin.namchieh.org',ACCESS_ISSUER:'https://werus.cloudflareaccess.com',ACCESS_AUD:'aud',ADMIN_EMAILS:'himentpear@gmail.com'} as unknown as Env;});afterEach(()=>db.close());
+ async function req(path:string,email='himentpear@gmail.com',options:RequestInit={}){const jwt=await new SignJWT({email}).setProtectedHeader({alg:'RS256',kid:'test'}).setIssuer(env.ACCESS_ISSUER).setAudience('aud').setSubject('sub').setIssuedAt().setExpirationTime('5m').sign(privateKey);return new Request(env.ADMIN_ORIGIN+path,{...options,headers:{'cf-access-jwt-assertion':jwt,...options.headers}});}
+ it.each(['/','/assets/index.js','/api/admin/v1/me'])('rejects unauthenticated %s before serving assets',async path=>{expect((await handle(new Request(env.ADMIN_ORIGIN+path),env)).status).toBe(401);expect(assets.fetch).not.toHaveBeenCalled();});
+ it('serves HTML only after JWT and both allowlists pass',async()=>{expect((await handle(await req('/'),env)).status).toBe(200);expect(assets.fetch).toHaveBeenCalledOnce();});
+ it('rejects non-admin page access without serving any assets',async()=>{expect((await handle(await req('/assets/index.js','wx-user@example.com'),env)).status).toBe(403);expect(assets.fetch).not.toHaveBeenCalled();});
+ it('allows removal of a principal to reject an otherwise valid JWT',async()=>{db.exec('DELETE FROM admin_principals');expect((await handle(await req('/'),env)).status).toBe(403);});
+ it('does not accept writes without an Origin',async()=>{expect((await handle(await req('/api/admin/v1/drafts','himentpear@gmail.com',{method:'POST'}),env)).status).toBe(403);});
+ it('rejects wrong hosts even with a valid assertion',async()=>{const r=await req('/');const wrong=new Request('https://unprotected.workers.dev/',{headers:r.headers});expect((await handle(wrong,env)).status).toBe(403);});
+ it('returns clean API errors and never exception payloads',async()=>{const result=await handle(await req('/api/admin/v1/nope'),env);expect(result.status).toBe(404);expect(await result.json()).toEqual({error:{code:'NOT_FOUND',message:'接口不存在'}});});
+});

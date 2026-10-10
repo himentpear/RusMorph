@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+*.local.json
+*.local.ps1
+__pycache__/

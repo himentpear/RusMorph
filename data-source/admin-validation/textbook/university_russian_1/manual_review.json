@@ -1,0 +1,542 @@
+[
+  {
+    "id": "ur1_rev_0001",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l01_ex_005",
+    "pageNumber": 8,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0002",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l01_ex_006",
+    "pageNumber": 8,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0003",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l01_ex_008",
+    "pageNumber": 8,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0004",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l02_ex_013",
+    "pageNumber": 16,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0005",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l02_ex_014",
+    "pageNumber": 16,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0006",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l02_ex_016",
+    "pageNumber": 16,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0007",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l03_ex_021",
+    "pageNumber": 26,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0008",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l03_ex_022",
+    "pageNumber": 26,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0009",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l03_ex_024",
+    "pageNumber": 26,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0010",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l04_ex_029",
+    "pageNumber": 36,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0011",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l04_ex_030",
+    "pageNumber": 36,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0012",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l04_ex_032",
+    "pageNumber": 36,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0013",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l05_ex_037",
+    "pageNumber": 46,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0014",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l05_ex_038",
+    "pageNumber": 46,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0015",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l05_ex_040",
+    "pageNumber": 46,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0016",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l06_ex_045",
+    "pageNumber": 56,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0017",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l06_ex_046",
+    "pageNumber": 56,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0018",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l06_ex_048",
+    "pageNumber": 56,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0019",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l07_ex_053",
+    "pageNumber": 68,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0020",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l07_ex_054",
+    "pageNumber": 68,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0021",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l07_ex_056",
+    "pageNumber": 68,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0022",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l08_ex_061",
+    "pageNumber": 82,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0023",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l08_ex_062",
+    "pageNumber": 82,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0024",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l08_ex_064",
+    "pageNumber": 82,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0025",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l09_ex_069",
+    "pageNumber": 96,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0026",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l09_ex_070",
+    "pageNumber": 96,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0027",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l09_ex_072",
+    "pageNumber": 96,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0028",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l10_ex_077",
+    "pageNumber": 110,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0029",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l10_ex_078",
+    "pageNumber": 110,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0030",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l10_ex_080",
+    "pageNumber": 110,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0031",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l11_ex_085",
+    "pageNumber": 126,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0032",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l11_ex_086",
+    "pageNumber": 126,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0033",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l11_ex_088",
+    "pageNumber": 126,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0034",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l12_ex_093",
+    "pageNumber": 142,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0035",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l12_ex_094",
+    "pageNumber": 142,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0036",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l12_ex_096",
+    "pageNumber": 142,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0037",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l13_ex_101",
+    "pageNumber": 158,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0038",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l13_ex_102",
+    "pageNumber": 158,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0039",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l13_ex_104",
+    "pageNumber": 158,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0040",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l14_ex_109",
+    "pageNumber": 172,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0041",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l14_ex_110",
+    "pageNumber": 172,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0042",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l14_ex_112",
+    "pageNumber": 172,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0043",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l15_ex_117",
+    "pageNumber": 188,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0044",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l15_ex_118",
+    "pageNumber": 188,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0045",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l15_ex_120",
+    "pageNumber": 188,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0046",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l16_ex_125",
+    "pageNumber": 204,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0047",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l16_ex_126",
+    "pageNumber": 204,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0048",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l16_ex_128",
+    "pageNumber": 204,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0049",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l17_ex_133",
+    "pageNumber": 220,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0050",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l17_ex_134",
+    "pageNumber": 220,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0051",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l17_ex_136",
+    "pageNumber": 220,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0052",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l18_ex_141",
+    "pageNumber": 235,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Ответьте на вопросы по тексту урока.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0053",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l18_ex_142",
+    "pageNumber": 235,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Переведите предложения на русский язык.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur1_rev_0054",
+    "entityType": "EXERCISE",
+    "entityId": "ur1_l18_ex_144",
+    "pageNumber": 235,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Прочитайте диалог и ответьте на вопросы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  }
+]

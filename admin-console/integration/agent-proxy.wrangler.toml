@@ -1,0 +1,113 @@
+name = "rusmorph-agent-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-08-08"
+compatibility_flags = ["durable_object_io_tasks_prevent_eviction"]
+workers_dev = false
+routes = [
+  { pattern = "api.namchieh.org", custom_domain = true },
+  { pattern = "api.namchieh.org/*", zone_name = "namchieh.org" }
+]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+head_sampling_rate = 1
+persist = true
+
+[ai]
+binding = "AI"
+
+[[services]]
+binding = "OPERATIONS"
+service = "werus-admin"
+entrypoint = "OperationsRegistry"
+
+[vars]
+LIVE_VOICE_ENABLED = "false"
+SPEECH_TTS_MODEL = "gemini-3.8-flash-tts"
+SPEECH_TTS_VOICE = "Kore"
+ENVIRONMENT = "production"
+WECHAT_APP_ID = "wx7852e0ad1c99f5c2"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/review", "/review/*"]
+
+[[d1_databases]]
+binding = "REVIEW_DB"
+database_name = "rusmorph-review-calibration"
+database_id = "ab77b5f5-cfd5-486e-8cf8-0881ed6e9c03"
+
+[[d1_databases]]
+binding = "USER_DB"
+database_name = "rusmorph-user-state"
+database_id = "ca4048d4-b8fd-4ad7-b0e3-248496fb761f"
+migrations_dir = "user-migrations"
+
+[[d1_databases]]
+binding = "CONTENT_DB"
+database_name = "rusmorph-content"
+database_id = "c73a341f-9ca9-4852-8687-05b12499c852"
+
+[[r2_buckets]]
+binding = "REVIEW_AUDIO"
+bucket_name = "rusmorph-review-audio"
+
+[[ratelimits]]
+name = "SPEECH_RATE_LIMITER"
+namespace_id = "20260810"
+[ratelimits.simple]
+limit = 10
+period = 60
+
+[[durable_objects.bindings]]
+name = "LIVE_CONVERSATIONS"
+class_name = "LiveConversation"
+
+[[migrations]]
+tag = "live-voice-v1"
+new_sqlite_classes = ["LiveConversation"]
+
+[[services]]
+binding = "WERUS_CONVERSATION"
+service = "werus-ai"
+entrypoint = "ConversationRpc"
+
+[[ratelimits]]
+name = "AI_RATE_LIMITER"
+namespace_id = "20260811"
+[ratelimits.simple]
+limit = 20
+period = 60
+
+[[ratelimits]]
+name = "REVIEW_AUTH_RATE_LIMITER"
+namespace_id = "20260812"
+[ratelimits.simple]
+limit = 5
+period = 60
+
+[[r2_buckets]]
+binding = "CONTENT_BUCKET"
+bucket_name = "rusmorph-content"
+
+[[r2_buckets]]
+binding = "WORD_AUDIO"
+bucket_name = "rusmorph-word-audio"
+
+[[ratelimits]]
+name = "USER_AUTH_RATE_LIMITER"
+namespace_id = "20260926"
+[ratelimits.simple]
+limit = 10
+period = 60

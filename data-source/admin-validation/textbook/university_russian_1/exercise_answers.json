@@ -1,0 +1,542 @@
+[
+  {
+    "id": "ur1_ans_0001",
+    "exerciseId": "ur1_l01_ex_001",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0002",
+    "exerciseId": "ur1_l01_ex_002",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0003",
+    "exerciseId": "ur1_l01_ex_003",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0004",
+    "exerciseId": "ur1_l01_ex_004",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0005",
+    "exerciseId": "ur1_l01_ex_007",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0006",
+    "exerciseId": "ur1_l02_ex_009",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0007",
+    "exerciseId": "ur1_l02_ex_010",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0008",
+    "exerciseId": "ur1_l02_ex_011",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0009",
+    "exerciseId": "ur1_l02_ex_012",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0010",
+    "exerciseId": "ur1_l02_ex_015",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0011",
+    "exerciseId": "ur1_l03_ex_017",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0012",
+    "exerciseId": "ur1_l03_ex_018",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0013",
+    "exerciseId": "ur1_l03_ex_019",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0014",
+    "exerciseId": "ur1_l03_ex_020",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0015",
+    "exerciseId": "ur1_l03_ex_023",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0016",
+    "exerciseId": "ur1_l04_ex_025",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0017",
+    "exerciseId": "ur1_l04_ex_026",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0018",
+    "exerciseId": "ur1_l04_ex_027",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0019",
+    "exerciseId": "ur1_l04_ex_028",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0020",
+    "exerciseId": "ur1_l04_ex_031",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0021",
+    "exerciseId": "ur1_l05_ex_033",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0022",
+    "exerciseId": "ur1_l05_ex_034",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0023",
+    "exerciseId": "ur1_l05_ex_035",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0024",
+    "exerciseId": "ur1_l05_ex_036",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0025",
+    "exerciseId": "ur1_l05_ex_039",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0026",
+    "exerciseId": "ur1_l06_ex_041",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0027",
+    "exerciseId": "ur1_l06_ex_042",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0028",
+    "exerciseId": "ur1_l06_ex_043",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0029",
+    "exerciseId": "ur1_l06_ex_044",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0030",
+    "exerciseId": "ur1_l06_ex_047",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0031",
+    "exerciseId": "ur1_l07_ex_049",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0032",
+    "exerciseId": "ur1_l07_ex_050",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0033",
+    "exerciseId": "ur1_l07_ex_051",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0034",
+    "exerciseId": "ur1_l07_ex_052",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0035",
+    "exerciseId": "ur1_l07_ex_055",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0036",
+    "exerciseId": "ur1_l08_ex_057",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0037",
+    "exerciseId": "ur1_l08_ex_058",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0038",
+    "exerciseId": "ur1_l08_ex_059",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0039",
+    "exerciseId": "ur1_l08_ex_060",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0040",
+    "exerciseId": "ur1_l08_ex_063",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0041",
+    "exerciseId": "ur1_l09_ex_065",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0042",
+    "exerciseId": "ur1_l09_ex_066",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0043",
+    "exerciseId": "ur1_l09_ex_067",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0044",
+    "exerciseId": "ur1_l09_ex_068",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0045",
+    "exerciseId": "ur1_l09_ex_071",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0046",
+    "exerciseId": "ur1_l10_ex_073",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0047",
+    "exerciseId": "ur1_l10_ex_074",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0048",
+    "exerciseId": "ur1_l10_ex_075",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0049",
+    "exerciseId": "ur1_l10_ex_076",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0050",
+    "exerciseId": "ur1_l10_ex_079",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0051",
+    "exerciseId": "ur1_l11_ex_081",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0052",
+    "exerciseId": "ur1_l11_ex_082",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0053",
+    "exerciseId": "ur1_l11_ex_083",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0054",
+    "exerciseId": "ur1_l11_ex_084",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0055",
+    "exerciseId": "ur1_l11_ex_087",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0056",
+    "exerciseId": "ur1_l12_ex_089",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0057",
+    "exerciseId": "ur1_l12_ex_090",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0058",
+    "exerciseId": "ur1_l12_ex_091",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0059",
+    "exerciseId": "ur1_l12_ex_092",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0060",
+    "exerciseId": "ur1_l12_ex_095",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0061",
+    "exerciseId": "ur1_l13_ex_097",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0062",
+    "exerciseId": "ur1_l13_ex_098",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0063",
+    "exerciseId": "ur1_l13_ex_099",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0064",
+    "exerciseId": "ur1_l13_ex_100",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0065",
+    "exerciseId": "ur1_l13_ex_103",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0066",
+    "exerciseId": "ur1_l14_ex_105",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0067",
+    "exerciseId": "ur1_l14_ex_106",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0068",
+    "exerciseId": "ur1_l14_ex_107",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0069",
+    "exerciseId": "ur1_l14_ex_108",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0070",
+    "exerciseId": "ur1_l14_ex_111",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0071",
+    "exerciseId": "ur1_l15_ex_113",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0072",
+    "exerciseId": "ur1_l15_ex_114",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0073",
+    "exerciseId": "ur1_l15_ex_115",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0074",
+    "exerciseId": "ur1_l15_ex_116",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0075",
+    "exerciseId": "ur1_l15_ex_119",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0076",
+    "exerciseId": "ur1_l16_ex_121",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0077",
+    "exerciseId": "ur1_l16_ex_122",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0078",
+    "exerciseId": "ur1_l16_ex_123",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0079",
+    "exerciseId": "ur1_l16_ex_124",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0080",
+    "exerciseId": "ur1_l16_ex_127",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0081",
+    "exerciseId": "ur1_l17_ex_129",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0082",
+    "exerciseId": "ur1_l17_ex_130",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0083",
+    "exerciseId": "ur1_l17_ex_131",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0084",
+    "exerciseId": "ur1_l17_ex_132",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0085",
+    "exerciseId": "ur1_l17_ex_135",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0086",
+    "exerciseId": "ur1_l18_ex_137",
+    "answer": "Образец: читать — я читаю, ты читаешь.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0087",
+    "exerciseId": "ur1_l18_ex_138",
+    "answer": "Образец: в библиотеке.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0088",
+    "exerciseId": "ur1_l18_ex_139",
+    "answer": "Образец: Мы идём в школу.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0089",
+    "exerciseId": "ur1_l18_ex_140",
+    "answer": "Образец: Учиться хорошо.",
+    "source": "TEXTBOOK"
+  },
+  {
+    "id": "ur1_ans_0090",
+    "exerciseId": "ur1_l18_ex_143",
+    "answer": "Образец: Студенты занимаются в библиотеке.",
+    "source": "TEXTBOOK"
+  }
+]

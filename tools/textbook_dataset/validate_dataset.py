@@ -122,7 +122,8 @@ def validate(root: Path, update_manifest: bool):
                   for name, count in counts.items() if old_manifest.get("counts", {}).get(name) != count}
     metadata_mismatches = {}
     expected_textbook = d["textbooks"][0].get("id") if d["textbooks"] else None
-    for key, expected in (("datasetId", "university_russian_2"), ("textbookId", expected_textbook), ("schemaVersion", 1), ("datasetCount", len(FILES))):
+    dataset_id = d["textbooks"][0].get("id").replace("textbook_", "") if d["textbooks"] else root.name
+    for key, expected in (("datasetId", dataset_id), ("textbookId", expected_textbook), ("schemaVersion", 1), ("datasetCount", len(FILES))):
         if old_manifest.get(key) != expected:
             metadata_mismatches[key] = {"declared": old_manifest.get(key), "actual": expected}
     if metadata_mismatches and not update_manifest:
@@ -166,7 +167,7 @@ def validate(root: Path, update_manifest: bool):
         "media": "DISABLED" if media_placeholders else ("ENABLED" if d["media"] else "DISABLED"),
     }
     if update_manifest:
-        manifest = {"datasetId":"university_russian_2", "textbookId":expected_textbook,
+        manifest = {"datasetId":dataset_id, "textbookId":expected_textbook,
                     "schemaVersion":1, "datasetCount":len(FILES), "counts":counts, "datasetHash":dataset_hash,
                     "capabilities":caps,
                     "validation":{"allJsonParseable":True,"uniqueIdsVerified":not duplicate_ids,"internalReferentialIntegrity":not broken_fk,
@@ -178,7 +179,7 @@ def validate(root: Path, update_manifest: bool):
         mismatches = {}
         metadata_mismatches = {}
         hash_mismatch = False
-    print(json.dumps({"datasetId":"university_russian_2", "assetRoot":str(root), "schemaVersion":1,
+    print(json.dumps({"datasetId":dataset_id, "assetRoot":str(root), "schemaVersion":1,
                       "datasetHash":dataset_hash,"counts":counts,"capabilities":caps,
                       "duplicateIds":duplicate_ids,"brokenInternalForeignKeys":broken_fk,
                       "manifestMismatches":mismatches,"invalidTokenOffsets":invalid_offsets,

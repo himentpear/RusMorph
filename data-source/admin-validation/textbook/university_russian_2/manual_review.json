@@ -1,0 +1,1292 @@
+[
+  {
+    "id": "ur2_rev_0001",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_001",
+    "pageNumber": 8,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: О Л] называться звать",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0002",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_002",
+    "pageNumber": 15,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: Упражнёние 2",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0003",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_003",
+    "pageNumber": 15,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: шкбла, ученйк, тетрадь, жизнь, ВОДА, рАдость, масл",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0004",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_004",
+    "pageNumber": 15,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: московский, молодбй, старый, зймний, сйний, холодн",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0005",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_005",
+    "pageNumber": 19,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: ОбразЕщ•. Студёнтьг идут в университёт.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0006",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_007",
+    "pageNumber": 20,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0007",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_008",
+    "pageNumber": 20,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0008",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_009",
+    "pageNumber": 20,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 14: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0009",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_010",
+    "pageNumber": 21,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: Обра.зёц: На. црфшдой щддёлр его отец верн\\лся",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0010",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_011",
+    "pageNumber": 21,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: ЯШЕ-ТЈИНЊ1бЈо",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0011",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l01_ex_012",
+    "pageNumber": 21,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 17: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0012",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_013",
+    "pageNumber": 38,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: несмелый, вйучить, влететь, перейтй, небольшбй, пе",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0013",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_015",
+    "pageNumber": 41,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: 1. — Где вы встрётились?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0014",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_016",
+    "pageNumber": 41,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0015",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_017",
+    "pageNumber": 41,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0016",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_018",
+    "pageNumber": 42,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: дёревом сидЙт дбвушка с кнйгой в руках.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0017",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_019",
+    "pageNumber": 42,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0018",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_020",
+    "pageNumber": 42,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0019",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_021",
+    "pageNumber": 44,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0020",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l02_ex_022",
+    "pageNumber": 44,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0021",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_025",
+    "pageNumber": 63,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Обра.зёц: Вы идёте сейч•Ас в зоопарк? (музёй Гугун",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0022",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_028",
+    "pageNumber": 64,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1. Скблько минут вы идёте (едете) .. ?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0023",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_029",
+    "pageNumber": 65,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0024",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_030",
+    "pageNumber": 65,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: Образа: Ты откуда? Из библиотёки'?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0025",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_031",
+    "pageNumber": 65,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 14: Образа: Ты куда? В столбвую?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0026",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_033",
+    "pageNumber": 67,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 17: Образгщ•. Он прочитАл РОМАН.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0027",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_034",
+    "pageNumber": 67,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 18: 1. — В Згой аудитбрии будет ЛбКЦИЯ?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0028",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l03_ex_035",
+    "pageNumber": 68,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 19: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0029",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_036",
+    "pageNumber": 79,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: 1) Скблько времени спал дедушка?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0030",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_037",
+    "pageNumber": 86,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0031",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_038",
+    "pageNumber": 86,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: 1. ПРОШУ",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0032",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_039",
+    "pageNumber": 88,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 4: 1. Эга школа приняла пёрвых учеников тблько",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0033",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_040",
+    "pageNumber": 88,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: (Будущий мёсяц) у сгудёнтов начинАются экзамены.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0034",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_043",
+    "pageNumber": 89,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0035",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_044",
+    "pageNumber": 89,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: 6iJ-fe",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0036",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_045",
+    "pageNumber": 89,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0037",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_046",
+    "pageNumber": 89,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0038",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_048",
+    "pageNumber": 90,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0039",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_049",
+    "pageNumber": 91,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: 1. У вас в гОроде есть метрб?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0040",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_050",
+    "pageNumber": 92,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: Сергёй не нашёл",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0041",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l04_ex_052",
+    "pageNumber": 92,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 18: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0042",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_055",
+    "pageNumber": 110,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: делать, подумать, выбирАть, обёдать, рассказывать,",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0043",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_056",
+    "pageNumber": 110,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0044",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_058",
+    "pageNumber": 111,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Образа: Вы не дадйте мне ваш словарь?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0045",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_059",
+    "pageNumber": 112,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0046",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_061",
+    "pageNumber": 112,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0047",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_064",
+    "pageNumber": 114,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: Обра.згц: Ребйта! Посмотрйте 5-гу картйну!",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0048",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_066",
+    "pageNumber": 115,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1. Что он расскАзывал вам? О чём он расскАзывал ва",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0049",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_067",
+    "pageNumber": 116,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0050",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_068",
+    "pageNumber": 116,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 17: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0051",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_069",
+    "pageNumber": 116,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 18: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0052",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l05_ex_070",
+    "pageNumber": 117,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 19: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0053",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l06_ex_071",
+    "pageNumber": 133,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: ЈЕ)Ја",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0054",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l06_ex_073",
+    "pageNumber": 136,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0055",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l06_ex_074",
+    "pageNumber": 137,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: • Ты смотрёл Лот спектйкль?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0056",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l06_ex_075",
+    "pageNumber": 138,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: (3)",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0057",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l06_ex_076",
+    "pageNumber": 139,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0058",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l06_ex_077",
+    "pageNumber": 139,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: онй увлекаются,",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0059",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_078",
+    "pageNumber": 157,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: решйть, проходйть, даваться, принйть, женйться, на",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0060",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_079",
+    "pageNumber": 157,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: желать, пережйть, посетйть, записАться, дать, спеш",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0061",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_080",
+    "pageNumber": 159,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0062",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_081",
+    "pageNumber": 160,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: Образац: Почему в аэропорту белло много народа? (в",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0063",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_082",
+    "pageNumber": 160,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: 1. Ребёнок плОхо спи,",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0064",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_083",
+    "pageNumber": 161,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: В группу пришёл новый ТОВАРИЩ. И все срАзу егб",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0065",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_084",
+    "pageNumber": 161,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0066",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_085",
+    "pageNumber": 162,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0067",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_086",
+    "pageNumber": 162,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 14: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0068",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_087",
+    "pageNumber": 163,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0069",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_088",
+    "pageNumber": 163,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 17: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0070",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l07_ex_089",
+    "pageNumber": 163,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 19: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0071",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_090",
+    "pageNumber": 179,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: 103, 225, 316, 437, 543, 672, 781, 854, 997, 1 768",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0072",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_091",
+    "pageNumber": 180,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 4: 21 $643, 32",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0073",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_092",
+    "pageNumber": 180,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: ГРАММАТИКА",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0074",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_093",
+    "pageNumber": 180,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0075",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_094",
+    "pageNumber": 180,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0076",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_095",
+    "pageNumber": 181,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: 1. Вы знбете Сергея,",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0077",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_096",
+    "pageNumber": 182,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0078",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_097",
+    "pageNumber": 182,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: Образа: - Покажй мне твой) кнйгу .",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0079",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_098",
+    "pageNumber": 182,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0080",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_099",
+    "pageNumber": 183,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0081",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_100",
+    "pageNumber": 183,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0082",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_101",
+    "pageNumber": 183,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0083",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_102",
+    "pageNumber": 183,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0084",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_103",
+    "pageNumber": 184,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 17: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0085",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l08_ex_104",
+    "pageNumber": 185,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 18: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0086",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_105",
+    "pageNumber": 205,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0087",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_106",
+    "pageNumber": 205,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0088",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_107",
+    "pageNumber": 207,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: 298",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0089",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_108",
+    "pageNumber": 208,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0090",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_109",
+    "pageNumber": 208,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1. — Вы одна неслй 5ту сумку с кнйгами?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0091",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_110",
+    "pageNumber": 208,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0092",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_111",
+    "pageNumber": 209,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0093",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_112",
+    "pageNumber": 209,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0094",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l09_ex_113",
+    "pageNumber": 209,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 17: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0095",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_114",
+    "pageNumber": 225,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: 12, 16, 18, 19, 20, 23, 36, 45, 50, 67, 70, 80, 84",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0096",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_115",
+    "pageNumber": 225,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: 413TIfFE, Я 21 К, Я 99 т, 3102 gtE±,",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0097",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_116",
+    "pageNumber": 225,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 4: зоо",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0098",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_117",
+    "pageNumber": 227,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: Образ[щ: Мой отёц родйлся в 1962 году.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0099",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_118",
+    "pageNumber": 227,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: Ш , 15/M] , 17/ I ,13/ , 18/ ГХ",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0100",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_119",
+    "pageNumber": 227,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: 1. В каком году вы родилйсь?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0101",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_120",
+    "pageNumber": 227,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0102",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_121",
+    "pageNumber": 229,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: 1. Такую раббту за нецёлю не т;шолнишь.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0103",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_122",
+    "pageNumber": 229,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0104",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_124",
+    "pageNumber": 230,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: Образа: 1. Стойт сйльные морозы.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0105",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_125",
+    "pageNumber": 230,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 14: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0106",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l10_ex_126",
+    "pageNumber": 231,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0107",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_127",
+    "pageNumber": 242,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: 1) У когб высокая (нормйльная) температура.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0108",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_128",
+    "pageNumber": 252,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: известный, счастлйвый, прийтный, внимательный;",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0109",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_129",
+    "pageNumber": 252,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0110",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_130",
+    "pageNumber": 252,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 5: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0111",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_131",
+    "pageNumber": 253,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 7: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0112",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_132",
+    "pageNumber": 253,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: Образ&ц: Какой ромАн вам дать?",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0113",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_133",
+    "pageNumber": 253,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: Образ&ц: Январь — холодный месяц в году.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0114",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_134",
+    "pageNumber": 254,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0115",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_135",
+    "pageNumber": 254,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 12: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0116",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_136",
+    "pageNumber": 255,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 13: своббдно, интерёсно, подрббно, удббно;",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0117",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_137",
+    "pageNumber": 255,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 14: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0118",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l11_ex_141",
+    "pageNumber": 257,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 19: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0119",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_142",
+    "pageNumber": 276,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 1: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0120",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_143",
+    "pageNumber": 276,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 2: Звон“ мне почаще, САша.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0121",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_144",
+    "pageNumber": 277,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 4: дать совёт",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0122",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_145",
+    "pageNumber": 277,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 6: — Что вы хотйте, чай йли кбфе? (в“шутть)",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0123",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_146",
+    "pageNumber": 278,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 8: 4.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0124",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_147",
+    "pageNumber": 279,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 9: т.ПЈ6$1ЖЯо",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0125",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_148",
+    "pageNumber": 279,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 10: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0126",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_149",
+    "pageNumber": 280,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 11: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0127",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_150",
+    "pageNumber": 280,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 15: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0128",
+    "entityType": "EXERCISE",
+    "entityId": "ur2_l12_ex_151",
+    "pageNumber": 281,
+    "issueType": "MISSING_TEXTBOOK_ANSWER",
+    "snippet": "Упражнение 16: 1.",
+    "reason": "教材学生用书未附正式参考答案，需教师用书核对或人工标定",
+    "suggestedAction": "RETAIN_EMPTY_FOR_MANUAL_REVIEW"
+  },
+  {
+    "id": "ur2_rev_0129",
+    "entityType": "READING_TEXT",
+    "entityId": "ur2_l03_sec_reading_01",
+    "pageNumber": 53,
+    "issueType": "TEXT_TRUNCATION_IN_SOURCE",
+    "snippet": "Это был удар! И хороший урок! Я понял...",
+    "reason": "原PDF教材第53页正文至此截断，属于教材版本原生状态，禁止AI擅自补写",
+    "suggestedAction": "KEEP_TRUNCATED_AND_FLAG_FOR_TEACHER"
+  }
+]

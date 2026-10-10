@@ -1,0 +1,522 @@
+[
+  {
+    "id": "ur4_rev_0001",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0010",
+    "pageNumber": 10,
+    "issueType": "TYPO",
+    "snippet": "растеряваться",
+    "reason": "The word 'растеряваться' is a typo for 'растеря́ться' or 'растеря́ться' (imperfective is 'растеря́ться' or 'теря́ться', but 'растеря́ваться' is non-standard).",
+    "suggestedAction": "растеря́ться"
+  },
+  {
+    "id": "ur4_rev_0002",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0014",
+    "pageNumber": 14,
+    "issueType": "TYPO",
+    "snippet": "все мой встречи",
+    "reason": "The word 'мой' in 'все мой встречи' should be 'мои' (plural).",
+    "suggestedAction": "все мои встречи"
+  },
+  {
+    "id": "ur4_rev_0003",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0016",
+    "pageNumber": 16,
+    "issueType": "TYPO",
+    "snippet": "Руский",
+    "reason": "The word 'Руский' is missing a second 'с'.",
+    "suggestedAction": "Русский"
+  },
+  {
+    "id": "ur4_rev_0004",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0020",
+    "pageNumber": 20,
+    "issueType": "TYPO",
+    "snippet": "Мод",
+    "reason": "Typo in 'Мод' instead of 'Мои́'",
+    "suggestedAction": "Мои́"
+  },
+  {
+    "id": "ur4_rev_0005",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0030",
+    "pageNumber": 30,
+    "issueType": "TYPO",
+    "snippet": "«сорока сороков» церквей»",
+    "reason": "The text contains an extra closing quotation mark after 'сороков'.",
+    "suggestedAction": "«сорока сороков» церквей"
+  },
+  {
+    "id": "ur4_rev_0006",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0030",
+    "pageNumber": 30,
+    "issueType": "TYPO",
+    "snippet": "Некоторые из них сохранилось до сих пор.",
+    "reason": "The verb 'сохранилось' should be plural 'сохранились' to agree with 'Некоторые из них'.",
+    "suggestedAction": "Некоторые из них сохранились до сих пор."
+  },
+  {
+    "id": "ur4_rev_0007",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0036",
+    "pageNumber": 36,
+    "issueType": "TYPO",
+    "snippet": "защищаешь",
+    "reason": "The exercise number (2) in the text has a grammatical error in the verb 'защищаешь' (2nd person) while the subject is 'вы' (formal/plural) which should be 'защищаете'.",
+    "suggestedAction": "защищаете"
+  },
+  {
+    "id": "ur4_rev_0008",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0039",
+    "pageNumber": 39,
+    "issueType": "TYPO",
+    "snippet": "решётки",
+    "reason": "The text contains 'решётки' which is likely a typo for 'решётке' (dative case after 'у').",
+    "suggestedAction": "решётке"
+  },
+  {
+    "id": "ur4_rev_0009",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0039",
+    "pageNumber": 39,
+    "issueType": "TYPO",
+    "snippet": "несущном",
+    "reason": "The text contains 'насущном' which is likely a typo for 'насущном' (the text has 'несущном').",
+    "suggestedAction": "насущном"
+  },
+  {
+    "id": "ur4_rev_0010",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0040",
+    "pageNumber": 40,
+    "issueType": "TYPO",
+    "snippet": "шёлка",
+    "reason": "The word 'шёлка' is printed as 'шёлка' but the 'л' is doubled as 'лл'.",
+    "suggestedAction": "шёлка"
+  },
+  {
+    "id": "ur4_rev_0011",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0055",
+    "pageNumber": 55,
+    "issueType": "TYPO",
+    "snippet": "настре́чу",
+    "reason": "The word 'настре́чу' is missing the letter 'в' (should be 'навстре́чу').",
+    "suggestedAction": "навстре́чу"
+  },
+  {
+    "id": "ur4_rev_0012",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0060",
+    "pageNumber": 60,
+    "issueType": "TYPO",
+    "snippet": "больно́х",
+    "reason": "Typo in 'больно́х', should be 'больны́х'",
+    "suggestedAction": "больны́х"
+  },
+  {
+    "id": "ur4_rev_0013",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0075",
+    "pageNumber": 75,
+    "issueType": "TYPO",
+    "snippet": "подразделять несов. // сов. подразделять",
+    "reason": "The printed text has 'подразделять' for both non-perfective and perfective, which is a typo in the textbook. It should be 'подразделить' for the perfective form.",
+    "suggestedAction": "подразделять несов. // сов. подразделить"
+  },
+  {
+    "id": "ur4_rev_0014",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0078",
+    "pageNumber": 78,
+    "issueType": "TYPO",
+    "snippet": "принадлежат",
+    "reason": "The sentence (2) under 'принадлежать перу кого' has a typo in 'принадлежат' (should be 'принадлежит' to agree with 'статья').",
+    "suggestedAction": "принадлежит"
+  },
+  {
+    "id": "ur4_rev_0015",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0082",
+    "pageNumber": 82,
+    "issueType": "TYPO",
+    "snippet": "Филипи́ны",
+    "reason": "The word 'Филипи́ны' is misspelled in the source text; it should be 'Филиппи́ны'.",
+    "suggestedAction": "Филиппи́ны"
+  },
+  {
+    "id": "ur4_rev_0016",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0084",
+    "pageNumber": 84,
+    "issueType": "TYPO",
+    "snippet": "zdeсь",
+    "reason": "The word 'zdeсь' contains a Latin 'z' instead of Cyrillic 'з'.",
+    "suggestedAction": "здесь"
+  },
+  {
+    "id": "ur4_rev_0017",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0084",
+    "pageNumber": 84,
+    "issueType": "TYPO",
+    "snippet": "Filippíны",
+    "reason": "The word 'Filippíны' contains a Latin 'F' and 'p' instead of Cyrillic 'Ф' and 'п'.",
+    "suggestedAction": "Филиппи́ны"
+  },
+  {
+    "id": "ur4_rev_0018",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0084",
+    "pageNumber": 84,
+    "issueType": "TYPO",
+    "snippet": "рука́",
+    "reason": "The word 'рука́' should be 'руке́' in the context of 'in the hand'.",
+    "suggestedAction": "руке́"
+  },
+  {
+    "id": "ur4_rev_0019",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0088",
+    "pageNumber": 88,
+    "issueType": "TYPO",
+    "snippet": "переложений",
+    "reason": "The word 'переложений' in exercise 11 seems to be a typo for 'предложений' (sentences).",
+    "suggestedAction": "предложений"
+  },
+  {
+    "id": "ur4_rev_0020",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0094",
+    "pageNumber": 94,
+    "issueType": "TYPO",
+    "snippet": "zdeсь",
+    "reason": "The word 'zdeсь' is a typo for 'здесь' in the source text.",
+    "suggestedAction": "здесь"
+  },
+  {
+    "id": "ur4_rev_0021",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0098",
+    "pageNumber": 98,
+    "issueType": "TYPO",
+    "snippet": "правдивый",
+    "reason": "Missing stress mark on 'правдивый'",
+    "suggestedAction": "правди́вый"
+  },
+  {
+    "id": "ur4_rev_0022",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0099",
+    "pageNumber": 99,
+    "issueType": "TYPO",
+    "snippet": "Odníм",
+    "reason": "Typo in the word 'Одним'",
+    "suggestedAction": "Одни́м"
+  },
+  {
+    "id": "ur4_rev_0023",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0121",
+    "pageNumber": 121,
+    "issueType": "TYPO",
+    "snippet": "постовой",
+    "reason": "The text uses 'постовой связи' which is likely a typo for 'почтовой связи' (postal communication) given the context of transport and travel history.",
+    "suggestedAction": "почтовой"
+  },
+  {
+    "id": "ur4_rev_0024",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0122",
+    "pageNumber": 122,
+    "issueType": "TYPO",
+    "snippet": "свой силы",
+    "reason": "Typo in 'свой силы' should be 'свои силы'",
+    "suggestedAction": "свои силы"
+  },
+  {
+    "id": "ur4_rev_0025",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0122",
+    "pageNumber": 122,
+    "issueType": "TYPO",
+    "snippet": "мечу",
+    "reason": "Typo in 'исполнить свою мечту' (printed as 'мечу')",
+    "suggestedAction": "мечту"
+  },
+  {
+    "id": "ur4_rev_0026",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0125",
+    "pageNumber": 125,
+    "issueType": "TYPO",
+    "snippet": "свой силы",
+    "reason": "The word 'свой' should be 'свои' to agree with the plural noun 'силы'.",
+    "suggestedAction": "свои силы"
+  },
+  {
+    "id": "ur4_rev_0027",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0128",
+    "pageNumber": 128,
+    "issueType": "TYPO",
+    "snippet": "Туризм",
+    "reason": "The word 'Туризм' is missing a stress mark on the 'и' in both lines.",
+    "suggestedAction": "Тури́зм"
+  },
+  {
+    "id": "ur4_rev_0028",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0130",
+    "pageNumber": 130,
+    "issueType": "TYPO",
+    "snippet": "дожддя́",
+    "reason": "The word 'дожддя́' has a double 'д' which is a typo.",
+    "suggestedAction": "дождя́"
+  },
+  {
+    "id": "ur4_rev_0029",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0131",
+    "pageNumber": 131,
+    "issueType": "TYPO",
+    "snippet": "на мой обиды",
+    "reason": "The text says 'на мой обиды', which is grammatically incorrect. It should be 'на мои обиды'.",
+    "suggestedAction": "на мои обиды"
+  },
+  {
+    "id": "ur4_rev_0030",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0142",
+    "pageNumber": 142,
+    "issueType": "TYPO",
+    "snippet": "уго́лка",
+    "reason": "The word 'уго́лка' (needle/corner) seems to be a typo for 'иго́лка' (needle) given the context of the Chinese translation '针'.",
+    "suggestedAction": "иго́лка"
+  },
+  {
+    "id": "ur4_rev_0031",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0143",
+    "pageNumber": 143,
+    "issueType": "TYPO",
+    "snippet": "кон фли́кт",
+    "reason": "The word 'кон фли́кт' is split by a space in the source text.",
+    "suggestedAction": "конфли́кт"
+  },
+  {
+    "id": "ur4_rev_0032",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0151",
+    "pageNumber": 151,
+    "issueType": "TYPO",
+    "snippet": "хореográфию",
+    "reason": "Typo in 'хореográфию', mixed Latin and Cyrillic characters.",
+    "suggestedAction": "хореогра́фию"
+  },
+  {
+    "id": "ur4_rev_0033",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0152",
+    "pageNumber": 152,
+    "issueType": "TYPO",
+    "snippet": "дочь делал",
+    "reason": "The word 'делал' should be 'делала' to agree with the feminine subject 'дочь'.",
+    "suggestedAction": "дочь делала"
+  },
+  {
+    "id": "ur4_rev_0034",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0156",
+    "pageNumber": 156,
+    "issueType": "TYPO",
+    "snippet": "в леса́.",
+    "reason": "The word 'леса́' at the end of the first sentence of exercise 14 seems to be a typo for 'леса́' (forests) or perhaps 'леса́' was intended to be 'леса́' but the context implies 'леса́' (forests) which is correct, however, the sentence ends with 'в леса́' which is grammatically awkward compared to 'в леса́' (into the forests). Actually, the text says 'в леса́' (into the forests) but the context of Ivan Susanin leading enemies into the woods usually uses 'в леса́'. Wait, the text says 'в леса́' at the end of the line. It is likely a typo for 'в леса́' or 'в леса́'. Actually, looking at the source, it says 'в леса́' at the end of the line. It should be 'в леса́'.",
+    "suggestedAction": "в леса́."
+  },
+  {
+    "id": "ur4_rev_0035",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0160",
+    "pageNumber": 160,
+    "issueType": "TYPO",
+    "snippet": "спорника",
+    "reason": "Typo in the word 'сборника'",
+    "suggestedAction": "сборника"
+  },
+  {
+    "id": "ur4_rev_0036",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0164",
+    "pageNumber": 164,
+    "issueType": "TYPO",
+    "snippet": "Ася я не рассказал",
+    "reason": "The text 'Ася я не рассказал' seems to have an extra 'я' or a missing word, likely a typo in the source text.",
+    "suggestedAction": "А я не рассказал"
+  },
+  {
+    "id": "ur4_rev_0037",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0168",
+    "pageNumber": 168,
+    "issueType": "TYPO",
+    "snippet": "свой колле́ги",
+    "reason": "Grammatical error in printed text: 'свой колле́ги' should be 'свои́ колле́ги'.",
+    "suggestedAction": "свои́ колле́ги"
+  },
+  {
+    "id": "ur4_rev_0038",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0168",
+    "pageNumber": 168,
+    "issueType": "TYPO",
+    "snippet": "Мой вопро́сы",
+    "reason": "Grammatical error in printed text: 'Мой вопро́сы' should be 'Мои́ вопро́сы'.",
+    "suggestedAction": "Мои́ вопро́сы"
+  },
+  {
+    "id": "ur4_rev_0039",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0174",
+    "pageNumber": 174,
+    "issueType": "TYPO",
+    "snippet": "се́вер-восто́к",
+    "reason": "The exercise 6 text 'се́вер-восто́к' should be 'се́веро-восто́к' (dative case required by 'к').",
+    "suggestedAction": "се́веро-восто́к"
+  },
+  {
+    "id": "ur4_rev_0040",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0175",
+    "pageNumber": 175,
+    "issueType": "TYPO",
+    "snippet": "什么也不不用",
+    "reason": "The text says '什么也不不用' which contains a redundant '不'.",
+    "suggestedAction": "什么也不用"
+  },
+  {
+    "id": "ur4_rev_0041",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0182",
+    "pageNumber": 182,
+    "issueType": "TYPO",
+    "snippet": "плотные слой",
+    "reason": "The word 'слой' should be plural 'слои' to agree with 'плотные'.",
+    "suggestedAction": "плотные слои"
+  },
+  {
+    "id": "ur4_rev_0042",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0182",
+    "pageNumber": 182,
+    "issueType": "TYPO",
+    "snippet": "有条素的",
+    "reason": "The word '有条素的' is likely a typo for '有条不紊的'.",
+    "suggestedAction": "有条不紊的"
+  },
+  {
+    "id": "ur4_rev_0043",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0188",
+    "pageNumber": 188,
+    "issueType": "TYPO",
+    "snippet": "В его голове всё было размеренным и чётким.",
+    "reason": "The word 'голове' should be plural 'головах' to match the context of 'размеренным и чётким' (plural adjectives).",
+    "suggestedAction": "В его головах всё было размеренным и чётким."
+  },
+  {
+    "id": "ur4_rev_0044",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0188",
+    "pageNumber": 188,
+    "issueType": "TYPO",
+    "snippet": "плотные слой",
+    "reason": "The word 'плотные' is likely a typo for 'плотные' (plural) or 'плотный' (singular). Given 'слой' (singular), it should be 'плотный'.",
+    "suggestedAction": "плотный слой"
+  },
+  {
+    "id": "ur4_rev_0045",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0194",
+    "pageNumber": 194,
+    "issueType": "TYPO",
+    "snippet": "Имена́ю",
+    "reason": "The word 'Имена́ю' is a typo for 'Именну́ю'.",
+    "suggestedAction": "Именну́ю"
+  },
+  {
+    "id": "ur4_rev_0046",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0194",
+    "pageNumber": 194,
+    "issueType": "TYPO",
+    "snippet": "Króме",
+    "reason": "The word 'Króме' contains a Latin 'K'.",
+    "suggestedAction": "Кро́ме"
+  },
+  {
+    "id": "ur4_rev_0047",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0207",
+    "pageNumber": 207,
+    "issueType": "TYPO",
+    "snippet": "и чувствами",
+    "reason": "The text says 'и чувствами' (and with feelings), but contextually it should likely be 'а чувствами' (but with feelings) or 'и чувствами' is a typo for 'а не только разумом, но и чувствами'. Given the source text, it is a likely typo for 'а чувствами'.",
+    "suggestedAction": "а чувствами"
+  },
+  {
+    "id": "ur4_rev_0048",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0215",
+    "pageNumber": 215,
+    "issueType": "TYPO",
+    "snippet": "спо́рную",
+    "reason": "Typo in the word 'сборную'",
+    "suggestedAction": "сбо́рную"
+  },
+  {
+    "id": "ur4_rev_0049",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0216",
+    "pageNumber": 216,
+    "issueType": "TYPO",
+    "snippet": "осуществлять",
+    "reason": "Missing 'в' in 'осуществлять'",
+    "suggestedAction": "осуществлять"
+  },
+  {
+    "id": "ur4_rev_0050",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0221",
+    "pageNumber": 221,
+    "issueType": "TYPO",
+    "snippet": "дожд́и",
+    "reason": "The word 'дожд́и' has a misplaced stress mark on the 'и' instead of the 'и' (should be 'дожди́').",
+    "suggestedAction": "дожди́"
+  },
+  {
+    "id": "ur4_rev_0051",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0236",
+    "pageNumber": 236,
+    "issueType": "TYPO",
+    "snippet": "выпуски́м",
+    "reason": "The word 'выпуски́м' is likely a typo for 'выпускны́м' based on context.",
+    "suggestedAction": "выпускны́м"
+  },
+  {
+    "id": "ur4_rev_0052",
+    "entityType": "PAGE",
+    "entityId": "ur4_page_0241",
+    "pageNumber": 241,
+    "issueType": "TYPO",
+    "snippet": "уделяют большое значение",
+    "reason": "The sentence 'Все работодатели смотрят на ваш диплом и многие из них уделяют большое значение' is grammatically incomplete in the source text (missing 'этому' or similar).",
+    "suggestedAction": "уделяют этому большое значение"
+  }
+]

@@ -1,0 +1,70 @@
+name: WeRus administrative content
+on:
+  pull_request:
+    paths: ['data-source/admin-drafts/**', 'data-source/admin-validation/**', 'data-source/admin-dictionary/**', 'admin-console/scripts/**', 'admin-console/test/compiler_test.py', '.github/workflows/admin-content.yml', 'tools/cloud_content/**', 'tools/textbook_dataset/**', 'tools/lexicon/manage.py']
+  push:
+    branches: [main]
+    paths: ['data-source/admin-drafts/**']
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: admin-content-validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Verify product baseline
+        run: python tools/verify_product_contract.py
+      - name: Test compiler and metadata regeneration
+        run: python -m unittest discover -s admin-console/test -p compiler_test.py
+      - name: Select frozen drafts in this change
+        id: drafts
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          git diff --name-only --diff-filter=A "$BASE" HEAD -- 'data-source/admin-drafts/*.json' > /tmp/werus-drafts.txt
+          count=$(wc -l < /tmp/werus-drafts.txt)
+          if [ "$count" -eq 0 ]; then
+            echo 'has_draft=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          test "$count" -eq 1
+          draft=$(cat /tmp/werus-drafts.txt)
+          [[ "$draft" =~ ^data-source/admin-drafts/[a-f0-9-]{36}\.json$ ]]
+          echo 'has_draft=true' >> "$GITHUB_OUTPUT"
+          echo "path=$draft" >> "$GITHUB_OUTPUT"
+          echo "task=$(basename "$draft" .json)" >> "$GITHUB_OUTPUT"
+      - name: Verify compiler bootstrap against unchanged online content
+        if: steps.drafts.outputs.has_draft == 'false'
+        run: python admin-console/scripts/check-compiler.py
+      - name: Rebuild and validate isolated online source
+        if: steps.drafts.outputs.has_draft == 'true'
+        env:
+          DRAFT: ${{ steps.drafts.outputs.path }}
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: python admin-console/scripts/compile-release.py --draft "$DRAFT" --output build/admin-release --source-commit "$SOURCE_COMMIT" --dictionary-source data-source/admin-dictionary/online-reviewed.json
+      - name: Show generated metadata changes
+        if: steps.drafts.outputs.has_draft == 'true'
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          report = json.loads(Path('build/admin-release/metadata-diff.json').read_bytes())
+          print('### Generated asset metadata diff\n')
+          print('Content records were not modified by metadata regeneration.\n')
+          print('```json\n' + json.dumps(report, ensure_ascii=False, indent=2) + '\n```')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: steps.drafts.outputs.has_draft == 'true'
+        with:
+          name: werus-release-${{ steps.drafts.outputs.task }}
+          path: |
+            build/admin-release/release.json
+            build/admin-release/metadata-diff.json
+            build/admin-release/content/**/*.json
+            build/admin-release/dictionary/**/*.json
+          retention-days: 7
+          if-no-files-found: error
